@@ -55,10 +55,10 @@ nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(-
 /* strip */
 .strip{display:grid;grid-template-columns:repeat(33,minmax(0,1fr));gap:3px}
 @media (max-width:720px){.strip{grid-template-columns:repeat(11,minmax(0,1fr))}}
-.cell{position:relative;height:46px;border:1px solid var(--line);border-top:4px solid var(--c);background:var(--surface);border-radius:3px;font:600 13px var(--mono);color:var(--sec);padding:0;display:flex;align-items:center;justify-content:center}
+.cell{position:relative;height:40px;border:1px solid var(--line);border-top:4px solid var(--c);background:var(--surface);border-radius:3px;font:600 13px var(--mono);color:var(--sec);padding:0;display:flex;align-items:center;justify-content:center}
 .cell.sc{--c:var(--sc)} .cell.sec{--c:var(--sec)}
 .cell.done{background:var(--c);color:var(--surface)}
-.cell.exam{padding-bottom:10px}.cell.exam::after{content:"";position:absolute;bottom:3px;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:var(--gold)}
+.cell.exam::after{content:"";position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:50%;background:var(--gold)}
 .cell.review{background-image:repeating-linear-gradient(135deg,transparent 0 4px,var(--sunk) 4px 6px)}
 .cell.done.review{background-image:none}
 .cell.today{box-shadow:inset 0 0 0 2px var(--gold)}
