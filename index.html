@@ -366,8 +366,14 @@ function renderPlan(){
     h("span",{class:"tabnum"},Object.keys(state.done).length+" / 33 days done · Day "+current+" is active"));
   return h("div",{style:"display:flex;flex-direction:column;gap:14px"},strip,legend,lessonPanel(BYDAY[ui.sel]));
 }
+function modesCompleted(scopeId){
+  return new Set(attempts.filter(a=>a.scopeId===scopeId).map(a=>a.mode));
+}
 function quizBtns(scope,n){
-  return Object.entries(MODES).map(([m,v])=>h("button",{class:"btn modebtn",onclick:()=>startQuiz(scope,m,n)},v.name+" quiz",h("small",{},v.desc)));
+  const done=modesCompleted(scope.id);
+  return Object.entries(MODES).map(([m,v])=>h("button",{class:"btn modebtn",onclick:()=>startQuiz(scope,m,n)},
+    h("span",{class:"row",style:"gap:6px;width:100%;justify-content:space-between"},v.name+" quiz",done.has(m)?h("span",{class:"chip good"},"✓"):null),
+    h("small",{},v.desc)));
 }
 function lessonPanel(d){
   const date=fmtD(dayDate(d.d));
@@ -383,10 +389,11 @@ function lessonPanel(d){
   const n=d.n||scope.keys.length;
   kids.push(h("div",{},h("h3",{style:"margin-bottom:8px"},(d.kind?"":"Mini quiz · ")+n+" questions, shuffled"),h("div",{class:"actions"},quizBtns(scope,n))));
   const done=!!state.done[d.d];
-  const current=unlockedDay();
+  const modesDone=modesCompleted(scope.id);
+  const remaining=3-modesDone.size;
   kids.push(h("div",{class:"actions"},
-    done?h("span",{class:"chip good"},"✓ Completed"):h("button",{class:"btn primary",disabled:d.d===current?null:true,onclick:()=>{state.done[d.d]=Date.now(); saveProgress(); ui.sel=unlockedDay(); render(); window.scrollTo(0,0);}},"Complete Day "+d.d),
-    d.d<current?h("button",{class:"btn",onclick:()=>{ui.sel=d.d+1;render();window.scrollTo(0,0);}},"Next day →"):null));
+    done?h("span",{class:"chip good"},"✓ Day complete"):h("span",{class:"muted",style:"font-size:13px"},"Complete all 3 quiz modes above to unlock the next day"+(remaining>0?" ("+remaining+" left)":"")),
+    done&&d.d<unlockedDay()?h("button",{class:"btn",onclick:()=>{ui.sel=d.d+1;render();window.scrollTo(0,0);}},"Next day →"):null));
   if(d.track==="sc"&&!d.kind) kids.push(h("p",{class:"muted",style:"margin:0;font-size:13px"},"Pair it with the matching Microsoft Learn module (link below), about 30 minutes."));
   if(d.track==="sec"&&!d.kind) kids.push(h("p",{class:"muted",style:"margin:0;font-size:13px"},"Pair it with the matching Professor Messer videos for "+d.dom.replace(/^\d /,"Domain "+d.dom[0]+": ")+", about 30–45 minutes at 1.25×."));
   return h("section",{class:"panel lesson"},kids);
@@ -496,6 +503,14 @@ function finish(){
   run.prev=attempts.filter(a=>a.scopeId===run.rec.scopeId&&a.mode===run.rec.mode).slice(-1)[0]||null;
   saveAttempt(run.rec);
   recordGameProgress(run.rec);
+  const dayMatch=/^day-(\d+)$/.exec(run.rec.scopeId);
+  if(dayMatch){
+    const dNum=Number(dayMatch[1]);
+    if(!state.done[dNum]){
+      const done=modesCompleted(run.rec.scopeId);
+      if(["think","blitz","written"].every(m=>done.has(m))){ state.done[dNum]=Date.now(); saveProgress(); }
+    }
+  }
   render(); window.scrollTo(0,0);
 }
 async function askClaudeGrade(){
