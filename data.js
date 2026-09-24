@@ -168,22 +168,29 @@ n:15},
 
 /* ================= SECURITY+ SY0-701 ================= */
 {d:13,track:"sec",dom:"1 General concepts",min:90,title:"Controls, CIA + AAA, Zero Trust, physical security, deception",
+imgs:[["assets/access-control-aaa.png","Access control lifecycle: identification, authentication, authorization, accounting"],["assets/gap-analysis.png","Gap analysis table: current vs. required controls, CIA risk levels, target remediation quarter"]],
 pts:[
 "Control categories (what kind)|Technical (firewalls, encryption), Managerial (policies, risk assessments), Operational (done by people: guards, training), Physical (fences, locks).",
 "Control types (what it does)|Preventive stops it (a lock). Deterrent discourages it (a warning sign). Detective finds it (camera review, IDS). Corrective fixes it afterward (restore from backup). Compensating substitutes when the ideal control isn't possible. Directive tells people what to do (a policy, an 'authorized personnel only' sign).",
 "CIA + non-repudiation + AAA|Non-repudiation means you can't deny you did it (digital signatures). AAA = Authentication, Authorization, Accounting (logging what they did).",
-"Gap analysis|Where you are vs. where you want to be.",
+"Access control lifecycle|Identification: the owner confirms who the user is and creates an account (an SID) for them. Authentication: the user proves it by entering a credential, which is hashed and compared to the stored hash. Authorization: for each action, an access control list (ACL) is checked to allow or deny it. Accounting: every permission use is written to an audit log the user cannot erase or prevent.",
+"Gap analysis|Where you are vs. where you want to be. A gap analysis table lists each control area (Identify, Protect, etc.), scores actual vs. required maturity, ranks the CIA risk if the gap stays open, and assigns a target quarter to close it. Areas scored lowest against CIA risk get the earliest remediation target.",
 "Zero Trust planes|The control plane decides: the Policy Engine makes the call, the Policy Administrator carries it out, plus adaptive identity and threat scope reduction. The data plane enforces: the Policy Enforcement Point, the subject/system, implicit trust zones.",
 "Physical|Bollards stop vehicles. An access control vestibule (the old 'mantrap') lets one person through one door at a time. Fencing, lighting, guards, badges, and sensors (infrared, pressure, microwave, ultrasonic).",
 "Deception|Honeypot = fake system. Honeynet = fake network. Honeyfile = fake file. Honeytoken = fake data, like a planted credential that alerts when someone uses it."],
-terms:[["Compensating control","Substitute when the ideal control can't be used"],["Non-repudiation","Proof you did it; can't deny it"],["Policy Engine","Zero Trust decision-maker"],["Access control vestibule","Two-door entry, one at a time"]],
+terms:[["Compensating control","Substitute when the ideal control can't be used"],["Non-repudiation","Proof you did it; can't deny it"],["Policy Engine","Zero Trust decision-maker"],["Access control vestibule","Two-door entry, one at a time"],["ACL","Access control list; checked at authorization"]],
 trap:"One control can be both a category and a type. A guard is operational (category) and deterrent/preventive (type). Read which one the question wants.",
 q:[
 ["A sign reading 'Area under video surveillance' is mainly which control type?",["Deterrent","Corrective","Detective","Compensating"],0,"The sign itself discourages. The camera footage would be detective."],
 ["A legacy system can't be patched, so you isolate it on its own VLAN instead. This is:",["A compensating control","A preventive control","A directive control","A deterrent control"],0,"You're substituting for the control you can't apply (patching)."],
 ["Which provides non-repudiation?",["Digital signature","Symmetric encryption","Hashing alone","Load balancing"],0,"A signature made with your private key ties the action to you."],
 ["In Zero Trust, which component makes the allow/deny decision?",["Policy Engine","Policy Enforcement Point","Implicit trust zone","Subject"],0,"The engine decides; the enforcement point enforces."],
-["A fake cloud access key is planted in a code repo and alerts when anyone uses it. This is a:",["Honeytoken","Honeypot","Honeynet","Bollard"],0,"Fake data that trips an alarm = honeytoken."]]},
+["A fake cloud access key is planted in a code repo and alerts when anyone uses it. This is a:",["Honeytoken","Honeypot","Honeynet","Bollard"],0,"Fake data that trips an alarm = honeytoken."],
+["In the access control lifecycle, which step creates the account (SID) that represents a new user?",["Identification","Authentication","Authorization","Accounting"],0,"The system owner confirms identity and creates the account first, before any credential is checked."],
+["A user's typed password is hashed and compared to a stored hashed value before granting a session. Which step is this?",["Authentication","Identification","Authorization","Accounting"],0,"Proving who you are with a credential match is authentication."],
+["A user is allowed to read a file but denied when trying to write to it, based on an access control list. This is:",["Authorization","Authentication","Identification","Accounting"],0,"Checking permissions per action against an ACL is authorization."],
+["An audit log records every permission check a user made, and the user cannot prevent or erase it. This step is:",["Accounting","Authentication","Authorization","Identification"],0,"Tracking permission usage in a log that the subject can't stop is accounting."],
+["In a gap analysis table, a control area scored far below its required maturity with high CIA risk should get:",["The earliest target remediation quarter","No remediation, since it is already documented","A lower CIA risk score to simplify reporting","Removal from the risk register"],0,"The biggest gaps against CIA risk are prioritized for the soonest fix, not ignored or hidden."]]},
 
 {d:14,track:"sec",dom:"1 General concepts",min:90,title:"Change management, cryptography, PKI",
 pts:[
