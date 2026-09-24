@@ -10,20 +10,20 @@
 <style>
 :root{
   --bg:#EDF0EE;--surface:#FFFFFF;--sunk:#E3E8E5;--ink:#15201B;--muted:#56645D;--line:#D0D8D3;
-  --sc:#2361A3;--sec:#A12F3B;--gold:#9C6A0E;--violet:#6A4C9C;
-  --ok:#1D7445;--bad:#B3261E;--okbg:#E2F1E8;--badbg:#F8E3E1;--scbg:#E3ECF6;--secbg:#F6E5E7;
+  --sc:#2361A3;--sec:#198754;--gold:#9C6A0E;--violet:#6A4C9C;
+  --ok:#1D7445;--bad:#B3261E;--okbg:#E2F1E8;--badbg:#F8E3E1;--scbg:#E3ECF6;--secbg:#E1F3E8;
   --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   color-scheme:dark;--bg:#0F1513;--surface:#17201C;--sunk:#0B100E;--ink:#E4EBE7;--muted:#98A69F;--line:#2A3530;
-  --sc:#72A6E3;--sec:#E4808B;--gold:#E0B04E;--violet:#B49BE8;
-  --ok:#5CC48A;--bad:#F07C73;--okbg:#15301F;--badbg:#3A1C1A;--scbg:#15253A;--secbg:#35191D;}}
+  --sc:#72A6E3;--sec:#5CC48A;--gold:#E0B04E;--violet:#B49BE8;
+  --ok:#5CC48A;--bad:#F07C73;--okbg:#15301F;--badbg:#3A1C1A;--scbg:#15253A;--secbg:#15301F;}}
 :root[data-theme="dark"]{
   color-scheme:dark;--bg:#0F1513;--surface:#17201C;--sunk:#0B100E;--ink:#E4EBE7;--muted:#98A69F;--line:#2A3530;
-  --sc:#72A6E3;--sec:#E4808B;--gold:#E0B04E;--violet:#B49BE8;
-  --ok:#5CC48A;--bad:#F07C73;--okbg:#15301F;--badbg:#3A1C1A;--scbg:#15253A;--secbg:#35191D;}
+  --sc:#72A6E3;--sec:#5CC48A;--gold:#E0B04E;--violet:#B49BE8;
+  --ok:#5CC48A;--bad:#F07C73;--okbg:#15301F;--badbg:#3A1C1A;--scbg:#15253A;--secbg:#15301F;}
 
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font:15px/1.6 var(--body);margin:0;padding-inline:16px;padding-block:20px 60px}
@@ -63,6 +63,7 @@ nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(-
 .cell.done.review{background-image:none}
 .cell.today{box-shadow:inset 0 0 0 2px var(--gold)}
 .cell.sel{outline:2px solid var(--ink);outline-offset:1px}
+.cell.locked{opacity:.45;cursor:not-allowed;background:var(--sunk)}
 .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted)}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .sw{width:12px;height:12px;border-radius:2px;display:inline-block}
@@ -231,6 +232,7 @@ function parseDate(s){const [y,m,d]=s.split("-").map(Number);return new Date(y,m
 function midnight(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate());}
 function dayDate(n){const s=parseDate(state.start);s.setDate(s.getDate()+n-1);return s;}
 function todayN(){return Math.floor((midnight(new Date())-parseDate(state.start))/864e5)+1;}
+function unlockedDay(){const next=DAYS.find(d=>!state.done[d.d]);return next?next.d:33;}
 
 // ---------- state + storage ----------
 const LS="sprint.v2";
@@ -347,11 +349,13 @@ document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("clic
 
 // ---------- plan view ----------
 function renderPlan(){
-  const t=todayN(); if(ui.sel==null) ui.sel=Math.min(33,Math.max(1,t));
+  const t=todayN(), current=unlockedDay(); if(ui.sel==null||ui.sel>current) ui.sel=current;
   const strip=h("div",{class:"strip",role:"list"});
   DAYS.forEach(d=>{
-    const cls=["cell",d.track,d.kind||"",state.done[d.d]?"done":"",d.d===t?"today":"",d.d===ui.sel?"sel":""].join(" ");
-    strip.append(h("button",{class:cls,role:"listitem","aria-label":"Day "+d.d+": "+d.title,title:"Day "+d.d+" · "+fmtD(dayDate(d.d))+"\n"+d.title,onclick:()=>{ui.sel=d.d;render();}},d.d));
+    const locked=d.d>current;
+    const cls=["cell",d.track,d.kind||"",state.done[d.d]?"done":"",d.d===t?"today":"",d.d===ui.sel?"sel":"",locked?"locked":""].join(" ");
+    const title=locked?"Complete Day "+current+" to unlock Day "+d.d:"Day "+d.d+" · "+fmtD(dayDate(d.d))+"\n"+d.title;
+    strip.append(h("button",{class:cls,role:"listitem","aria-label":"Day "+d.d+": "+d.title,title,disabled:locked?true:null,onclick:()=>{ui.sel=d.d;render();}},d.d));
   });
   const legend=h("div",{class:"legend"},
     h("span",{},h("i",{class:"sw",style:"background:var(--sc)"}),"SC-900 (days 1–12)"),
@@ -359,7 +363,7 @@ function renderPlan(){
     h("span",{},h("i",{class:"sw",style:"background:repeating-linear-gradient(135deg,var(--surface) 0 3px,var(--line) 3px 5px);border:1px solid var(--line)"}),"Review day"),
     h("span",{},h("i",{class:"sw",style:"background:var(--gold);border-radius:50%;width:8px;height:8px"}),"Exam"),
     h("span",{},h("i",{class:"sw",style:"box-shadow:inset 0 0 0 2px var(--gold)"}),"Today"),
-    h("span",{class:"tabnum"},Object.keys(state.done).length+" / 33 days done"));
+    h("span",{class:"tabnum"},Object.keys(state.done).length+" / 33 days done · Day "+current+" is active"));
   return h("div",{style:"display:flex;flex-direction:column;gap:14px"},strip,legend,lessonPanel(BYDAY[ui.sel]));
 }
 function quizBtns(scope,n){
@@ -379,10 +383,10 @@ function lessonPanel(d){
   const n=d.n||scope.keys.length;
   kids.push(h("div",{},h("h3",{style:"margin-bottom:8px"},(d.kind?"":"Mini quiz · ")+n+" questions, shuffled"),h("div",{class:"actions"},quizBtns(scope,n))));
   const done=!!state.done[d.d];
+  const current=unlockedDay();
   kids.push(h("div",{class:"actions"},
-    h("button",{class:"btn "+(done?"":"primary"),onclick:()=>{ if(done) delete state.done[d.d]; else state.done[d.d]=Date.now(); saveProgress(); render(); }},done?"✓ Done · undo":"Mark day "+d.d+" done"),
-    d.d<33?h("button",{class:"btn",onclick:()=>{ui.sel=d.d+1;render();window.scrollTo(0,0);}},"Next day →"):null,
-    todayN()!==d.d&&todayN()>=1&&todayN()<=33?h("button",{class:"btn",onclick:()=>{ui.sel=todayN();render();}},"Jump to today"):null));
+    done?h("span",{class:"chip good"},"✓ Completed"):h("button",{class:"btn primary",disabled:d.d===current?null:true,onclick:()=>{state.done[d.d]=Date.now(); saveProgress(); ui.sel=unlockedDay(); render(); window.scrollTo(0,0);}},"Complete Day "+d.d),
+    d.d<current?h("button",{class:"btn",onclick:()=>{ui.sel=d.d+1;render();window.scrollTo(0,0);}},"Next day →"):null));
   if(d.track==="sc"&&!d.kind) kids.push(h("p",{class:"muted",style:"margin:0;font-size:13px"},"Pair it with the matching Microsoft Learn module (link below), about 30 minutes."));
   if(d.track==="sec"&&!d.kind) kids.push(h("p",{class:"muted",style:"margin:0;font-size:13px"},"Pair it with the matching Professor Messer videos for "+d.dom.replace(/^\d /,"Domain "+d.dom[0]+": ")+", about 30–45 minutes at 1.25×."));
   return h("section",{class:"panel lesson"},kids);
@@ -390,7 +394,7 @@ function lessonPanel(d){
 
 // ---------- quiz launcher ----------
 function scopes(){
-  const t=Math.min(33,Math.max(1,todayN())), td=BYDAY[t];
+  const t=unlockedDay(), td=BYDAY[t];
   const hist=qHistory();
   const weak=Object.keys(hist).filter(k=>Q[k]&&hist[k].miss/hist[k].seen>0.34);
   const upTo=DAYS.filter(d=>d.q&&d.d<=t).map(d=>d.d);
@@ -398,10 +402,10 @@ function scopes(){
   return [
     {id:"today",label:"Today (Day "+t+")",keys:todayKeys},
     {id:"sofar",label:"Everything so far",keys:keysFor(upTo)},
-    {id:"sc",label:"All SC-900",keys:Object.values(Q).filter(q=>q.track==="sc").map(q=>q.k)},
-    {id:"sec",label:"All Security+",keys:Object.values(Q).filter(q=>q.track==="sec").map(q=>q.k)},
+    {id:"sc",label:"SC-900 unlocked",keys:Object.values(Q).filter(q=>q.track==="sc"&&q.d<=t).map(q=>q.k)},
+    {id:"sec",label:"Security+ unlocked",keys:Object.values(Q).filter(q=>q.track==="sec"&&q.d<=t).map(q=>q.k)},
     {id:"weak",label:"Weak spots ("+weak.length+")",keys:weak},
-    {id:"all",label:"Everything",keys:Object.keys(Q)}];
+    {id:"all",label:"Everything unlocked",keys:Object.values(Q).filter(q=>q.d<=t).map(q=>q.k)}];
 }
 function renderQuizTab(){
   if(run) return renderRun();
@@ -435,7 +439,7 @@ function startQuiz(scope,mode,n){
   if(mode==="blitz") startTimer();
 }
 function startBoss(track,dom){
-  const keys=Object.values(Q).filter(q=>q.track===track&&q.dom===dom).map(q=>q.k);
+  const keys=Object.values(Q).filter(q=>q.track===track&&q.dom===dom&&q.d<=unlockedDay()).map(q=>q.k);
   if(!keys.length) return;
   startQuiz({id:"boss-"+track+"-"+dom,label:dom+" boss",keys,boss:true},"think",15);
   run.boss={track,dom,lives:3};
@@ -593,7 +597,8 @@ function renderGame(){
       h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Achievements"),Object.entries(ACHIEVEMENTS).map(([key,a])=>h("div",{class:"mission"},h("i",{},state.achievements[key]?"★":"○"),h("span",{},a.name,h("span",{class:"muted"}," · "+a.desc))))))),
     h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Domain boss fights"),h("p",{class:"muted",style:"margin-top:0"},"Survive a 15-question run with three lives and score at least 80% to clear a boss."),h("div",{class:"game-grid"},bosses.map(b=>{
       const won=state.bosses[b.track+"|"+b.dom];
-      return h("div",{class:"game-card boss "+b.track},h("span",{class:"tag "+b.track},TRACK[b.track]),h("b",{},b.name),h("p",{class:"muted",style:"margin:5px 0 12px;font-size:13px"},b.dom),h("button",{class:"btn "+(won?"":"primary"),onclick:()=>startBoss(b.track,b.dom)},won?"✓ Defeated · rematch":"Challenge boss"));
+      const available=Object.values(Q).some(q=>q.track===b.track&&q.dom===b.dom&&q.d<=unlockedDay());
+      return h("div",{class:"game-card boss "+b.track},h("span",{class:"tag "+b.track},TRACK[b.track]),h("b",{},b.name),h("p",{class:"muted",style:"margin:5px 0 12px;font-size:13px"},b.dom),h("button",{class:"btn "+(won?"":"primary"),disabled:available?null:true,onclick:()=>startBoss(b.track,b.dom)},won?"✓ Defeated · rematch":available?"Challenge boss":"Locked until this domain unlocks"));
     }))),
     h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Fresh-question lab"),h("p",{class:"muted",style:"margin-top:0"},"Generate candidate questions for your weakest domain, review them, then keep the good ones in this browser's question bank."),h("div",{class:"actions"},h("button",{class:"btn primary",disabled:sample?null:true,onclick:generateQuestions},sample?"Generate 3 candidates":"Claude generation is unavailable in this browser")),generated));
 }
