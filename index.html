@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SC-900 + Sec+ Sprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#EDF0EE;--surface:#FFFFFF;--sunk:#E3E8E5;--ink:#15201B;--muted:#56645D;--line:#D0D8D3;
+  --sc:#2361A3;--sec:#A12F3B;--gold:#9C6A0E;--violet:#6A4C9C;
+  --ok:#1D7445;--bad:#B3261E;--okbg:#E2F1E8;--badbg:#F8E3E1;--scbg:#E3ECF6;--secbg:#F6E5E7;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme:dark;--bg:#0F1513;--surface:#17201C;--sunk:#0B100E;--ink:#E4EBE7;--muted:#98A69F;--line:#2A3530;
+  --sc:#72A6E3;--sec:#E4808B;--gold:#E0B04E;--violet:#B49BE8;
+  --ok:#5CC48A;--bad:#F07C73;--okbg:#15301F;--badbg:#3A1C1A;--scbg:#15253A;--secbg:#35191D;}}
+:root[data-theme="dark"]{
+  color-scheme:dark;--bg:#0F1513;--surface:#17201C;--sunk:#0B100E;--ink:#E4EBE7;--muted:#98A69F;--line:#2A3530;
+  --sc:#72A6E3;--sec:#E4808B;--gold:#E0B04E;--violet:#B49BE8;
+  --ok:#5CC48A;--bad:#F07C73;--okbg:#15301F;--badbg:#3A1C1A;--scbg:#15253A;--secbg:#35191D;}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.6 var(--body);margin:0;padding-inline:16px;padding-block:20px 60px}
+.wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:.01em;line-height:1.05;margin:0;text-wrap:balance}
+h1{font-size:clamp(34px,6vw,52px);text-transform:uppercase}
+h2{font-size:30px}
+h3{font-size:20px;text-transform:uppercase;letter-spacing:.04em}
+.eyebrow{font:500 12px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.muted{color:var(--muted)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--sc);outline-offset:2px}
+.tabnum{font-variant-numeric:tabular-nums}
+
+/* header */
+header{display:flex;flex-direction:column;gap:14px}
+.head-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px}
+.exams{display:flex;flex-wrap:wrap;gap:10px}
+.exam{display:flex;flex-direction:column;gap:2px;padding:8px 12px;border-radius:6px;background:var(--surface);border:1px solid var(--line);min-width:150px}
+.exam b{font:700 24px/1 var(--display)}
+.exam.sc{border-left:4px solid var(--sc)} .exam.sec{border-left:4px solid var(--sec)}
+.sync{font:12px var(--mono);color:var(--muted)}
+nav.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line)}
+nav.tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:8px 14px;font:600 17px var(--display);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:-1px}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.rank-badge{align-self:flex-start;background:var(--ink);color:var(--bg);border-radius:999px;padding:5px 10px;font:500 12px var(--mono);letter-spacing:.04em}
+
+/* strip */
+.strip{display:grid;grid-template-columns:repeat(33,minmax(0,1fr));gap:3px}
+@media (max-width:720px){.strip{grid-template-columns:repeat(11,minmax(0,1fr))}}
+.cell{position:relative;height:40px;border:1px solid var(--line);border-top:4px solid var(--c);background:var(--surface);border-radius:3px;font:600 13px var(--mono);color:var(--muted);padding:0;display:flex;align-items:center;justify-content:center}
+.cell.sc{--c:var(--sc)} .cell.sec{--c:var(--sec)}
+.cell.done{background:var(--c);color:var(--surface)}
+.cell.exam::after{content:"";position:absolute;bottom:3px;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:var(--gold)}
+.cell.review{background-image:repeating-linear-gradient(135deg,transparent 0 4px,var(--sunk) 4px 6px)}
+.cell.done.review{background-image:none}
+.cell.today{box-shadow:inset 0 0 0 2px var(--gold)}
+.cell.sel{outline:2px solid var(--ink);outline-offset:1px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:2px;display:inline-block}
+
+/* lesson */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:22px}
+.lesson{display:flex;flex-direction:column;gap:18px}
+.lesson .tag{display:inline-block;padding:2px 8px;border-radius:3px;font:600 12px var(--mono);letter-spacing:.04em}
+.tag.sc{background:var(--scbg);color:var(--sc)} .tag.sec{background:var(--secbg);color:var(--sec)}
+.pts{display:flex;flex-direction:column;gap:12px;max-width:68ch;margin:0;padding:0;list-style:none}
+.pts li{padding-left:14px;border-left:2px solid var(--line)}
+.pts b{display:block;font-weight:600}
+.terms{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;margin:0}
+.terms div{background:var(--sunk);border-radius:5px;padding:8px 10px}
+.terms dt{font:500 13px var(--mono)}
+.terms dd{margin:0;font-size:13px;color:var(--muted)}
+.trap{background:var(--badbg);border-radius:6px;padding:12px 14px;max-width:68ch}
+.trap .eyebrow{color:var(--bad)}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:9px 14px;font-weight:600;font-size:14px}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.small{padding:5px 10px;font-size:13px}
+.btn[disabled]{opacity:.45;cursor:default}
+.modebtn{display:flex;flex-direction:column;align-items:flex-start;gap:0;text-align:left}
+.modebtn small{font-weight:400;color:var(--muted);font-size:12px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+label.fld{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted)}
+select,input[type=date]{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 9px;color:var(--ink)}
+
+/* quiz */
+.launch{display:grid;gap:16px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-weight:500}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.runner{display:flex;flex-direction:column;gap:16px}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.timer{height:6px;background:var(--sunk);border-radius:3px;overflow:hidden}
+.timer i{display:block;height:100%;background:var(--gold);width:100%}
+.timer.low i{background:var(--bad)}
+.qtext{font-size:19px;font-weight:500;line-height:1.45;max-width:65ch}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:11px 14px;font-size:15px}
+.opt:hover:not([disabled]){border-color:var(--ink)}
+.opt .k{font:500 12px var(--mono);color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:1px 6px;margin-top:2px}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.wrong{border-color:var(--bad);background:var(--badbg)}
+.opt[disabled]{cursor:default}
+.why{border-left:3px solid var(--ok);padding:6px 12px;background:var(--sunk);border-radius:0 6px 6px 0}
+.why.bad{border-left-color:var(--bad)}
+textarea{width:100%;min-height:110px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px;resize:vertical}
+.grade{display:flex;flex-wrap:wrap;gap:8px}
+.grade button.sugg{outline:2px solid var(--violet)}
+.aifb{font-size:14px;border-left:3px solid var(--violet);padding:6px 12px;background:var(--sunk);border-radius:0 6px 6px 0}
+.streak{font:600 13px var(--mono);color:var(--gold)}
+
+.result-top{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end}
+.big{font:700 64px/0.9 var(--display)}
+.delta.up{color:var(--ok)} .delta.down{color:var(--bad)}
+.misslist{display:flex;flex-direction:column;gap:10px}
+.miss{border:1px solid var(--line);border-radius:6px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.miss .ans{font-size:14px}
+
+/* stats */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.tile b{font:700 32px/1 var(--display)}
+.chartbox{overflow-x:auto}
+svg text{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+.bars{display:flex;flex-direction:column;gap:8px}
+.bar{display:grid;grid-template-columns:minmax(120px,190px) 1fr 70px;gap:10px;align-items:center;font-size:13px}
+.bar .track{height:12px;background:var(--sunk);border-radius:6px;position:relative;overflow:hidden}
+.bar .track i{position:absolute;inset:0 auto 0 0;border-radius:6px}
+.bar .track::after{content:"";position:absolute;left:80%;top:0;bottom:0;border-left:1px dashed var(--muted)}
+.chip{display:inline-block;font:500 11px var(--mono);padding:1px 6px;border-radius:3px}
+.chip.weak{background:var(--badbg);color:var(--bad)} .chip.good{background:var(--okbg);color:var(--ok)}
+.tablebox{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+td.num{font-variant-numeric:tabular-nums;text-align:right} th.num{text-align:right}
+.mode-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.insight{white-space:pre-wrap;font-size:14px;line-height:1.6;max-width:70ch}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.game-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.game-card{border:1px solid var(--line);border-radius:7px;padding:14px;background:var(--surface)}
+.game-card b{display:block;font:700 26px/1 var(--display);margin-bottom:5px}
+.mission{display:flex;gap:9px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.mission:last-child{border-bottom:0}.mission i{font-style:normal;color:var(--gold)}
+.boss{border-left:4px solid var(--sec)}.boss.sc{border-left-color:var(--sc)}
+.shake{animation:shake .35s linear}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.pbq-list{display:flex;flex-direction:column;gap:9px}
+.drag-item,.drop-slot{padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);font-size:14px}
+.drag-item{cursor:grab}.drop-slot{min-height:42px;background:var(--sunk)}
+.drag-item:active{cursor:grabbing}.logline{width:100%;text-align:left;border:1px solid var(--line);background:var(--sunk);padding:7px 9px;font:12px var(--mono)}
+.logline.flagged{border-color:var(--bad);background:var(--badbg)}
+.story{border-left:4px solid var(--violet);padding:12px 14px;background:var(--sunk);border-radius:0 6px 6px 0;max-width:70ch}
+@media (max-width:720px){nav.tabs{overflow-x:auto}nav.tabs button{flex:0 0 auto}}
+@media (max-width:720px){.cols{grid-template-columns:1fr}.bar{grid-template-columns:110px 1fr 60px}}
+footer{font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:6px}
+footer a{color:inherit}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="head-row">
+      <div>
+        <div class="eyebrow">RJ · 33-day plan · two exams</div>
+        <h1>SC-900 + Sec+ Sprint</h1>
+        <span class="rank-badge" id="rank"></span>
+      </div>
+      <div class="exams" id="exams"></div>
+    </div>
+    <div class="row" style="justify-content:space-between">
+      <label class="fld">Plan start date<input type="date" id="start"></label>
+      <span class="sync" id="sync">Loading saved progress…</span>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="plan" aria-selected="true">Plan</button>
+      <button role="tab" data-tab="quiz" aria-selected="false">Quiz</button>
+      <button role="tab" data-tab="stats" aria-selected="false">Stats</button>
+      <button role="tab" data-tab="game" aria-selected="false">Game</button>
+      <button role="tab" data-tab="pbq" aria-selected="false">PBQs</button>
+      <button role="tab" data-tab="campaign" aria-selected="false">Campaign</button>
+    </nav>
+  </header>
+  <main id="view"></main>
+  <footer>
+    <div>Study pairing: <a href="https://learn.microsoft.com/en-us/training/courses/sc-900t00" target="_blank" rel="noopener">Microsoft Learn SC-900 course</a> · <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900" target="_blank" rel="noopener">SC-900 skills measured</a> · <a href="https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/" target="_blank" rel="noopener">Professor Messer SY0-701 (free videos)</a> · <a href="https://www.comptia.org/certifications/security" target="_blank" rel="noopener">CompTIA Security+</a></div>
+    <div>Keyboard in quizzes: 1–4 pick an answer, Enter goes to the next question.</div>
+  </footer>
+</div>
+
+<script src="data.js"></script>
+<script>
+(function(){
+const DAYS = window.DAYS;
+const BYDAY = Object.fromEntries(DAYS.map(d=>[d.d,d]));
+const TRACK = {sc:"SC-900", sec:"Security+"};
+const DOMS = {sc:["Concepts","Entra","Security solutions","Compliance"], sec:["1 General concepts","2 Threats & vulns","3 Architecture","4 Operations","5 Program mgmt"]};
+const MODES = {think:{name:"Think",color:"var(--ink)",desc:"Untimed. See why after each answer."},
+               blitz:{name:"Blitz",color:"var(--gold)",desc:"20 seconds each. Explanations at the end."},
+               written:{name:"Written",color:"var(--violet)",desc:"No choices. Answer from memory, then grade."}};
+const BLITZ_MS = 20000;
+
+// ---------- question index ----------
+const Q = {};
+DAYS.forEach(day=>{ (day.q||[]).forEach((x,i)=>{ Q[day.d+"-"+i] = {k:day.d+"-"+i, d:day.d, track:day.track, dom:day.dom, q:x[0], o:x[1], a:x[2], why:x[3]}; }); });
+const keysFor = days => Object.values(Q).filter(x=>days.includes(x.d)).map(x=>x.k);
+const allTrackDays = t => DAYS.filter(d=>d.track===t && d.q).map(d=>d.d);
+const RANKS=[["Recruit",0],["Specialist",250],["Sergeant",600],["Lieutenant",1100],["Captain",1800],["Cyber All-Star",2800]];
+const ACHIEVEMENTS={clean:{name:"Clean Sweep",desc:"Score 100% on a 10+ question run"},night:{name:"Night Shift",desc:"Finish a quiz after midnight"},crypto:{name:"Crypto Sniper",desc:"Get five cryptography questions right"}};
+
+// ---------- helpers ----------
+function h(t,a,...c){const e=document.createElement(t);for(const[k,v]of Object.entries(a||{})){if(v==null||v===false)continue;if(k==="class")e.className=v;else if(k==="style")e.style.cssText=v;else if(k.startsWith("on"))e.addEventListener(k.slice(2),v);else e.setAttribute(k,v===true?"":v);}for(const x of c.flat(9)){if(x==null||x===false)continue;e.append(x.nodeType?x:document.createTextNode(String(x)));}return e;}
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const pct=(a,b)=>b?Math.round(100*a/b):0;
+const fmtD=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+const fmtDT=ts=>new Date(ts).toLocaleString("en-US",{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"});
+const secs=ms=>(ms/1000).toFixed(1)+"s";
+function parseDate(s){const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d);}
+function midnight(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate());}
+function dayDate(n){const s=parseDate(state.start);s.setDate(s.getDate()+n-1);return s;}
+function todayN(){return Math.floor((midnight(new Date())-parseDate(state.start))/864e5)+1;}
+
+// ---------- state + storage ----------
+const LS="sprint.v2";
+let state={start:"2026-09-24",done:{},xp:0,achievements:{},bosses:{},customQuestions:[],campaign:0};
+let attempts=[];
+let db=null, sample=null;
+function lsGet(){try{return JSON.parse(localStorage.getItem(LS)||"null");}catch(e){return null;}}
+function lsSet(){try{localStorage.setItem(LS,JSON.stringify({state,attempts:db?[]:attempts}));}catch(e){}}
+const saved=lsGet(); if(saved){ if(saved.state) state=Object.assign(state,saved.state); if(!db && saved.attempts) attempts=saved.attempts; }
+state.done=state.done||{}; state.achievements=state.achievements||{}; state.bosses=state.bosses||{}; state.customQuestions=state.customQuestions||[]; state.campaign=typeof state.campaign==="object"?state.campaign:{step:0,score:0};
+state.customQuestions.forEach(addCustomQuestion);
+let ui={tab:"plan",sel:null,quiz:{scope:"today",mode:"think",n:10},pbq:"firewall",generated:[]};
+try{const u=JSON.parse(localStorage.getItem(LS+".ui")||"null"); if(u){ui.tab=u.tab||ui.tab; Object.assign(ui.quiz,u.quiz||{});}}catch(e){}
+function saveUI(){try{localStorage.setItem(LS+".ui",JSON.stringify({tab:ui.tab,quiz:ui.quiz}));}catch(e){}}
+
+let progWriting=Promise.resolve();
+function saveProgress(){
+  lsSet();
+  if(db){ const body={start:state.start,done:state.done}; progWriting=progWriting.then(()=>db.doc("meta/progress").set(body)).catch(()=>{}); }
+}
+async function saveAttempt(rec){
+  if(db){
+    try{ await db.collection("attempts").add(rec); return; }
+    catch(e){ if(e&&e.code==="quota_exceeded"){ setSync("Storage full: delete old attempts to save new ones"); } }
+  }
+  attempts.push(rec); attempts.sort((a,b)=>a.ts-b.ts); lsSet(); render();
+}
+function setSync(t){document.getElementById("sync").textContent=t;}
+setSync("Saved in this browser only");
+
+function addCustomQuestion(q){
+  if(!q||!q.k||!Array.isArray(q.o)||q.o.length!==4||!Number.isInteger(q.a)) return;
+  Q[q.k]=q;
+}
+function rank(){
+  return RANKS.slice().reverse().find(([,need])=>state.xp>=need)||RANKS[0];
+}
+function award(name){
+  if(state.achievements[name]) return;
+  state.achievements[name]=Date.now();
+  saveProgress();
+}
+function recordGameProgress(rec){
+  const correct=rec.items.reduce((n,[,ok])=>n+(ok===1?1:0),0);
+  const bonus=rec.mode==="blitz"?correct*5:rec.mode==="written"?correct*8:0;
+  state.xp+=(correct*10)+bonus;
+  if(rec.n>=10&&rec.pct===100) award("clean");
+  if(new Date(rec.ts).getHours()<5) award("night");
+  const crypto=rec.items.filter(([k,ok])=>ok===1&&/crypt|public key|private key|hash/i.test(Q[k]&&Q[k].q)).length;
+  if(crypto>=5) award("crypto");
+  saveProgress();
+}
+function missionData(){
+  const today=midnight(new Date()).getTime();
+  const todayItems=attempts.filter(a=>midnight(new Date(a.ts)).getTime()===today).flatMap(a=>a.items||[]);
+  const correct=todayItems.filter(([,ok])=>ok===1).length;
+  const blitz=attempts.filter(a=>midnight(new Date(a.ts)).getTime()===today&&a.mode==="blitz").flatMap(a=>a.items||[]);
+  const fast=blitz.filter(([,ok,ms])=>ok===1&&ms<8000).length;
+  const outcomes={};
+  attempts.forEach(a=>(a.items||[]).forEach(([k,ok])=>{const r=outcomes[k]||(outcomes[k]=[]);r.push(ok);}));
+  const cleared=Object.values(outcomes).filter(r=>r.includes(0)&&r[r.length-1]===1).length;
+  return [
+    {text:"Answer 5 questions today",now:todayItems.length,goal:5},
+    {text:"Get 3 correct in Blitz under 8 seconds",now:fast,goal:3},
+    {text:"Clear 5 weak spots",now:cleared,goal:5}
+  ];
+}
+
+// connect capabilities
+if(window.claude && typeof window.claude.use==="function"){
+  window.claude.use("db").then(d=>{
+    if(!d) return;
+    db=d; setSync("Synced to your account");
+    const local=attempts.slice();
+    let first=true;
+    db.collection("attempts").orderBy("ts","asc").limit(1000).onSnapshot(snap=>{
+      attempts=snap.docs.map(x=>x.data());
+      if(first){ first=false;
+        // one-time carry-over of attempts made before sync connected
+        const have=new Set(attempts.map(a=>a.ts));
+        local.filter(a=>!have.has(a.ts)).forEach(a=>db.collection("attempts").add(a).catch(()=>{}));
+      }
+      softRender();
+    },()=>setSync("Sync paused: showing what's loaded"));
+    db.doc("meta/progress").onSnapshot(s=>{ if(s.exists){ const v=s.data(); state={start:v.start||state.start,done:Object.assign({},v.done||{})}; lsSet(); softRender(); } else { saveProgress(); } },()=>{});
+  }).catch(()=>{});
+  window.claude.use("sample").then(s=>{ sample=s; if(s) softRender(); }).catch(()=>{});
+}
+
+// ---------- per-question history ----------
+function qHistory(){
+  const m={};
+  attempts.forEach(a=>(a.items||[]).forEach(([k,ok,ms])=>{ const r=m[k]||(m[k]={seen:0,miss:0,ok:0,ms:0}); r.seen++; r.ok+=ok; r.miss+=(1-ok); r.ms+=ms; }));
+  return m;
+}
+
+// ---------- header ----------
+function renderHeader(){
+  const t=todayN(), ex=document.getElementById("exams"); ex.replaceChildren();
+  const [title]=rank(), nextRank=RANKS.find(([,xp])=>xp>state.xp);
+  document.getElementById("rank").textContent=title+" · "+state.xp+" XP"+(nextRank?" · "+(nextRank[1]-state.xp)+" to "+nextRank[0]:" · max rank");
+  [[12,"sc"],[33,"sec"]].forEach(([n,tr])=>{
+    const left=n-t;
+    ex.append(h("div",{class:"exam "+tr},
+      h("span",{class:"eyebrow"},TRACK[tr]+" · Day "+n),
+      h("b",{class:"tabnum"}, left>1?left+" days":left===1?"Tomorrow":left===0?"Today":"Done"),
+      h("span",{class:"muted",style:"font-size:12px"},fmtD(dayDate(n)))));
+  });
+  document.getElementById("start").value=state.start;
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.tab===ui.tab)));
+}
+document.getElementById("start").addEventListener("change",e=>{ if(e.target.value){ state.start=e.target.value; saveProgress(); render(); }});
+document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>{ if(run&&!run.finished) stopTimer(); run=null; ui.tab=b.dataset.tab; saveUI(); render(); window.scrollTo(0,0); }));
+
+// ---------- plan view ----------
+function renderPlan(){
+  const t=todayN(); if(ui.sel==null) ui.sel=Math.min(33,Math.max(1,t));
+  const strip=h("div",{class:"strip",role:"list"});
+  DAYS.forEach(d=>{
+    const cls=["cell",d.track,d.kind||"",state.done[d.d]?"done":"",d.d===t?"today":"",d.d===ui.sel?"sel":""].join(" ");
+    strip.append(h("button",{class:cls,role:"listitem","aria-label":"Day "+d.d+": "+d.title,title:"Day "+d.d+" · "+fmtD(dayDate(d.d))+"\n"+d.title,onclick:()=>{ui.sel=d.d;render();}},d.d));
+  });
+  const legend=h("div",{class:"legend"},
+    h("span",{},h("i",{class:"sw",style:"background:var(--sc)"}),"SC-900 (days 1–12)"),
+    h("span",{},h("i",{class:"sw",style:"background:var(--sec)"}),"Security+ (days 13–33)"),
+    h("span",{},h("i",{class:"sw",style:"background:repeating-linear-gradient(135deg,var(--surface) 0 3px,var(--line) 3px 5px);border:1px solid var(--line)"}),"Review day"),
+    h("span",{},h("i",{class:"sw",style:"background:var(--gold);border-radius:50%;width:8px;height:8px"}),"Exam"),
+    h("span",{},h("i",{class:"sw",style:"box-shadow:inset 0 0 0 2px var(--gold)"}),"Today"),
+    h("span",{class:"tabnum"},Object.keys(state.done).length+" / 33 days done"));
+  return h("div",{style:"display:flex;flex-direction:column;gap:14px"},strip,legend,lessonPanel(BYDAY[ui.sel]));
+}
+function quizBtns(scope,n){
+  return Object.entries(MODES).map(([m,v])=>h("button",{class:"btn modebtn",onclick:()=>startQuiz(scope,m,n)},v.name+" quiz",h("small",{},v.desc)));
+}
+function lessonPanel(d){
+  const date=fmtD(dayDate(d.d));
+  const kids=[h("div",{class:"row"},h("span",{class:"tag "+d.track},TRACK[d.track]),h("span",{class:"eyebrow"},"Day "+d.d+" · "+date+(d.dom?" · "+d.dom:"")+(d.min?" · ~"+d.min+" min":"")))];
+  kids.push(h("h2",{},d.title));
+  kids.push(h("ul",{class:"pts"},d.pts.map(p=>{const [a,b]=p.split("|");return h("li",{},h("b",{},a),b);})));
+  if(d.terms) kids.push(h("div",{},h("h3",{style:"margin-bottom:8px"},d.d===31?"Ports to lock in":"Terms to lock in"),h("dl",{class:"terms"},d.terms.map(([a,b])=>h("div",{},h("dt",{},a),h("dd",{},b))))));
+  if(d.trap) kids.push(h("div",{class:"trap"},h("div",{class:"eyebrow"},"Exam trap"),d.trap));
+  let scope;
+  if(d.kind==="review") scope={id:"day-"+d.d,label:"Day "+d.d+" review",keys:keysFor(d.from)};
+  else if(d.kind==="exam") scope={id:"day-"+d.d,label:TRACK[d.track]+" warmup",keys:keysFor(allTrackDays(d.track))};
+  else scope={id:"day-"+d.d,label:"Day "+d.d,keys:keysFor([d.d])};
+  const n=d.n||scope.keys.length;
+  kids.push(h("div",{},h("h3",{style:"margin-bottom:8px"},(d.kind?"":"Mini quiz · ")+n+" questions, shuffled"),h("div",{class:"actions"},quizBtns(scope,n))));
+  const done=!!state.done[d.d];
+  kids.push(h("div",{class:"actions"},
+    h("button",{class:"btn "+(done?"":"primary"),onclick:()=>{ if(done) delete state.done[d.d]; else state.done[d.d]=Date.now(); saveProgress(); render(); }},done?"✓ Done · undo":"Mark day "+d.d+" done"),
+    d.d<33?h("button",{class:"btn",onclick:()=>{ui.sel=d.d+1;render();window.scrollTo(0,0);}},"Next day →"):null,
+    todayN()!==d.d&&todayN()>=1&&todayN()<=33?h("button",{class:"btn",onclick:()=>{ui.sel=todayN();render();}},"Jump to today"):null));
+  if(d.track==="sc"&&!d.kind) kids.push(h("p",{class:"muted",style:"margin:0;font-size:13px"},"Pair it with the matching Microsoft Learn module (link below), about 30 minutes."));
+  if(d.track==="sec"&&!d.kind) kids.push(h("p",{class:"muted",style:"margin:0;font-size:13px"},"Pair it with the matching Professor Messer videos for "+d.dom.replace(/^\d /,"Domain "+d.dom[0]+": ")+", about 30–45 minutes at 1.25×."));
+  return h("section",{class:"panel lesson"},kids);
+}
+
+// ---------- quiz launcher ----------
+function scopes(){
+  const t=Math.min(33,Math.max(1,todayN())), td=BYDAY[t];
+  const hist=qHistory();
+  const weak=Object.keys(hist).filter(k=>Q[k]&&hist[k].miss/hist[k].seen>0.34);
+  const upTo=DAYS.filter(d=>d.q&&d.d<=t).map(d=>d.d);
+  const todayKeys=td.kind==="review"?keysFor(td.from):td.kind==="exam"?keysFor(allTrackDays(td.track)):keysFor([t]);
+  return [
+    {id:"today",label:"Today (Day "+t+")",keys:todayKeys},
+    {id:"sofar",label:"Everything so far",keys:keysFor(upTo)},
+    {id:"sc",label:"All SC-900",keys:Object.values(Q).filter(q=>q.track==="sc").map(q=>q.k)},
+    {id:"sec",label:"All Security+",keys:Object.values(Q).filter(q=>q.track==="sec").map(q=>q.k)},
+    {id:"weak",label:"Weak spots ("+weak.length+")",keys:weak},
+    {id:"all",label:"Everything",keys:Object.keys(Q)}];
+}
+function renderQuizTab(){
+  if(run) return renderRun();
+  const sc=scopes(); const cur=sc.find(s=>s.id===ui.quiz.scope)||sc[0];
+  const seg=(items,val,set)=>h("div",{class:"seg"},items.map(([v,l])=>h("button",{"aria-pressed":String(v===val),onclick:()=>{set(v);saveUI();render();}},l)));
+  const avail=cur.keys.length;
+  return h("section",{class:"panel launch"},
+    h("h2",{},"Run a quiz"),
+    h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"What"),seg(sc.map(s=>[s.id,s.label]),cur.id,v=>ui.quiz.scope=v)),
+    h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Mode"),seg(Object.entries(MODES).map(([k,v])=>[k,v.name]),ui.quiz.mode,v=>ui.quiz.mode=v),h("p",{class:"muted",style:"margin:6px 0 0;font-size:13px"},MODES[ui.quiz.mode].desc)),
+    h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"How many"),seg([[5,"5"],[10,"10"],[20,"20"],[40,"40"],[999,"All"]],ui.quiz.n,v=>ui.quiz.n=v)),
+    h("p",{class:"muted",style:"margin:0;font-size:13px"},avail+" questions in this pool. Order and answer positions reshuffle every run, and questions you've missed or never seen come up more often."),
+    h("div",{class:"actions"},h("button",{class:"btn primary",disabled:avail?null:true,onclick:()=>startQuiz(cur,ui.quiz.mode,ui.quiz.n)},avail?"Start "+MODES[ui.quiz.mode].name+" · "+Math.min(avail,ui.quiz.n)+" questions":"Nothing here yet")));
+}
+
+// ---------- runner ----------
+let run=null, tick=null;
+function pick(keys,n,repeat){
+  const hist=qHistory();
+  const w=k=>{const r=hist[k];return (r?r.miss*2+(r.miss/r.seen)*2:1.5)+Math.random()*2.2;};
+  const first=shuffle(keys.map(k=>[k,w(k)]).sort((a,b)=>b[1]-a[1]).slice(0,Math.min(n,keys.length)).map(x=>x[0]));
+  if(!repeat||first.length>=n) return first;
+  while(first.length<n) first.push(...shuffle(keys).slice(0,n-first.length));
+  return first;
+}
+function startQuiz(scope,mode,n){
+  stopTimer();
+  const keys=pick(scope.keys,n,scope.boss);
+  run={scope:{id:scope.id,label:scope.label},mode,list:keys.map(k=>{const q=Q[k];const order=shuffle([0,1,2,3].slice(0,q.o.length));return {k,q,order};}),i:0,res:[],t0:Date.now(),qt:Date.now(),answered:null,streak:0,best:0,finished:false,written:{text:"",revealed:false,ai:null,busy:false}};
+  ui.tab="quiz"; render(); window.scrollTo(0,0);
+  if(mode==="blitz") startTimer();
+}
+function startBoss(track,dom){
+  const keys=Object.values(Q).filter(q=>q.track===track&&q.dom===dom).map(q=>q.k);
+  if(!keys.length) return;
+  startQuiz({id:"boss-"+track+"-"+dom,label:dom+" boss",keys,boss:true},"think",15);
+  run.boss={track,dom,lives:3};
+  render();
+}
+function stopTimer(){ if(tick){cancelAnimationFrame(tick);tick=null;} }
+function startTimer(){
+  stopTimer();
+  const loop=()=>{
+    if(!run||run.finished||run.answered) return;
+    const left=BLITZ_MS-(Date.now()-run.qt);
+    const bar=document.getElementById("tbar"), wrap=document.getElementById("twrap"), lab=document.getElementById("tlab");
+    if(bar){bar.style.width=Math.max(0,100*left/BLITZ_MS)+"%"; wrap.classList.toggle("low",left<5000); lab.textContent=Math.max(0,Math.ceil(left/1000))+"s";}
+    if(left<=0){ answer(-1); return; }
+    tick=requestAnimationFrame(loop);
+  };
+  tick=requestAnimationFrame(loop);
+}
+function answer(origIdx){
+  if(!run||run.answered) return;
+  const it=run.list[run.i]; const ms=Date.now()-run.qt;
+  const ok=origIdx===it.q.a?1:0;
+  run.answered={pick:origIdx,ok,ms};
+  run.res.push([it.k,ok,ms]);
+  if(run.boss&&!ok){
+    run.boss.lives--;
+    const panel=document.querySelector(".runner"); if(panel){ panel.classList.remove("shake"); void panel.offsetWidth; panel.classList.add("shake"); }
+  }
+  run.streak=ok?run.streak+1:0; run.best=Math.max(run.best,run.streak);
+  stopTimer();
+  if(run.mode==="blitz"){ render(); setTimeout(next, ok?350:900); }
+  else render();
+}
+function gradeWritten(score){
+  if(!run||run.answered) return;
+  const it=run.list[run.i]; const ms=Date.now()-run.qt;
+  run.answered={pick:null,ok:score,ms}; run.res.push([it.k,score,ms]);
+  run.streak=score===1?run.streak+1:0; run.best=Math.max(run.best,run.streak);
+  next();
+}
+function next(){
+  if(!run||run.finished) return;
+  if(run.boss&&run.boss.lives<=0){ finish(); return; }
+  if(run.i>=run.list.length-1){ finish(); return; }
+  run.i++; run.answered=null; run.qt=Date.now(); run.written={text:"",revealed:false,ai:null,busy:false};
+  render(); if(run.mode==="blitz") startTimer();
+}
+function finish(){
+  stopTimer(); run.finished=true;
+  const score=run.res.reduce((s,r)=>s+r[1],0), n=run.res.length;
+  const tracks=[...new Set(run.res.map(r=>Q[r[0]].track))];
+  run.rec={ts:Date.now(),mode:run.mode,scopeId:run.scope.id,scope:run.scope.label,track:tracks.length===1?tracks[0]:"mix",n,score,pct:pct(score,n),ms:Date.now()-run.t0,best:run.best,items:run.res};
+  if(run.boss&&run.boss.lives>0&&run.res.length===15&&run.rec.pct>=80){ state.bosses[run.boss.track+"|"+run.boss.dom]=Date.now(); saveProgress(); }
+  run.prev=attempts.filter(a=>a.scopeId===run.rec.scopeId&&a.mode===run.rec.mode).slice(-1)[0]||null;
+  saveAttempt(run.rec);
+  recordGameProgress(run.rec);
+  render(); window.scrollTo(0,0);
+}
+async function askClaudeGrade(){
+  const it=run.list[run.i], w=run.written; if(!sample||w.busy) return;
+  w.busy=true; w.ai={text:"Thinking…"}; render();
+  const prompt="You are grading a flash-recall answer for the "+TRACK[it.q.track]+" exam. The student answered from memory with no answer choices.\n\nQuestion: "+it.q.q+"\nCorrect answer: "+it.q.o[it.q.a]+"\nWhy: "+it.q.why+"\n\nStudent answer: "+(w.text||"(blank)")+"\n\nBe lenient on wording and spelling, strict on the concept. Reply with only JSON like {\"score\":2,\"feedback\":\"one or two plain sentences\"} where score 2 = correct, 1 = partly right, 0 = wrong.";
+  try{ const r=await sample.json(prompt,{modelTier:"quick"}); const s=Number(r&&r.score); w.ai={score:[0,1,2].includes(s)?s:null,text:String(r&&r.feedback||"")}; }
+  catch(e){ w.ai={text:e&&e.code==="not_granted"?"Claude grading is off for this page. Grade it yourself below.":e&&e.code==="rate_limited"?"Too many requests right now. Grade it yourself below.":"Couldn't reach Claude. Grade it yourself below."}; if(e&&["not_granted","sampling_disabled","not_declared","capability_disabled"].includes(e.code)) sample=null; }
+  w.busy=false; if(run&&!run.finished) render();
+}
+function renderRun(){
+  if(run.finished) return renderResult();
+  const it=run.list[run.i], q=it.q, a=run.answered;
+  const head=h("div",{class:"qhead"},
+    h("div",{class:"row"},h("span",{class:"tag "+q.track,style:"padding:2px 8px;border-radius:3px;font:600 12px var(--mono)"},TRACK[q.track]),h("span",{class:"eyebrow"},MODES[run.mode].name+" · "+run.scope.label+" · Day "+q.d+" · "+q.dom)),
+    h("div",{class:"row"},run.boss?h("span",{class:"streak"},"Boss lives: "+"♥".repeat(run.boss.lives)+"♡".repeat(3-run.boss.lives)):null,run.streak>=3?h("span",{class:"streak"},run.streak+" in a row"):null,h("span",{class:"eyebrow tabnum"},(run.i+1)+" / "+run.list.length),
+      h("button",{class:"btn small",onclick:()=>{ if(run.res.length) finish(); else {stopTimer();run=null;render();} }},run.res.length?"End & score":"Quit")));
+  const kids=[head];
+  if(run.mode==="blitz") kids.push(h("div",{class:"row",style:"gap:8px"},h("div",{class:"timer",id:"twrap",style:"flex:1"},h("i",{id:"tbar"})),h("span",{class:"eyebrow tabnum",id:"tlab",style:"width:32px;text-align:right"},"20s")));
+  kids.push(h("div",{class:"qtext"},q.q));
+  if(run.mode==="written"){
+    const w=run.written;
+    const ta=h("textarea",{id:"wans",placeholder:"Type your answer in your own words. Name the tool, term, or concept, and say why if you can.",disabled:w.revealed?true:null});
+    ta.value=w.text; ta.addEventListener("input",e=>w.text=e.target.value);
+    kids.push(ta);
+    if(!w.revealed){
+      kids.push(h("div",{class:"actions"},h("button",{class:"btn primary",onclick:()=>{w.revealed=true;render();}},"Reveal answer")));
+    } else {
+      kids.push(h("div",{class:"why"},h("b",{},"Answer: "+q.o[q.a]),h("div",{},q.why)));
+      if(sample) kids.push(h("div",{class:"actions"},h("button",{class:"btn",disabled:w.busy?true:null,onclick:askClaudeGrade},w.ai&&!w.busy?"Ask Claude again":"Have Claude grade my answer")));
+      if(w.ai) kids.push(h("div",{class:"aifb"},w.ai.score!=null?h("b",{},["Wrong","Partly right","Correct"][w.ai.score]+". "):null,w.ai.text));
+      const s=w.ai&&w.ai.score;
+      kids.push(h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"How did you do?"),h("div",{class:"grade"},
+        h("button",{class:"btn"+(s===2?" sugg":""),onclick:()=>gradeWritten(1)},"Got it"),
+        h("button",{class:"btn"+(s===1?" sugg":""),onclick:()=>gradeWritten(0.5)},"Partly"),
+        h("button",{class:"btn"+(s===0?" sugg":""),onclick:()=>gradeWritten(0)},"Missed it"))));
+    }
+    setTimeout(()=>{const t=document.getElementById("wans"); if(t&&!w.revealed) t.focus();},0);
+  } else {
+    kids.push(h("div",{class:"opts"},it.order.map((oi,pos)=>{
+      let cls="opt";
+      if(a){ if(oi===q.a) cls+=" right"; else if(oi===a.pick) cls+=" wrong"; }
+      return h("button",{class:cls,disabled:a?true:null,onclick:()=>answer(oi)},h("span",{class:"k"},pos+1),h("span",{},q.o[oi]));
+    })));
+    if(a&&run.mode==="think"){
+      kids.push(h("div",{class:"why"+(a.ok?"":" bad")},h("b",{},a.ok?"Right. ":"Not quite. "),q.why));
+      kids.push(h("div",{class:"actions"},h("button",{class:"btn primary",id:"nextbtn",onclick:next},run.i<run.list.length-1?"Next →":"See results")));
+    }
+    if(a&&run.mode==="blitz"&&a.pick===-1) kids.push(h("div",{class:"why bad"},h("b",{},"Time. ")));
+  }
+  return h("section",{class:"panel runner"},kids);
+}
+document.addEventListener("keydown",e=>{
+  if(!run||run.finished||ui.tab!=="quiz"||run.mode==="written") return;
+  if(e.target&&e.target.tagName==="TEXTAREA") return;
+  const it=run.list[run.i];
+  if(!run.answered&&/^[1-4]$/.test(e.key)){ const pos=+e.key-1; if(pos<it.order.length){ e.preventDefault(); answer(it.order[pos]); } }
+  else if(run.answered&&run.mode==="think"&&e.key==="Enter"){ e.preventDefault(); next(); }
+});
+function renderResult(){
+  const r=run.rec, p=run.prev;
+  const d=p?r.pct-p.pct:null;
+  const avg=r.n?r.ms/r.n:0;
+  const misses=run.res.filter(x=>x[1]<1).map(x=>Q[x[0]]);
+  const kids=[
+    h("div",{class:"eyebrow"},MODES[r.mode].name+" · "+r.scope+" · saved"),
+    h("div",{class:"result-top"},
+      h("div",{},h("div",{class:"big tabnum"},r.pct+"%"),h("div",{class:"muted tabnum"},(Number.isInteger(r.score)?r.score:r.score.toFixed(1))+" / "+r.n+" correct")),
+      h("div",{},h("div",{class:"eyebrow"},"Time"),h("div",{class:"tabnum",style:"font:700 26px var(--display)"},secs(r.ms)),h("div",{class:"muted tabnum",style:"font-size:13px"},secs(avg)+" per question")),
+      h("div",{},h("div",{class:"eyebrow"},"Best streak"),h("div",{class:"tabnum",style:"font:700 26px var(--display)"},r.best)),
+      h("div",{},h("div",{class:"eyebrow"},"vs last time"),p?h("div",{class:"tabnum delta "+(d>0?"up":d<0?"down":""),style:"font:700 26px var(--display)"},(d>0?"+":"")+d+" pts"):h("div",{class:"muted"},"First run of this set"),p?h("div",{class:"muted tabnum",style:"font-size:13px"},"was "+p.pct+"% · "+secs(p.ms/p.n)+"/q"):null)),
+    run.boss?(r.pct>=80&&run.boss.lives>0&&r.n===15?h("p",{style:"margin:0"},"Boss defeated. The domain badge is yours."):h("p",{style:"margin:0"},"Boss escaped. Finish all 15 with a score of 80% and at least one life remaining.")):(r.pct>=80?h("p",{style:"margin:0"},"That's at or above the 80% practice target."):h("p",{style:"margin:0"},"Under the 80% practice target. Hit the misses below, then run it again.")),
+    h("div",{class:"actions"},
+      h("button",{class:"btn primary",onclick:()=>startQuiz({id:run.scope.id,label:run.scope.label,keys:run.list.map(x=>x.k)},run.mode,run.list.length)},"Run it again (new order)"),
+      misses.length?h("button",{class:"btn",onclick:()=>startQuiz({id:"retry",label:"Retry misses",keys:misses.map(x=>x.k)},run.mode==="blitz"?"think":run.mode,misses.length)},"Retry my "+misses.length+" miss"+(misses.length>1?"es":"")):null,
+      h("button",{class:"btn",onclick:()=>{run=null;ui.tab="stats";render();}},"See stats"),
+      h("button",{class:"btn",onclick:()=>{run=null;render();}},"New quiz"))];
+  if(misses.length) kids.push(h("h3",{},"Review what you missed"),h("div",{class:"misslist"},misses.map(q=>h("div",{class:"miss"},h("div",{class:"eyebrow"},"Day "+q.d+" · "+q.dom),h("div",{},q.q),h("div",{class:"ans"},h("b",{style:"color:var(--ok)"},"Answer: "),q.o[q.a]),h("div",{class:"muted",style:"font-size:14px"},q.why)))));
+  else kids.push(h("p",{style:"margin:0"},"Clean sweep. Nothing to review."));
+  return h("section",{class:"panel runner"},kids);
+}
+
+// ---------- game layer ----------
+function renderGame(){
+  const [title,need]=rank(), next=RANKS.find(([,xp])=>xp>state.xp);
+  const missions=missionData(), allDone=missions.every(m=>m.now>=m.goal);
+  const bosses=["sc","sec"].flatMap(track=>DOMS[track].map(dom=>({track,dom,name:track==="sc"?"The Identity Impostor":dom.includes("Threats")?"The Insider Threat":dom.includes("Architecture")?"Firewall Warlord":dom.includes("Operations")?"Ransomware King":"The Compliance Collector"})));
+  const generated=ui.generated.length?h("div",{class:"misslist",style:"margin-top:12px"},ui.generated.map((q,i)=>h("div",{class:"miss"},
+    h("div",{class:"eyebrow"},q.dom+" · candidate"),
+    h("div",{},q.q),
+    h("div",{class:"ans"},h("b",{},"Answer: "),q.o[q.a]),
+    h("div",{class:"actions"},
+      h("button",{class:"btn primary",onclick:()=>approveGenerated(i)},"Keep in question bank"),
+      h("button",{class:"btn",onclick:()=>{ui.generated.splice(i,1);render();}},"Discard"))))):null;
+  return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
+    h("section",{class:"panel"},h("div",{class:"game-grid"},
+      h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Current rank"),h("b",{},title),h("div",{class:"tabnum"},state.xp+" XP"+(next?" · "+(next[1]-state.xp)+" to "+next[0]:" · top rank"))),
+      h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Daily missions "+(allDone?"🔥":"")),missions.map(m=>h("div",{class:"mission"},h("i",{},m.now>=m.goal?"✓":"○"),h("span",{},m.text,h("span",{class:"muted"}," · "+Math.min(m.now,m.goal)+"/"+m.goal))))),
+      h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Achievements"),Object.entries(ACHIEVEMENTS).map(([key,a])=>h("div",{class:"mission"},h("i",{},state.achievements[key]?"★":"○"),h("span",{},a.name,h("span",{class:"muted"}," · "+a.desc))))))),
+    h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Domain boss fights"),h("p",{class:"muted",style:"margin-top:0"},"Survive a 15-question run with three lives and score at least 80% to clear a boss."),h("div",{class:"game-grid"},bosses.map(b=>{
+      const won=state.bosses[b.track+"|"+b.dom];
+      return h("div",{class:"game-card boss "+b.track},h("span",{class:"tag "+b.track},TRACK[b.track]),h("b",{},b.name),h("p",{class:"muted",style:"margin:5px 0 12px;font-size:13px"},b.dom),h("button",{class:"btn "+(won?"":"primary"),onclick:()=>startBoss(b.track,b.dom)},won?"✓ Defeated · rematch":"Challenge boss"));
+    }))),
+    h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Fresh-question lab"),h("p",{class:"muted",style:"margin-top:0"},"Generate candidate questions for your weakest domain, review them, then keep the good ones in this browser's question bank."),h("div",{class:"actions"},h("button",{class:"btn primary",disabled:sample?null:true,onclick:generateQuestions},sample?"Generate 3 candidates":"Claude generation is unavailable in this browser")),generated));
+}
+async function generateQuestions(){
+  if(!sample) return;
+  const hist=qHistory(), scores=["sc","sec"].flatMap(track=>DOMS[track].map(dom=>{const qs=Object.values(Q).filter(q=>q.track===track&&q.dom===dom);const seen=qs.map(q=>hist[q.k]).filter(Boolean);const accuracy=seen.length?seen.reduce((n,r)=>n+r.ok/r.seen,0)/seen.length:0;return {track,dom,accuracy};})).sort((a,b)=>a.accuracy-b.accuracy);
+  const target=scores[0];
+  ui.generated=[]; render();
+  const prompt="Create exactly 3 original multiple-choice practice questions for CompTIA Security+ SY0-701 or Microsoft SC-900. Target domain: "+target.dom+" for "+TRACK[target.track]+". Return only JSON array. Each item must have q (question), o (exactly 4 plausible short answers), a (zero-based correct index), and why (one concise explanation). Avoid copied exam questions, ambiguity, and trivia. Ensure the answer is defensible.";
+  try{
+    const result=await sample.json(prompt,{modelTier:"quick"});
+    if(!Array.isArray(result)) throw new Error("Unexpected response");
+    ui.generated=result.filter(x=>x&&typeof x.q==="string"&&Array.isArray(x.o)&&x.o.length===4&&Number.isInteger(x.a)&&x.a>=0&&x.a<4).slice(0,3).map((x,i)=>Object.assign(x,{track:target.track,dom:target.dom,d:target.track==="sc"?1:13,k:"generated-"+Date.now()+"-"+i}));
+  }catch(e){ setSync("Question generation failed. Try again later."); }
+  render();
+}
+function approveGenerated(index){
+  const q=ui.generated[index]; if(!q) return;
+  state.customQuestions.push(q); addCustomQuestion(q); ui.generated.splice(index,1); saveProgress(); render();
+}
+
+// ---------- PBQ simulators ----------
+let pbq={firewall:["Allow HTTPS from any","Deny 203.0.113.77","Allow admin SSH from 10.10.0.0/16"],port:{},logs:[],attack:""};
+function renderPBQ(){
+  const modes=[["firewall","Firewall builder"],["port","Port match"],["logs","Log hunt"]];
+  const selector=h("div",{class:"seg"},modes.map(([id,label])=>h("button",{"aria-pressed":String(ui.pbq===id),onclick:()=>{ui.pbq=id;render();}},label)));
+  return h("div",{style:"display:flex;flex-direction:column;gap:16px"},selector,ui.pbq==="firewall"?firewallPBQ():ui.pbq==="port"?portPBQ():logsPBQ());
+}
+function firewallPBQ(){
+  const correct=["Deny 203.0.113.77","Allow admin SSH from 10.10.0.0/16","Allow HTTPS from any"];
+  const test=pbq.firewall.join("|")===correct.join("|");
+  return h("section",{class:"panel"},h("h2",{},"Firewall builder"),h("p",{class:"muted"},"Drag the rules into evaluation order. The compromised IP must be denied before broad access is allowed."),h("div",{class:"pbq-list"},pbq.firewall.map((rule,i)=>h("div",{class:"drag-item",draggable:true,ondragstart:e=>e.dataTransfer.setData("text/plain",String(i)),ondragover:e=>e.preventDefault(),ondrop:e=>{e.preventDefault();const from=Number(e.dataTransfer.getData("text/plain"));[pbq.firewall[from],pbq.firewall[i]]=[pbq.firewall[i],pbq.firewall[from]];render();}},(i+1)+". "+rule))),h("div",{class:"actions",style:"margin-top:12px"},h("button",{class:"btn primary",onclick:()=>{pbq.firewall.checked=true;render();}},"Run test packets"),h("button",{class:"btn",onclick:()=>{pbq.firewall=shuffle(correct);pbq.firewall.checked=false;render();}},"Reset")),pbq.firewall.checked?h("div",{class:"why "+(test?"":"bad"),style:"margin-top:12px"},h("b",{},test?"Packets handled correctly. ":"A malicious packet was allowed. "),test?"203.0.113.77 is blocked before HTTPS traffic can match the allow rule.":"Put the specific deny rule first; firewall rules stop evaluating after the first match."):null);
+}
+function portPBQ(){
+  const answers={22:"SSH",53:"DNS",443:"HTTPS",3389:"RDP"}, protocols=Object.values(answers);
+  const placed=Object.values(pbq.port).filter(Boolean).length, correct=Object.entries(answers).every(([port,p])=>pbq.port[port]===p);
+  return h("section",{class:"panel"},h("h2",{},"Port match"),h("p",{class:"muted"},"Drag each protocol onto its default port."),h("div",{class:"game-grid"},protocols.filter(p=>!Object.values(pbq.port).includes(p)).map(p=>h("div",{class:"drag-item",draggable:true,ondragstart:e=>e.dataTransfer.setData("text/plain",p)},p)),Object.keys(answers).map(port=>h("div",{class:"drop-slot",ondragover:e=>e.preventDefault(),ondrop:e=>{e.preventDefault();pbq.port[port]=e.dataTransfer.getData("text/plain");render();}},h("b",{},port),": ",pbq.port[port]||"Drop protocol here"))),h("div",{class:"actions",style:"margin-top:12px"},h("button",{class:"btn primary",disabled:placed===4?null:true,onclick:()=>{pbq.port.checked=true;render();}},"Check matches"),h("button",{class:"btn",onclick:()=>{pbq.port={};render();}},"Reset")),pbq.port.checked?h("div",{class:"why "+(correct?"":"bad"),style:"margin-top:12px"},correct?"Clean port match.":"Review defaults: SSH 22, DNS 53, HTTPS 443, and RDP 3389."):null);
+}
+function logsPBQ(){
+  const lines=["09:12:01 INFO  user=maya action=login src=10.0.0.15","09:12:14 WARN  user=admin action=login_failed src=198.51.100.29 count=26","09:12:17 ALERT uri=/search?q=' OR 1=1 -- src=198.51.100.29","09:13:02 INFO  backup completed host=db-02","09:14:41 ALERT process=powershell.exe -enc SQBFA... host=ws-14"];
+  const suspicious=[1,2,4], selected=i=>pbq.logs.includes(i), valid=suspicious.every(i=>selected(i))&&pbq.logs.length===suspicious.length&&pbq.attack==="Mixed attack";
+  const attack=h("select",{onchange:e=>{pbq.attack=e.target.value;}},
+    h("option",{value:""},"Choose one"),
+    h("option",{value:"Mixed attack"},"Mixed attack: brute force, SQL injection, and encoded PowerShell"),
+    h("option",{value:"Normal operations"},"Normal operations"),
+    h("option",{value:"DDoS"},"DDoS"));
+  attack.value=pbq.attack;
+  const logList=h("div",{class:"pbq-list"},lines.map((line,i)=>h("button",{
+    class:"logline "+(selected(i)?"flagged":""),
+    onclick:()=>{pbq.logs=selected(i)?pbq.logs.filter(x=>x!==i):pbq.logs.concat(i);render();}
+  },line)));
+  const controls=h("div",{class:"row",style:"margin-top:12px"},
+    h("label",{class:"fld"},"Attack type",attack),
+    h("button",{class:"btn primary",onclick:()=>{pbq.checked=true;render();}},"Submit hunt"),
+    h("button",{class:"btn",onclick:()=>{pbq.logs=[];pbq.attack="";pbq.checked=false;render();}},"Reset"));
+  const feedback=pbq.checked?h("div",{class:"why "+(valid?"":"bad"),style:"margin-top:12px"},
+    valid?"Threats identified: password spraying or brute force, SQL injection, and suspicious encoded PowerShell execution.":"The suspicious lines are the repeated admin failures, the SQL injection payload, and encoded PowerShell."):null;
+  return h("section",{class:"panel"},h("h2",{},"Log hunt"),h("p",{class:"muted"},"Click every suspicious line, then name the overall incident."),logList,controls,feedback);
+}
+
+// ---------- scenario campaign ----------
+const CAMPAIGN=[
+  ["The Badge Clone","A cloned badge appears at a secure office. Which first control limits physical access?","Require badge plus PIN at the door","Disable all network switches","Email the whole company",0,"General concepts"],
+  ["The Strange Invoice","Finance receives an invoice with a shortened link. What should you do first?","Report it through the phishing process without opening it","Open it in a personal browser","Forward it to everyone",0,"Threats & vulns"],
+  ["The New Vendor","A vendor needs a restricted application. Choose the safest design.","Give a least-privilege role with MFA","Share an administrator account","Expose the app directly to the internet",0,"Architecture"],
+  ["The Midnight Alert","EDR flags encoded PowerShell on a workstation. What comes next?","Isolate the endpoint and preserve evidence","Delete all logs","Restart every server",0,"Operations"],
+  ["The Audit Clock","An auditor asks who approved privileged access. What proves it?","Time-bound approval and audit logs","A verbal promise","A shared password list",0,"Program mgmt"]
+];
+function renderCampaign(){
+  const c=state.campaign, scene=CAMPAIGN[c.step];
+  if(!scene) return h("section",{class:"panel"},h("h2",{},"Campaign complete"),h("p",{},"You closed the case with "+c.score+" of "+CAMPAIGN.length+" strong analyst decisions across every Security+ domain."),h("button",{class:"btn primary",onclick:()=>{state.campaign={step:0,score:0};saveProgress();render();}},"Restart campaign"));
+  const choices=h("div",{class:"opts"},scene.slice(2,5).map((choice,i)=>h("button",{class:"opt",onclick:()=>{
+    const correct=i===scene[5];
+    state.campaign={step:c.step+1,score:c.score+(correct?1:0),last:correct?"Your call contained the incident.":"The incident grew, but you documented the lesson."};
+    saveProgress(); render();
+  }},choice)));
+  const feedback=c.last?h("div",{class:"why "+(c.last.startsWith("Your")?"":"bad")},c.last):null;
+  return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},
+    h("div",{class:"eyebrow"},"Mission "+(c.step+1)+" / "+CAMPAIGN.length+" · "+scene[6]),
+    h("h2",{},scene[0]),
+    h("div",{class:"story"},scene[1]),
+    choices,
+    feedback);
+}
+
+// ---------- stats ----------
+function renderStats(){
+  const A=attempts.slice().sort((a,b)=>a.ts-b.ts);
+  if(!A.length) return h("section",{class:"panel"},h("h2",{},"No attempts yet"),h("p",{class:"muted"},"Every quiz you finish is saved here: score, time per question, mode, and which questions you missed. Run one and this page fills in with trends, domain breakdowns, and comparisons."),h("button",{class:"btn primary",onclick:()=>{ui.tab="quiz";render();}},"Go to Quiz"));
+  const items=A.flatMap(a=>(a.items||[]).map(([k,ok,ms])=>({k,ok,ms,mode:a.mode,ts:a.ts,q:Q[k]}))).filter(x=>x.q);
+  const recent=t=>{const xs=items.filter(x=>x.q.track===t).slice(-60);return xs.length?{p:pct(xs.reduce((s,x)=>s+x.ok,0),xs.length),n:xs.length}:null;};
+  const days=[...new Set(A.map(a=>midnight(new Date(a.ts)).getTime()))].sort((a,b)=>b-a);
+  let streak=0; {let c=midnight(new Date()).getTime(); if(days[0]!==c) c-=864e5; for(const d of days){ if(d===c){streak++;c-=864e5;} else if(d<c) break; }}
+  const scR=recent("sc"), secR=recent("sec");
+  const tile=(label,val,sub)=>h("div",{class:"tile"},h("span",{class:"eyebrow"},label),h("b",{class:"tabnum"},val),sub?h("span",{class:"muted",style:"font-size:12px"},sub):null);
+  const tiles=h("div",{class:"tiles"},
+    tile("SC-900 readiness",scR?scR.p+"%":"–",scR?"last "+scR.n+" answers · target 80%":"no SC-900 answers yet"),
+    tile("Security+ readiness",secR?secR.p+"%":"–",secR?"last "+secR.n+" answers · target 80%":"no Sec+ answers yet"),
+    tile("Tests taken",A.length,items.length+" questions answered"),
+    tile("Study streak",streak+(streak===1?" day":" days"),"days in a row with a quiz"));
+
+  // trend chart
+  const last=A.slice(-30), W=640, H=220, L=34, R=10, T=12, B=26;
+  const x=i=>L+(last.length<2?(W-L-R)/2:i*(W-L-R)/(last.length-1)), y=v=>T+(100-v)*(H-T-B)/100;
+  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`); svg.setAttribute("width","100%"); svg.setAttribute("style","min-width:520px;display:block");
+  const S=(t,a)=>{const e=document.createElementNS("http://www.w3.org/2000/svg",t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+  [0,50,80,100].forEach(v=>{svg.append(S("line",{x1:L,x2:W-R,y1:y(v),y2:y(v),stroke:v===80?"var(--gold)":"var(--line)","stroke-dasharray":v===80?"4 4":"none"}));const tx=S("text",{x:L-6,y:y(v)+4,"text-anchor":"end"});tx.textContent=v+"%";svg.append(tx);});
+  const t80=S("text",{x:W-R,y:y(80)-5,"text-anchor":"end",style:"fill:var(--gold)"}); t80.textContent="target"; svg.append(t80);
+  Object.keys(MODES).forEach(m=>{
+    const pts=last.map((a,i)=>[i,a]).filter(([,a])=>a.mode===m);
+    if(pts.length>1) svg.append(S("polyline",{points:pts.map(([i,a])=>x(i)+","+y(a.pct)).join(" "),fill:"none",stroke:MODES[m].color,"stroke-width":"2","stroke-opacity":".55"}));
+    pts.forEach(([i,a],j)=>{const c=S("circle",{cx:x(i),cy:y(a.pct),r:j===pts.length-1?5:3.5,fill:MODES[m].color,stroke:"var(--surface)","stroke-width":"1.5"});const tt=S("title",{});tt.textContent=fmtDT(a.ts)+" · "+MODES[m].name+" · "+a.scope+" · "+a.pct+"%";c.append(tt);svg.append(c);});
+  });
+  const tl=S("text",{x:L,y:H-6}); tl.textContent=fmtDT(last[0].ts); svg.append(tl);
+  const tr=S("text",{x:W-R,y:H-6,"text-anchor":"end"}); tr.textContent=fmtDT(last[last.length-1].ts); svg.append(tr);
+  const chartLegend=h("div",{class:"legend"},Object.values(MODES).map(m=>h("span",{},h("i",{class:"mode-dot",style:"background:"+m.color}),m.name)));
+
+  // domains
+  const domBars=["sc","sec"].map(t=>h("div",{class:"bars"},h("h3",{},TRACK[t]),DOMS[t].map(dm=>{
+    const xs=items.filter(x=>x.q.track===t&&x.q.dom===dm); const p=xs.length?pct(xs.reduce((s,x)=>s+x.ok,0),xs.length):null;
+    return h("div",{class:"bar"},h("span",{},dm),h("span",{class:"track"},p!=null?h("i",{style:`width:${p}%;background:var(--${t})`}):null),h("span",{class:"tabnum",style:"text-align:right"},p!=null?h("span",{class:"chip "+(p>=80?"good":"weak")},p+"%"):h("span",{class:"muted"},"–")));
+  })));
+
+  // modes
+  const modeRows=Object.entries(MODES).map(([m,v])=>{
+    const xs=items.filter(x=>x.mode===m); const n=A.filter(a=>a.mode===m).length;
+    return h("tr",{},h("td",{},h("i",{class:"mode-dot",style:"background:"+v.color}),v.name),h("td",{class:"num"},n),h("td",{class:"num"},xs.length?pct(xs.reduce((s,x)=>s+x.ok,0),xs.length)+"%":"–"),h("td",{class:"num"},xs.length?secs(xs.reduce((s,x)=>s+x.ms,0)/xs.length):"–"));
+  });
+  const modeTable=h("div",{class:"tablebox"},h("table",{},h("thead",{},h("tr",{},h("th",{},"Mode"),h("th",{class:"num"},"Tests"),h("th",{class:"num"},"Accuracy"),h("th",{class:"num"},"Avg / question"))),h("tbody",{},modeRows)));
+
+  // most missed
+  const hist=qHistory();
+  const missed=Object.entries(hist).filter(([k,r])=>Q[k]&&r.miss>0).sort((a,b)=>b[1].miss-a[1].miss||(b[1].miss/b[1].seen)-(a[1].miss/a[1].seen)).slice(0,8);
+  const missBox=missed.length?h("div",{class:"misslist"},missed.map(([k,r])=>{const q=Q[k];return h("div",{class:"miss"},h("div",{class:"eyebrow"},"Missed "+(Number.isInteger(r.miss)?r.miss:r.miss.toFixed(1))+" of "+r.seen+" · Day "+q.d+" · "+q.dom),h("div",{},q.q),h("div",{class:"ans"},h("b",{style:"color:var(--ok)"},"Answer: "),q.o[q.a]));}),
+      h("div",{class:"actions"},h("button",{class:"btn primary",onclick:()=>startQuiz({id:"weak",label:"Most missed",keys:missed.map(m=>m[0])},"written",missed.length)},"Written run on these "+missed.length),h("button",{class:"btn",onclick:()=>startQuiz({id:"weak",label:"Most missed",keys:missed.map(m=>m[0])},"think",missed.length)},"Think run on these"))):h("p",{class:"muted"},"No misses yet.");
+
+  // log
+  const logRows=A.slice().reverse().slice(0,40).map(a=>{
+    const prev=A.filter(b=>b.ts<a.ts&&b.scopeId===a.scopeId&&b.mode===a.mode).slice(-1)[0];
+    const d=prev?a.pct-prev.pct:null;
+    return h("tr",{},h("td",{},fmtDT(a.ts)),h("td",{},h("i",{class:"mode-dot",style:"background:"+(MODES[a.mode]||MODES.think).color}),(MODES[a.mode]||{name:a.mode}).name),h("td",{},a.scope),h("td",{class:"num"},a.pct+"%"),h("td",{class:"num",style:d==null?"":"color:var(--"+(d>0?"ok":d<0?"bad":"muted")+")"},d==null?"–":(d>0?"+":"")+d),h("td",{class:"num"},secs(a.ms/a.n)));
+  });
+  const logTable=h("div",{class:"tablebox"},h("table",{},h("thead",{},h("tr",{},h("th",{},"When"),h("th",{},"Mode"),h("th",{},"Set"),h("th",{class:"num"},"Score"),h("th",{class:"num"},"Δ same set"),h("th",{class:"num"},"Avg / q"))),h("tbody",{},logRows)));
+
+  // insights
+  const insBox=h("div",{class:"insight",id:"insout"},insight.text||"");
+  const insight_btn=sample?h("button",{class:"btn primary",disabled:insight.busy?true:null,onclick:()=>getInsights(A,items)},insight.text?"Refresh coaching":"Get coaching from Claude"):null;
+
+  return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
+    tiles,
+    h("section",{class:"panel"},h("div",{class:"row",style:"justify-content:space-between;margin-bottom:10px"},h("h3",{},"Score trend · last "+last.length+" tests"),chartLegend),h("div",{class:"chartbox"},svg)),
+    h("section",{class:"panel"},h("h3",{style:"margin-bottom:12px"},"Accuracy by exam domain"),h("div",{class:"cols"},domBars),h("p",{class:"muted",style:"font-size:12px;margin:10px 0 0"},"Dashed line = 80% practice target.")),
+    h("section",{class:"panel"},h("h3",{style:"margin-bottom:10px"},"Blitz vs Think vs Written"),modeTable,h("p",{class:"muted",style:"font-size:13px;margin:10px 0 0"},"If Think accuracy is much higher than Blitz, you know it but you're slow to recall it. If Written trails both, you're recognizing answers rather than remembering them.")),
+    sample?h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:10px"},h("h3",{},"Coach"),h("p",{class:"muted",style:"margin:0;font-size:13px"},"Claude reads your stats above and tells you what to hit next."),insBox,h("div",{class:"actions"},insight_btn)):null,
+    h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:10px"},h("h3",{},"Most-missed questions"),missBox),
+    h("section",{class:"panel"},h("h3",{style:"margin-bottom:10px"},"Every test"),logTable));
+}
+let insight={text:"",busy:false};
+async function getInsights(A,items){
+  if(!sample||insight.busy) return;
+  insight.busy=true; insight.text="Thinking…"; render();
+  const t=todayN();
+  const dom=["sc","sec"].flatMap(tr=>DOMS[tr].map(dm=>{const xs=items.filter(x=>x.q.track===tr&&x.q.dom===dm);return TRACK[tr]+" / "+dm+": "+(xs.length?pct(xs.reduce((s,x)=>s+x.ok,0),xs.length)+"% of "+xs.length:"no data");})).join("\n");
+  const modes=Object.keys(MODES).map(m=>{const xs=items.filter(x=>x.mode===m);return m+": "+(xs.length?pct(xs.reduce((s,x)=>s+x.ok,0),xs.length)+"% accuracy, "+secs(xs.reduce((s,x)=>s+x.ms,0)/xs.length)+" avg":"none");}).join("\n");
+  const log=A.slice(-15).map(a=>fmtDT(a.ts)+" | "+a.mode+" | "+a.scope+" | "+a.pct+"% | "+secs(a.ms/a.n)+"/q").join("\n");
+  const hist=qHistory();
+  const top=Object.entries(hist).filter(([k,r])=>Q[k]&&r.miss>0).sort((a,b)=>b[1].miss-a[1].miss).slice(0,6).map(([k,r])=>"- "+Q[k].q+" (answer: "+Q[k].o[Q[k].a]+"; missed "+r.miss+"/"+r.seen+")").join("\n");
+  const prompt="You're a blunt, encouraging study coach for RJ, a military veteran preparing for Microsoft SC-900 (exam on day 12 of his plan) and CompTIA Security+ SY0-701 (exam on day 33). Today is day "+t+" of 33. Practice target is 80%.\n\nAccuracy by domain:\n"+dom+"\n\nBy mode:\n"+modes+"\n\nRecent tests:\n"+log+"\n\nMost-missed questions:\n"+top+"\n\nWrite a short plan in plain text, no markdown headers or bold: 1) one sentence on where he stands for the next exam, 2) the 2–3 weakest concepts and a one-line plain-English explanation of each, 3) exactly what to run in this quiz app today (scope + mode). Under 180 words.";
+  try{ await sample(prompt,{cache:false,onText:({text})=>{insight.text=text;const el=document.getElementById("insout");if(el)el.textContent=text;}}); }
+  catch(e){ insight.text=(e&&e.text)||(e&&e.code==="rate_limited"?"Too many requests right now. Try again in a bit.":e&&e.code==="not_granted"?"Coaching is off for this page.":"Couldn't reach Claude. Try again."); if(e&&["not_granted","sampling_disabled","not_declared"].includes(e.code)) sample=null; }
+  insight.busy=false; render();
+}
+
+// ---------- render ----------
+function softRender(){ if(run&&!run.finished&&ui.tab==="quiz"){ renderHeader(); return; } render(); }
+function render(){
+  renderHeader();
+  const v=document.getElementById("view");
+  v.replaceChildren(ui.tab==="plan"?renderPlan():ui.tab==="quiz"?renderQuizTab():ui.tab==="stats"?renderStats():ui.tab==="game"?renderGame():ui.tab==="pbq"?renderPBQ():renderCampaign());
+  if(run&&!run.finished&&run.mode==="blitz"&&!run.answered&&!tick) startTimer();
+}
+if(location.hash==="#quiz"||location.hash==="#stats"||location.hash==="#plan") ui.tab=location.hash.slice(1);
+render();
+})();
+</script>
+</body>
+</html>
