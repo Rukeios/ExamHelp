@@ -179,7 +179,7 @@ footer a{color:inherit}
   <header>
     <div class="head-row">
       <div>
-        <div class="eyebrow">RJ Â· 33-day plan Â· two exams</div>
+        <div class="eyebrow">RJ · 33-day plan · two exams</div>
         <h1>SC-900 + Sec+ Sprint</h1>
         <span class="rank-badge" id="rank"></span>
       </div>
@@ -187,7 +187,7 @@ footer a{color:inherit}
     </div>
     <div class="row" style="justify-content:space-between">
       <label class="fld">Plan start date<input type="date" id="start"></label>
-      <span class="sync" id="sync">Loading saved progressâ€¦</span>
+      <span class="sync" id="sync">Loading saved progress…</span>
     </div>
     <nav class="tabs" role="tablist">
       <button role="tab" data-tab="plan" aria-selected="true">Plan</button>
@@ -200,8 +200,8 @@ footer a{color:inherit}
   </header>
   <main id="view"></main>
   <footer>
-    <div>Study pairing: <a href="https://learn.microsoft.com/en-us/training/courses/sc-900t00" target="_blank" rel="noopener">Microsoft Learn SC-900 course</a> Â· <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900" target="_blank" rel="noopener">SC-900 skills measured</a> Â· <a href="https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/" target="_blank" rel="noopener">Professor Messer SY0-701 (free videos)</a> Â· <a href="https://www.comptia.org/certifications/security" target="_blank" rel="noopener">CompTIA Security+</a></div>
-    <div>Keyboard in quizzes: 1â€“4 pick an answer, Enter goes to the next question.</div>
+    <div>Study pairing: <a href="https://learn.microsoft.com/en-us/training/courses/sc-900t00" target="_blank" rel="noopener">Microsoft Learn SC-900 course</a> · <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900" target="_blank" rel="noopener">SC-900 skills measured</a> · <a href="https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/" target="_blank" rel="noopener">Professor Messer SY0-701 (free videos)</a> · <a href="https://www.comptia.org/certifications/security" target="_blank" rel="noopener">CompTIA Security+</a></div>
+    <div>Keyboard in quizzes: 1–4 pick an answer, Enter goes to the next question.</div>
   </footer>
 </div>
 
@@ -338,11 +338,11 @@ function qHistory(){
 function renderHeader(){
   const t=todayN(), ex=document.getElementById("exams"); ex.replaceChildren();
   const [title]=rank(), nextRank=RANKS.find(([,xp])=>xp>state.xp);
-  document.getElementById("rank").textContent=title+" Â· "+state.xp+" XP"+(nextRank?" Â· "+(nextRank[1]-state.xp)+" to "+nextRank[0]:" Â· max rank");
+  document.getElementById("rank").textContent=title+" · "+state.xp+" XP"+(nextRank?" · "+(nextRank[1]-state.xp)+" to "+nextRank[0]:" · max rank");
   [[12,"sc"],[33,"sec"]].forEach(([n,tr])=>{
     const left=n-t;
     ex.append(h("div",{class:"exam "+tr},
-      h("span",{class:"eyebrow"},TRACK[tr]+" Â· Day "+n),
+      h("span",{class:"eyebrow"},TRACK[tr]+" · Day "+n),
       h("b",{class:"tabnum"}, left>1?left+" days":left===1?"Tomorrow":left===0?"Today":"Done"),
       h("span",{class:"muted",style:"font-size:12px"},fmtD(dayDate(n)))));
   });
@@ -359,16 +359,16 @@ function renderPlan(){
   DAYS.forEach(d=>{
     const locked=d.d>current;
     const cls=["cell",d.track,d.kind||"",state.done[d.d]?"done":"",d.d===t?"today":"",d.d===ui.sel?"sel":"",locked?"locked":""].join(" ");
-    const title=locked?"Complete Day "+current+" to unlock Day "+d.d:"Day "+d.d+" Â· "+fmtD(dayDate(d.d))+"\n"+d.title;
+    const title=locked?"Complete Day "+current+" to unlock Day "+d.d:"Day "+d.d+" · "+fmtD(dayDate(d.d))+"\n"+d.title;
     strip.append(h("button",{class:cls,role:"listitem","aria-label":"Day "+d.d+": "+d.title,title,disabled:locked?true:null,onclick:()=>{ui.sel=d.d;render();}},d.d));
   });
   const legend=h("div",{class:"legend"},
-    h("span",{},h("i",{class:"sw",style:"background:var(--sc)"}),"SC-900 (days 1â€“12)"),
-    h("span",{},h("i",{class:"sw",style:"background:var(--sec)"}),"Security+ (days 13â€“33)"),
+    h("span",{},h("i",{class:"sw",style:"background:var(--sc)"}),"SC-900 (days 1–12)"),
+    h("span",{},h("i",{class:"sw",style:"background:var(--sec)"}),"Security+ (days 13–33)"),
     h("span",{},h("i",{class:"sw",style:"background:repeating-linear-gradient(135deg,var(--surface) 0 3px,var(--line) 3px 5px);border:1px solid var(--line)"}),"Review day"),
     h("span",{},h("i",{class:"sw",style:"background:var(--gold);border-radius:50%;width:8px;height:8px"}),"Exam"),
     h("span",{},h("i",{class:"sw",style:"box-shadow:inset 0 0 0 2px var(--gold)"}),"Today"),
-    h("span",{class:"tabnum"},Object.keys(state.done).length+" / 33 days done Â· Day "+current+" is active"));
+    h("span",{class:"tabnum"},Object.keys(state.done).length+" / 33 days done · Day "+current+" is active"));
   return h("div",{style:"display:flex;flex-direction:column;gap:14px"},strip,legend,lessonPanel(BYDAY[ui.sel]));
 }
 function modesCompleted(scopeId){
@@ -377,12 +377,12 @@ function modesCompleted(scopeId){
 function quizBtns(scope,n){
   const done=modesCompleted(scope.id);
   return Object.entries(MODES).map(([m,v])=>h("button",{class:"btn modebtn",onclick:()=>startQuiz(scope,m,n)},
-    h("span",{class:"row",style:"gap:6px;width:100%;justify-content:space-between"},v.name+" quiz",done.has(m)?h("span",{class:"chip good"},"âœ“"):null),
+    h("span",{class:"row",style:"gap:6px;width:100%;justify-content:space-between"},v.name+" quiz",done.has(m)?h("span",{class:"chip good"},"✓"):null),
     h("small",{},v.desc)));
 }
 function lessonPanel(d){
   const date=fmtD(dayDate(d.d));
-  const kids=[h("div",{class:"row"},h("span",{class:"tag "+d.track},TRACK[d.track]),h("span",{class:"eyebrow"},"Day "+d.d+" Â· "+date+(d.dom?" Â· "+d.dom:"")+(d.min?" Â· ~"+d.min+" min":"")))];
+  const kids=[h("div",{class:"row"},h("span",{class:"tag "+d.track},TRACK[d.track]),h("span",{class:"eyebrow"},"Day "+d.d+" · "+date+(d.dom?" · "+d.dom:"")+(d.min?" · ~"+d.min+" min":"")))];
   kids.push(h("h2",{},d.title));
   kids.push(h("ul",{class:"pts"},d.pts.map(p=>{const [a,b]=p.split("|");return h("li",{},h("b",{},a),b);})));
   if(d.imgs) kids.push(h("div",{class:"diagrams"},d.imgs.map(([src,cap])=>h("figure",{},h("img",{src,alt:cap,loading:"lazy"}),h("figcaption",{},cap)))));
@@ -393,15 +393,15 @@ function lessonPanel(d){
   else if(d.kind==="exam") scope={id:"day-"+d.d,label:TRACK[d.track]+" warmup",keys:keysFor(allTrackDays(d.track))};
   else scope={id:"day-"+d.d,label:"Day "+d.d,keys:keysFor([d.d])};
   const n=d.n||scope.keys.length;
-  kids.push(h("div",{},h("h3",{style:"margin-bottom:8px"},(d.kind?"":"Mini quiz Â· ")+n+" questions, shuffled"),h("div",{class:"actions"},quizBtns(scope,n))));
+  kids.push(h("div",{},h("h3",{style:"margin-bottom:8px"},(d.kind?"":"Mini quiz · ")+n+" questions, shuffled"),h("div",{class:"actions"},quizBtns(scope,n))));
   const done=!!state.done[d.d];
   const modesDone=modesCompleted(scope.id);
   const remaining=3-modesDone.size;
   kids.push(h("div",{class:"actions"},
-    done?h("span",{class:"chip good"},"âœ“ Day complete"):h("span",{class:"muted",style:"font-size:13px"},"Complete all 3 quiz modes above to unlock the next day"+(remaining>0?" ("+remaining+" left)":"")),
-    done&&d.d<unlockedDay()?h("button",{class:"btn",onclick:()=>{ui.sel=d.d+1;render();window.scrollTo(0,0);}},"Next day â†’"):null));
+    done?h("span",{class:"chip good"},"✓ Day complete"):h("span",{class:"muted",style:"font-size:13px"},"Complete all 3 quiz modes above to unlock the next day"+(remaining>0?" ("+remaining+" left)":"")),
+    done&&d.d<unlockedDay()?h("button",{class:"btn",onclick:()=>{ui.sel=d.d+1;render();window.scrollTo(0,0);}},"Next day →"):null));
   if(d.track==="sc"&&!d.kind) kids.push(h("p",{class:"muted",style:"margin:0;font-size:13px"},"Pair it with the matching Microsoft Learn module (link below), about 30 minutes."));
-  if(d.track==="sec"&&!d.kind) kids.push(h("p",{class:"muted",style:"margin:0;font-size:13px"},"Pair it with the matching Professor Messer videos for "+d.dom.replace(/^\d /,"Domain "+d.dom[0]+": ")+", about 30â€“45 minutes at 1.25Ã—."));
+  if(d.track==="sec"&&!d.kind) kids.push(h("p",{class:"muted",style:"margin:0;font-size:13px"},"Pair it with the matching Professor Messer videos for "+d.dom.replace(/^\d /,"Domain "+d.dom[0]+": ")+", about 30–45 minutes at 1.25Ã—."));
   return h("section",{class:"panel lesson"},kids);
 }
 
@@ -432,7 +432,7 @@ function renderQuizTab(){
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Mode"),seg(Object.entries(MODES).map(([k,v])=>[k,v.name]),ui.quiz.mode,v=>ui.quiz.mode=v),h("p",{class:"muted",style:"margin:6px 0 0;font-size:13px"},MODES[ui.quiz.mode].desc)),
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"How many"),seg([[5,"5"],[10,"10"],[20,"20"],[40,"40"],[999,"All"]],ui.quiz.n,v=>ui.quiz.n=v)),
     h("p",{class:"muted",style:"margin:0;font-size:13px"},avail+" questions in this pool"+(avail&&wantN>avail?" (questions repeat with fresh shuffles to reach "+wantN+")":"")+". Order and answer positions reshuffle every run, and questions you've missed or never seen come up more often."),
-    h("div",{class:"actions"},h("button",{class:"btn primary",disabled:avail?null:true,onclick:()=>startQuiz(cur,ui.quiz.mode,ui.quiz.n)},avail?"Start "+MODES[ui.quiz.mode].name+" Â· "+wantN+" questions":"Nothing here yet")));
+    h("div",{class:"actions"},h("button",{class:"btn primary",disabled:avail?null:true,onclick:()=>startQuiz(cur,ui.quiz.mode,ui.quiz.n)},avail?"Start "+MODES[ui.quiz.mode].name+" · "+wantN+" questions":"Nothing here yet")));
 }
 
 // ---------- runner ----------
@@ -524,7 +524,7 @@ function finish(){
 }
 async function askClaudeGrade(){
   const it=run.list[run.i], w=run.written; if(!sample||w.busy) return;
-  w.busy=true; w.ai={text:"Thinkingâ€¦"}; render();
+  w.busy=true; w.ai={text:"Thinking…"}; render();
   const prompt="You are grading a flash-recall answer for the "+TRACK[it.q.track]+" exam. The student answered from memory with no answer choices.\n\nQuestion: "+it.q.q+"\nCorrect answer: "+it.q.o[it.q.a]+"\nWhy: "+it.q.why+"\n\nStudent answer: "+(w.text||"(blank)")+"\n\nBe lenient on wording and spelling, strict on the concept. Reply with only JSON like {\"score\":2,\"feedback\":\"one or two plain sentences\"} where score 2 = correct, 1 = partly right, 0 = wrong.";
   try{ const r=await sample.json(prompt,{modelTier:"quick"}); const s=Number(r&&r.score); w.ai={score:[0,1,2].includes(s)?s:null,text:String(r&&r.feedback||"")}; }
   catch(e){ w.ai={text:e&&e.code==="not_granted"?"Claude grading is off for this page. Grade it yourself below.":e&&e.code==="rate_limited"?"Too many requests right now. Grade it yourself below.":"Couldn't reach Claude. Grade it yourself below."}; if(e&&["not_granted","sampling_disabled","not_declared","capability_disabled"].includes(e.code)) sample=null; }
@@ -534,7 +534,7 @@ function renderRun(){
   if(run.finished) return renderResult();
   const it=run.list[run.i], q=it.q, a=run.answered;
   const head=h("div",{class:"qhead"},
-    h("div",{class:"row"},h("span",{class:"tag "+q.track,style:"padding:2px 8px;border-radius:3px;font:600 12px var(--mono)"},TRACK[q.track]),h("span",{class:"eyebrow"},MODES[run.mode].name+" Â· "+run.scope.label+" Â· Day "+q.d+" Â· "+q.dom)),
+    h("div",{class:"row"},h("span",{class:"tag "+q.track,style:"padding:2px 8px;border-radius:3px;font:600 12px var(--mono)"},TRACK[q.track]),h("span",{class:"eyebrow"},MODES[run.mode].name+" · "+run.scope.label+" · Day "+q.d+" · "+q.dom)),
     h("div",{class:"row"},run.boss?h("span",{class:"streak"},"Boss lives: "+"â™¥".repeat(run.boss.lives)+"â™¡".repeat(3-run.boss.lives)):null,run.streak>=3?h("span",{class:"streak"},run.streak+" in a row"):null,h("span",{class:"eyebrow tabnum"},(run.i+1)+" / "+run.list.length),
       h("button",{class:"btn small",onclick:()=>{ if(run.res.length) finish(); else {stopTimer();run=null;render();} }},run.res.length?"End & score":"Quit")));
   const kids=[head];
@@ -566,7 +566,7 @@ function renderRun(){
     })));
     if(a&&run.mode==="think"){
       kids.push(h("div",{class:"why"+(a.ok?"":" bad")},h("b",{},a.ok?"Right. ":"Not quite. "),q.why));
-      kids.push(h("div",{class:"actions"},h("button",{class:"btn primary",id:"nextbtn",onclick:next},run.i<run.list.length-1?"Next â†’":"See results")));
+      kids.push(h("div",{class:"actions"},h("button",{class:"btn primary",id:"nextbtn",onclick:next},run.i<run.list.length-1?"Next →":"See results")));
     }
     if(a&&run.mode==="blitz"&&a.pick===-1) kids.push(h("div",{class:"why bad"},h("b",{},"Time. ")));
   }
@@ -585,59 +585,103 @@ function renderResult(){
   const avg=r.n?r.ms/r.n:0;
   const misses=run.res.filter(x=>x[1]<1).map(x=>Q[x[0]]);
   const kids=[
-    h("div",{class:"eyebrow"},MODES[r.mode].name+" Â· "+r.scope+" Â· saved"),
+    h("div",{class:"eyebrow"},MODES[r.mode].name+" · "+r.scope+" · saved"),
     h("div",{class:"result-top"},
       h("div",{},h("div",{class:"big tabnum"},r.pct+"%"),h("div",{class:"muted tabnum"},(Number.isInteger(r.score)?r.score:r.score.toFixed(1))+" / "+r.n+" correct")),
       h("div",{},h("div",{class:"eyebrow"},"Time"),h("div",{class:"tabnum",style:"font:700 26px var(--display)"},secs(r.ms)),h("div",{class:"muted tabnum",style:"font-size:13px"},secs(avg)+" per question")),
       h("div",{},h("div",{class:"eyebrow"},"Best streak"),h("div",{class:"tabnum",style:"font:700 26px var(--display)"},r.best)),
-      h("div",{},h("div",{class:"eyebrow"},"vs last time"),p?h("div",{class:"tabnum delta "+(d>0?"up":d<0?"down":""),style:"font:700 26px var(--display)"},(d>0?"+":"")+d+" pts"):h("div",{class:"muted"},"First run of this set"),p?h("div",{class:"muted tabnum",style:"font-size:13px"},"was "+p.pct+"% Â· "+secs(p.ms/p.n)+"/q"):null)),
+      h("div",{},h("div",{class:"eyebrow"},"vs last time"),p?h("div",{class:"tabnum delta "+(d>0?"up":d<0?"down":""),style:"font:700 26px var(--display)"},(d>0?"+":"")+d+" pts"):h("div",{class:"muted"},"First run of this set"),p?h("div",{class:"muted tabnum",style:"font-size:13px"},"was "+p.pct+"% · "+secs(p.ms/p.n)+"/q"):null)),
     run.boss?(r.pct>=80&&run.boss.lives>0&&r.n===15?h("p",{style:"margin:0"},"Boss defeated. The domain badge is yours."):h("p",{style:"margin:0"},"Boss escaped. Finish all 15 with a score of 80% and at least one life remaining.")):(r.pct>=80?h("p",{style:"margin:0"},"That's at or above the 80% practice target."):h("p",{style:"margin:0"},"Under the 80% practice target. Hit the misses below, then run it again.")),
     h("div",{class:"actions"},
       h("button",{class:"btn primary",onclick:()=>startQuiz({id:run.scope.id,label:run.scope.label,keys:run.list.map(x=>x.k)},run.mode,run.list.length)},"Run it again (new order)"),
       misses.length?h("button",{class:"btn",onclick:()=>startQuiz({id:"retry",label:"Retry misses",keys:misses.map(x=>x.k)},run.mode==="blitz"?"think":run.mode,misses.length)},"Retry my "+misses.length+" miss"+(misses.length>1?"es":"")):null,
       h("button",{class:"btn",onclick:()=>{run=null;ui.tab="stats";render();}},"See stats"),
       h("button",{class:"btn",onclick:()=>{run=null;render();}},"New quiz"))];
-  if(misses.length) kids.push(h("h3",{},"Review what you missed"),h("div",{class:"misslist"},misses.map(q=>h("div",{class:"miss"},h("div",{class:"eyebrow"},"Day "+q.d+" Â· "+q.dom),h("div",{},q.q),h("div",{class:"ans"},h("b",{style:"color:var(--ok)"},"Answer: "),q.o[q.a]),h("div",{class:"muted",style:"font-size:14px"},q.why)))));
+  if(misses.length) kids.push(h("h3",{},"Review what you missed"),h("div",{class:"misslist"},misses.map(q=>h("div",{class:"miss"},h("div",{class:"eyebrow"},"Day "+q.d+" · "+q.dom),h("div",{},q.q),h("div",{class:"ans"},h("b",{style:"color:var(--ok)"},"Answer: "),q.o[q.a]),h("div",{class:"muted",style:"font-size:14px"},q.why)))));
   else kids.push(h("p",{style:"margin:0"},"Clean sweep. Nothing to review."));
   return h("section",{class:"panel runner"},kids);
 }
 
 // ---------- game layer ----------
+function byokGet(){try{return JSON.parse(localStorage.getItem(LS+".byok")||"null");}catch(e){return null;}}
+function byokSet(v){try{localStorage.setItem(LS+".byok",JSON.stringify(v));}catch(e){}}
+function extractJson(t){const a=t.indexOf("["),b=t.lastIndexOf("]");return a>=0&&b>a?t.slice(a,b+1):t;}
+async function genViaKey(prompt){
+  const k=byokGet();
+  if(!k||!k.key) throw new Error("Add an API key below first.");
+  if(k.provider==="gemini"){
+    const model=k.model||"gemini-2.0-flash";
+    const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+model+":generateContent?key="+encodeURIComponent(k.key),
+      {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})});
+    if(!r.ok) throw new Error("Gemini error "+r.status+" (check key/model name).");
+    const j=await r.json(); const parts=(((j.candidates||[])[0]||{}).content||{}).parts||[]; const txt=parts.map(p=>p.text||"").join("");
+    return JSON.parse(extractJson(txt));
+  }
+  if(k.provider==="openai"){
+    const model=k.model||"gpt-4o-mini";
+    const r=await fetch("https://api.openai.com/v1/chat/completions",
+      {method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+k.key},
+       body:JSON.stringify({model,messages:[{role:"user",content:prompt}],temperature:0.7})});
+    if(!r.ok) throw new Error("OpenAI error "+r.status+" (check key/model name).");
+    const j=await r.json(); return JSON.parse(extractJson(j.choices[0].message.content));
+  }
+  throw new Error("Unknown provider.");
+}
+function renderByok(){
+  const saved=byokGet();
+  const k=saved||{provider:"gemini",key:"",model:""};
+  const prov=h("select",{onchange:e=>{k.provider=e.target.value;byokSet(k);render();}},[["gemini","Google Gemini"],["openai","OpenAI"]].map(([v,l])=>h("option",{value:v,selected:v===k.provider?true:null},l)));
+  const key=h("input",{type:"password",placeholder:"Paste API key",value:k.key||"",oninput:e=>k.key=e.target.value.trim()});
+  const model=h("input",{type:"text",placeholder:k.provider==="gemini"?"gemini-2.0-flash":"gpt-4o-mini",value:k.model||"",oninput:e=>k.model=e.target.value.trim()});
+  return h("details",{class:"panel",style:"margin-top:12px"},
+    h("summary",{style:"cursor:pointer;font-weight:600"},saved&&saved.key?"Connected: "+saved.provider+" key":"Connect an AI generator (bring your own key)"),
+    h("div",{style:"display:flex;flex-direction:column;gap:10px;margin-top:10px"},
+      h("p",{class:"muted",style:"margin:0;font-size:13px;max-width:70ch"},"This copy has no built-in AI, so paste your own Google Gemini or OpenAI API key. It's stored only in this browser and sent straight to the provider you pick. Never put a key on a device or copy other people use."),
+      h("label",{class:"fld"},"Provider",prov),
+      h("label",{class:"fld"},"API key",key),
+      h("label",{class:"fld"},"Model (optional)",model),
+      h("div",{class:"actions"},h("button",{class:"btn primary",onclick:()=>{byokSet(k);render();}},"Save key"),k.key?h("button",{class:"btn",onclick:()=>{localStorage.removeItem(LS+".byok");render();}},"Clear key"):null)));
+}
 function renderGame(){
   const [title,need]=rank(), next=RANKS.find(([,xp])=>xp>state.xp);
   const missions=missionData(), allDone=missions.every(m=>m.now>=m.goal);
   const bosses=["sc","sec"].flatMap(track=>DOMS[track].map(dom=>({track,dom,name:track==="sc"?"The Identity Impostor":dom.includes("Threats")?"The Insider Threat":dom.includes("Architecture")?"Firewall Warlord":dom.includes("Operations")?"Ransomware King":"The Compliance Collector"})));
   const generated=ui.generated.length?h("div",{class:"misslist",style:"margin-top:12px"},ui.generated.map((q,i)=>h("div",{class:"miss"},
-    h("div",{class:"eyebrow"},q.dom+" Â· candidate"),
+    h("div",{class:"eyebrow"},q.dom+" · candidate"),
     h("div",{},q.q),
     h("div",{class:"ans"},h("b",{},"Answer: "),q.o[q.a]),
     h("div",{class:"actions"},
       h("button",{class:"btn primary",onclick:()=>approveGenerated(i)},"Keep in question bank"),
       h("button",{class:"btn",onclick:()=>{ui.generated.splice(i,1);render();}},"Discard"))))):null;
+  const haveKey=!!(byokGet()&&byokGet().key);
+  const engine=sample?h("span",{class:"chip good"},"Using Claude"):haveKey?h("span",{class:"chip good"},"Using your "+byokGet().provider+" key"):h("span",{class:"chip weak"},"No generator connected");
   return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
     h("section",{class:"panel"},h("div",{class:"game-grid"},
-      h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Current rank"),h("b",{},title),h("div",{class:"tabnum"},state.xp+" XP"+(next?" Â· "+(next[1]-state.xp)+" to "+next[0]:" Â· top rank"))),
-      h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Daily missions "+(allDone?"ðŸ”¥":"")),missions.map(m=>h("div",{class:"mission"},h("i",{},m.now>=m.goal?"âœ“":"â—‹"),h("span",{},m.text,h("span",{class:"muted"}," Â· "+Math.min(m.now,m.goal)+"/"+m.goal))))),
-      h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Achievements"),Object.entries(ACHIEVEMENTS).map(([key,a])=>h("div",{class:"mission"},h("i",{},state.achievements[key]?"â˜…":"â—‹"),h("span",{},a.name,h("span",{class:"muted"}," Â· "+a.desc))))))),
+      h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Current rank"),h("b",{},title),h("div",{class:"tabnum"},state.xp+" XP"+(next?" · "+(next[1]-state.xp)+" to "+next[0]:" · top rank"))),
+      h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Daily missions "+(allDone?"🔥":"")),missions.map(m=>h("div",{class:"mission"},h("i",{},m.now>=m.goal?"✓":"○"),h("span",{},m.text,h("span",{class:"muted"}," · "+Math.min(m.now,m.goal)+"/"+m.goal))))),
+      h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Achievements"),Object.entries(ACHIEVEMENTS).map(([key,a])=>h("div",{class:"mission"},h("i",{},state.achievements[key]?"★":"○"),h("span",{},a.name,h("span",{class:"muted"}," · "+a.desc))))))),
     h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Domain boss fights"),h("p",{class:"muted",style:"margin-top:0"},"Survive a 15-question run with three lives and score at least 80% to clear a boss."),h("div",{class:"game-grid"},bosses.map(b=>{
       const won=state.bosses[b.track+"|"+b.dom];
       const available=Object.values(Q).some(q=>q.track===b.track&&q.dom===b.dom&&q.d<=unlockedDay());
-      return h("div",{class:"game-card boss "+b.track},h("span",{class:"tag "+b.track},TRACK[b.track]),h("b",{},b.name),h("p",{class:"muted",style:"margin:5px 0 12px;font-size:13px"},b.dom),h("button",{class:"btn "+(won?"":"primary"),disabled:available?null:true,onclick:()=>startBoss(b.track,b.dom)},won?"âœ“ Defeated Â· rematch":available?"Challenge boss":"Locked until this domain unlocks"));
+      return h("div",{class:"game-card boss "+b.track},h("span",{class:"tag "+b.track},TRACK[b.track]),h("b",{},b.name),h("p",{class:"muted",style:"margin:5px 0 12px;font-size:13px"},b.dom),h("button",{class:"btn "+(won?"":"primary"),disabled:available?null:true,onclick:()=>startBoss(b.track,b.dom)},won?"✓ Defeated · rematch":available?"Challenge boss":"Locked until this domain unlocks"));
     }))),
-    h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Fresh-question lab"),h("p",{class:"muted",style:"margin-top:0"},"Generate candidate questions for your weakest domain, review them, then keep the good ones in this browser's question bank."),h("div",{class:"actions"},h("button",{class:"btn primary",disabled:sample?null:true,onclick:generateQuestions},sample?"Generate 3 candidates":"Claude generation is unavailable in this browser")),generated));
+    h("section",{class:"panel"},h("div",{class:"row",style:"justify-content:space-between"},h("h2",{style:"margin-bottom:8px"},"Fresh-question lab"),engine),h("p",{class:"muted",style:"margin-top:0"},"Generate candidate questions for your weakest domain, review them, then keep the good ones in this browser's question bank."),h("div",{class:"actions"},h("button",{class:"btn primary",disabled:(ui.genBusy||(!sample&&!haveKey))?true:null,onclick:generateQuestions},ui.genBusy?"Generating…":"Generate 3 candidates")),ui.genErr?h("div",{class:"why bad",style:"margin-top:10px"},ui.genErr):null,generated,(!sample)?renderByok():null));
 }
 async function generateQuestions(){
-  if(!sample) return;
+  if(ui.genBusy) return;
   const hist=qHistory(), scores=["sc","sec"].flatMap(track=>DOMS[track].map(dom=>{const qs=Object.values(Q).filter(q=>q.track===track&&q.dom===dom);const seen=qs.map(q=>hist[q.k]).filter(Boolean);const accuracy=seen.length?seen.reduce((n,r)=>n+r.ok/r.seen,0)/seen.length:0;return {track,dom,accuracy};})).sort((a,b)=>a.accuracy-b.accuracy);
   const target=scores[0];
-  ui.generated=[]; render();
+  const dayCandidates=Object.values(Q).filter(q=>q.track===target.track&&q.dom===target.dom&&q.d<=unlockedDay()).map(q=>q.d);
+  const day=dayCandidates.length?Math.min(...dayCandidates):(target.track==="sc"?1:13);
+  ui.generated=[]; ui.genErr=null; ui.genBusy=true; render();
   const prompt="Create exactly 3 original multiple-choice practice questions for CompTIA Security+ SY0-701 or Microsoft SC-900. Target domain: "+target.dom+" for "+TRACK[target.track]+". Return only JSON array. Each item must have q (question), o (exactly 4 plausible short answers), a (zero-based correct index), and why (one concise explanation). Avoid copied exam questions, ambiguity, and trivia. Ensure the answer is defensible.";
   try{
-    const result=await sample.json(prompt,{modelTier:"quick"});
+    const result=sample?await sample.json(prompt,{modelTier:"quick"}):await genViaKey(prompt);
     if(!Array.isArray(result)) throw new Error("Unexpected response");
-    ui.generated=result.filter(x=>x&&typeof x.q==="string"&&Array.isArray(x.o)&&x.o.length===4&&Number.isInteger(x.a)&&x.a>=0&&x.a<4).slice(0,3).map((x,i)=>Object.assign(x,{track:target.track,dom:target.dom,d:target.track==="sc"?1:13,k:"generated-"+Date.now()+"-"+i}));
-  }catch(e){ setSync("Question generation failed. Try again later."); }
-  render();
+    ui.generated=result.filter(x=>x&&typeof x.q==="string"&&Array.isArray(x.o)&&x.o.length===4&&Number.isInteger(x.a)&&x.a>=0&&x.a<4).slice(0,3).map((x,i)=>Object.assign(x,{track:target.track,dom:target.dom,d:day,k:"generated-"+Date.now()+"-"+i}));
+    if(!ui.generated.length) ui.genErr="The model didn't return usable questions. Try again.";
+  }catch(e){ ui.genErr=(e&&e.message)||"Question generation failed. Try again later."; }
+  ui.genBusy=false; render();
 }
 function approveGenerated(index){
   const q=ui.generated[index]; if(!q) return;
@@ -729,15 +773,15 @@ function renderCampaign(){
   if(rec.stepIdx>=mission.steps.length){
     const score=rec.answers.filter(a=>a.correct).length;
     return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},
-      h("div",{class:"eyebrow"},"Day "+day+" mission Â· "+mission.domain+" Â· Leon River Water"),
-      h("h2",{},mission.title+" â€” complete"),
+      h("div",{class:"eyebrow"},"Day "+day+" mission · "+mission.domain+" · Leon River Water"),
+      h("h2",{},mission.title+" — complete"),
       h("p",{},"Score: "+score+" / "+mission.steps.length),
       h("div",{class:"story"},mission.debrief),
       h("button",{class:"btn",onclick:()=>{delete state.campaign[day];saveProgress();render();}},"Replay this day's mission"));
   }
   const step=mission.steps[rec.stepIdx], answered=rec.answers[rec.stepIdx];
   const kids=[
-    h("div",{class:"eyebrow"},"Day "+day+" mission Â· "+mission.domain+" Â· Step "+(rec.stepIdx+1)+" / "+mission.steps.length),
+    h("div",{class:"eyebrow"},"Day "+day+" mission · "+mission.domain+" · Step "+(rec.stepIdx+1)+" / "+mission.steps.length),
     h("h2",{},mission.title),
   ];
   if(rec.stepIdx===0) kids.push(h("div",{class:"story"},mission.brief));
@@ -748,7 +792,7 @@ function renderCampaign(){
     kids.push(h("button",{class:"btn primary",onclick:()=>{
       state.campaign[day]={stepIdx:rec.stepIdx+1,answers:rec.answers};
       saveProgress(); render();
-    }},rec.stepIdx+1<mission.steps.length?"Next step â†’":"See debrief"));
+    }},rec.stepIdx+1<mission.steps.length?"Next step →":"See debrief"));
   } else {
     kids.push(h("div",{class:"opts"},step[1].map((choice,i)=>h("button",{class:"opt",onclick:()=>{
       const correct=i===step[2];
@@ -773,8 +817,8 @@ function renderStats(){
   const scR=recent("sc"), secR=recent("sec");
   const tile=(label,val,sub)=>h("div",{class:"tile"},h("span",{class:"eyebrow"},label),h("b",{class:"tabnum"},val),sub?h("span",{class:"muted",style:"font-size:12px"},sub):null);
   const tiles=h("div",{class:"tiles"},
-    tile("SC-900 readiness",scR?scR.p+"%":"â€“",scR?"last "+scR.n+" answers Â· target 80%":"no SC-900 answers yet"),
-    tile("Security+ readiness",secR?secR.p+"%":"â€“",secR?"last "+secR.n+" answers Â· target 80%":"no Sec+ answers yet"),
+    tile("SC-900 readiness",scR?scR.p+"%":"–",scR?"last "+scR.n+" answers · target 80%":"no SC-900 answers yet"),
+    tile("Security+ readiness",secR?secR.p+"%":"–",secR?"last "+secR.n+" answers · target 80%":"no Sec+ answers yet"),
     tile("Tests taken",A.length,items.length+" questions answered"),
     tile("Study streak",streak+(streak===1?" day":" days"),"days in a row with a quiz"));
 
@@ -789,7 +833,7 @@ function renderStats(){
   Object.keys(MODES).forEach(m=>{
     const pts=last.map((a,i)=>[i,a]).filter(([,a])=>a.mode===m);
     if(pts.length>1) svg.append(S("polyline",{points:pts.map(([i,a])=>x(i)+","+y(a.pct)).join(" "),fill:"none",stroke:MODES[m].color,"stroke-width":"2","stroke-opacity":".55"}));
-    pts.forEach(([i,a],j)=>{const c=S("circle",{cx:x(i),cy:y(a.pct),r:j===pts.length-1?5:3.5,fill:MODES[m].color,stroke:"var(--surface)","stroke-width":"1.5"});const tt=S("title",{});tt.textContent=fmtDT(a.ts)+" Â· "+MODES[m].name+" Â· "+a.scope+" Â· "+a.pct+"%";c.append(tt);svg.append(c);});
+    pts.forEach(([i,a],j)=>{const c=S("circle",{cx:x(i),cy:y(a.pct),r:j===pts.length-1?5:3.5,fill:MODES[m].color,stroke:"var(--surface)","stroke-width":"1.5"});const tt=S("title",{});tt.textContent=fmtDT(a.ts)+" · "+MODES[m].name+" · "+a.scope+" · "+a.pct+"%";c.append(tt);svg.append(c);});
   });
   const tl=S("text",{x:L,y:H-6}); tl.textContent=fmtDT(last[0].ts); svg.append(tl);
   const tr=S("text",{x:W-R,y:H-6,"text-anchor":"end"}); tr.textContent=fmtDT(last[last.length-1].ts); svg.append(tr);
@@ -798,27 +842,27 @@ function renderStats(){
   // domains
   const domBars=["sc","sec"].map(t=>h("div",{class:"bars"},h("h3",{},TRACK[t]),DOMS[t].map(dm=>{
     const xs=items.filter(x=>x.q.track===t&&x.q.dom===dm); const p=xs.length?pct(xs.reduce((s,x)=>s+x.ok,0),xs.length):null;
-    return h("div",{class:"bar"},h("span",{},dm),h("span",{class:"track"},p!=null?h("i",{style:`width:${p}%;background:var(--${t})`}):null),h("span",{class:"tabnum",style:"text-align:right"},p!=null?h("span",{class:"chip "+(p>=80?"good":"weak")},p+"%"):h("span",{class:"muted"},"â€“")));
+    return h("div",{class:"bar"},h("span",{},dm),h("span",{class:"track"},p!=null?h("i",{style:`width:${p}%;background:var(--${t})`}):null),h("span",{class:"tabnum",style:"text-align:right"},p!=null?h("span",{class:"chip "+(p>=80?"good":"weak")},p+"%"):h("span",{class:"muted"},"–")));
   })));
 
   // modes
   const modeRows=Object.entries(MODES).map(([m,v])=>{
     const xs=items.filter(x=>x.mode===m); const n=A.filter(a=>a.mode===m).length;
-    return h("tr",{},h("td",{},h("i",{class:"mode-dot",style:"background:"+v.color}),v.name),h("td",{class:"num"},n),h("td",{class:"num"},xs.length?pct(xs.reduce((s,x)=>s+x.ok,0),xs.length)+"%":"â€“"),h("td",{class:"num"},xs.length?secs(xs.reduce((s,x)=>s+x.ms,0)/xs.length):"â€“"));
+    return h("tr",{},h("td",{},h("i",{class:"mode-dot",style:"background:"+v.color}),v.name),h("td",{class:"num"},n),h("td",{class:"num"},xs.length?pct(xs.reduce((s,x)=>s+x.ok,0),xs.length)+"%":"–"),h("td",{class:"num"},xs.length?secs(xs.reduce((s,x)=>s+x.ms,0)/xs.length):"–"));
   });
   const modeTable=h("div",{class:"tablebox"},h("table",{},h("thead",{},h("tr",{},h("th",{},"Mode"),h("th",{class:"num"},"Tests"),h("th",{class:"num"},"Accuracy"),h("th",{class:"num"},"Avg / question"))),h("tbody",{},modeRows)));
 
   // most missed
   const hist=qHistory();
   const missed=Object.entries(hist).filter(([k,r])=>Q[k]&&r.miss>0).sort((a,b)=>b[1].miss-a[1].miss||(b[1].miss/b[1].seen)-(a[1].miss/a[1].seen)).slice(0,8);
-  const missBox=missed.length?h("div",{class:"misslist"},missed.map(([k,r])=>{const q=Q[k];return h("div",{class:"miss"},h("div",{class:"eyebrow"},"Missed "+(Number.isInteger(r.miss)?r.miss:r.miss.toFixed(1))+" of "+r.seen+" Â· Day "+q.d+" Â· "+q.dom),h("div",{},q.q),h("div",{class:"ans"},h("b",{style:"color:var(--ok)"},"Answer: "),q.o[q.a]));}),
+  const missBox=missed.length?h("div",{class:"misslist"},missed.map(([k,r])=>{const q=Q[k];return h("div",{class:"miss"},h("div",{class:"eyebrow"},"Missed "+(Number.isInteger(r.miss)?r.miss:r.miss.toFixed(1))+" of "+r.seen+" · Day "+q.d+" · "+q.dom),h("div",{},q.q),h("div",{class:"ans"},h("b",{style:"color:var(--ok)"},"Answer: "),q.o[q.a]));}),
       h("div",{class:"actions"},h("button",{class:"btn primary",onclick:()=>startQuiz({id:"weak",label:"Most missed",keys:missed.map(m=>m[0])},"written",missed.length)},"Written run on these "+missed.length),h("button",{class:"btn",onclick:()=>startQuiz({id:"weak",label:"Most missed",keys:missed.map(m=>m[0])},"think",missed.length)},"Think run on these"))):h("p",{class:"muted"},"No misses yet.");
 
   // log
   const logRows=A.slice().reverse().slice(0,40).map(a=>{
     const prev=A.filter(b=>b.ts<a.ts&&b.scopeId===a.scopeId&&b.mode===a.mode).slice(-1)[0];
     const d=prev?a.pct-prev.pct:null;
-    return h("tr",{},h("td",{},fmtDT(a.ts)),h("td",{},h("i",{class:"mode-dot",style:"background:"+(MODES[a.mode]||MODES.think).color}),(MODES[a.mode]||{name:a.mode}).name),h("td",{},a.scope),h("td",{class:"num"},a.pct+"%"),h("td",{class:"num",style:d==null?"":"color:var(--"+(d>0?"ok":d<0?"bad":"muted")+")"},d==null?"â€“":(d>0?"+":"")+d),h("td",{class:"num"},secs(a.ms/a.n)));
+    return h("tr",{},h("td",{},fmtDT(a.ts)),h("td",{},h("i",{class:"mode-dot",style:"background:"+(MODES[a.mode]||MODES.think).color}),(MODES[a.mode]||{name:a.mode}).name),h("td",{},a.scope),h("td",{class:"num"},a.pct+"%"),h("td",{class:"num",style:d==null?"":"color:var(--"+(d>0?"ok":d<0?"bad":"muted")+")"},d==null?"–":(d>0?"+":"")+d),h("td",{class:"num"},secs(a.ms/a.n)));
   });
   const logTable=h("div",{class:"tablebox"},h("table",{},h("thead",{},h("tr",{},h("th",{},"When"),h("th",{},"Mode"),h("th",{},"Set"),h("th",{class:"num"},"Score"),h("th",{class:"num"},"Î” same set"),h("th",{class:"num"},"Avg / q"))),h("tbody",{},logRows)));
 
@@ -828,7 +872,7 @@ function renderStats(){
 
   return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
     tiles,
-    h("section",{class:"panel"},h("div",{class:"row",style:"justify-content:space-between;margin-bottom:10px"},h("h3",{},"Score trend Â· last "+last.length+" tests"),chartLegend),h("div",{class:"chartbox"},svg)),
+    h("section",{class:"panel"},h("div",{class:"row",style:"justify-content:space-between;margin-bottom:10px"},h("h3",{},"Score trend · last "+last.length+" tests"),chartLegend),h("div",{class:"chartbox"},svg)),
     h("section",{class:"panel"},h("h3",{style:"margin-bottom:12px"},"Accuracy by exam domain"),h("div",{class:"cols"},domBars),h("p",{class:"muted",style:"font-size:12px;margin:10px 0 0"},"Dashed line = 80% practice target.")),
     h("section",{class:"panel"},h("h3",{style:"margin-bottom:10px"},"Blitz vs Think vs Written"),modeTable,h("p",{class:"muted",style:"font-size:13px;margin:10px 0 0"},"If Think accuracy is much higher than Blitz, you know it but you're slow to recall it. If Written trails both, you're recognizing answers rather than remembering them.")),
     sample?h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:10px"},h("h3",{},"Coach"),h("p",{class:"muted",style:"margin:0;font-size:13px"},"Claude reads your stats above and tells you what to hit next."),insBox,h("div",{class:"actions"},insight_btn)):null,
@@ -838,14 +882,14 @@ function renderStats(){
 let insight={text:"",busy:false};
 async function getInsights(A,items){
   if(!sample||insight.busy) return;
-  insight.busy=true; insight.text="Thinkingâ€¦"; render();
+  insight.busy=true; insight.text="Thinking…"; render();
   const t=todayN();
   const dom=["sc","sec"].flatMap(tr=>DOMS[tr].map(dm=>{const xs=items.filter(x=>x.q.track===tr&&x.q.dom===dm);return TRACK[tr]+" / "+dm+": "+(xs.length?pct(xs.reduce((s,x)=>s+x.ok,0),xs.length)+"% of "+xs.length:"no data");})).join("\n");
   const modes=Object.keys(MODES).map(m=>{const xs=items.filter(x=>x.mode===m);return m+": "+(xs.length?pct(xs.reduce((s,x)=>s+x.ok,0),xs.length)+"% accuracy, "+secs(xs.reduce((s,x)=>s+x.ms,0)/xs.length)+" avg":"none");}).join("\n");
   const log=A.slice(-15).map(a=>fmtDT(a.ts)+" | "+a.mode+" | "+a.scope+" | "+a.pct+"% | "+secs(a.ms/a.n)+"/q").join("\n");
   const hist=qHistory();
   const top=Object.entries(hist).filter(([k,r])=>Q[k]&&r.miss>0).sort((a,b)=>b[1].miss-a[1].miss).slice(0,6).map(([k,r])=>"- "+Q[k].q+" (answer: "+Q[k].o[Q[k].a]+"; missed "+r.miss+"/"+r.seen+")").join("\n");
-  const prompt="You're a blunt, encouraging study coach for RJ, a military veteran preparing for Microsoft SC-900 (exam on day 12 of his plan) and CompTIA Security+ SY0-701 (exam on day 33). Today is day "+t+" of 33. Practice target is 80%.\n\nAccuracy by domain:\n"+dom+"\n\nBy mode:\n"+modes+"\n\nRecent tests:\n"+log+"\n\nMost-missed questions:\n"+top+"\n\nWrite a short plan in plain text, no markdown headers or bold: 1) one sentence on where he stands for the next exam, 2) the 2â€“3 weakest concepts and a one-line plain-English explanation of each, 3) exactly what to run in this quiz app today (scope + mode). Under 180 words.";
+  const prompt="You're a blunt, encouraging study coach for RJ, a military veteran preparing for Microsoft SC-900 (exam on day 12 of his plan) and CompTIA Security+ SY0-701 (exam on day 33). Today is day "+t+" of 33. Practice target is 80%.\n\nAccuracy by domain:\n"+dom+"\n\nBy mode:\n"+modes+"\n\nRecent tests:\n"+log+"\n\nMost-missed questions:\n"+top+"\n\nWrite a short plan in plain text, no markdown headers or bold: 1) one sentence on where he stands for the next exam, 2) the 2–3 weakest concepts and a one-line plain-English explanation of each, 3) exactly what to run in this quiz app today (scope + mode). Under 180 words.";
   try{ await sample(prompt,{cache:false,onText:({text})=>{insight.text=text;const el=document.getElementById("insout");if(el)el.textContent=text;}}); }
   catch(e){ insight.text=(e&&e.text)||(e&&e.code==="rate_limited"?"Too many requests right now. Try again in a bit.":e&&e.code==="not_granted"?"Coaching is off for this page.":"Couldn't reach Claude. Try again."); if(e&&["not_granted","sampling_disabled","not_declared"].includes(e.code)) sample=null; }
   insight.busy=false; render();
