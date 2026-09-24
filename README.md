@@ -1,6 +1,6 @@
 # ExamHelp
 
-SC-900 and CompTIA Security+ SY0-701 study app with a sequential 33-day plan, lessons, quizzes, and progress tracking. Each new day unlocks only after the active day is completed, while completed days remain available for review.
+SC-900 and CompTIA Security+ SY0-701 study app with a sequential 33-day plan, lessons, quizzes, and progress tracking. Each new day unlocks only after all three quiz modes (Think, Blitz, Written) are completed for the active day; completed days remain available for review.
 
 ## Run locally
 
