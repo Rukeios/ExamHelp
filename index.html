@@ -246,7 +246,8 @@ let db=null, sample=null;
 function lsGet(){try{return JSON.parse(localStorage.getItem(LS)||"null");}catch(e){return null;}}
 function lsSet(){try{localStorage.setItem(LS,JSON.stringify({state,attempts:db?[]:attempts}));}catch(e){}}
 const saved=lsGet(); if(saved){ if(saved.state) state=Object.assign(state,saved.state); if(!db && saved.attempts) attempts=saved.attempts; }
-state.done=state.done||{}; state.achievements=state.achievements||{}; state.bosses=state.bosses||{}; state.customQuestions=state.customQuestions||[]; state.campaign=typeof state.campaign==="object"?state.campaign:{step:0,score:0};
+state.done=state.done||{}; state.achievements=state.achievements||{}; state.bosses=state.bosses||{}; state.customQuestions=state.customQuestions||[];
+state.campaign=(state.campaign&&typeof state.campaign==="object"&&!("step" in state.campaign))?state.campaign:{};
 state.customQuestions.forEach(addCustomQuestion);
 let ui={tab:"plan",sel:null,quiz:{scope:"today",mode:"think",n:10},pbq:"firewall",generated:[]};
 try{const u=JSON.parse(localStorage.getItem(LS+".ui")||"null"); if(u){ui.tab=u.tab||ui.tab; Object.assign(ui.quiz,u.quiz||{});}}catch(e){}
@@ -683,28 +684,67 @@ function logsPBQ(){
 }
 
 // ---------- scenario campaign ----------
-const CAMPAIGN=[
-  ["The Badge Clone","A cloned badge appears at a secure office. Which first control limits physical access?","Require badge plus PIN at the door","Disable all network switches","Email the whole company",0,"General concepts"],
-  ["The Strange Invoice","Finance receives an invoice with a shortened link. What should you do first?","Report it through the phishing process without opening it","Open it in a personal browser","Forward it to everyone",0,"Threats & vulns"],
-  ["The New Vendor","A vendor needs a restricted application. Choose the safest design.","Give a least-privilege role with MFA","Share an administrator account","Expose the app directly to the internet",0,"Architecture"],
-  ["The Midnight Alert","EDR flags encoded PowerShell on a workstation. What comes next?","Isolate the endpoint and preserve evidence","Delete all logs","Restart every server",0,"Operations"],
-  ["The Audit Clock","An auditor asks who approved privileged access. What proves it?","Time-bound approval and audit logs","A verbal promise","A shared password list",0,"Program mgmt"]
-];
+// One scenario mission per plan day, tied to that day's topic. state.campaign[day] records the result
+// once answered, so finishing today's mission never marks other days complete.
+const CAMPAIGN={
+  1:["The Shared Responsibility Question","A customer running VMs in Azure IaaS asks who patches the guest OS. What's the correct answer?","The customer patches the guest OS; Microsoft secures the underlying infrastructure","Microsoft patches everything automatically","Neither party is responsible for patching",0,"Concepts"],
+  2:["The Leaked Hash List","A breached forum dump contains password hashes, not plaintext passwords. What does this let you conclude?","Hashing let the site verify passwords without ever storing them in plaintext","The passwords were encrypted and can be decrypted with a key","Hashes are reversible, so the passwords are already exposed",0,"Concepts"],
+  3:["The New Subsidiary","A newly acquired subsidiary needs its own isolated identity boundary, admins, and policies.","Create a separate Microsoft Entra tenant for the subsidiary","Add subsidiary users to the parent tenant with no changes","Give subsidiary staff guest access to everyone's mailbox",0,"Entra"],
+  4:["The Helpdesk Overload","Password reset tickets are overwhelming the helpdesk every Monday morning.","Enable self-service password reset (SSPR) with registered verification methods","Disable password expiration for all accounts","Share a single admin account so nobody needs to reset",0,"Entra"],
+  5:["The Risky Sign-In","A user's credentials are used to sign in from an unfamiliar country minutes after signing in locally.","A Conditional Access policy blocks or forces MFA on the risky sign-in","Nothing, since the password was correct","Disable Conditional Access to let the user in faster",0,"Entra"],
+  6:["Week One Debrief","Your manager asks you to summarize what protects identities and data across concepts and Entra ID so far.","Defense in depth plus Conditional Access and MFA reduce risk at every layer","One strong password is enough if it's long","Zero Trust means trusting anyone already on the corporate network",0,"Review"],
+  7:["The Posture Check","Leadership wants a score showing how secure the company's Azure resources are configured right now.","Check Microsoft Defender for Cloud's secure score and recommendations","Ask each team to self-report informally","Assume everything is fine since nothing has been breached yet",0,"Security solutions"],
+  8:["The Scattered Alerts","Alerts are firing across endpoints, email, and identity with no way to see the full attack story.","Correlate signals in Microsoft Sentinel and Defender XDR for a unified view","Ignore alerts from tools other than antivirus","Manually check each system's logs during major incidents only",0,"Security solutions"],
+  9:["The Sensitive Attachment","An employee tries to email a document labeled Highly Confidential to a personal address.","A Purview DLP policy tied to the sensitivity label blocks or warns on the send","Let it through since the sender is an employee","Delete the sensitivity labeling feature to avoid delays",0,"Compliance"],
+  10:["The Legal Hold","Litigation is pending and legal needs to preserve specific mailboxes untouched.","Place the mailboxes on eDiscovery legal hold so nothing is deleted or altered","Ask users to back up their own email manually","Set retention to zero days for those mailboxes",0,"Compliance"],
+  11:["The Full Review","A study buddy asks you to explain the whole SC-900 story in two sentences before the exam.","Identity, access, and data are protected in layers using Entra, Purview, and Microsoft's security tools under a Zero Trust model","Microsoft 365 has no built-in security, so third-party tools are required for everything","Zero Trust only applies to on-premises networks",0,"Review"],
+  12:["SC-900 Exam Day","You're at the test center about to start the SC-900 exam. What's the smartest move as questions get tough?","Flag uncertain questions, keep moving, and revisit them with time remaining","Spend ten minutes on the first hard question no matter what","Guess randomly on every question you don't instantly recognize",0,"Exam"],
+  13:["The Tailgater","Someone without a badge slips in behind an employee at a secure door.","A mantrap or badge-plus-PIN enforcement point stops the tailgater where a single door can't","Physical security doesn't matter if the network is secure","Post a sign asking people not to tailgate",0,"1 General concepts"],
+  14:["The Cross-Company Email","Two partner companies need to exchange sensitive contracts by email with proof neither side tampered with them.","Use PKI: certificates for encryption and digital signatures for integrity and non-repudiation","Send the contract as a plain text attachment and hope for the best","Rely on the email subject line saying Confidential",0,"1 General concepts"],
+  15:["The CEO Phone Call","Someone calling as the CEO urgently demands a wire transfer, refusing to use normal channels.","Verify the request through a separate, known-good channel before acting, since this looks like BEC social engineering","Process the wire immediately since it's the CEO","Ask the caller to email instead, and trust whatever address they use",0,"2 Threats & vulns"],
+  16:["The Legacy App Finding","A pen test reports a legacy internal app is vulnerable to SQL injection.","Remediate with input validation and parameterized queries, then retest","Take no action since it's an internal-only app","Rename the database tables to hide them from attackers",0,"2 Threats & vulns"],
+  17:["The Ransom Note","A shared drive suddenly shows a ransom note and encrypted files.","Isolate the affected systems immediately and restore from clean backups","Pay the ransom right away to save time","Open the ransom note's link to learn more about the attacker",0,"2 Threats & vulns"],
+  18:["The Unpatched Server","A vulnerability scan flags a critical, unpatched internet-facing server.","Apply the patch through change management and segment the server in the meantime","Leave it exposed since patching might break something","Take the server offline permanently with no remediation plan",0,"2 Threats & vulns"],
+  19:["Domains One and Two Debrief","Summarize the throughline connecting general concepts and threats and vulnerabilities for your team.","Strong controls and awareness reduce the attack surface that threat actors try to exploit","Threats only come from external attackers, never insiders","Once controls are in place, ongoing monitoring isn't necessary",0,"Review"],
+  20:["The Container Rollout","A team wants to deploy a new containerized app quickly using infrastructure as code.","Use IaC templates with security scanning built into the pipeline before deployment","Skip scanning to hit the deadline and fix issues later if noticed","Deploy manually so nothing is written down anywhere",0,"3 Architecture"],
+  21:["The Guest Wi-Fi Request","Visitors need Wi-Fi, but it shouldn't be able to reach internal servers.","Segment guest Wi-Fi onto its own VLAN isolated from the internal network","Put guest devices directly on the corporate network for convenience","Give guests the same credentials as employees",0,"3 Architecture"],
+  22:["The Ransomware Resilience Plan","Leadership wants backups that survive even if ransomware encrypts the network.","Follow a 3-2-1 backup strategy including an offline or immutable copy","Keep backups only on the same network share as production data","Rely solely on RAID for resilience against ransomware",0,"3 Architecture"],
+  23:["The BYOD Request","An employee wants to connect a personal phone to corporate email and Wi-Fi.","Enroll the device in MDM and require WPA3 on a managed Wi-Fi profile","Allow it with no management since it's the employee's own device","Block all wireless access instead of managing devices",0,"4 Operations"],
+  24:["The Visibility Gap","Security can't tell what's happening across endpoints, network, and cloud at the same time.","Deploy EDR and aggregate telemetry into a SIEM for unified monitoring","Check each system's logs manually once a month","Assume no news is good news without any monitoring",0,"4 Operations"],
+  25:["The New Hire Provisioning","A new employee needs system access on day one without excessive privileges.","Grant least-privilege, role-based access with just-in-time elevation when needed","Give the new hire domain admin to save time later","Copy access from the most senior person on the team",0,"4 Operations"],
+  26:["The Active Incident","An intrusion is confirmed and evidence must hold up later if needed.","Follow the incident response playbook and preserve chain of custody for forensic evidence","Immediately wipe and reimage every affected system","Discuss the incident publicly on the company chat right away",0,"4 Operations"],
+  27:["Domains Three and Four Debrief","Explain how architecture and operations work together to protect the environment.","Secure architecture reduces exposure, and strong operations detect and respond to what gets through","Architecture and operations are unrelated concerns handled by different teams forever","Once systems are built securely, no operational monitoring is needed",0,"Review"],
+  28:["The Breach Ownership Question","After a data exposure, leadership asks who is accountable for the affected dataset.","The data owner is accountable for classification and protection decisions per governance policy","Whoever noticed the breach first is automatically responsible","Data roles don't matter once a breach has already happened",0,"5 Program mgmt"],
+  29:["The New Vendor Contract","Before signing with a new vendor that will touch sensitive data, what should happen first?","A third-party risk assessment evaluating the vendor's security posture","Sign immediately since the vendor is well known","Skip due diligence since it's only a short-term contract",0,"5 Program mgmt"],
+  30:["The Annual Requirement","Compliance flags that the yearly external pen test and security awareness training are both due.","Schedule the pen test and refresh awareness training to satisfy compliance and reduce human-factor risk","Skip both since no incidents happened this year","Only do the pen test since training doesn't affect security",0,"5 Program mgmt"],
+  31:["The Rule Order Review","A firewall ruleset allows broad traffic before a final deny-all rule, and something isn't being blocked as expected.","Reorder rules so specific deny rules are evaluated before broader allow rules, since most firewalls apply first match","Add more allow rules to fix the problem","Remove the deny-all rule entirely",0,"4 Operations"],
+  32:["The Full Security+ Review","Summarize the Security+ story across all five domains in one sentence for a study partner.","Strong controls, secure architecture, vigilant operations, and sound governance work together to manage risk","Security+ only covers technical controls, not policy or governance","Once you pass one domain, the others don't matter",0,"Review"],
+  33:["Security+ Exam Day","You're seated for the Security+ exam and hit a run of PBQs. What's the smartest approach?","Work through PBQs methodically, flag ones to revisit, and don't let one question eat all your time","Refuse to answer any PBQ you're not fully sure about","Rush through every PBQ as fast as possible with no review",0,"Exam"]
+};
 function renderCampaign(){
-  const c=state.campaign, scene=CAMPAIGN[c.step];
-  if(!scene) return h("section",{class:"panel"},h("h2",{},"Campaign complete"),h("p",{},"You closed the case with "+c.score+" of "+CAMPAIGN.length+" strong analyst decisions across every Security+ domain."),h("button",{class:"btn primary",onclick:()=>{state.campaign={step:0,score:0};saveProgress();render();}},"Restart campaign"));
-  const choices=h("div",{class:"opts"},scene.slice(2,5).map((choice,i)=>h("button",{class:"opt",onclick:()=>{
-    const correct=i===scene[5];
-    state.campaign={step:c.step+1,score:c.score+(correct?1:0),last:correct?"Your call contained the incident.":"The incident grew, but you documented the lesson."};
-    saveProgress(); render();
-  }},choice)));
-  const feedback=c.last?h("div",{class:"why "+(c.last.startsWith("Your")?"":"bad")},c.last):null;
-  return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},
-    h("div",{class:"eyebrow"},"Mission "+(c.step+1)+" / "+CAMPAIGN.length+" · "+scene[6]),
+  const day=unlockedDay(), scene=CAMPAIGN[day];
+  if(!scene) return h("section",{class:"panel"},h("h2",{},"Campaign"),h("p",{},"Complete Day 1 to start today's mission."));
+  const rec=state.campaign[day];
+  const kids=[
+    h("div",{class:"eyebrow"},"Day "+day+" mission · "+scene[6]),
     h("h2",{},scene[0]),
-    h("div",{class:"story"},scene[1]),
-    choices,
-    feedback);
+    h("div",{class:"story"},scene[1])
+  ];
+  if(rec){
+    kids.push(h("div",{class:"opts"},scene.slice(2,5).map((choice,i)=>h("button",{class:"opt "+(i===scene[5]?"right":i===rec.picked?"wrong":""),disabled:true},choice))));
+    kids.push(h("div",{class:"why "+(rec.correct?"":"bad")},rec.correct?"Correct call. This mission is complete for Day "+day+".":"Not quite. This mission is recorded for Day "+day+" — see the highlighted answer above."));
+    kids.push(h("button",{class:"btn",onclick:()=>{delete state.campaign[day];saveProgress();render();}},"Replay this day's mission"));
+  } else {
+    kids.push(h("div",{class:"opts"},scene.slice(2,5).map((choice,i)=>h("button",{class:"opt",onclick:()=>{
+      const correct=i===scene[5];
+      state.campaign[day]={picked:i,correct,ts:Date.now()};
+      if(correct) state.xp+=15;
+      saveProgress(); render();
+    }},choice))));
+  }
+  const done=Object.keys(state.campaign).length;
+  kids.push(h("p",{class:"muted",style:"font-size:13px;margin:0"},done+" of "+day+" available mission"+(day===1?"":"s")+" completed so far. A new mission unlocks with each new day."));
+  return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},kids);
 }
 
 // ---------- stats ----------
