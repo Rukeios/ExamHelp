@@ -424,28 +424,31 @@ function renderQuizTab(){
   const sc=scopes(); const cur=sc.find(s=>s.id===ui.quiz.scope)||sc[0];
   const seg=(items,val,set)=>h("div",{class:"seg"},items.map(([v,l])=>h("button",{"aria-pressed":String(v===val),onclick:()=>{set(v);saveUI();render();}},l)));
   const avail=cur.keys.length;
+  const wantN=ui.quiz.n>=999?avail:ui.quiz.n;
   return h("section",{class:"panel launch"},
     h("h2",{},"Run a quiz"),
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"What"),seg(sc.map(s=>[s.id,s.label]),cur.id,v=>ui.quiz.scope=v)),
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Mode"),seg(Object.entries(MODES).map(([k,v])=>[k,v.name]),ui.quiz.mode,v=>ui.quiz.mode=v),h("p",{class:"muted",style:"margin:6px 0 0;font-size:13px"},MODES[ui.quiz.mode].desc)),
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"How many"),seg([[5,"5"],[10,"10"],[20,"20"],[40,"40"],[999,"All"]],ui.quiz.n,v=>ui.quiz.n=v)),
-    h("p",{class:"muted",style:"margin:0;font-size:13px"},avail+" questions in this pool. Order and answer positions reshuffle every run, and questions you've missed or never seen come up more often."),
-    h("div",{class:"actions"},h("button",{class:"btn primary",disabled:avail?null:true,onclick:()=>startQuiz(cur,ui.quiz.mode,ui.quiz.n)},avail?"Start "+MODES[ui.quiz.mode].name+" · "+Math.min(avail,ui.quiz.n)+" questions":"Nothing here yet")));
+    h("p",{class:"muted",style:"margin:0;font-size:13px"},avail+" questions in this pool"+(avail&&wantN>avail?" (questions repeat with fresh shuffles to reach "+wantN+")":"")+". Order and answer positions reshuffle every run, and questions you've missed or never seen come up more often."),
+    h("div",{class:"actions"},h("button",{class:"btn primary",disabled:avail?null:true,onclick:()=>startQuiz(cur,ui.quiz.mode,ui.quiz.n)},avail?"Start "+MODES[ui.quiz.mode].name+" · "+wantN+" questions":"Nothing here yet")));
 }
 
 // ---------- runner ----------
 let run=null, tick=null;
-function pick(keys,n,repeat){
+function pick(keys,n){
+  if(!keys.length) return [];
   const hist=qHistory();
   const w=k=>{const r=hist[k];return (r?r.miss*2+(r.miss/r.seen)*2:1.5)+Math.random()*2.2;};
-  const first=shuffle(keys.map(k=>[k,w(k)]).sort((a,b)=>b[1]-a[1]).slice(0,Math.min(n,keys.length)).map(x=>x[0]));
-  if(!repeat||first.length>=n) return first;
+  const ranked=shuffle(keys.map(k=>[k,w(k)]).sort((a,b)=>b[1]-a[1]).map(x=>x[0]));
+  if(n>=999) return ranked;
+  const first=ranked.slice(0,Math.min(n,keys.length));
   while(first.length<n) first.push(...shuffle(keys).slice(0,n-first.length));
   return first;
 }
 function startQuiz(scope,mode,n){
   stopTimer();
-  const keys=pick(scope.keys,n,scope.boss);
+  const keys=pick(scope.keys,n);
   run={scope:{id:scope.id,label:scope.label},mode,list:keys.map(k=>{const q=Q[k];const order=shuffle([0,1,2,3].slice(0,q.o.length));return {k,q,order};}),i:0,res:[],t0:Date.now(),qt:Date.now(),answered:null,streak:0,best:0,finished:false,written:{text:"",revealed:false,ai:null,busy:false}};
   ui.tab="quiz"; render(); window.scrollTo(0,0);
   if(mode==="blitz") startTimer();
