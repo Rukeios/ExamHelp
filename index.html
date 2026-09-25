@@ -162,8 +162,13 @@ td.num{font-variant-numeric:tabular-nums;text-align:right} th.num{text-align:rig
 @keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 .pbq-list{display:flex;flex-direction:column;gap:9px}
 .drag-item,.drop-slot{padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);font-size:14px}
-.drag-item{cursor:grab}.drop-slot{min-height:42px;background:var(--sunk)}
-.drag-item:active{cursor:grabbing}.logline{width:100%;text-align:left;border:1px solid var(--line);background:var(--sunk);padding:7px 9px;font:12px var(--mono)}
+.drag-item{cursor:pointer;user-select:none}.drop-slot{min-height:42px;background:var(--sunk);cursor:pointer;user-select:none}
+.drag-item.picked{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink) inset}
+.drop-slot.filled{cursor:pointer}
+.pbq-row{display:flex;align-items:center;gap:8px}
+.pbq-row .drag-item{flex:1;margin:0}
+.pbq-row button{padding:6px 10px;flex:0 0 auto}
+.logline{width:100%;text-align:left;border:1px solid var(--line);background:var(--sunk);padding:7px 9px;font:12px var(--mono)}
 .logline.flagged{border-color:var(--bad);background:var(--badbg)}
 .story{border-left:4px solid var(--violet);padding:12px 14px;background:var(--sunk);border-radius:0 6px 6px 0;max-width:70ch}
 @media (max-width:720px){nav.tabs{overflow-x:auto}nav.tabs button{flex:0 0 auto}}
@@ -702,8 +707,8 @@ function approveGenerated(index){
 }
 
 // ---------- PBQ simulators ----------
-let pbq={firewall:["Allow HTTPS from any","Deny 203.0.113.77","Allow admin SSH from 10.10.0.0/16"],port:{},logs:[],attack:"",
-  packet:{topo:{},ipA:"",ipS:"",acl:{https:"",telnet:"",mgmt:""},checked:false}};
+let pbq={firewall:["Allow HTTPS from any","Deny 203.0.113.77","Allow admin SSH from 10.10.0.0/16"],port:{},portPick:null,logs:[],attack:"",
+  packet:{topo:{},ipA:"",ipS:"",acl:{https:"",telnet:"",mgmt:""},checked:false,pick:null}};
 function renderPBQ(){
   const modes=[["firewall","Firewall builder"],["port","Port match"],["logs","Log hunt"],["packet","Packet tracer"]];
   const selector=h("div",{class:"seg"},modes.map(([id,label])=>h("button",{"aria-pressed":String(ui.pbq===id),onclick:()=>{ui.pbq=id;render();}},label)));
@@ -712,12 +717,22 @@ function renderPBQ(){
 function firewallPBQ(){
   const correct=["Deny 203.0.113.77","Allow admin SSH from 10.10.0.0/16","Allow HTTPS from any"];
   const test=pbq.firewall.join("|")===correct.join("|");
-  return h("section",{class:"panel"},h("h2",{},"Firewall builder"),h("p",{class:"muted"},"Drag the rules into evaluation order. The compromised IP must be denied before broad access is allowed."),h("div",{class:"pbq-list"},pbq.firewall.map((rule,i)=>h("div",{class:"drag-item",draggable:true,ondragstart:e=>e.dataTransfer.setData("text/plain",String(i)),ondragover:e=>e.preventDefault(),ondrop:e=>{e.preventDefault();const from=Number(e.dataTransfer.getData("text/plain"));[pbq.firewall[from],pbq.firewall[i]]=[pbq.firewall[i],pbq.firewall[from]];render();}},(i+1)+". "+rule))),h("div",{class:"actions",style:"margin-top:12px"},h("button",{class:"btn primary",onclick:()=>{pbq.firewall.checked=true;render();}},"Run test packets"),h("button",{class:"btn",onclick:()=>{pbq.firewall=shuffle(correct);pbq.firewall.checked=false;render();}},"Reset")),pbq.firewall.checked?h("div",{class:"why "+(test?"":"bad"),style:"margin-top:12px"},h("b",{},test?"Packets handled correctly. ":"A malicious packet was allowed. "),test?"203.0.113.77 is blocked before HTTPS traffic can match the allow rule.":"Put the specific deny rule first; firewall rules stop evaluating after the first match."):null);
+  const rows=pbq.firewall.map((rule,i)=>h("div",{class:"pbq-row"},
+    h("div",{class:"drag-item"},(i+1)+". "+rule),
+    h("button",{class:"btn",disabled:i===0?true:null,onclick:()=>{[pbq.firewall[i-1],pbq.firewall[i]]=[pbq.firewall[i],pbq.firewall[i-1]];pbq.firewall.checked=false;render();}},"↑"),
+    h("button",{class:"btn",disabled:i===pbq.firewall.length-1?true:null,onclick:()=>{[pbq.firewall[i+1],pbq.firewall[i]]=[pbq.firewall[i],pbq.firewall[i+1]];pbq.firewall.checked=false;render();}},"↓")));
+  return h("section",{class:"panel"},h("h2",{},"Firewall builder"),h("p",{class:"muted"},"Use the arrows to put the rules in evaluation order. The compromised IP must be denied before broad access is allowed."),h("div",{class:"pbq-list"},rows),h("div",{class:"actions",style:"margin-top:12px"},h("button",{class:"btn primary",onclick:()=>{pbq.firewall.checked=true;render();}},"Run test packets"),h("button",{class:"btn",onclick:()=>{pbq.firewall=shuffle(correct);pbq.firewall.checked=false;render();}},"Reset")),pbq.firewall.checked?h("div",{class:"why "+(test?"":"bad"),style:"margin-top:12px"},h("b",{},test?"Packets handled correctly. ":"A malicious packet was allowed. "),test?"203.0.113.77 is blocked before HTTPS traffic can match the allow rule.":"Put the specific deny rule first; firewall rules stop evaluating after the first match."):null);
 }
 function portPBQ(){
   const answers={22:"SSH",53:"DNS",443:"HTTPS",3389:"RDP"}, protocols=Object.values(answers);
   const placed=Object.values(pbq.port).filter(Boolean).length, correct=Object.entries(answers).every(([port,p])=>pbq.port[port]===p);
-  return h("section",{class:"panel"},h("h2",{},"Port match"),h("p",{class:"muted"},"Drag each protocol onto its default port."),h("div",{class:"game-grid"},protocols.filter(p=>!Object.values(pbq.port).includes(p)).map(p=>h("div",{class:"drag-item",draggable:true,ondragstart:e=>e.dataTransfer.setData("text/plain",p)},p)),Object.keys(answers).map(port=>h("div",{class:"drop-slot",ondragover:e=>e.preventDefault(),ondrop:e=>{e.preventDefault();pbq.port[port]=e.dataTransfer.getData("text/plain");render();}},h("b",{},port),": ",pbq.port[port]||"Drop protocol here"))),h("div",{class:"actions",style:"margin-top:12px"},h("button",{class:"btn primary",disabled:placed===4?null:true,onclick:()=>{pbq.port.checked=true;render();}},"Check matches"),h("button",{class:"btn",onclick:()=>{pbq.port={};render();}},"Reset")),pbq.port.checked?h("div",{class:"why "+(correct?"":"bad"),style:"margin-top:12px"},correct?"Clean port match.":"Review defaults: SSH 22, DNS 53, HTTPS 443, and RDP 3389."):null);
+  const pool=protocols.filter(p=>!Object.values(pbq.port).includes(p));
+  const paletteRow=h("div",{class:"game-grid"},pool.map(p=>h("div",{class:"drag-item"+(pbq.portPick===p?" picked":""),onclick:()=>{pbq.portPick=pbq.portPick===p?null:p;render();}},p)));
+  const slots=Object.keys(answers).map(port=>h("div",{class:"drop-slot"+(pbq.port[port]?" filled":""),onclick:()=>{
+    if(pbq.port[port]){ pbq.port[port]=null; render(); return; }
+    if(pbq.portPick){ pbq.port[port]=pbq.portPick; pbq.portPick=null; pbq.port.checked=false; render(); }
+  }},h("b",{},port),": ",pbq.port[port]||"Tap here after picking a protocol"));
+  return h("section",{class:"panel"},h("h2",{},"Port match"),h("p",{class:"muted"},"Tap a protocol, then tap its default port. Tap a filled port to clear it."),h("div",{class:"game-grid"},paletteRow),h("div",{class:"pbq-list",style:"margin-top:10px"},slots),h("div",{class:"actions",style:"margin-top:12px"},h("button",{class:"btn primary",disabled:placed===4?null:true,onclick:()=>{pbq.port.checked=true;render();}},"Check matches"),h("button",{class:"btn",onclick:()=>{pbq.port={};pbq.portPick=null;render();}},"Reset")),pbq.port.checked?h("div",{class:"why "+(correct?"":"bad"),style:"margin-top:12px"},correct?"Clean port match.":"Review defaults: SSH 22, DNS 53, HTTPS 443, and RDP 3389."):null);
 }
 const PACKET_DEVICES=["Access switch (LAN A)","Border router","Firewall","Access switch (LAN B)","Wireless AP"];
 const PACKET_SLOTS=[
@@ -732,10 +747,13 @@ function packetPBQ(){
   const p=pbq.packet;
   const used=Object.values(p.topo).filter(Boolean);
   const pool=PACKET_DEVICES.filter(d=>!used.includes(d));
-  const topoRow=h("div",{class:"pbq-list"},PACKET_SLOTS.map(([id,label])=>
-    h("div",{class:"drop-slot",ondragover:e=>e.preventDefault(),ondrop:e=>{e.preventDefault();p.topo[id]=e.dataTransfer.getData("text/plain");render();}},
-      h("b",{},label),": ",p.topo[id]||"Drop a device here")));
-  const paletteRow=h("div",{class:"game-grid"},pool.map(d=>h("div",{class:"drag-item",draggable:true,ondragstart:e=>e.dataTransfer.setData("text/plain",d)},d)));
+  const topoRow=h("div",{class:"pbq-list"},PACKET_SLOTS.map(([id,label,dev])=>
+    h("div",{class:"drop-slot"+(p.topo[id]?" filled":""),onclick:()=>{
+      if(p.topo[id]){ p.topo[id]=null; p.checked=false; render(); return; }
+      if(p.pick){ p.topo[id]=p.pick; p.pick=null; p.checked=false; render(); }
+    }},
+      h("b",{},label),": ",p.topo[id]||"Tap here after picking a device")));
+  const paletteRow=h("div",{class:"game-grid"},pool.map(d=>h("div",{class:"drag-item"+(p.pick===d?" picked":""),onclick:()=>{p.pick=p.pick===d?null:d;render();}},d)));
   const ipA=h("select",{onchange:e=>{p.ipA=e.target.value;render();}},h("option",{value:""},"Choose PC-A's address"),PACKET_IPS.a.opts.map(o=>h("option",{value:o,selected:o===p.ipA?true:null},o)));
   const ipS=h("select",{onchange:e=>{p.ipS=e.target.value;render();}},h("option",{value:""},"Choose the server's address"),PACKET_IPS.s.opts.map(o=>h("option",{value:o,selected:o===p.ipS?true:null},o)));
   const aclRows=PACKET_ACL.map(([id,label])=>h("div",{class:"row",style:"justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)"},
@@ -753,7 +771,7 @@ function packetPBQ(){
       h("div",{},(ipOk?"✓ ":"✗ ")+"Addressing: PC-A and the server are on the correct subnets"+(ipOk?"":" (an address doesn't match its LAN's subnet)")),
       h("div",{},(aclOk?"✓ ":"✗ ")+"Firewall ACL: HTTPS allowed, Telnet and remote SSH management denied"+(aclOk?"":" (at least one rule is backwards)")))):null;
   return h("section",{class:"panel"},h("h2",{},"Packet tracer"),
-    h("p",{class:"muted"},"Build the path from PC-A to the server: place the devices in order, assign each endpoint's IP address, then set the firewall's ACL. Send a test packet to see if it's delivered."),
+    h("p",{class:"muted"},"Build the path from PC-A to the server: tap a device, then tap the slot it belongs in (tap a filled slot to clear it). Assign each endpoint's IP address, set the firewall's ACL, then send a test packet to see if it's delivered."),
     h("h3",{style:"margin:14px 0 8px;font-size:15px"},"1. Network devices"),paletteRow,topoRow,
     h("h3",{style:"margin:14px 0 8px;font-size:15px"},"2. Addressing"),h("div",{class:"row",style:"gap:16px;flex-wrap:wrap"},h("label",{class:"fld"},"PC-A",ipA),h("label",{class:"fld"},"Server",ipS)),
     h("h3",{style:"margin:14px 0 8px;font-size:15px"},"3. Firewall ACL"),aclRows,
