@@ -243,16 +243,18 @@ function midnight(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate());}
 function dayDate(n){const s=parseDate(state.start);s.setDate(s.getDate()+n-1);return s;}
 function todayN(){return Math.floor((midnight(new Date())-parseDate(state.start))/864e5)+1;}
 function unlockedDay(){const next=DAYS.find(d=>!state.done[d.d]);return next?next.d:33;}
+const allDaysComplete=()=>DAYS.every(d=>!!state.done[d.d]);
+function todayISO(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 
 // ---------- state + storage ----------
 const LS="sprint.v2";
-let state={start:"2026-09-24",done:{},xp:0,achievements:{},bosses:{},customQuestions:[],campaign:0};
+let state={start:"2026-09-24",done:{},xp:0,achievements:{},bosses:{},customQuestions:[],campaign:0,prestige:0};
 let attempts=[];
 let db=null, sample=null;
 function lsGet(){try{return JSON.parse(localStorage.getItem(LS)||"null");}catch(e){return null;}}
 function lsSet(){try{localStorage.setItem(LS,JSON.stringify({state,attempts:db?[]:attempts}));}catch(e){}}
 const saved=lsGet(); if(saved){ if(saved.state) state=Object.assign(state,saved.state); if(!db && saved.attempts) attempts=saved.attempts; }
-state.done=state.done||{}; state.achievements=state.achievements||{}; state.bosses=state.bosses||{}; state.customQuestions=state.customQuestions||[];
+state.done=state.done||{}; state.achievements=state.achievements||{}; state.bosses=state.bosses||{}; state.customQuestions=state.customQuestions||[]; state.prestige=state.prestige||0;
 state.campaign=(state.campaign&&typeof state.campaign==="object"&&!("step" in state.campaign))?state.campaign:{};
 state.customQuestions.forEach(addCustomQuestion);
 let ui={tab:"plan",sel:null,quiz:{scope:"today",mode:"think",n:10},pbq:"firewall",generated:[]};
@@ -359,6 +361,21 @@ document.getElementById("start").addEventListener("change",e=>{ if(e.target.valu
 document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>{ if(run&&!run.finished) stopTimer(); run=null; ui.tab=b.dataset.tab; saveUI(); render(); window.scrollTo(0,0); }));
 
 // ---------- plan view ----------
+function doPrestige(){
+  if(!confirm("Prestige resets EVERYTHING: day completion, quiz history, XP, rank, achievements, bosses, campaign progress, and any custom questions you generated. You'll start the 33-day plan over from Day 1.\n\nHarder questions, bosses, PBQs, and campaign missions are planned for a future update but are NOT in this version yet, so a prestige run uses the same content again.\n\nContinue?")) return;
+  const prestige=(state.prestige||0)+1;
+  state={start:todayISO(),done:{},xp:0,achievements:{},bosses:{},customQuestions:[],campaign:{},prestige};
+  attempts=[]; Object.keys(Q).forEach(k=>{ if(k.startsWith("generated-")) delete Q[k]; });
+  saveProgress(); ui.sel=null; ui.tab="plan"; saveUI(); render(); window.scrollTo(0,0);
+}
+function prestigeBanner(){
+  if(!allDaysComplete()) return null;
+  return h("section",{class:"panel",style:"border:1px solid var(--gold);display:flex;flex-direction:column;gap:8px"},
+    h("div",{class:"row",style:"justify-content:space-between;align-items:center"},
+      h("h2",{style:"margin:0"},"All 33 days complete"+(state.prestige?" · Prestige "+state.prestige:"")),
+      h("button",{class:"btn primary",onclick:doPrestige},"Prestige · reset and run it again")),
+    h("p",{class:"muted",style:"margin:0;font-size:13px;max-width:70ch"},"Prestige wipes your progress so you can drill the full plan again from Day 1. A harder tier (tougher questions, bosses, PBQs, and campaign) is planned for a future update, not this one, so for now a prestige run repeats the same content."));
+}
 function renderPlan(){
   const t=todayN(), current=unlockedDay(); if(ui.sel==null||ui.sel>current) ui.sel=current;
   const strip=h("div",{class:"strip",role:"list"});
@@ -375,7 +392,7 @@ function renderPlan(){
     h("span",{},h("i",{class:"sw",style:"background:var(--gold);border-radius:50%;width:8px;height:8px"}),"Exam"),
     h("span",{},h("i",{class:"sw",style:"box-shadow:inset 0 0 0 2px var(--gold)"}),"Today"),
     h("span",{class:"tabnum"},Object.keys(state.done).length+" / 33 days done · Day "+current+" is active"));
-  return h("div",{style:"display:flex;flex-direction:column;gap:14px"},strip,legend,lessonPanel(BYDAY[ui.sel]));
+  return h("div",{style:"display:flex;flex-direction:column;gap:14px"},prestigeBanner(),strip,legend,lessonPanel(BYDAY[ui.sel]));
 }
 function modesCompleted(scopeId){
   return new Set(attempts.filter(a=>a.scopeId===scopeId).map(a=>a.mode));
