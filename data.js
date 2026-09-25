@@ -14,7 +14,12 @@ q:[
 ["Which is NOT one of the three Zero Trust principles?",["Trust traffic on the corporate network","Verify explicitly","Use least-privilege access","Assume breach"],0,"Zero Trust exists to kill the idea that 'inside the network' means trusted."],
 ["An attacker changes the dollar amounts on invoices in a database. Which part of CIA is hit?",["Integrity","Confidentiality","Availability","Authentication"],0,"Unauthorized change to data is an integrity problem. Nobody needed to read it or knock it offline."],
 ["Stacking physical, identity, network, and data protections so one failure doesn't expose everything is called:",["Defense in depth","Zero Trust","Shared responsibility","Least privilege"],0,"Defense in depth = multiple layers, each one slowing the attacker."],
-["In IaaS, who manages the physical host servers?",["Microsoft (the cloud provider)","The customer","Both equally","Nobody; it's automated"],0,"The physical datacenter, network, and hosts are always the provider's responsibility."]]},
+["In IaaS, who manages the physical host servers?",["Microsoft (the cloud provider)","The customer","Both equally","Nobody; it's automated"],0,"The physical datacenter, network, and hosts are always the provider's responsibility."],
+["A hospital encrypts patient records so only treating staff can open them. Which part of CIA is this protecting?",["Confidentiality","Integrity","Availability","Non-repudiation"],0,"Keeping data readable only to the right people is confidentiality."],
+["A ransomware attack locks a company out of its own files. Which part of CIA is directly hit?",["Availability","Confidentiality","Integrity","Authentication"],0,"If authorized users can't reach the data, availability is the casualty."],
+["In PaaS, who is responsible for the application code and its configuration?",["The customer","Microsoft","Nobody","The end user's ISP"],0,"In PaaS the provider runs the platform, but the customer still owns their apps, data, and accounts."],
+["Which Zero Trust principle means giving users only the access they need for their task?",["Use least-privilege access","Verify explicitly","Assume breach","Trust the internal network"],0,"Least privilege limits what a compromised account can reach."],
+["A guard checking badges, a locked server room, and disk encryption together are an example of:",["Defense in depth","Shared responsibility","A honeypot","A managed identity"],0,"Multiple independent layers protecting the same asset is defense in depth."]]},
 
 {d:2,track:"sc",dom:"Concepts",min:60,title:"Encryption, hashing, GRC, and identity concepts",
 pts:[
@@ -32,7 +37,12 @@ q:[
 ["A user signs in fine, then gets denied when opening the payroll folder. The denial is an example of:",["Authorization","Authentication","Federation","Hashing"],0,"They already proved who they are (authN). What they're allowed to touch is authZ."],
 ["Company A's employees use Company B's apps with their own Company A credentials, thanks to a trust between the two identity providers. This is:",["Federation","Hashing","Encryption in transit","Defense in depth"],0,"Federation = a trust relationship between separate identity providers."],
 ["Which type of encryption uses a public key and a private key?",["Asymmetric","Symmetric","Hashing","Salting"],0,"Asymmetric = key pair. Symmetric = one shared key."],
-["In GRC, the 'C' stands for what?",["Compliance: following laws, regulations, and standards","Confidentiality: keeping data secret","Control: blocking access","Certification: passing audits"],0,"Governance, Risk, Compliance."]]},
+["In GRC, the 'C' stands for what?",["Compliance: following laws, regulations, and standards","Confidentiality: keeping data secret","Control: blocking access","Certification: passing audits"],0,"Governance, Risk, Compliance."],
+["Two servers share one secret key to encrypt traffic between them quickly. This is:",["Symmetric encryption","Asymmetric encryption","Hashing","Salting"],0,"One shared key for both directions is symmetric, and it's fast."],
+["A website proves a downloaded file wasn't tampered with by publishing its fixed-length fingerprint. That fingerprint is a:",["Hash","Private key","Digital certificate","Salt"],0,"A hash is a one-way, fixed-length fingerprint used to verify integrity."],
+["Signing into your laptop, then your email, then a cloud app with a single sign-in is:",["Single sign-on (SSO)","Federation","Multifactor authentication","Hashing"],0,"SSO = authenticate once, reach many apps."],
+["In GRC, setting the internal policies and rules an organization follows is the:",["Governance","Risk","Compliance","Authentication"],0,"Governance is the org's own rules and oversight."],
+["Which classic on-premises directory service stores users, groups, and computers for a Windows domain?",["Active Directory Domain Services","Microsoft Sentinel","Azure Key Vault","Microsoft Purview"],0,"AD DS is the traditional on-prem directory."]]},
 
 {d:3,track:"sc",dom:"Entra",min:75,title:"Microsoft Entra ID: tenants, identity types, hybrid, external users",
 pts:[
@@ -49,7 +59,12 @@ q:[
 ["What syncs on-prem Active Directory users to Microsoft Entra ID?",["Microsoft Entra Connect","Microsoft Sentinel","Azure Bastion","Microsoft Purview"],0,"Entra Connect (Sync or Cloud Sync) is the hybrid identity bridge."],
 ["A contractor from a partner company needs one SharePoint site using their own work email. What fits?",["B2B collaboration (guest access)","Create a new member account and share the password","Managed identity","Security defaults"],0,"B2B lets outside users sign in with their own identity as guests."],
 ["Azure Active Directory is now called:",["Microsoft Entra ID","Microsoft Defender ID","Microsoft Purview ID","Azure Identity Hub"],0,"Renamed in 2023. The exam uses Entra naming."],
-["An employee's personal phone, used to check work email, is best described as:",["Microsoft Entra registered","Microsoft Entra joined","Hybrid joined","A managed identity"],0,"Registered = personal/BYOD. Joined = org-owned."]]},
+["An employee's personal phone, used to check work email, is best described as:",["Microsoft Entra registered","Microsoft Entra joined","Hybrid joined","A managed identity"],0,"Registered = personal/BYOD. Joined = org-owned."],
+["A company-owned laptop is joined directly to the cloud with no on-prem AD. Its device state is:",["Microsoft Entra joined","Microsoft Entra registered","Hybrid joined","Federated"],0,"Org-owned, cloud-only = Entra joined."],
+["An app registered in a tenant so it can sign in and access resources uses a:",["Service principal","Guest account","Security group","Sensitivity label"],0,"A service principal is an application's identity in the tenant."],
+["A security group's main purpose in Entra ID is to:",["Manage access to resources for a set of users","Send group email only","Store passwords","Replace MFA"],0,"Security groups grant access to many users at once."],
+["A partner engineer needs access using their own company credentials, appearing as a guest. This is enabled by:",["Microsoft Entra External ID (B2B)","Managed identities","Security defaults","Hybrid join"],0,"B2B collaboration lets external users in as guests with their own identity."],
+["Which tool provides one identity across on-prem AD and the cloud by syncing them?",["Microsoft Entra Connect","Azure Bastion","Defender for Cloud","Compliance Manager"],0,"Entra Connect creates hybrid identity by syncing on-prem AD to Entra ID."]]},
 
 {d:4,track:"sc",dom:"Entra",min:75,title:"Entra authentication: MFA, passwordless, SSPR, password protection",
 pts:[
@@ -65,7 +80,12 @@ q:[
 ["The company wants to stop users picking passwords containing 'Contoso'. Use:",["A custom banned password list","SSPR","Smart lockout","Security defaults"],0,"Custom banned lists block org-specific words."],
 ["A small business with no premium licenses wants MFA for everyone fast. Best option?",["Turn on security defaults","Build Conditional Access policies","Deploy Microsoft Sentinel","Configure PIM"],0,"Security defaults are free. Conditional Access needs P1."],
 ["Which of these is a passwordless method?",["Windows Hello for Business","A longer, more complex password","Password plus security questions","Password that expires every 30 days"],0,"Windows Hello replaces the password with a device-bound PIN or biometric."],
-["The help desk is buried in password reset tickets. What reduces them?",["Self-service password reset (SSPR)","Privileged Identity Management","Access reviews","Entra Connect"],0,"SSPR lets users fix it themselves."]]},
+["The help desk is buried in password reset tickets. What reduces them?",["Self-service password reset (SSPR)","Privileged Identity Management","Access reviews","Entra Connect"],0,"SSPR lets users fix it themselves."],
+["Signing in with a fingerprint on a device instead of typing a password is:",["Passwordless authentication","Two passwords","Federation","A banned password list"],0,"Biometric device sign-in replaces the password entirely."],
+["A phishing-resistant physical device you tap or plug in to sign in is a:",["FIDO2 security key","One-time SMS code","Security question","A longer password"],0,"FIDO2 keys and passkeys are phishing-resistant passwordless methods."],
+["Which weakest-but-allowed MFA method should be avoided when stronger options exist?",["SMS text codes","FIDO2 key","Windows Hello","Authenticator push"],0,"SMS and voice are the weakest MFA methods, vulnerable to SIM swapping."],
+["Password + fingerprint combines which two factor types?",["Something you know and something you are","Something you have and somewhere you are","Two things you know","Two things you have"],0,"A password is 'know'; a fingerprint is 'are'. Different types = true MFA."],
+["Smart lockout is designed to:",["Lock out attackers guessing passwords while still letting the real user in","Delete accounts after failed logins","Reset all passwords nightly","Encrypt the password database"],0,"Smart lockout blocks brute-force attempts without punishing the legitimate user."]]},
 
 {d:5,track:"sc",dom:"Entra",min:90,title:"Entra access: Conditional Access, roles, ID Protection, ID Governance",
 pts:[
@@ -82,7 +102,12 @@ q:[
 ["Admins should get Global Admin only for 2 hours at a time, after approval. Use:",["Privileged Identity Management","Entitlement management","ID Protection","B2B collaboration"],0,"Just-in-time, time-bound, approval-based admin = PIM."],
 ["Every quarter, managers must confirm their team still needs access to a finance app. Use:",["Access reviews","PIM","Conditional Access","Entra Connect"],0,"Recurring re-certification of access = access reviews."],
 ["A sign-in from an anonymous IP address gets flagged as high risk. Which feature detects this?",["Microsoft Entra ID Protection","Purview DLP","Azure Firewall","Compliance Manager"],0,"ID Protection scores sign-in risk and user risk."],
-["New marketing hires request one bundle of groups, apps, and sites that expires after 90 days. Use:",["An entitlement management access package","PIM","Security defaults","A managed identity"],0,"Access packages bundle resources with approval and expiration."]]},
+["New marketing hires request one bundle of groups, apps, and sites that expires after 90 days. Use:",["An entitlement management access package","PIM","Security defaults","A managed identity"],0,"Access packages bundle resources with approval and expiration."],
+["Sign in from a managed, compliant device gets full access; an unmanaged device is blocked. This is enforced by:",["Conditional Access","Security defaults","SSPR","Entra Connect"],0,"Device compliance is a signal Conditional Access can act on."],
+["Which feature flags a sign-in as risky when credentials appear in a known leak?",["Microsoft Entra ID Protection","Compliance Manager","Azure Firewall","Defender for Office 365"],0,"ID Protection detects risky users and sign-ins, including leaked credentials."],
+["Giving an admin the User Administrator role instead of Global Administrator follows which principle?",["Least privilege","Assume breach","Federation","Non-repudiation"],0,"Grant the narrowest role that does the job."],
+["A digital credential a person holds on their device and presents to prove something about themselves is:",["Microsoft Entra Verified ID","A managed identity","A security group","A retention label"],0,"Verified ID issues and verifies holder-presented digital credentials."],
+["Which is the best fit for 'activate my admin role only for 4 hours, with approval, then it expires'?",["Privileged Identity Management","Security defaults","Access packages","Conditional Access"],0,"PIM provides just-in-time, time-bound, approved admin access."]]},
 
 {d:6,track:"sc",kind:"review",title:"Review: concepts + Entra",from:[1,2,3,4,5],n:12,
 pts:["Run it three ways|Do a Think run first to learn from each explanation, then a Blitz run to test recall under time, then a Written run on anything that still feels shaky.","Target|Aim for 80% or better in Blitz before moving on. Entra is 25–30% of the exam, so it's worth the extra rep."]},
@@ -103,7 +128,12 @@ q:[
 ["Protect a public website from SQL injection attacks. Use:",["Web Application Firewall","Azure DDoS Protection","Azure Bastion","Microsoft Entra Connect"],0,"WAF inspects web requests for attacks like SQLi and XSS."],
 ["Which gives you a Secure Score showing how well your cloud resources are configured?",["Microsoft Defender for Cloud","Microsoft Sentinel","Purview Compliance Manager","Entra ID Protection"],0,"Secure Score comes from Defender for Cloud's posture management. Compliance Manager has a compliance score instead."],
 ["Store an API key and TLS certificates for your apps. Use:",["Azure Key Vault","A network security group","Azure Bastion","Service Trust Portal"],0,"Key Vault holds secrets, keys, and certificates."],
-["Block inbound port 3389 to one subnet with a simple rule. Use:",["A network security group","Azure Key Vault","Defender for Office 365","Entra Verified ID"],0,"NSGs are the simple allow/deny rule lists for subnets and NICs."]]},
+["Block inbound port 3389 to one subnet with a simple rule. Use:",["A network security group","Azure Key Vault","Defender for Office 365","Entra Verified ID"],0,"NSGs are the simple allow/deny rule lists for subnets and NICs."],
+["A public web app is getting hit with SQL injection attempts. Which service is built to block these?",["Web Application Firewall","Azure Bastion","Azure DDoS Protection","Key Vault"],0,"WAF inspects web traffic for attacks like SQLi and XSS."],
+["A flood of junk traffic tries to knock a public site offline. Which service absorbs it?",["Azure DDoS Protection","A network security group","Azure Bastion","Compliance Manager"],0,"DDoS Protection defends availability against volumetric floods."],
+["Where should an application store its API keys and certificates securely?",["Azure Key Vault","In the app's source code","On the desktop","In a spreadsheet"],0,"Key Vault safely stores secrets, keys, and certificates."],
+["A managed, stateful firewall service for an entire Azure virtual network is:",["Azure Firewall","A network security group","Azure Bastion","Azure Key Vault"],0,"Azure Firewall is the full managed firewall; NSGs are simple rule lists."],
+["Defender for Cloud works across which environments?",["Azure, AWS, GCP, and on-prem","Azure only","On-prem only","AWS only"],0,"It's multicloud and hybrid, giving posture and workload protection across all of them."]]},
 
 {d:8,track:"sc",dom:"Security solutions",min:90,title:"Microsoft Sentinel, Defender XDR, Security Copilot",
 pts:[
@@ -118,7 +148,12 @@ q:[
 ["Find out which unapproved SaaS apps employees are using (shadow IT). Use:",["Defender for Cloud Apps","Defender for Identity","Azure Bastion","Compliance Manager"],0,"Cloud Apps is the CASB; shadow IT discovery is its signature feature."],
 ["Detect pass-the-hash attacks against on-prem domain controllers. Use:",["Defender for Identity","Entra ID Protection","Web Application Firewall","Defender for Office 365"],0,"Defender for Identity watches on-prem AD from sensors on the DCs."],
 ["In Sentinel, automated responses are built as:",["Playbooks","Workbooks","Sensitivity labels","Access packages"],0,"Playbooks automate. Workbooks visualize."],
-["An analyst wants AI to summarize an incident in plain language and suggest next steps. Use:",["Microsoft Security Copilot","Compliance Manager","Service Trust Portal","A network security group"],0,"Security Copilot is the generative-AI assistant for security work."]]},
+["An analyst wants AI to summarize an incident in plain language and suggest next steps. Use:",["Microsoft Security Copilot","Compliance Manager","Service Trust Portal","A network security group"],0,"Security Copilot is the generative-AI assistant for security work."],
+["In Microsoft Sentinel, a dashboard that visualizes security data is a:",["Workbook","Playbook","Sensitivity label","Access package"],0,"Workbooks visualize; playbooks automate response."],
+["Which Defender product protects laptops and servers (endpoints) from threats?",["Defender for Endpoint","Defender for Office 365","Defender for Cloud Apps","Defender for Identity"],0,"Defender for Endpoint = devices."],
+["Analysts want to search proactively for hidden threats using KQL before any alert fires. This is:",["Threat hunting","Automated remediation","Compliance scoring","Patching"],0,"Hunting is proactive searching, often with KQL queries."],
+["Several related alerts across email and devices are grouped for investigation as one:",["Incident","Workbook","Retention label","Access review"],0,"Defender XDR correlates related alerts into a single incident."],
+["A generative-AI assistant that summarizes incidents and writes KQL for analysts is:",["Microsoft Security Copilot","Microsoft Sentinel","Compliance Manager","Azure Bastion"],0,"Security Copilot is the AI assistant for security teams."]]},
 
 {d:9,track:"sc",dom:"Compliance",min:90,title:"Purview part 1: trust portal, Compliance Manager, labels, DLP",
 pts:[
@@ -135,7 +170,12 @@ q:[
 ["Mark documents 'Confidential', add a watermark, and encrypt them, with protection that follows the file. Use:",["Sensitivity labels","Retention labels","Network security groups","DLP policy tips"],0,"Sensitivity labels classify and protect, and the protection travels with the content."],
 ["Block emails containing credit card numbers from leaving the org. Use:",["Data loss prevention","Sensitivity labels only","Conditional Access","Azure Key Vault"],0,"DLP detects sensitive data in motion and blocks or warns."],
 ["Track your progress toward GDPR with a score and a list of actions. Use:",["Compliance Manager","Secure Score","Service Trust Portal","Activity explorer"],0,"Compliance Manager: assessments, improvement actions, compliance score."],
-["Detect documents that look like resumes, which have no fixed number pattern. Use:",["A trainable classifier","A sensitive information type","A retention policy","A network security group"],0,"Trainable classifiers recognize kinds of content by example rather than by pattern."]]},
+["Detect documents that look like resumes, which have no fixed number pattern. Use:",["A trainable classifier","A sensitive information type","A retention policy","A network security group"],0,"Trainable classifiers recognize kinds of content by example rather than by pattern."],
+["Where does Microsoft publish its own SOC and ISO audit reports for customers to review?",["Service Trust Portal","Compliance Manager","Defender for Cloud","Sentinel"],0,"The Service Trust Portal hosts Microsoft's compliance documentation."],
+["A pattern-based detector that recognizes credit card numbers in content is a:",["Sensitive information type","Trainable classifier","Retention label","Playbook"],0,"Sensitive info types match known patterns like card or SSN formats."],
+["A score plus a to-do list showing progress toward GDPR is found in:",["Compliance Manager","Secure Score","Service Trust Portal","Key Vault"],0,"Compliance Manager tracks regulatory progress with a compliance score and improvement actions."],
+["A label that encrypts a document and adds a 'Confidential' watermark that travels with the file is a:",["Sensitivity label","Retention label","Network security group","Sensitive info type"],0,"Sensitivity labels classify and protect, and protection follows the content."],
+["Which shows where sensitive labeled content lives across the organization?",["Content explorer","Azure Bastion","Smart lockout","A playbook"],0,"Content explorer shows where sensitive items are; activity explorer shows what's done with them."]]},
 
 {d:10,track:"sc",dom:"Compliance",min:90,title:"Purview part 2: retention, insider risk, eDiscovery, audit",
 pts:[
@@ -152,7 +192,12 @@ q:[
 ["Lawyers need to preserve and export three employees' mailboxes for a lawsuit. Use:",["eDiscovery","Audit","Communication compliance","Compliance Manager"],0,"eDiscovery = search, hold, export for legal matters."],
 ["Detect an employee who resigned and is now downloading thousands of SharePoint files. Use:",["Insider risk management","Communication compliance","Defender for Cloud","Entra Connect"],0,"Risky actions by insiders = insider risk management."],
 ["Flag harassment in Teams chats. Use:",["Communication compliance","Insider risk management","eDiscovery","A retention label"],0,"Communication compliance scans messages for policy violations."],
-["Find out who deleted a SharePoint file last month. Use:",["Audit","Service Trust Portal","Sensitivity labels","Azure Bastion"],0,"The audit log records user and admin activity."]]},
+["Find out who deleted a SharePoint file last month. Use:",["Audit","Service Trust Portal","Sensitivity labels","Azure Bastion"],0,"The audit log records user and admin activity."],
+["A rule that keeps all email for 7 years then deletes it, applied across all mailboxes, is a:",["Retention policy","Sensitivity label","DLP policy","Access review"],0,"Retention policies apply keep/delete rules broadly to locations."],
+["Detecting a departing employee mass-downloading files is the job of:",["Insider risk management","Communication compliance","eDiscovery","Compliance Manager"],0,"Insider risk management watches for risky actions by insiders."],
+["Scanning Teams and email for harassment or inappropriate messages is:",["Communication compliance","Insider risk management","Audit","Retention"],0,"Communication compliance flags risky messages."],
+["To find, preserve, and export mailboxes for a lawsuit, you use:",["eDiscovery","Compliance Manager","Defender for Endpoint","Secure Score"],0,"eDiscovery handles search, legal hold, and export."],
+["Audit (Standard) retains activity logs for about how long?",["180 days","24 hours","10 years by default","Forever"],0,"Standard keeps ~180 days; Premium extends it (1 year default, up to 10 with an add-on)."]]},
 
 {d:11,track:"sc",kind:"review",title:"Full SC-900 review",from:[1,2,3,4,5,7,8,9,10],n:20,
 pts:["Weighting|Security solutions 35–40%, Entra 25–30%, Compliance 20–25%, Concepts 10–15%. Spend your time in that order.","Tonight|Check Stats → Domains. Anything under 80% gets a Written run before bed."]},
@@ -190,7 +235,12 @@ q:[
 ["A user's typed password is hashed and compared to a stored hashed value before granting a session. Which step is this?",["Authentication","Identification","Authorization","Accounting"],0,"Proving who you are with a credential match is authentication."],
 ["A user is allowed to read a file but denied when trying to write to it, based on an access control list. This is:",["Authorization","Authentication","Identification","Accounting"],0,"Checking permissions per action against an ACL is authorization."],
 ["An audit log records every permission check a user made, and the user cannot prevent or erase it. This step is:",["Accounting","Authentication","Authorization","Identification"],0,"Tracking permission usage in a log that the subject can't stop is accounting."],
-["In a gap analysis table, a control area scored far below its required maturity with high CIA risk should get:",["The earliest target remediation quarter","No remediation, since it is already documented","A lower CIA risk score to simplify reporting","Removal from the risk register"],0,"The biggest gaps against CIA risk are prioritized for the soonest fix, not ignored or hidden."]]},
+["In a gap analysis table, a control area scored far below its required maturity with high CIA risk should get:",["The earliest target remediation quarter","No remediation, since it is already documented","A lower CIA risk score to simplify reporting","Removal from the risk register"],0,"The biggest gaps against CIA risk are prioritized for the soonest fix, not ignored or hidden."],
+["A locked door is primarily which control TYPE?",["Preventive","Detective","Corrective","Deterrent"],0,"A lock stops entry, so it's preventive. A warning sign would be deterrent."],
+["Restoring from backup after an incident is which control type?",["Corrective","Preventive","Deterrent","Directive"],0,"Corrective controls fix or restore after something goes wrong."],
+["A written 'authorized personnel only' policy is which control type?",["Directive","Detective","Compensating","Physical"],0,"Directive controls instruct people what to do."],
+["A two-door entry that admits one person at a time is an:",["Access control vestibule","Air gap","NSG","Bollard"],0,"The vestibule (old 'mantrap') prevents tailgating."],
+["A fake network built to lure and study attackers is a:",["Honeynet","Honeytoken","Honeyfile","Bollard"],0,"Honeynet = a decoy network; a honeypot is a single decoy system."]]},
 
 {d:14,track:"sec",dom:"1 General concepts",min:90,title:"Change management, cryptography, PKI",
 pts:[
@@ -209,7 +259,12 @@ q:[
 ["Alice digitally signs a document. Bob verifies the signature with:",["Alice's public key","Alice's private key","Bob's private key","A shared symmetric key"],0,"Signed with Alice's private key, verified with Alice's public key."],
 ["Check whether a certificate is revoked in real time instead of downloading a list. Use:",["OCSP","CRL","CSR","Key escrow"],0,"OCSP answers one certificate at a time, live."],
 ["What is a backout plan for?",["Returning systems to the previous state if a change fails","Approving the change","Scheduling the maintenance window","Notifying stakeholders"],0,"Backout = your rollback plan."],
-["Salting passwords mainly defends against:",["Rainbow table attacks","DDoS attacks","On-path attacks","Phishing"],0,"Salts make precomputed hash tables useless."]]},
+["Salting passwords mainly defends against:",["Rainbow table attacks","DDoS attacks","On-path attacks","Phishing"],0,"Salts make precomputed hash tables useless."],
+["Which is a rollback plan used if a change fails?",["Backout plan","Impact analysis","Maintenance window","Change request"],0,"The backout plan restores the previous working state."],
+["TLS typically uses asymmetric crypto to do what, then switches to symmetric?",["Agree on a shared session key","Hash the whole message","Store passwords","Sign the certificate authority"],0,"Asymmetric exchange sets up a fast symmetric session key for the data."],
+["Making brute-forcing stored passwords slower with bcrypt or PBKDF2 is:",["Key stretching","Salting","Steganography","Tokenization"],0,"Key stretching adds cost to each guess."],
+["A chip on the motherboard that stores encryption keys for BitLocker is a:",["TPM","HSM","CRL","CSR"],0,"TPM = on-board key storage. An HSM is a separate appliance."],
+["Hiding secret data inside an image file is:",["Steganography","Tokenization","Hashing","Masking"],0,"Steganography conceals data within other media."]]},
 
 {d:15,track:"sec",dom:"2 Threats & vulns",min:90,title:"Threat actors, motivations, vectors, social engineering",
 pts:[
@@ -224,7 +279,12 @@ q:[
 ["Who is most likely behind a long-running, well-funded espionage campaign?",["Nation-state","Unskilled attacker","Hacktivist","Shadow IT"],0,"Long-term, well-resourced espionage = nation-state APT."],
 ["A text says: 'Your package is held. Click to pay a $1.99 fee.' This is:",["Smishing","Vishing","Pretexting only","A watering hole"],0,"SMS phishing = smishing."],
 ["A finance clerk gets an email that appears to be from the CEO asking for an urgent wire transfer. This is:",["Business email compromise","Typosquatting","Spyware","An on-path attack"],0,"Impersonating executives to redirect money = BEC."],
-["The marketing team signs up for an unapproved file-sharing service and uploads company data. This is:",["Shadow IT","A nation-state actor","Hacktivism","Organized crime"],0,"Unapproved tech used by employees = shadow IT."]]},
+["The marketing team signs up for an unapproved file-sharing service and uploads company data. This is:",["Shadow IT","A nation-state actor","Hacktivism","Organized crime"],0,"Unapproved tech used by employees = shadow IT."],
+["A well-funded group running a long-term stealthy intrusion for espionage is best described as an:",["APT (advanced persistent threat)","Unskilled attacker","Hacktivist","Shadow IT user"],0,"APTs are persistent, resourced, and usually nation-state backed."],
+["An attacker leaves infected USB drives in a parking lot hoping employees plug them in. The USB is the:",["Attack vector","Threat actor","Vulnerability","Payload only"],0,"The removable media is the vector, the path in."],
+["A targeted phishing email aimed at one specific executive is:",["Whaling","Smishing","Vishing","A watering hole"],0,"Whaling targets high-value executives."],
+["A phone call pretending to be IT support to extract a password is:",["Vishing","Smishing","Phishing","Typosquatting"],0,"Voice phishing = vishing."],
+["An employee using an unapproved personal cloud drive for work files is:",["Shadow IT","A nation-state actor","A honeypot","Federation"],0,"Unsanctioned tech use = shadow IT."]]},
 
 {d:16,track:"sec",dom:"2 Threats & vulns",min:90,title:"Vulnerability types",
 pts:[
@@ -244,7 +304,12 @@ q:[
 ["What's the best fix for SQL injection?",["Parameterized queries and input validation","Longer passwords","Full-disk encryption","NAT"],0,"Parameterized queries keep user input from being treated as SQL code."],
 ["An attacker breaks out of a guest VM and reaches the host hypervisor. This is:",["VM escape","Sideloading","A race condition","Jailbreaking"],0,"Leaving the VM's sandbox for the host = VM escape."],
 ["A program checks a file's permissions, then the attacker swaps the file before it's opened. This is:",["A TOC/TOU race condition","A buffer overflow","XSS","A zero-day by definition"],0,"The gap between the check and the use is the race."],
-["A vendor's signed software update was compromised before it shipped to customers. This is:",["A supply chain attack via malicious update","Typosquatting","Misconfiguration","Sideloading"],0,"The trusted channel itself was poisoned."]]},
+["A vendor's signed software update was compromised before it shipped to customers. This is:",["A supply chain attack via malicious update","Typosquatting","Misconfiguration","Sideloading"],0,"The trusted channel itself was poisoned."],
+["Writing more data than a memory buffer can hold, overwriting adjacent memory, is a:",["Buffer overflow","Race condition","SQL injection","VM escape"],0,"Buffer overflow overruns allocated memory."],
+["A flaw with no vendor patch available yet is a:",["Zero-day","False positive","Legacy bug","Misconfiguration"],0,"Zero-day = unknown to the vendor, no patch exists."],
+["Installing apps from outside the official store on a phone is:",["Sideloading","Jailbreaking","Rooting","Tethering"],0,"Sideloading bypasses the vetted store."],
+["Leftover data in memory reassigned to another VM is a:",["Resource reuse vulnerability","VM escape","Buffer overflow","Race condition"],0,"Resource reuse exposes data left in recycled resources."],
+["Malicious script running in a victim's browser from a trusted site is:",["Cross-site scripting (XSS)","SQL injection","Directory traversal","A logic bomb"],0,"XSS executes attacker script in the victim's browser."]]},
 
 {d:17,track:"sec",dom:"2 Threats & vulns",min:90,title:"Malware, attacks, and indicators",
 pts:[
@@ -261,7 +326,12 @@ q:[
 ["Malware spreads across the network with no user interaction. This is a:",["Worm","Virus","Trojan","Logic bomb"],0,"Self-propagation is the worm's defining trait."],
 ["A web server log shows: GET /../../../../etc/passwd. This is:",["Directory traversal","SQL injection","CSRF","Buffer overflow"],0,"../ climbing up the file tree = traversal."],
 ["A user logs in from Texas, then 5 minutes later from Germany. This indicator is:",["Impossible travel","Resource consumption","Out-of-cycle logging","Blocked content"],0,"No one travels that fast; the account is probably compromised."],
-["Code that deletes payroll records if a certain employee is ever removed from the HR system is a:",["Logic bomb","Rootkit","Worm","Spyware"],0,"Dormant code waiting on a condition = logic bomb."]]},
+["Code that deletes payroll records if a certain employee is ever removed from the HR system is a:",["Logic bomb","Rootkit","Worm","Spyware"],0,"Dormant code waiting on a condition = logic bomb."],
+["Malware disguised as a legitimate program that hides a payload is a:",["Trojan","Worm","Rootkit","Logic bomb"],0,"A Trojan looks legitimate but carries a hidden payload."],
+["Malware that hides deep in the OS or kernel to avoid detection is a:",["Rootkit","Worm","Adware","Bloatware"],0,"Rootkits burrow into the OS to stay hidden."],
+["Trying thousands of passwords against a single account is:",["Brute force","Password spraying","Phishing","A replay attack"],0,"Many guesses against one account = brute force."],
+["Poisoning an ARP table to intercept traffic between two hosts is an:",["On-path attack","Amplified DDoS","SQL injection","Evil twin"],0,"On-path (man-in-the-middle) often uses ARP poisoning."],
+["A rogue Wi-Fi access point impersonating a legitimate network is an:",["Evil twin","Amplification attack","Logic bomb","Rootkit"],0,"An evil twin mimics a trusted SSID to capture traffic."]]},
 
 {d:18,track:"sec",dom:"2 Threats & vulns",min:75,title:"Mitigation techniques",
 pts:[
@@ -280,7 +350,12 @@ q:[
 ["A workstation is beaconing to a command-and-control server. Immediate action?",["Isolate the host from the network","Reimage it right away","Patch it","Email the vendor"],0,"Contain first. Reimaging now destroys evidence, and the host keeps talking to the attacker until it's cut off."],
 ["Keep a breach on guest Wi-Fi from reaching the finance servers. Use:",["Network segmentation","Salting","Key escrow","Bloatware removal"],0,"Segmentation limits lateral movement."],
 ["Which is a hardening step for a new switch?",["Change default admin credentials and disable unused ports","Enable every service for flexibility","Keep the default SNMP community strings","Leave Telnet on for backups"],0,"Hardening = shrink the attack surface and kill defaults."],
-["An accounting user has admin rights 'just in case'. Which principle is violated?",["Least privilege","Non-repudiation","Availability","Defense in depth"],0,"Access should match the job, nothing extra."]]},
+["An accounting user has admin rights 'just in case'. Which principle is violated?",["Least privilege","Non-repudiation","Availability","Defense in depth"],0,"Access should match the job, nothing extra."],
+["Only pre-approved programs are allowed to run on a system. This is an:",["Application allow list","Application deny list","Antivirus signature","Firewall rule"],0,"Allow lists block everything not explicitly permitted."],
+["Splitting a network so a breach in one zone can't reach others is:",["Segmentation","Isolation","Hashing","Key escrow"],0,"Segmentation limits lateral movement."],
+["A system slowly drifting away from its secure baseline over time is called:",["Configuration drift","Least privilege","Hardening","Failover"],0,"Drift is deviation from the approved baseline."],
+["Disabling unused ports and services and removing default accounts is:",["Hardening","Decommissioning","Encryption","Monitoring"],0,"Hardening reduces the attack surface."],
+["An actively infected host that keeps spreading should first be:",["Isolated from the network","Reimaged immediately","Patched","Left running for analysis"],0,"Contain first to stop the spread and preserve evidence."]]},
 
 {d:19,track:"sec",kind:"review",title:"Review: Domains 1–2",from:[13,14,15,16,17,18],n:15,
 pts:["Why this matters|Domain 2 (threats, vulnerabilities, mitigations) is 22% of the exam and feeds scenario questions everywhere else.","Drill|Blitz twice today. Watch whether your average seconds per question drops between runs. Stats shows it."]},
@@ -301,7 +376,12 @@ q:[
 ["Define cloud networks in version-controlled templates for repeatable deployments. This is:",["Infrastructure as code","SDN","An RTOS","Microservices"],0,"Templates-as-code for infrastructure = IaC."],
 ["Which shares the host OS kernel, making it lighter than a VM?",["A container","A type 1 hypervisor","An air-gapped system","An RTOS"],0,"Containers share the kernel; VMs each bring a full OS."],
 ["A network whose forwarding decisions are managed centrally in software, separate from the data plane, is:",["SDN","An air gap","A VLAN trunk","SCADA"],0,"Software-defined networking splits control from data."],
-["A system with zero network connection to anything else is:",["Air-gapped","In a screened subnet","Behind NAT","Hybrid cloud"],0,"No connection at all = air gap."]]},
+["A system with zero network connection to anything else is:",["Air-gapped","In a screened subnet","Behind NAT","Hybrid cloud"],0,"No connection at all = air gap."],
+["A system with no network connection to anything else is:",["Air-gapped","In a screened subnet","Behind NAT","Load balanced"],0,"Air gap = complete physical network isolation."],
+["Packaging an app with its dependencies to share the host kernel, lighter than a VM, describes:",["Containers","Type 1 hypervisors","RTOS","SCADA"],0,"Containers share the kernel; VMs each run a full OS."],
+["Defining infrastructure in reusable, version-controlled templates is:",["Infrastructure as code","Serverless","Microservices","SDN"],0,"IaC = infrastructure defined as reviewable code."],
+["Industrial systems that run utilities where availability is critical and patching is often impossible are:",["ICS/SCADA","Serverless functions","Containers","RTOS phones"],0,"ICS/SCADA prioritize availability and resist patching."],
+["Splitting an app into small independent services that talk over APIs is:",["Microservices","A monolith","An air gap","A honeynet"],0,"Microservices are small, independently deployable services."]]},
 
 {d:21,track:"sec",dom:"3 Architecture",min:90,title:"Network security design",
 pts:[
@@ -319,7 +399,12 @@ q:[
 ["Where should a public web server go?",["A screened subnet","The internal LAN next to the database servers","An air-gapped segment","The guest Wi-Fi"],0,"Public-facing servers belong in the DMZ/screened subnet."],
 ["Admins must pass through a hardened host to reach production servers. That host is a:",["Jump server","Load balancer","Forward proxy","Honeypot"],0,"Jump server = controlled admin gateway."],
 ["Only authenticated devices should be able to use the wall network jacks. Use:",["802.1X","SD-WAN","A WAF","NAT"],0,"802.1X is port-based network access control."],
-["A firewall fails, and the business values security over uptime. Configure it to:",["Fail closed","Fail open","Monitor mode","Bypass mode"],0,"Fail-closed blocks traffic when the device fails."]]},
+["A firewall fails, and the business values security over uptime. Configure it to:",["Fail closed","Fail open","Monitor mode","Bypass mode"],0,"Fail-closed blocks traffic when the device fails."],
+["Public-facing web servers should sit in a:",["Screened subnet (DMZ)","Flat internal LAN","Air-gapped segment","Guest Wi-Fi"],0,"A DMZ isolates internet-facing servers from the internal network."],
+["A device that detects malicious traffic and alerts but does not block is an:",["IDS","IPS","WAF","NAC"],0,"IDS is passive detection; IPS is inline prevention."],
+["A hardened host admins connect through to reach a secure zone is a:",["Jump server","Proxy","Load balancer","Honeypot"],0,"Jump servers give one controlled admin path."],
+["Requiring a device to authenticate before its switch port activates uses:",["802.1X","NAT","SD-WAN","A WAF"],0,"802.1X is port-based access control."],
+["A firewall set to block all traffic when it fails is configured to:",["Fail closed","Fail open","Monitor mode","Bypass"],0,"Fail-closed favors security over availability."]]},
 
 {d:22,track:"sec",dom:"3 Architecture",min:90,title:"Data protection and resilience",
 pts:[
@@ -339,7 +424,12 @@ q:[
 ["A recovery site with power, HVAC, and space but no equipment is a:",["Cold site","Warm site","Hot site","Mobile site"],0,"Cold = empty room with utilities."],
 ["During a brief power blip, servers must stay up until the generator kicks in. Use:",["A UPS","A generator alone","A load balancer","Journaling"],0,"The UPS covers the gap before the generator starts."],
 ["Data sovereignty means:",["Data is subject to the laws of the country where it's stored","The owner can delete data at will","Data is encrypted in transit","Whoever pays for storage controls it"],0,"Location decides which laws apply."],
-["The team talks through a ransomware scenario in a conference room without touching any systems. This is a:",["Tabletop exercise","Failover test","Parallel processing test","Live simulation"],0,"Discussion-only walkthrough = tabletop."]]},
+["The team talks through a ransomware scenario in a conference room without touching any systems. This is a:",["Tabletop exercise","Failover test","Parallel processing test","Live simulation"],0,"Discussion-only walkthrough = tabletop."],
+["Replacing a credit card number with a random token stored in a secure vault is:",["Tokenization","Masking","Hashing","Encryption in transit"],0,"Tokenization removes the real value, keeping a vault mapping."],
+["Showing only ***-**-1234 of an SSN on screen is:",["Data masking","Tokenization","Hashing","Steganography"],0,"Masking hides part of the real value from view."],
+["A recovery site fully equipped with live data, ready almost immediately, is a:",["Hot site","Warm site","Cold site","Mobile site"],0,"Hot sites are ready fast and cost the most."],
+["Data being processed in memory is data:",["In use","At rest","In transit","In escrow"],0,"In-use data is actively being processed in memory."],
+["A battery that keeps servers running for the minutes until a generator starts is a:",["UPS","Generator","Load balancer","HSM"],0,"The UPS bridges the gap before the generator takes over."]]},
 
 {d:23,track:"sec",dom:"4 Operations",min:90,title:"Hardening, wireless, mobile, assets, vulnerability management",
 pts:[
@@ -356,7 +446,12 @@ q:[
 ["What is the standardized 0–10 severity score for vulnerabilities?",["CVSS","CVE","SCAP","NVD ID"],0,"CVSS scores severity. CVE is just the identifier."],
 ["The company buys phones and lets employees use them personally too. This model is:",["COPE","BYOD","CYOD","VDI"],0,"Company-owned, personally enabled."],
 ["Reviewing source code for flaws without running it is:",["Static analysis","Dynamic analysis","Fuzzing","Penetration testing"],0,"Static = code at rest. Dynamic = app running."],
-["Old drives must be unrecoverable before recycling, and you need proof. Do this:",["Destroy them and get a certificate of destruction","Quick format them","Delete the files","Move them to the storage room"],0,"Destruction + certification gives you the proof."]]},
+["Old drives must be unrecoverable before recycling, and you need proof. Do this:",["Destroy them and get a certificate of destruction","Quick format them","Delete the files","Move them to the storage room"],0,"Destruction + certification gives you the proof."],
+["A standardized 0-10 severity score for a vulnerability is the:",["CVSS","CVE","SCAP","NVD"],0,"CVSS scores severity; CVE is just the identifier."],
+["A scanner reports a flaw that turns out not to exist on that system. This is a:",["False positive","False negative","True positive","Zero-day"],0,"Reported but not real = false positive."],
+["Reviewing source code for flaws without executing it is:",["Static analysis (SAST)","Dynamic analysis (DAST)","Fuzzing","Penetration testing"],0,"SAST examines code at rest."],
+["A company buys the phones and lets staff use them personally too. This model is:",["COPE","BYOD","CYOD","VDI"],0,"Company-owned, personally enabled."],
+["Destroying drives and getting proof they're unrecoverable requires a:",["Certificate of destruction","Quick format","File deletion","Retention label"],0,"A certificate of destruction documents proper disposal."]]},
 
 {d:24,track:"sec",dom:"4 Operations",min:90,title:"Monitoring tools and enterprise security capabilities",
 pts:[
@@ -372,7 +467,12 @@ q:[
 ["See which internal hosts talked to an external IP, and how much data moved, without capturing content. Use:",["NetFlow","Full packet capture","File integrity monitoring","SCAP"],0,"NetFlow records flow metadata only."],
 ["Alert when files in C:\\Windows\\System32 are modified. Use:",["File integrity monitoring","DLP","A web filter","SNMP traps"],0,"FIM watches critical files for changes."],
 ["The SIEM is flooding analysts with harmless alerts. Best fix?",["Tune the alerts","Turn off the SIEM","Increase log retention","Add more log sources"],0,"Tuning cuts false positives so real alerts stand out."],
-["Flag a user who suddenly downloads 50 times their usual volume at 3 AM. Use:",["User behavior analytics","SPF","NAC","WPA3"],0,"UBA/UEBA baselines normal behavior and flags anomalies."]]},
+["Flag a user who suddenly downloads 50 times their usual volume at 3 AM. Use:",["User behavior analytics","SPF","NAC","WPA3"],0,"UBA/UEBA baselines normal behavior and flags anomalies."],
+["The email control that lists which servers may send mail for your domain is:",["SPF","DKIM","DMARC","S/MIME"],0,"SPF publishes authorized sending servers."],
+["The email control that cryptographically signs a message to prove it wasn't altered is:",["DKIM","SPF","DMARC","POP3"],0,"DKIM signs the message for integrity and origin."],
+["Alerting when critical system files are changed is done by:",["File integrity monitoring (FIM)","NetFlow","A WAF","SPF"],0,"FIM watches protected files for changes."],
+["Recording who talked to whom and how much, without capturing content, is:",["NetFlow","Full packet capture","FIM","DLP"],0,"NetFlow captures flow metadata only."],
+["Baselining normal user behavior and flagging anomalies is:",["UEBA","SPF","NAC","802.1X"],0,"User and entity behavior analytics flags deviations from normal."]]},
 
 {d:25,track:"sec",dom:"4 Operations",min:90,title:"Identity and access management",
 pts:[
@@ -389,7 +489,12 @@ q:[
 ["An app needs access to a user's calendar without ever seeing their password. Use:",["OAuth","LDAP","RADIUS","NTLM"],0,"OAuth issues a scoped token instead of sharing credentials."],
 ["Grant access only if the user is in HR, on a company device, during business hours. This model is:",["ABAC","DAC","MAC","Rule-based on IPs only"],0,"Multiple attributes decide access = ABAC."],
 ["Admin credentials are checked out from a vault and rotated after each use. This is:",["Privileged access management","SSO","DAC","Federation"],0,"Vaulting and rotation are PAM features."],
-["An employee is fired on Friday. Most important IAM action?",["Deprovision their accounts immediately","Change their password next month","Leave the account open for handover","Move them to the guest group"],0,"Access ends when employment ends."]]},
+["An employee is fired on Friday. Most important IAM action?",["Deprovision their accounts immediately","Change their password next month","Leave the account open for handover","Move them to the guest group"],0,"Access ends when employment ends."],
+["Access decided by clearance labels that admins set and users can't change is:",["MAC","DAC","RBAC","ABAC"],0,"Mandatory access control uses labels and clearances."],
+["Granting an app limited access to your data without sharing your password uses:",["OAuth","LDAP","RADIUS","Kerberos only"],0,"OAuth issues scoped tokens for delegated authorization."],
+["Access based on department, device, location, and time of day is:",["ABAC","MAC","DAC","Rule-based on IP only"],0,"Attribute-based access control uses multiple attributes."],
+["Checking admin credentials out of a vault that rotates them after use is:",["Privileged access management (PAM)","SSO","Federation","DAC"],0,"PAM vaults and rotates privileged credentials."],
+["The most important IAM action when an employee is terminated is to:",["Deprovision their access immediately","Schedule a password change next month","Move them to a guest group","Archive their email first"],0,"Access must end when employment ends."]]},
 
 {d:26,track:"sec",dom:"4 Operations",min:90,title:"Automation, incident response, forensics, data sources",
 pts:[
@@ -406,7 +511,12 @@ q:[
 ["Which should be collected first?",["RAM contents","A hard disk image","Backup tapes","Remote syslog data"],0,"RAM disappears at power-off; it's the most volatile here."],
 ["Documenting every person who handled a seized laptop is:",["Chain of custody","Legal hold","Order of volatility","Root cause analysis"],0,"Chain of custody keeps evidence admissible."],
 ["Lawyers tell IT to preserve all email for a pending lawsuit. This is a:",["Legal hold","Chain of custody","Eradication step","Sanitization"],0,"Legal hold = don't delete anything relevant."],
-["Analysts search proactively for hidden attackers with no alert fired. This is:",["Threat hunting","A tabletop exercise","Lessons learned","Containment"],0,"Hunting assumes compromise and goes looking."]]},
+["Analysts search proactively for hidden attackers with no alert fired. This is:",["Threat hunting","A tabletop exercise","Lessons learned","Containment"],0,"Hunting assumes compromise and goes looking."],
+["Which is the correct incident response order?",["Preparation, Detection, Analysis, Containment, Eradication, Recovery, Lessons learned","Detection, Recovery, Containment, Eradication","Containment, Preparation, Recovery, Detection","Eradication, Detection, Containment, Recovery"],0,"Prepare, detect, analyze, contain, eradicate, recover, learn."],
+["Following order of volatility, which is collected first?",["RAM / CPU cache","Hard disk","Backup tapes","Remote logs"],0,"The most volatile evidence (memory) is collected first."],
+["Documenting everyone who handled evidence and when preserves:",["Chain of custody","Legal hold","The RPO","The baseline"],0,"Chain of custody keeps evidence admissible."],
+["An instruction from legal to preserve all relevant data for a lawsuit is a:",["Legal hold","Chain of custody","Root cause analysis","Backout plan"],0,"Legal hold prevents deletion of relevant data."],
+["Automating user provisioning and ticket creation to speed response is a benefit of:",["Orchestration and automation","Manual review","Air gapping","Steganography"],0,"Orchestration automates repeatable security workflows."]]},
 
 {d:27,track:"sec",kind:"review",title:"Review: Domains 3–4",from:[20,21,22,23,24,25,26],n:15,
 pts:["Biggest domain|Security Operations is 28% of the exam, the largest chunk. If Stats shows it under 80%, run Day 23–26 quizzes again before moving on.","Mix it up|Do one Written run today. Explaining from memory is what makes scenario questions click."]},
@@ -424,7 +534,12 @@ q:[
 ["A payroll company processing your employees' data on your behalf is the:",["Processor","Controller","Owner","Custodian"],0,"Processors act for the controller."],
 ["A step-by-step offboarding checklist is a:",["Procedure","Policy","Standard","Guideline"],0,"Steps = procedure."],
 ["'All laptops must use AES-256 full-disk encryption' is a:",["Standard","Guideline","High-level policy statement of intent","Procedure"],0,"Mandatory, specific technical requirement = standard."],
-["The senior executive accountable for the customer database and its classification is the:",["Data owner","Custodian","Processor","Steward"],0,"Owners are accountable and set classification."]]},
+["The senior executive accountable for the customer database and its classification is the:",["Data owner","Custodian","Processor","Steward"],0,"Owners are accountable and set classification."],
+["'All passwords must be at least 14 characters' is a:",["Standard","Policy","Guideline","Procedure"],0,"A specific mandatory requirement is a standard."],
+["A recommended-but-optional best practice document is a:",["Guideline","Standard","Policy","Regulation"],0,"Guidelines advise; they are not mandatory."],
+["Under GDPR, the party that decides why and how personal data is processed is the:",["Data controller","Data processor","Data custodian","Data subject"],0,"The controller determines purpose and means."],
+["A payroll vendor that handles employee data on your behalf is the:",["Data processor","Data controller","Data owner","Data subject"],0,"Processors act on the controller's instructions."],
+["A step-by-step onboarding checklist is a:",["Procedure","Policy","Standard","Guideline"],0,"Procedures are the how-to steps."]]},
 
 {d:29,track:"sec",dom:"5 Program mgmt",min:90,title:"Risk management, BIA, and third parties",
 pts:[
@@ -442,7 +557,12 @@ q:[
 ["Buying cyber insurance is which risk strategy?",["Transfer","Avoid","Accept","Mitigate"],0,"Insurance shifts the financial impact to someone else."],
 ["Backups run every 4 hours, and the business can live with losing 4 hours of data. This defines the:",["RPO","RTO","MTTR","MTBF"],0,"Acceptable data loss = recovery point objective."],
 ["A contract guaranteeing 99.9% uptime, with credits if it's missed, is an:",["SLA","MOU","NDA","BPA"],0,"Service level agreement."],
-["The company shuts down a risky legacy service entirely. This is risk:",["Avoidance","Transference","Acceptance","Mitigation"],0,"Stopping the activity removes the risk."]]},
+["The company shuts down a risky legacy service entirely. This is risk:",["Avoidance","Transference","Acceptance","Mitigation"],0,"Stopping the activity removes the risk."],
+["AV = $80,000, EF = 50%, ARO = 2. What is the ALE?",["$80,000","$40,000","$160,000","$20,000"],0,"SLE = 80,000 × 0.5 = 40,000. ALE = 40,000 × 2 = $80,000."],
+["Buying insurance to offload financial impact is which risk strategy?",["Transfer","Avoid","Mitigate","Accept"],0,"Transfer shifts the impact to a third party."],
+["'We can be down at most 6 hours' defines the:",["RTO","RPO","MTBF","ALE"],0,"Recovery time objective = maximum tolerable downtime."],
+["Deciding to stop offering a risky feature entirely is risk:",["Avoidance","Transference","Acceptance","Mitigation"],0,"Avoidance removes the activity and its risk."],
+["A contract guaranteeing 99.9% uptime with penalties is an:",["SLA","MOU","NDA","SOW"],0,"Service level agreement with measurable commitments."]]},
 
 {d:30,track:"sec",dom:"5 Program mgmt",min:90,title:"Compliance, audits, pen testing, security awareness",
 pts:[
@@ -458,7 +578,12 @@ q:[
 ["A tester reviews the company's LinkedIn and DNS records without touching its systems. This is:",["Passive reconnaissance","Active reconnaissance","Integrated testing","A vulnerability scan"],0,"No contact with the target = passive."],
 ["HR sends fake phishing emails and assigns training to anyone who clicks. This is a:",["Phishing campaign","Penetration test","Legal hold","Tabletop exercise"],0,"Simulated phishing is part of awareness programs."],
 ["An EU customer asks the company to delete all their personal data. This is the:",["Right to be forgotten","Data sovereignty","Legal hold","Attestation"],0,"GDPR's erasure right."],
-["Red and blue teams work together and share findings in real time. This is:",["Integrated (purple) testing","Offensive testing only","Defensive testing only","An unknown-environment test"],0,"Red + blue together = purple/integrated."]]},
+["Red and blue teams work together and share findings in real time. This is:",["Integrated (purple) testing","Offensive testing only","Defensive testing only","An unknown-environment test"],0,"Red + blue together = purple/integrated."],
+["Pen testers given full network diagrams and source code perform a:",["Known-environment (white box) test","Unknown-environment test","Passive recon only","Partially known test"],0,"Full information = white box."],
+["Gathering info from LinkedIn and WHOIS without touching the target is:",["Passive reconnaissance","Active reconnaissance","Exploitation","Fuzzing"],0,"Passive recon never contacts the target."],
+["Red and blue teams collaborating and sharing findings live is:",["Purple (integrated) teaming","Offensive only","Defensive only","Black box"],0,"Purple teaming combines offense and defense."],
+["A GDPR data subject's demand to have their personal data deleted is the:",["Right to be forgotten","Legal hold","Attestation","Due diligence"],0,"The right to erasure lets subjects request deletion."],
+["Researching a vendor's security before signing a contract is:",["Due diligence","Due care","Attestation","Tokenization"],0,"Due diligence is the up-front investigation."]]},
 
 {d:31,track:"sec",dom:"4 Operations",min:90,title:"PBQ drills: ports, logs, firewall rules",
 pts:[
@@ -477,7 +602,12 @@ q:[
 ["Rules: 1) ALLOW any → web:443  2) DENY any → any  3) ALLOW admin → web:22. The admin tries SSH to the web server. Result?",["Blocked: rule 2 matches first","Allowed by rule 3","Allowed by rule 1","Depends on the time of day"],0,"First match wins. Rule 2 catches it before rule 3 is ever read."],
 ["The secure replacement for Telnet is:",["SSH","FTP","SNMPv1","HTTP"],0,"SSH encrypts the remote session; Telnet sends everything in plain text."],
 ["A log shows GET /search?q=<script>alert(1)<\/script>. This is:",["Cross-site scripting","SQL injection","CSRF","Directory traversal"],0,"Injected script tags = XSS."],
-["SNMP queries use which port?",["161","123","514","69"],0,"SNMP = 161 (traps on 162). 123 = NTP, 514 = syslog, 69 = TFTP."]]},
+["SNMP queries use which port?",["161","123","514","69"],0,"SNMP = 161 (traps on 162). 123 = NTP, 514 = syslog, 69 = TFTP."],
+["Which port does HTTPS use?",["443","80","22","3389"],0,"HTTPS = 443; HTTP = 80."],
+["Which port does DNS use?",["53","67","161","25"],0,"DNS resolves names on port 53."],
+["Which secure protocol replaces Telnet for remote command-line access?",["SSH (22)","FTP (21)","SNMP (161)","HTTP (80)"],0,"SSH encrypts the session; Telnet (23) is plaintext."],
+["A log entry with '../../../../etc/passwd' indicates:",["Directory traversal","SQL injection","XSS","Brute force"],0,"Climbing directories with ../ is path traversal."],
+["Which ports do SMTP use for sending mail?",["25 and 587","110 and 995","143 and 993","389 and 636"],0,"SMTP = 25, submission = 587. POP3 =110/995, IMAP=143/993, LDAP=389/636."]]},
 
 {d:32,track:"sec",kind:"review",title:"Full Security+ review",from:[13,14,15,16,17,18,20,21,22,23,24,25,26,28,29,30,31],n:25,
 pts:["Weighting|Operations 28%, Threats 22%, Program management 20%, Architecture 18%, General concepts 12%.","Tonight|Blitz once, then do a Written run on your top missed questions from Stats. Then stop and sleep."]},
