@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ExamHelp — class roster</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#CFE8F8;--surface:#FFFFFF;--sunk:#E3F1EE;--ink:#123B5B;--muted:#42677A;--line:#BED9D5;
+  --sc:#2361A3;--sec:#198754;--gold:#198754;
+  --ok:#1D7445;--bad:#B3261E;--warn:#8A6D1D;--okbg:#E2F1E8;--badbg:#F8E3E1;--warnbg:#F7F0DC;--scbg:#E3ECF6;--secbg:#E1F3E8;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root{
+  color-scheme:dark;--bg:#0A2942;--surface:#132B38;--sunk:#102C2D;--ink:#E4F2F1;--muted:#9AB9C1;--line:#294D53;
+  --sc:#72A6E3;--sec:#5CC48A;--gold:#5CC48A;
+  --ok:#5CC48A;--bad:#F07C73;--warn:#E3C05C;--okbg:#15301F;--badbg:#3A1C1A;--warnbg:#332B12;--scbg:#15253A;--secbg:#15301F;}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.6 var(--body);margin:0;padding-inline:16px;padding-block:20px 60px}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:.01em;line-height:1.05;margin:0;text-wrap:balance}
+h1{font-size:clamp(28px,5vw,42px);text-transform:uppercase}
+h3{font-size:18px;text-transform:uppercase;letter-spacing:.04em}
+.muted{color:var(--muted)}
+.eyebrow{font:500 12px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--sc);outline-offset:2px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:22px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:9px 14px;font-weight:600;font-size:14px}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn[disabled]{opacity:.45;cursor:default}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.tile b{font:700 32px/1 var(--display)}
+.tile.headline{border-color:var(--bad);background:var(--badbg)}
+.tile.headline b{color:var(--bad)}
+.drop{border:2px dashed var(--line);border-radius:10px;padding:34px 18px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;transition:background .15s,border-color .15s}
+.drop.over{border-color:var(--sc);background:var(--scbg)}
+.no-upload{font:500 12px var(--mono);color:var(--ok);background:var(--okbg);border-radius:6px;padding:8px 12px;display:inline-block}
+.errors{display:flex;flex-direction:column;gap:6px;font-size:13px}
+.errors .err{border-left:3px solid var(--bad);padding:6px 10px;background:var(--badbg);border-radius:0 6px 6px 0}
+.tablebox{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font:600 11px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);cursor:pointer;user-select:none}
+th:hover{color:var(--ink)}
+th .arrow{opacity:.5;margin-left:4px}
+td.num{font-variant-numeric:tabular-nums;text-align:right} th.num{text-align:right}
+.chip{display:inline-block;font:600 12px var(--mono);padding:2px 8px;border-radius:4px}
+.chip.good{background:var(--okbg);color:var(--ok)}
+.chip.mid{background:var(--warnbg);color:var(--warn)}
+.chip.bad{background:var(--badbg);color:var(--bad)}
+.chip.neutral{background:var(--sunk);color:var(--muted)}
+.gap-cell.untouched{color:var(--bad);font-weight:600}
+tr.row{cursor:pointer}
+tr.row:hover{background:var(--sunk)}
+tr.detail td{background:var(--sunk);white-space:normal;cursor:default}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:760px){.detail-grid{grid-template-columns:1fr}}
+.bars{display:flex;flex-direction:column;gap:6px}
+.bar{display:grid;grid-template-columns:minmax(110px,170px) 1fr 64px;gap:8px;align-items:center;font-size:13px}
+.bar .track{height:10px;background:var(--surface);border-radius:5px;position:relative;overflow:hidden;border:1px solid var(--line)}
+.bar .track i{position:absolute;inset:0 auto 0 0;border-radius:5px;display:block;height:100%}
+.bar .track.empty::after{content:"no attempts";position:absolute;inset:0;display:flex;align-items:center;padding-left:6px;font:500 10px var(--mono);color:var(--muted)}
+.miss-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;font-size:13px}
+.miss-list li{display:flex;justify-content:space-between;gap:10px}
+footer{text-align:center;font-size:12px;color:var(--muted)}
+.stale{color:var(--warn)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>ExamHelp — class roster</h1>
+    <p class="muted" style="margin:6px 0 0;max-width:70ch">Drop the stats files your students exported from ExamHelp's Stats tab and get a class table: who's behind, and which exam domains a student has never once attempted.</p>
+    <span class="no-upload">Nothing is uploaded. Every file you drop is read and summarized right here, in this browser tab, and never leaves your computer.</span>
+  </header>
+
+  <section class="panel">
+    <div id="drop" class="drop">
+      <div class="eyebrow">Drop student export files here</div>
+      <div class="muted">.json files exported from the ExamHelp Stats tab · multiple at once is fine · repeated drops add to the table</div>
+      <div class="actions">
+        <label class="btn primary" style="margin:0">Choose files<input id="filePicker" type="file" accept=".json,application/json" multiple style="display:none"></label>
+        <button id="clearAll" class="btn">Clear all</button>
+        <button id="downloadCsv" class="btn">Download CSV</button>
+      </div>
+    </div>
+    <div id="errors" class="errors" style="margin-top:12px"></div>
+  </section>
+
+  <div id="tilesBox"></div>
+  <section class="panel">
+    <h3 style="margin-bottom:12px">Class roster</h3>
+    <div id="tableBox" class="tablebox"></div>
+  </section>
+
+  <footer>Standalone page · no server, no accounts, no data leaves this browser · part of <a href="index.html" style="color:inherit">ExamHelp</a></footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+const DOM_ORDER = { sc:["Concepts","Entra","Security solutions","Compliance"],
+                     sec:["1 General concepts","2 Threats & vulns","3 Architecture","4 Operations","5 Program mgmt"] };
+const TRACK = {sc:"SC-900", sec:"Security+"};
+let students = []; // {name, fileName, exported, exportedTs, data, supersededFile}
+let sort = {key:"default", dir:1};
+let expanded = new Set();
+
+function fmtDate(ts){ if(ts==null) return "–"; return new Date(ts).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}); }
+function daysAgo(ts){ return (Date.now()-ts)/864e5; }
+function pctClass(p){ if(p==null) return "neutral"; if(p<70) return "bad"; if(p<80) return "mid"; return "good"; }
+function median(arr){ const xs=arr.filter(x=>x!=null).sort((a,b)=>a-b); if(!xs.length) return null; const m=Math.floor(xs.length/2); return xs.length%2?xs[m]:Math.round((xs[m-1]+xs[m])/2); }
+
+function validate(parsed){
+  if(!parsed || typeof parsed!=="object") return "not a JSON object";
+  if(parsed.app!=="ExamHelp") return "missing or wrong \"app\" field";
+  if(typeof parsed.schema!=="number" || parsed.schema>1) return "unsupported schema version";
+  if(!parsed.summary || typeof parsed.summary!=="object") return "missing \"summary\"";
+  if(!Array.isArray(parsed.attempts)) return "missing \"attempts\" array";
+  return null;
+}
+
+function domainList(track){
+  const seen = new Set();
+  const list = [];
+  students.forEach(s=>{
+    const doms = s.data.summary.domains && s.data.summary.domains[track];
+    if(doms) Object.keys(doms).forEach(d=>{ if(!seen.has(d)){ seen.add(d); list.push(d); } });
+  });
+  return list.length?list:DOM_ORDER[track];
+}
+
+function weakestGap(s){
+  for(const track of ["sc","sec"]){
+    const doms = (s.data.summary.domains||{})[track]||{};
+    for(const dm of domainList(track)){
+      const r = doms[dm];
+      if(r===undefined) continue;
+      if(r===null || r.n===0) return {text:"No attempts: "+dm, untouched:true, pct:-1};
+    }
+  }
+  let worst=null;
+  ["sc","sec"].forEach(track=>{
+    const doms=(s.data.summary.domains||{})[track]||{};
+    domainList(track).forEach(dm=>{
+      const r=doms[dm];
+      if(r && r.n>0 && (worst===null || r.pct<worst.pct)) worst={text:dm+" "+r.pct+"%", untouched:false, pct:r.pct};
+    });
+  });
+  return worst || {text:"No data yet", untouched:true, pct:-1};
+}
+
+function lastActive(s){
+  const A = s.data.attempts||[];
+  return A.length ? Math.max(...A.map(a=>a.ts)) : null;
+}
+
+function readiness(s, track){
+  return (s.data.summary.readiness||{})[track] || null;
+}
+
+function rowSortKey(s){
+  const gap = weakestGap(s);
+  const sc = readiness(s,"sc"), sec = readiness(s,"sec");
+  const combined = (sc?sc.pct:100) + (sec?sec.pct:100);
+  return { untouchedFirst: gap.untouched?0:1, combined };
+}
+
+function addStudent(fileName, parsed){
+  const err = validate(parsed);
+  if(err){ return {ok:false, error:fileName+": "+err}; }
+  const name = (parsed.student && parsed.student.name) || fileName.replace(/\.json$/i,"");
+  const exportedTs = parsed.exported ? new Date(parsed.exported).getTime() : 0;
+  const existingIdx = students.findIndex(s=>s.name.toLowerCase()===name.toLowerCase());
+  const entry = {name, fileName, exported:parsed.exported, exportedTs, data:parsed};
+  if(existingIdx>=0){
+    if(exportedTs >= students[existingIdx].exportedTs){
+      students[existingIdx] = entry;
+      return {ok:true, note:name+": replaced older file for this student"};
+    }
+    return {ok:true, note:fileName+": superseded by a newer file already loaded for "+name};
+  }
+  students.push(entry);
+  return {ok:true};
+}
+
+function handleFiles(fileList){
+  const files = Array.from(fileList).filter(f=>/\.json$/i.test(f.name)||f.type==="application/json");
+  if(!files.length) return;
+  const errors = [];
+  let remaining = files.length;
+  files.forEach(f=>{
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      let parsed;
+      try{ parsed = JSON.parse(reader.result); }
+      catch(e){ errors.push(f.name+": not valid JSON"); }
+      if(parsed!==undefined){
+        const res = addStudent(f.name, parsed);
+        if(!res.ok) errors.push(res.error);
+      }
+      remaining--;
+      if(remaining===0) finishLoad(errors);
+    };
+    reader.onerror = ()=>{ errors.push(f.name+": couldn't read file"); remaining--; if(remaining===0) finishLoad(errors); };
+    reader.readAsText(f);
+  });
+}
+function finishLoad(errors){
+  renderErrors(errors);
+  renderAll();
+}
+function renderErrors(errors){
+  const box = document.getElementById("errors");
+  box.innerHTML = "";
+  errors.forEach(e=>{
+    const d = document.createElement("div");
+    d.className = "err";
+    d.textContent = e;
+    box.append(d);
+  });
+}
+
+function renderTiles(){
+  const box = document.getElementById("tilesBox");
+  if(!students.length){ box.innerHTML=""; return; }
+  const scMed = median(students.map(s=>{const r=readiness(s,"sc"); return r?r.pct:null;}));
+  const secMed = median(students.map(s=>{const r=readiness(s,"sec"); return r?r.pct:null;}));
+  let noCoverage = 0;
+  students.forEach(s=>["sc","sec"].forEach(track=>{
+    const doms=(s.data.summary.domains||{})[track]||{};
+    domainList(track).forEach(dm=>{ const r=doms[dm]; if(r===null||r===undefined||r.n===0) noCoverage++; });
+  }));
+  const tile=(label,val,cls)=>{const t=document.createElement("div"); t.className="tile"+(cls?" "+cls:""); t.innerHTML="<span class='eyebrow'>"+label+"</span><b>"+val+"</b>"; return t;};
+  box.innerHTML = "";
+  const wrap = document.createElement("div"); wrap.className = "tiles";
+  wrap.append(
+    tile("Students loaded", students.length),
+    tile("Median SC-900 readiness", scMed==null?"–":scMed+"%"),
+    tile("Median Sec+ readiness", secMed==null?"–":secMed+"%"),
+    tile("Domains with no coverage", noCoverage, "headline")
+  );
+  box.append(wrap);
+}
+
+function sortedStudents(){
+  const list = students.slice();
+  if(sort.key==="default"){
+    return list.sort((a,b)=>{
+      const ka=rowSortKey(a), kb=rowSortKey(b);
+      if(ka.untouchedFirst!==kb.untouchedFirst) return ka.untouchedFirst-kb.untouchedFirst;
+      return ka.combined-kb.combined;
+    });
+  }
+  const dir = sort.dir;
+  const val = s=>{
+    switch(sort.key){
+      case "name": return s.name.toLowerCase();
+      case "last": return lastActive(s)||0;
+      case "tests": return s.data.summary.tests||0;
+      case "answered": return s.data.summary.answered||0;
+      case "sc": { const r=readiness(s,"sc"); return r?r.pct:-1; }
+      case "sec": { const r=readiness(s,"sec"); return r?r.pct:-1; }
+      case "gap": return weakestGap(s).pct;
+      default: return 0;
+    }
+  };
+  return list.sort((a,b)=>{ const va=val(a), vb=val(b); if(va<vb) return -1*dir; if(va>vb) return 1*dir; return 0; });
+}
+
+function renderReadinessCell(s, track){
+  const r = readiness(s, track);
+  if(!r) return "<span class='chip neutral'>–</span>";
+  return "<span class='chip "+pctClass(r.pct)+"'>"+r.pct+"%</span>";
+}
+
+function renderTable(){
+  const box = document.getElementById("tableBox");
+  if(!students.length){
+    box.innerHTML = "<p class='muted'>No files loaded yet. Drop exported .json files above, or use Choose files.</p>";
+    return;
+  }
+  const cols = [
+    ["name","Student"], ["last","Last active"], ["tests","Tests"], ["answered","Answered"],
+    ["sc","SC-900"], ["sec","Sec+"], ["gap","Weakest gap"]
+  ];
+  const table = document.createElement("table");
+  const thead = document.createElement("thead");
+  const trh = document.createElement("tr");
+  cols.forEach(([key,label])=>{
+    const th = document.createElement("th");
+    th.className = ["tests","answered","sc","sec"].includes(key) ? "num" : "";
+    th.textContent = label;
+    if(sort.key===key) { const a=document.createElement("span"); a.className="arrow"; a.textContent = sort.dir===1?"▲":"▼"; th.append(a); }
+    th.addEventListener("click", ()=>{
+      if(sort.key===key) sort.dir *= -1; else { sort.key=key; sort.dir=1; }
+      renderTable();
+    });
+    trh.append(th);
+  });
+  thead.append(trh);
+  table.append(thead);
+  const tbody = document.createElement("tbody");
+  sortedStudents().forEach((s,i)=>{
+    const la = lastActive(s);
+    const stale = la!=null && daysAgo(la)>3;
+    const gap = weakestGap(s);
+    const tr = document.createElement("tr");
+    tr.className = "row";
+    tr.innerHTML =
+      "<td>"+escapeHtml(s.name)+"</td>"+
+      "<td class='"+(stale?"stale":"")+"'>"+(la?fmtDate(la):"–")+"</td>"+
+      "<td class='num'>"+(s.data.summary.tests||0)+"</td>"+
+      "<td class='num'>"+(s.data.summary.answered||0)+"</td>"+
+      "<td class='num'>"+renderReadinessCell(s,"sc")+"</td>"+
+      "<td class='num'>"+renderReadinessCell(s,"sec")+"</td>"+
+      "<td class='gap-cell"+(gap.untouched?" untouched":"")+"'>"+escapeHtml(gap.text)+"</td>";
+    tr.addEventListener("click", ()=>{
+      if(expanded.has(s.name)) expanded.delete(s.name); else expanded.add(s.name);
+      renderTable();
+    });
+    tbody.append(tr);
+    if(expanded.has(s.name)){
+      const dtr = document.createElement("tr");
+      dtr.className = "detail";
+      const td = document.createElement("td");
+      td.colSpan = cols.length;
+      td.append(buildDetail(s));
+      dtr.append(td);
+      tbody.append(dtr);
+    }
+  });
+  table.append(tbody);
+  box.innerHTML = "";
+  box.append(table);
+}
+
+function buildDetail(s){
+  const wrap = document.createElement("div");
+  wrap.className = "detail-grid";
+  ["sc","sec"].forEach(track=>{
+    const col = document.createElement("div");
+    col.innerHTML = "<h3 style='margin-bottom:8px'>"+TRACK[track]+"</h3>";
+    const bars = document.createElement("div"); bars.className = "bars";
+    const doms = (s.data.summary.domains||{})[track]||{};
+    domainList(track).forEach(dm=>{
+      const r = doms[dm];
+      const bar = document.createElement("div"); bar.className = "bar";
+      const trackEl = document.createElement("span"); trackEl.className = "track"+(r?"":" empty");
+      if(r){ const i=document.createElement("i"); i.style.width=r.pct+"%"; i.style.background = "var(--"+track+")"; trackEl.append(i); }
+      bar.innerHTML = "<span>"+escapeHtml(dm)+"</span>";
+      bar.append(trackEl);
+      const val = document.createElement("span"); val.style.textAlign="right"; val.innerHTML = r?("<span class='chip "+pctClass(r.pct)+"'>"+r.pct+"%</span>"):"<span class='muted'>–</span>";
+      bar.append(val);
+      bars.append(bar);
+    });
+    col.append(bars);
+    wrap.append(col);
+  });
+  const modesCol = document.createElement("div");
+  modesCol.innerHTML = "<h3 style='margin-bottom:8px'>Modes</h3>";
+  const modes = s.data.summary.modes||{};
+  const mt = document.createElement("table");
+  mt.innerHTML = "<thead><tr><th>Mode</th><th class='num'>Tests</th><th class='num'>Accuracy</th><th class='num'>Avg/q</th></tr></thead>";
+  const mb = document.createElement("tbody");
+  Object.entries(modes).forEach(([m,v])=>{
+    const row=document.createElement("tr");
+    row.innerHTML = "<td>"+escapeHtml(m)+"</td><td class='num'>"+v.tests+"</td><td class='num'>"+(v.pct==null?"–":v.pct+"%")+"</td><td class='num'>"+(v.avgMs==null?"–":(v.avgMs/1000).toFixed(1)+"s")+"</td>";
+    mb.append(row);
+  });
+  mt.append(mb);
+  modesCol.append(mt);
+  wrap.append(modesCol);
+
+  const missCol = document.createElement("div");
+  missCol.innerHTML = "<h3 style='margin-bottom:8px'>Top missed domains</h3>";
+  const agg = {};
+  (s.data.summary.topMissed||[]).forEach(m=>{ const k=TRACK[m.track]+" / "+m.dom; agg[k]=(agg[k]||0)+m.miss; });
+  const entries = Object.entries(agg).sort((a,b)=>b[1]-a[1]);
+  const ul = document.createElement("ul"); ul.className = "miss-list";
+  if(!entries.length) ul.innerHTML = "<li class='muted'>No misses recorded.</li>";
+  entries.forEach(([k,v])=>{ const li=document.createElement("li"); li.innerHTML = "<span>"+escapeHtml(k)+"</span><span class='tabnum'>"+(Number.isInteger(v)?v:v.toFixed(1))+"</span>"; ul.append(li); });
+  missCol.append(ul);
+  wrap.append(missCol);
+  return wrap;
+}
+
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
+
+function renderAll(){ renderTiles(); renderTable(); }
+
+function downloadCsv(){
+  if(!students.length) return;
+  const scDoms = domainList("sc"), secDoms = domainList("sec");
+  const header = ["Student","Last active","Tests","Answered","SC-900","Sec+","Weakest gap"]
+    .concat(scDoms.map(d=>"SC-900: "+d)).concat(secDoms.map(d=>"Sec+: "+d));
+  const rows = [header];
+  sortedStudents().forEach(s=>{
+    const la = lastActive(s);
+    const sc = readiness(s,"sc"), sec = readiness(s,"sec");
+    const gap = weakestGap(s);
+    const row = [s.name, la?fmtDate(la):"", s.data.summary.tests||0, s.data.summary.answered||0,
+      sc?sc.pct+"%":"", sec?sec.pct+"%":"", gap.text];
+    scDoms.forEach(d=>{ const r=(s.data.summary.domains.sc||{})[d]; row.push(r?r.pct+"%":"not attempted"); });
+    secDoms.forEach(d=>{ const r=(s.data.summary.domains.sec||{})[d]; row.push(r?r.pct+"%":"not attempted"); });
+    rows.push(row);
+  });
+  const csv = rows.map(r=>r.map(cell=>{ const v=String(cell); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }).join(",")).join("\n");
+  const blob = new Blob([csv], {type:"text/csv"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const today = new Date(); const slug = today.getFullYear()+"-"+String(today.getMonth()+1).padStart(2,"0")+"-"+String(today.getDate()).padStart(2,"0");
+  a.href = url; a.download = "examhelp-roster-"+slug+".csv";
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+const drop = document.getElementById("drop");
+["dragenter","dragover"].forEach(evt=>drop.addEventListener(evt, e=>{ e.preventDefault(); drop.classList.add("over"); }));
+["dragleave","drop"].forEach(evt=>drop.addEventListener(evt, e=>{ e.preventDefault(); drop.classList.remove("over"); }));
+drop.addEventListener("drop", e=>{ if(e.dataTransfer && e.dataTransfer.files) handleFiles(e.dataTransfer.files); });
+document.getElementById("filePicker").addEventListener("change", e=>{ handleFiles(e.target.files); e.target.value=""; });
+document.getElementById("clearAll").addEventListener("click", ()=>{ students=[]; expanded=new Set(); renderErrors([]); renderAll(); });
+document.getElementById("downloadCsv").addEventListener("click", downloadCsv);
+
+renderAll();
+})();
+</script>
+</body>
+</html>
