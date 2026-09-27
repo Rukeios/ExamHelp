@@ -158,6 +158,17 @@ td.num{font-variant-numeric:tabular-nums;text-align:right} th.num{text-align:rig
 .mission{display:flex;gap:9px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
 .mission:last-child{border-bottom:0}.mission i{font-style:normal;color:var(--gold)}
 .boss{border-left:4px solid var(--sec)}.boss.sc{border-left-color:var(--sc)}
+.boss-thumb-box{position:relative;width:100%;aspect-ratio:1/1;max-height:180px;border-radius:6px;background:#000;overflow:hidden;margin-bottom:10px;display:flex;align-items:center;justify-content:center}
+.boss-thumb-box img{width:100%;height:100%;object-fit:contain}
+.boss-thumb-box img.locked{filter:grayscale(1);opacity:.35}
+.boss-check{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 13px var(--mono);color:#000}
+.boss-fight-img{max-height:45vh;width:100%;object-fit:contain;border-radius:8px;background:#000}
+.boss-corner{display:flex;align-items:center;gap:8px}
+.boss-corner img{width:44px;height:44px;object-fit:contain;border:1px solid var(--line);border-radius:5px;background:#000;transition:filter .3s}
+.boss-final-row{border:1px solid var(--gold);border-radius:8px;padding:16px;background:var(--surface);display:flex;flex-direction:column;gap:10px}
+.teaches-panel{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}
+.teaches-panel img{width:180px;max-width:100%;object-fit:contain;background:#000;border-radius:8px;flex:0 0 auto}
+.teaches-panel ul{flex:1;min-width:220px}
 .shake{animation:shake .35s linear}
 @keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 .pbq-list{display:flex;flex-direction:column;gap:9px}
@@ -212,6 +223,7 @@ footer a{color:inherit}
 </div>
 
 <script src="data.js"></script>
+<script src="data-bosses.js"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -222,6 +234,11 @@ const MODES = {think:{name:"Think",color:"var(--ink)",desc:"Untimed. See why aft
                blitz:{name:"Blitz",color:"var(--gold)",desc:"20 seconds each. Explanations at the end."},
                written:{name:"Written",color:"var(--violet)",desc:"No choices. Answer from memory, then grade."}};
 const BLITZ_MS = 20000;
+const BOSSES = window.BOSSES || [];
+const BOSS_IMG = (img,size)=>"assets/bosses/"+size+"/"+img+".webp";
+const bossFor = (track,dom) => BOSSES.find(b=>b.track===track&&b.domain===dom);
+const bossById = id => BOSSES.find(b=>b.id===id);
+const FINAL_BOSS = BOSSES.find(b=>b.final);
 
 // ---------- question index ----------
 const Q = {};
@@ -257,7 +274,7 @@ const saved=lsGet(); if(saved){ if(saved.state) state=Object.assign(state,saved.
 state.done=state.done||{}; state.achievements=state.achievements||{}; state.bosses=state.bosses||{}; state.customQuestions=state.customQuestions||[]; state.prestige=state.prestige||0;
 state.campaign=(state.campaign&&typeof state.campaign==="object"&&!("step" in state.campaign))?state.campaign:{};
 state.customQuestions.forEach(addCustomQuestion);
-let ui={tab:"plan",sel:null,quiz:{scope:"today",mode:"think",n:10},pbq:"firewall",generated:[]};
+let ui={tab:"plan",sel:null,quiz:{scope:"today",mode:"think",n:10},pbq:"firewall",generated:[],teachesBoss:null};
 try{const u=JSON.parse(localStorage.getItem(LS+".ui")||"null"); if(u){ui.tab=u.tab||ui.tab; Object.assign(ui.quiz,u.quiz||{});}}catch(e){}
 function saveUI(){try{localStorage.setItem(LS+".ui",JSON.stringify({tab:ui.tab,quiz:ui.quiz}));}catch(e){}}
 
@@ -424,7 +441,7 @@ function lessonPanel(d){
     done?h("span",{class:"chip good"},"✓ Day complete"):h("span",{class:"muted",style:"font-size:13px"},"Complete all 3 quiz modes above to unlock the next day"+(remaining>0?" ("+remaining+" left)":"")),
     done&&d.d<unlockedDay()?h("button",{class:"btn",onclick:()=>{ui.sel=d.d+1;render();window.scrollTo(0,0);}},"Next day →"):null));
   if(d.track==="sc"&&!d.kind) kids.push(h("p",{class:"muted",style:"margin:0;font-size:13px"},"Pair it with the matching Microsoft Learn module (link below), about 30 minutes."));
-  if(d.track==="sec"&&!d.kind) kids.push(h("p",{class:"muted",style:"margin:0;font-size:13px"},"Pair it with the matching Professor Messer videos for "+d.dom.replace(/^\d /,"Domain "+d.dom[0]+": ")+", about 30–45 minutes at 1.25Ã—."));
+  if(d.track==="sec"&&!d.kind) kids.push(h("p",{class:"muted",style:"margin:0;font-size:13px"},"Pair it with the matching Professor Messer videos for "+d.dom.replace(/^\d /,"Domain "+d.dom[0]+": ")+", about 30–45 minutes at 1.25×."));
   return h("section",{class:"panel lesson"},kids);
 }
 
@@ -478,10 +495,14 @@ function startQuiz(scope,mode,n){
   if(mode==="blitz") startTimer();
 }
 function startBoss(track,dom){
-  const keys=Object.values(Q).filter(q=>q.track===track&&q.dom===dom&&q.d<=unlockedDay()).map(q=>q.k);
+  const isFinal=track==="final";
+  const keys=isFinal
+    ? Object.values(Q).filter(q=>q.d<=unlockedDay()).map(q=>q.k)
+    : Object.values(Q).filter(q=>q.track===track&&q.dom===dom&&q.d<=unlockedDay()).map(q=>q.k);
   if(!keys.length) return;
+  const boss=isFinal?FINAL_BOSS:bossFor(track,dom);
   startQuiz({id:"boss-"+track+"-"+dom,label:dom+" boss",keys,boss:true},"think",15);
-  run.boss={track,dom,lives:3};
+  run.boss={track,dom,lives:3,meta:boss};
   render();
 }
 function stopTimer(){ if(tick){cancelAnimationFrame(tick);tick=null;} }
@@ -556,11 +577,21 @@ async function askClaudeGrade(){
 function renderRun(){
   if(run.finished) return renderResult();
   const it=run.list[run.i], q=it.q, a=run.answered;
+  const bm=run.boss&&run.boss.meta;
+  const bossCorner=bm?h("div",{class:"boss-corner"},
+    h("img",{src:BOSS_IMG(bm.img,"thumb"),alt:bm.name,style:"filter:"+(run.boss.lives>=3?"none":run.boss.lives===2?"grayscale(.4) brightness(.85)":"grayscale(.8) brightness(.6)")}),
+    h("span",{class:"streak"},"♥".repeat(run.boss.lives)+"♡".repeat(3-run.boss.lives))):null;
   const head=h("div",{class:"qhead"},
     h("div",{class:"row"},h("span",{class:"tag "+q.track,style:"padding:2px 8px;border-radius:3px;font:600 12px var(--mono)"},TRACK[q.track]),h("span",{class:"eyebrow"},MODES[run.mode].name+" · "+run.scope.label+" · Day "+q.d+" · "+q.dom)),
-    h("div",{class:"row"},run.boss?h("span",{class:"streak"},"Boss lives: "+"â™¥".repeat(run.boss.lives)+"â™¡".repeat(3-run.boss.lives)):null,run.streak>=3?h("span",{class:"streak"},run.streak+" in a row"):null,h("span",{class:"eyebrow tabnum"},(run.i+1)+" / "+run.list.length),
+    h("div",{class:"row"},bossCorner||(run.boss?h("span",{class:"streak"},"Boss lives: "+"♥".repeat(run.boss.lives)+"♡".repeat(3-run.boss.lives)):null),run.streak>=3?h("span",{class:"streak"},run.streak+" in a row"):null,h("span",{class:"eyebrow tabnum"},(run.i+1)+" / "+run.list.length),
       h("button",{class:"btn small",onclick:()=>{ if(run.res.length) finish(); else {stopTimer();run=null;render();} }},run.res.length?"End & score":"Quit")));
-  const kids=[head];
+  const kids=[];
+  if(bm&&run.i===0&&!a) kids.push(h("div",{style:"text-align:center;margin-bottom:14px"},
+    h("img",{class:"boss-fight-img",src:BOSS_IMG(bm.img,"full"),alt:bm.name+" — "+bm.domain,loading:"eager"}),
+    h("h2",{style:"margin:10px 0 2px"},bm.name),
+    h("div",{class:"eyebrow"},bm.domain),
+    h("p",{class:"muted",style:"font-style:italic;margin:6px 0 0"},bm.taunt)));
+  kids.push(head);
   if(run.mode==="blitz") kids.push(h("div",{class:"row",style:"gap:8px"},h("div",{class:"timer",id:"twrap",style:"flex:1"},h("i",{id:"tbar"})),h("span",{class:"eyebrow tabnum",id:"tlab",style:"width:32px;text-align:right"},"20s")));
   kids.push(h("div",{class:"qtext"},q.q));
   if(run.mode==="written"){
@@ -602,19 +633,33 @@ document.addEventListener("keydown",e=>{
   if(!run.answered&&/^[1-4]$/.test(e.key)){ const pos=+e.key-1; if(pos<it.order.length){ e.preventDefault(); answer(it.order[pos]); } }
   else if(run.answered&&run.mode==="think"&&e.key==="Enter"){ e.preventDefault(); next(); }
 });
+function teachesPanel(boss,heading){
+  if(!boss) return null;
+  return h("section",{class:"panel",style:"border-left:3px solid "+boss.color},
+    h("h3",{style:"margin-bottom:10px"},heading||"Look again at the boss"),
+    h("div",{class:"teaches-panel"},
+      h("img",{src:BOSS_IMG(boss.img,"full"),alt:boss.name+" — "+boss.domain,loading:"lazy"}),
+      h("ul",{class:"pts"},boss.teaches.map(t=>h("li",{},t)))));
+}
 function renderResult(){
   const r=run.rec, p=run.prev;
   const d=p?r.pct-p.pct:null;
   const avg=r.n?r.ms/r.n:0;
   const misses=run.res.filter(x=>x[1]<1).map(x=>Q[x[0]]);
+  const bm=run.boss&&run.boss.meta;
+  const bossWon=run.boss&&r.pct>=80&&run.boss.lives>0&&r.n===15;
   const kids=[
     h("div",{class:"eyebrow"},MODES[r.mode].name+" · "+r.scope+" · saved"),
+    bm?h("div",{style:"text-align:center;margin:4px 0 10px"},
+      h("img",{class:"boss-fight-img",style:"max-height:32vh",src:BOSS_IMG(bm.img,"full"),alt:bm.name}),
+      h("h2",{style:"margin:10px 0 0"},bm.name),
+      h("p",{class:"muted",style:"font-style:italic;margin:4px 0 0"},bossWon?bm.defeat:bm.taunt)):null,
     h("div",{class:"result-top"},
       h("div",{},h("div",{class:"big tabnum"},r.pct+"%"),h("div",{class:"muted tabnum"},(Number.isInteger(r.score)?r.score:r.score.toFixed(1))+" / "+r.n+" correct")),
       h("div",{},h("div",{class:"eyebrow"},"Time"),h("div",{class:"tabnum",style:"font:700 26px var(--display)"},secs(r.ms)),h("div",{class:"muted tabnum",style:"font-size:13px"},secs(avg)+" per question")),
       h("div",{},h("div",{class:"eyebrow"},"Best streak"),h("div",{class:"tabnum",style:"font:700 26px var(--display)"},r.best)),
       h("div",{},h("div",{class:"eyebrow"},"vs last time"),p?h("div",{class:"tabnum delta "+(d>0?"up":d<0?"down":""),style:"font:700 26px var(--display)"},(d>0?"+":"")+d+" pts"):h("div",{class:"muted"},"First run of this set"),p?h("div",{class:"muted tabnum",style:"font-size:13px"},"was "+p.pct+"% · "+secs(p.ms/p.n)+"/q"):null)),
-    run.boss?(r.pct>=80&&run.boss.lives>0&&r.n===15?h("p",{style:"margin:0"},"Boss defeated. The domain badge is yours."):h("p",{style:"margin:0"},"Boss escaped. Finish all 15 with a score of 80% and at least one life remaining.")):(r.pct>=80?h("p",{style:"margin:0"},"That's at or above the 80% practice target."):h("p",{style:"margin:0"},"Under the 80% practice target. Hit the misses below, then run it again.")),
+    run.boss?(bossWon?h("p",{style:"margin:0"},"Boss defeated. The domain badge is yours."):h("p",{style:"margin:0"},"Boss escaped. Finish all 15 with a score of 80% and at least one life remaining.")):(r.pct>=80?h("p",{style:"margin:0"},"That's at or above the 80% practice target."):h("p",{style:"margin:0"},"Under the 80% practice target. Hit the misses below, then run it again.")),
     h("div",{class:"actions"},
       h("button",{class:"btn primary",onclick:()=>startQuiz({id:run.scope.id,label:run.scope.label,keys:run.list.map(x=>x.k)},run.mode,run.list.length)},"Run it again (new order)"),
       misses.length?h("button",{class:"btn",onclick:()=>startQuiz({id:"retry",label:"Retry misses",keys:misses.map(x=>x.k)},run.mode==="blitz"?"think":run.mode,misses.length)},"Retry my "+misses.length+" miss"+(misses.length>1?"es":"")):null,
@@ -622,7 +667,9 @@ function renderResult(){
       h("button",{class:"btn",onclick:()=>{run=null;render();}},"New quiz"))];
   if(misses.length) kids.push(h("h3",{},"Review what you missed"),h("div",{class:"misslist"},misses.map(q=>h("div",{class:"miss"},h("div",{class:"eyebrow"},"Day "+q.d+" · "+q.dom),h("div",{},q.q),h("div",{class:"ans"},h("b",{style:"color:var(--ok)"},"Answer: "),q.o[q.a]),h("div",{class:"muted",style:"font-size:14px"},q.why)))));
   else kids.push(h("p",{style:"margin:0"},"Clean sweep. Nothing to review."));
-  return h("section",{class:"panel runner"},kids);
+  const out=[h("section",{class:"panel runner"},kids)];
+  if(bm) out.push(teachesPanel(bm));
+  return h("div",{style:"display:flex;flex-direction:column;gap:16px"},out);
 }
 
 // ---------- game layer ----------
@@ -668,7 +715,10 @@ function renderByok(){
 function renderGame(){
   const [title,need]=rank(), next=RANKS.find(([,xp])=>xp>state.xp);
   const missions=missionData(), allDone=missions.every(m=>m.now>=m.goal);
-  const bosses=["sc","sec"].flatMap(track=>DOMS[track].map(dom=>({track,dom,name:track==="sc"?"The Identity Impostor":dom.includes("Threats")?"The Insider Threat":dom.includes("Architecture")?"Firewall Warlord":dom.includes("Operations")?"Ransomware King":"The Compliance Collector"})));
+  const domainBosses=BOSSES.filter(b=>!b.final);
+  const finalBoss=FINAL_BOSS;
+  const domainWon=domainBosses.filter(b=>state.bosses[b.track+"|"+b.domain]).length;
+  const allDomainsCleared=domainWon>=domainBosses.length;
   const generated=ui.generated.length?h("div",{class:"misslist",style:"margin-top:12px"},ui.generated.map((q,i)=>h("div",{class:"miss"},
     h("div",{class:"eyebrow"},q.dom+" · candidate"),
     h("div",{},q.q),
@@ -678,16 +728,33 @@ function renderGame(){
       h("button",{class:"btn",onclick:()=>{ui.generated.splice(i,1);render();}},"Discard"))))):null;
   const haveKey=!!(byokGet()&&byokGet().key);
   const engine=sample?h("span",{class:"chip good"},"Using Claude"):haveKey?h("span",{class:"chip good"},"Using your "+byokGet().provider+" key"):h("span",{class:"chip weak"},"No generator connected");
+  const bossCard=(b)=>{
+    const won=state.bosses[b.track+"|"+b.domain];
+    const available=Object.values(Q).some(q=>q.track===b.track&&q.dom===b.domain&&q.d<=unlockedDay());
+    return h("div",{class:"game-card boss "+b.track,style:"border-left-color:"+b.color},
+      h("div",{class:"boss-thumb-box"},
+        h("img",{src:BOSS_IMG(b.img,"thumb"),alt:b.name+" — "+b.domain,width:"320",height:"320",loading:"lazy",class:won?"":"locked"}),
+        won?h("div",{class:"boss-check",style:"background:"+b.color},"✓"):null),
+      h("span",{class:"tag "+b.track},TRACK[b.track]),h("b",{},b.name),h("p",{class:"muted",style:"margin:5px 0 12px;font-size:13px"},b.domain),
+      h("div",{class:"actions",style:"flex-wrap:wrap"},
+        h("button",{class:"btn "+(won?"":"primary"),disabled:available?null:true,onclick:()=>startBoss(b.track,b.domain)},won?"✓ Defeated · rematch":available?"Challenge boss":"Locked until this domain unlocks"),
+        won?h("button",{class:"btn small",onclick:()=>{ui.teachesBoss=b;render();}},"Look again"):null));
+  };
   return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
     h("section",{class:"panel"},h("div",{class:"game-grid"},
       h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Current rank"),h("b",{},title),h("div",{class:"tabnum"},state.xp+" XP"+(next?" · "+(next[1]-state.xp)+" to "+next[0]:" · top rank"))),
       h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Daily missions "+(allDone?"🔥":"")),missions.map(m=>h("div",{class:"mission"},h("i",{},m.now>=m.goal?"✓":"○"),h("span",{},m.text,h("span",{class:"muted"}," · "+Math.min(m.now,m.goal)+"/"+m.goal))))),
       h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Achievements"),Object.entries(ACHIEVEMENTS).map(([key,a])=>h("div",{class:"mission"},h("i",{},state.achievements[key]?"★":"○"),h("span",{},a.name,h("span",{class:"muted"}," · "+a.desc))))))),
-    h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Domain boss fights"),h("p",{class:"muted",style:"margin-top:0"},"Survive a 15-question run with three lives and score at least 80% to clear a boss."),h("div",{class:"game-grid"},bosses.map(b=>{
-      const won=state.bosses[b.track+"|"+b.dom];
-      const available=Object.values(Q).some(q=>q.track===b.track&&q.dom===b.dom&&q.d<=unlockedDay());
-      return h("div",{class:"game-card boss "+b.track},h("span",{class:"tag "+b.track},TRACK[b.track]),h("b",{},b.name),h("p",{class:"muted",style:"margin:5px 0 12px;font-size:13px"},b.dom),h("button",{class:"btn "+(won?"":"primary"),disabled:available?null:true,onclick:()=>startBoss(b.track,b.dom)},won?"✓ Defeated · rematch":available?"Challenge boss":"Locked until this domain unlocks"));
-    }))));
+    h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Domain boss fights"),h("p",{class:"muted",style:"margin-top:0"},"Survive a 15-question run with three lives and score at least 80% to clear a boss."),h("div",{class:"game-grid"},domainBosses.map(bossCard))),
+    finalBoss?h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Final boss"),h("div",{class:"boss-final-row"},
+      h("div",{class:"boss-thumb-box",style:"max-height:220px"},
+        h("img",{src:BOSS_IMG(finalBoss.img,allDomainsCleared?"full":"thumb"),alt:finalBoss.name,width:"320",height:"320",loading:"lazy",class:allDomainsCleared?"":"locked"}),
+        state.bosses["final|"+finalBoss.domain]?h("div",{class:"boss-check",style:"background:"+finalBoss.color},"✓"):null),
+      h("b",{style:"font:700 26px var(--display)"},finalBoss.name),
+      h("p",{class:"muted",style:"margin:0"},allDomainsCleared?finalBoss.domain:(finalBoss.requires||"Clear all 9 domain bosses to unlock.")+" ("+domainWon+"/"+domainBosses.length+")"),
+      h("div",{class:"actions"},h("button",{class:"btn "+(state.bosses["final|"+finalBoss.domain]?"":"primary"),disabled:allDomainsCleared?null:true,onclick:()=>startBoss("final",finalBoss.domain)},state.bosses["final|"+finalBoss.domain]?"✓ Defeated · rematch":allDomainsCleared?"Challenge final boss":"Locked"),
+        state.bosses["final|"+finalBoss.domain]?h("button",{class:"btn small",onclick:()=>{ui.teachesBoss=finalBoss;render();}},"Look again"):null))):null,
+    ui.teachesBoss?h("div",{},teachesPanel(ui.teachesBoss),h("div",{class:"actions",style:"margin-top:10px"},h("button",{class:"btn",onclick:()=>{ui.teachesBoss=null;render();}},"Close"))):null);
 }
 function renderLab(){
   const generated=ui.generated.length?h("div",{class:"misslist",style:"margin-top:12px"},ui.generated.map((q,i)=>h("div",{class:"miss"},
@@ -855,7 +922,7 @@ const RICH_CAMPAIGN={
   29:{"id":"m29","title":"Who Gets In","track":"sec","domain":"4 Operations","brief":"Different systems need different access rules: classified plant docs, a shared team folder, and an app that should check department, device, and time of day.","steps":[["Access to classified docs is set by clearance labels that admins control and users can't change. That's:",["MAC (mandatory access control)","DAC","RBAC","ABAC"],0,"Labels and clearances set by admins is mandatory access control."],["The app that decides by department, device, location, and time uses:",["ABAC (attribute-based)","MAC","DAC","Rule-based on IP only"],0,"Multiple attributes deciding access is ABAC."],["An app needs limited access to a user's calendar without ever seeing their password. Use:",["OAuth","LDAP","RADIUS","NTLM"],0,"OAuth grants scoped, delegated access with a token, not the password."],["Admin credentials should be checked out from a vault and rotated after use. That's:",["Privileged access management (PAM)","SSO","Federation","DAC"],0,"PAM vaults and rotates privileged credentials."]],"debrief":"Each system now uses the right access model, apps use OAuth instead of shared passwords, and admin creds live in a vault."},
   30:{"id":"m30","title":"The Contractor Who Never Left","track":"sec","domain":"4 Operations","brief":"During an audit you find a contractor whose contract ended four months ago still has an active VPN account, and it logged in last weekend.","steps":[["What process failed?",["Deprovisioning","Identity proofing","Federation","Tokenization"],0,"Access should be removed as soon as the relationship ends."],["What do you do right now?",["Disable the account, preserve the logs, and start IR on that login","Delete the logs to tidy up","Wait until next quarter's review","Reset the password and email it to the contractor"],0,"A login from an account that should be dead is a potential incident; contain and preserve."],["What recurring control would have caught this?",["Periodic access reviews / attestation","Full-disk encryption","WPA3","Code signing"],0,"Scheduled reviews make managers confirm who still needs access."],["Contractor accounts should expire automatically on the contract end date. That's:",["Least privilege with time-bound access","Non-repudiation","Defense in depth","Fail-open"],0,"Access limited to exactly the time and scope needed."]],"debrief":"It turned out the contractor reused a leaked password. You added expiration dates to all vendor accounts and quarterly reviews."},
   31:{"id":"m31","title":"The Vendor Contract","track":"sec","domain":"5 Program mgmt","brief":"The utility is hiring a managed detection service. You review the agreements and vet the vendor before signing.","steps":[["The contract should guarantee response within 30 minutes with penalties if missed. That belongs in the:",["SLA","NDA","MOU","AUP"],0,"A service level agreement sets measurable commitments with consequences."],["To keep the utility's sensitive information confidential, both parties sign a:",["NDA","SOW","SLA","BPA"],0,"A non-disclosure agreement protects shared secrets."],["Researching the vendor's security posture before signing is:",["Due diligence","Due care","Attestation","Tokenization"],0,"Due diligence is the up-front investigation."],["A clause letting you inspect the vendor's controls later is a:",["Right-to-audit clause","Backout plan","Wildcard clause","Honeytoken"],0,"Right-to-audit lets you verify the vendor keeps its promises."]],"debrief":"The MDR contract has an SLA with teeth, an NDA, and a right-to-audit clause, and you did your due diligence first."},
-  32:{"id":"m32","title":"The Budget Meeting","track":"sec","domain":"5 Program mgmt","brief":"The CFO wants numbers. A ransomware incident would cost about $400,000 to recover from, and similar utilities get hit about once every 4 years. A managed detection service costs $60,000 a year.","steps":[["What's the annualized loss expectancy (ALE)?",["$100,000","$400,000","$1,600,000","$60,000"],0,"ALE = SLE Ã— ARO = $400,000 Ã— 0.25 = $100,000 per year."],["Is $60,000 a year justified by that number alone?",["Yes, it costs less than the $100,000 expected yearly loss, assuming it meaningfully cuts the risk","No, it's more than the SLE","No, security can never be justified with numbers","Only if the ARO is 0"],0,"If a control costs less than the loss it prevents, it makes financial sense."],["The CFO also buys cyber insurance. That's which risk strategy?",["Transfer","Avoid","Accept","Mitigate"],0,"Insurance shifts the financial impact to another party."],["The utility decides to retire a rarely used risky legacy service entirely. That's risk:",["Avoidance","Transference","Acceptance","Mitigation"],0,"Stopping the activity removes the risk."]],"debrief":"Budget approved. You spoke the CFO's language: dollars, likelihood, and contracts."},
+  32:{"id":"m32","title":"The Budget Meeting","track":"sec","domain":"5 Program mgmt","brief":"The CFO wants numbers. A ransomware incident would cost about $400,000 to recover from, and similar utilities get hit about once every 4 years. A managed detection service costs $60,000 a year.","steps":[["What's the annualized loss expectancy (ALE)?",["$100,000","$400,000","$1,600,000","$60,000"],0,"ALE = SLE × ARO = $400,000 × 0.25 = $100,000 per year."],["Is $60,000 a year justified by that number alone?",["Yes, it costs less than the $100,000 expected yearly loss, assuming it meaningfully cuts the risk","No, it's more than the SLE","No, security can never be justified with numbers","Only if the ARO is 0"],0,"If a control costs less than the loss it prevents, it makes financial sense."],["The CFO also buys cyber insurance. That's which risk strategy?",["Transfer","Avoid","Accept","Mitigate"],0,"Insurance shifts the financial impact to another party."],["The utility decides to retire a rarely used risky legacy service entirely. That's risk:",["Avoidance","Transference","Acceptance","Mitigation"],0,"Stopping the activity removes the risk."]],"debrief":"Budget approved. You spoke the CFO's language: dollars, likelihood, and contracts."},
   33:{"id":"m33","title":"Red Versus Blue","track":"sec","domain":"5 Program mgmt","brief":"Before your annual assessment, leadership approves a penetration test and wants to strengthen the human side too.","steps":[["Testers get full network diagrams and source code up front. That's a:",["Known-environment (white box) test","Unknown-environment test","Passive recon only","Tabletop exercise"],0,"Full information provided is a white-box, known-environment test."],["A tester reviews the utility's LinkedIn and public DNS records without touching any systems. That's:",["Passive reconnaissance","Active reconnaissance","Exploitation","A DoS test"],0,"No contact with the target is passive recon."],["The red team and blue team collaborate and share findings live. That's:",["Purple (integrated) teaming","Offensive testing only","Defensive testing only","A black-box test"],0,"Red plus blue working together is purple teaming."],["To strengthen the human side, HR sends fake phishing emails and assigns training to clickers. That's a:",["Security awareness phishing campaign","Penetration test of the firewall","Legal hold","Change request"],0,"Simulated phishing plus targeted training is an awareness program."]],"debrief":"The pen test found real gaps, the teams worked purple, and phishing click rates fell. You closed the loop from tech to people."},
 };
 function renderCampaign(){
