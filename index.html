@@ -77,8 +77,10 @@ nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(-
 .rank-badge{align-self:flex-start;background:var(--ink);color:var(--bg);border-radius:999px;padding:5px 10px;font:500 12px var(--mono);letter-spacing:.04em}
 
 /* strip */
-.strip{display:grid;grid-template-columns:repeat(33,minmax(0,1fr));gap:3px}
-@media (max-width:720px){.strip{grid-template-columns:repeat(11,minmax(0,1fr))}}
+.strip{display:grid;grid-template-columns:repeat(var(--cols,33),minmax(0,1fr));gap:3px}
+@media (max-width:720px){.strip{grid-template-columns:repeat(min(var(--cols,33),11),minmax(0,1fr))}}
+.program-card{border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px;flex:1 1 240px;max-width:340px}
+.program-card b{font:700 20px var(--display)}
 .cell{position:relative;height:40px;border:1px solid var(--line);border-top:4px solid var(--c);background:var(--surface);border-radius:3px;font:600 13px var(--mono);color:var(--sec);padding:0;display:flex;align-items:center;justify-content:center}
 .cell.sc{--c:var(--sc)} .cell.sec{--c:var(--sec)}
 .cell.done{background:var(--c);color:var(--surface)}
@@ -315,6 +317,7 @@ footer a{color:inherit}
       <div class="exams" id="exams"></div>
     </div>
     <div id="examrow"></div>
+    <div id="programrow"></div>
     <div class="row" style="justify-content:space-between">
       <label class="fld">Plan start date<input type="date" id="start"></label>
       <span class="row" style="gap:10px;align-items:center">
@@ -430,8 +433,18 @@ function parseDate(s){const [y,m,d]=s.split("-").map(Number);return new Date(y,m
 function midnight(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate());}
 function dayDate(n){const s=parseDate(state.start);s.setDate(s.getDate()+n-1);return s;}
 function todayN(){return Math.floor((midnight(new Date())-parseDate(state.start))/864e5)+1;}
-function unlockedDay(){const next=DAYS.find(d=>!state.done[d.d]);return next?next.d:33;}
-const allDaysComplete=()=>DAYS.every(d=>!!state.done[d.d]);
+// ---------- program selection ----------
+// state.program is "sc" | "sec" | "both". Undefined means "never chosen yet" (first-run
+// picker owns that case) but reads as "both" everywhere else so nothing breaks.
+function programOf(){ return state.program||"both"; }
+const inProgram = t => programOf()==="both" || t===programOf();
+function programDays(){ return DAYS.filter(d=>inProgram(d.track)); }
+// Real day numbers (and every question/campaign key built from them) never change.
+// This map is display-only: real day -> 1-based position within the chosen program.
+function displayDayMap(){ const m={}; programDays().forEach((d,i)=>{ m[d.d]=i+1; }); return m; }
+function displayDay(d){ return displayDayMap()[d]||d; }
+function unlockedDay(){const pd=programDays();const next=pd.find(d=>!state.done[d.d]);return next?next.d:pd[pd.length-1].d;}
+const allDaysComplete=()=>programDays().every(d=>!!state.done[d.d]);
 function todayISO(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 
 // ---------- state + storage ----------
@@ -578,6 +591,61 @@ function renderExamToggle(){
     h("button",{class:"linklike",onclick:()=>{examFormOpen=true;render();}},"Edit exam dates"),
     h("button",{class:"linklike",onclick:()=>{state.examMode=false;state.examDates={sc:null,sec:null};saveProgress();render();}},"Clear exam dates")));
 }
+// ---------- program picker ----------
+let programFormOpen=false;
+const PROGRAM_LABEL={sc:"SC-900 only",sec:"Security+ only",both:"Both (33-day camp)"};
+function setProgram(p){ state.program=p; programFormOpen=false; saveProgress(); render(); }
+function renderProgramToggle(){
+  const mount=document.getElementById("programrow"); if(!mount) return;
+  mount.replaceChildren();
+  if(!state.program) return; // first-run picker owns the decision until one is made
+  if(!programFormOpen){
+    mount.append(h("div",{class:"row",style:"gap:10px;align-items:center;flex-wrap:wrap"},
+      h("span",{class:"muted",style:"font-size:13px"},"Program: "+PROGRAM_LABEL[state.program]),
+      h("button",{class:"linklike",onclick:()=>{programFormOpen=true;render();}},"Change")));
+    return;
+  }
+  mount.append(h("div",{class:"panel",style:"display:flex;flex-direction:column;gap:8px;max-width:420px"},
+    h("h3",{style:"margin:0"},"Program"),
+    h("p",{class:"muted",style:"margin:0;font-size:13px"},"Switching hides content, it doesn't delete anything. Your history stays."),
+    h("div",{class:"actions",style:"flex-wrap:wrap"},
+      h("button",{class:"btn "+(state.program==="sc"?"primary":""),onclick:()=>setProgram("sc")},"SC-900"),
+      h("button",{class:"btn "+(state.program==="sec"?"primary":""),onclick:()=>setProgram("sec")},"Security+"),
+      h("button",{class:"btn "+(state.program==="both"?"primary":""),onclick:()=>setProgram("both")},"Both")),
+    h("div",{class:"actions"},h("button",{class:"btn",onclick:()=>{programFormOpen=false;render();}},"Cancel"))));
+}
+function programCounts(track){
+  return {
+    days: DAYS.filter(d=>d.track===track&&d.q).length,
+    q: Object.values(Q).filter(q=>q.track===track).length,
+    dom: (DOMS[track]||[]).length,
+    boss: BOSSES.filter(b=>b.track===track&&!b.final).length
+  };
+}
+function renderProgramPicker(){
+  const sc=programCounts("sc"), sec=programCounts("sec");
+  const bothQ=Object.keys(Q).length, bothDom=(DOMS.sc||[]).length+(DOMS.sec||[]).length, bothBoss=BOSSES.filter(b=>!b.final).length;
+  const card=(title,subtitle,lines,onPick)=>h("div",{class:"program-card"},
+    h("b",{},title), h("p",{class:"muted",style:"margin:0;font-size:13px"},subtitle),
+    h("ul",{class:"pts",style:"margin:0"},lines.map(l=>h("li",{},l))),
+    h("button",{class:"btn primary",onclick:onPick},"Choose "+title));
+  return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:16px"},
+    h("h2",{style:"margin:0"},"What are you studying for?"),
+    h("p",{class:"muted",style:"margin:0"},"Pick one now — you can change it later, and it never deletes your history."),
+    h("div",{class:"row",style:"gap:16px;flex-wrap:wrap;align-items:stretch"},
+      card("SC-900","Microsoft Security, Compliance & Identity Fundamentals",
+        ["~"+sc.days+" study days · "+sc.q+" questions · "+sc.dom+" domains · "+sc.boss+" bosses",
+         "Entry level, no prerequisites, 65 minutes, "+MOCK_SPEC.sc.n+" questions."],
+        ()=>setProgram("sc")),
+      card("Security+","CompTIA SY0-701",
+        ["~"+sec.days+" study days · "+sec.q+" questions · "+sec.dom+" domains · "+sec.boss+" bosses",
+         "Assumes some networking background. "+MOCK_SPEC.sec.minutes+" minutes, up to "+MOCK_SPEC.sec.n+" questions."],
+        ()=>setProgram("sec")),
+      card("Both","The full 33-day camp",
+        [bothQ+" questions · "+bothDom+" domains · "+bothBoss+" bosses + the final boss",
+         "SC-900 first, then Security+."],
+        ()=>setProgram("both"))));
+}
 function renderHeader(){
   const t=todayN(), ex=document.getElementById("exams"); ex.replaceChildren();
   const [title]=rank(), nextRank=RANKS.find(([,xp])=>xp>state.xp);
@@ -608,6 +676,7 @@ function renderHeader(){
   }
   document.getElementById("start").value=state.start;
   renderExamToggle();
+  renderProgramToggle();
   document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.tab===ui.tab)));
   renderPatchButton();
   renderPatchModal();
@@ -714,7 +783,7 @@ function prestigeBanner(){
     h("div",{class:"row",style:"justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"},
       h("h2",{style:"margin:0"},"Camp complete — "+tierName(state.prestige)+" run finished"),
       h("button",{class:"btn primary",onclick:()=>{prestigeConfirmOpen=true;render();}},"Prestige to "+nextName)),
-    h("p",{class:"muted",style:"margin:0;font-size:13px"},"33 days · "+totalQ+" questions answered this run · "+pct(totalCorrect,totalQ)+"% accuracy"+(bestStreak?" · best streak "+bestStreak:"")),
+    h("p",{class:"muted",style:"margin:0;font-size:13px"},programDays().length+" days · "+totalQ+" questions answered this run · "+pct(totalCorrect,totalQ)+"% accuracy"+(bestStreak?" · best streak "+bestStreak:"")),
     prestigeConfirmOpen?h("div",{class:"panel",style:"border-color:var(--bad);display:flex;flex-direction:column;gap:8px"},
       h("p",{style:"margin:0"},h("b",{},"Prestige to "+nextName+"?")),
       h("p",{class:"muted",style:"margin:0;font-size:13px"},"Resets: day completion, mock exam unlocks, campaign mission completion, current run progress."),
@@ -724,21 +793,25 @@ function prestigeBanner(){
         h("button",{class:"btn",onclick:()=>{prestigeConfirmOpen=false;render();}},"Cancel"))):null);
 }
 function renderPlan(){
-  const t=todayN(), current=unlockedDay(); if(ui.sel==null||ui.sel>current) ui.sel=current;
-  const strip=h("div",{class:"strip",role:"list"});
-  DAYS.forEach(d=>{
+  const t=todayN(), current=unlockedDay();
+  if(ui.sel==null||ui.sel>current||!BYDAY[ui.sel]||!inProgram(BYDAY[ui.sel].track)) ui.sel=current;
+  const pd=programDays(), disp=displayDayMap();
+  const strip=h("div",{class:"strip",role:"list",style:"--cols:"+pd.length});
+  pd.forEach(d=>{
     const locked=d.d>current;
     const cls=["cell",d.track,d.kind||"",state.done[d.d]?"done":"",d.d===t?"today":"",d.d===ui.sel?"sel":"",locked?"locked":""].join(" ");
-    const title=locked?"Complete Day "+current+" to unlock Day "+d.d:"Day "+d.d+" · "+fmtD(dayDate(d.d))+"\n"+d.title;
-    strip.append(h("button",{class:cls,role:"listitem","aria-label":"Day "+d.d+": "+d.title,title,disabled:locked?true:null,onclick:()=>{ui.sel=d.d;render();}},d.d));
+    const title=locked?"Complete Day "+disp[current]+" to unlock Day "+disp[d.d]:"Day "+disp[d.d]+" · "+fmtD(dayDate(d.d))+"\n"+d.title;
+    strip.append(h("button",{class:cls,role:"listitem","aria-label":"Day "+disp[d.d]+": "+d.title,title,disabled:locked?true:null,onclick:()=>{ui.sel=d.d;render();}},disp[d.d]));
   });
-  const legend=h("div",{class:"legend"},
-    h("span",{},h("i",{class:"sw",style:"background:var(--sc)"}),"SC-900 (days 1–12)"),
-    h("span",{},h("i",{class:"sw",style:"background:var(--sec)"}),"Security+ (days 13–33)"),
+  const legendKids=[];
+  if(inProgram("sc")) legendKids.push(h("span",{},h("i",{class:"sw",style:"background:var(--sc)"}),"SC-900 (days 1–"+disp[12]+")"));
+  if(inProgram("sec")) legendKids.push(h("span",{},h("i",{class:"sw",style:"background:var(--sec)"}),"Security+ (days "+(programOf()==="both"?disp[13]:1)+"–"+disp[33]+")"));
+  legendKids.push(
     h("span",{},h("i",{class:"sw",style:"background:repeating-linear-gradient(135deg,var(--surface) 0 3px,var(--line) 3px 5px);border:1px solid var(--line)"}),"Review day"),
     h("span",{},h("i",{class:"sw",style:"background:var(--gold);border-radius:50%;width:8px;height:8px"}),"Exam"),
     h("span",{},h("i",{class:"sw",style:"box-shadow:inset 0 0 0 2px var(--gold)"}),"Today"),
-    h("span",{class:"tabnum"},Object.keys(state.done).length+" / 33 days done · Day "+current+" is active"));
+    h("span",{class:"tabnum"},Object.keys(state.done).filter(dd=>inProgram(BYDAY[dd]&&BYDAY[dd].track)).length+" / "+pd.length+" days done · Day "+disp[current]+" is active"));
+  const legend=h("div",{class:"legend"},legendKids);
   return h("div",{style:"display:flex;flex-direction:column;gap:14px"},prestigeBanner(),strip,legend,lessonPanel(BYDAY[ui.sel]));
 }
 function modesCompleted(scopeId){
@@ -752,17 +825,17 @@ function quizBtns(scope,n,forceWritten){
     h("small",{},v.desc)));
 }
 function lessonPanel(d){
-  const date=fmtD(dayDate(d.d));
-  const kids=[h("div",{class:"row"},h("span",{class:"tag "+d.track},TRACK[d.track]),h("span",{class:"eyebrow"},"Day "+d.d+" · "+date+(d.dom?" · "+d.dom:"")+(d.min?" · ~"+d.min+" min":"")))];
+  const date=fmtD(dayDate(d.d)), dd=displayDay(d.d);
+  const kids=[h("div",{class:"row"},h("span",{class:"tag "+d.track},TRACK[d.track]),h("span",{class:"eyebrow"},"Day "+dd+" · "+date+(d.dom?" · "+d.dom:"")+(d.min?" · ~"+d.min+" min":"")))];
   kids.push(h("h2",{},d.title));
   kids.push(h("ul",{class:"pts"},d.pts.map(p=>{const [a,b]=p.split("|");return h("li",{},h("b",{},a),b);})));
   if(d.imgs) kids.push(h("div",{class:"diagrams"},d.imgs.map(([src,cap])=>h("figure",{},h("img",{src,alt:cap,loading:"lazy"}),h("figcaption",{},cap)))));
   if(d.terms) kids.push(h("div",{},h("h3",{style:"margin-bottom:8px"},d.d===31?"Ports to lock in":"Terms to lock in"),h("dl",{class:"terms"},d.terms.map(([a,b])=>h("div",{},h("dt",{},a),h("dd",{},b))))));
   if(d.trap) kids.push(h("div",{class:"trap"},h("div",{class:"eyebrow"},"Exam trap"),d.trap));
   let scope;
-  if(d.kind==="review") scope={id:"day-"+d.d,label:"Day "+d.d+" review",keys:keysFor(d.from)};
+  if(d.kind==="review") scope={id:"day-"+d.d,label:"Day "+dd+" review",keys:keysFor(d.from)};
   else if(d.kind==="exam") scope={id:"day-"+d.d,label:TRACK[d.track]+" warmup",keys:keysFor(allTrackDays(d.track))};
-  else scope={id:"day-"+d.d,label:"Day "+d.d,keys:interleavedKeys([d.d])};
+  else scope={id:"day-"+d.d,label:"Day "+dd,keys:interleavedKeys([d.d])};
   const forceWritten=d.kind==="review"&&rulesFor(state.prestige).forceWrittenOnReview;
   const n=d.n||scope.keys.length;
   kids.push(h("div",{},h("h3",{style:"margin-bottom:8px"},(d.kind?"":"Mini quiz · ")+n+" questions, shuffled"),h("div",{class:"actions"},quizBtns(scope,n,forceWritten)),
@@ -783,16 +856,17 @@ function lessonPanel(d){
 function scopes(){
   const t=unlockedDay(), td=BYDAY[t];
   const hist=qHistory();
-  const weak=Object.keys(hist).filter(k=>Q[k]&&hist[k].miss/hist[k].seen>0.34);
-  const upTo=DAYS.filter(d=>d.q&&d.d<=t).map(d=>d.d);
+  const weak=Object.keys(hist).filter(k=>Q[k]&&inProgram(Q[k].track)&&hist[k].miss/hist[k].seen>0.34);
+  const upTo=DAYS.filter(d=>d.q&&d.d<=t&&inProgram(d.track)).map(d=>d.d);
   const todayKeys=td.kind==="review"?keysFor(td.from):td.kind==="exam"?keysFor(allTrackDays(td.track)):interleavedKeys([t]);
-  return [
-    {id:"today",label:"Today (Day "+t+")",keys:todayKeys},
-    {id:"sofar",label:"Everything so far",keys:keysFor(upTo)},
-    {id:"sc",label:"SC-900 unlocked",keys:Object.values(Q).filter(q=>q.track==="sc"&&q.d<=t).map(q=>q.k)},
-    {id:"sec",label:"Security+ unlocked",keys:Object.values(Q).filter(q=>q.track==="sec"&&q.d<=t).map(q=>q.k)},
-    {id:"weak",label:"Weak spots ("+weak.length+")",keys:weak},
-    {id:"all",label:"Everything unlocked",keys:Object.values(Q).filter(q=>q.d<=t).map(q=>q.k)}];
+  const list=[
+    {id:"today",label:"Today (Day "+displayDay(t)+")",keys:todayKeys},
+    {id:"sofar",label:"Everything so far",keys:keysFor(upTo)}];
+  if(inProgram("sc")) list.push({id:"sc",label:"SC-900 unlocked",keys:Object.values(Q).filter(q=>q.track==="sc"&&q.d<=t).map(q=>q.k)});
+  if(inProgram("sec")) list.push({id:"sec",label:"Security+ unlocked",keys:Object.values(Q).filter(q=>q.track==="sec"&&q.d<=t).map(q=>q.k)});
+  list.push({id:"weak",label:"Weak spots ("+weak.length+")",keys:weak});
+  list.push({id:"all",label:"Everything unlocked",keys:Object.values(Q).filter(q=>q.d<=t&&inProgram(q.track)).map(q=>q.k)});
+  return list;
 }
 function renderQuizTab(){
   if(run) return renderRun();
@@ -846,12 +920,13 @@ function buildAcronymQuestion(entry,pool,reverse){
   return obj;
 }
 function renderAcronymLauncher(){
+  if(programOf()!=="both") ui.acr.track=programOf();
   const pool=acronymPool();
   const doms=["All",...acronymDomains()];
   const seg=(items,val,set)=>h("div",{class:"seg"},items.map(([v,l])=>h("button",{"aria-pressed":String(v===val),onclick:()=>{set(v);if(!doms.includes(ui.acr.dom))ui.acr.dom="All";saveUI();render();}},l)));
   const wantN=ui.acr.n>=999?pool.length:ui.acr.n;
   return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
-    h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Track"),seg([["both","Both"],["sc","SC-900"],["sec","Security+"]],ui.acr.track,v=>ui.acr.track=v)),
+    programOf()==="both"?h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Track"),seg([["both","Both"],["sc","SC-900"],["sec","Security+"]],ui.acr.track,v=>ui.acr.track=v)):null,
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Domain"),seg(doms.map(d=>[d,d]),doms.includes(ui.acr.dom)?ui.acr.dom:"All",v=>ui.acr.dom=v)),
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"How many"),seg([[10,"10"],[20,"20"],[40,"40"],[999,"All"]],ui.acr.n,v=>{ui.acr.n=v;saveUI();render();})),
     h("div",{class:"row",style:"gap:16px"},
@@ -898,7 +973,7 @@ function startQuiz(scope,mode,n){
 function startBoss(track,dom){
   const isFinal=track==="final";
   const keys=isFinal
-    ? Object.values(Q).filter(q=>q.d<=unlockedDay()).map(q=>q.k)
+    ? Object.values(Q).filter(q=>q.d<=unlockedDay()&&inProgram(q.track)).map(q=>q.k)
     : Object.values(Q).filter(q=>q.track===track&&q.dom===dom&&q.d<=unlockedDay()).map(q=>q.k);
   if(!keys.length) return;
   const boss=isFinal?FINAL_BOSS:bossFor(track,dom);
@@ -1216,10 +1291,11 @@ function renderByok(){
 function renderGame(){
   const [title,need]=rank(), next=RANKS.find(([,xp])=>xp>state.xp);
   const missions=missionData(), allDone=missions.every(m=>m.now>=m.goal);
-  const domainBosses=BOSSES.filter(b=>!b.final);
+  const domainBosses=BOSSES.filter(b=>!b.final&&inProgram(b.track));
   const finalBoss=FINAL_BOSS;
   const domainWon=domainBosses.filter(b=>state.bosses[b.track+"|"+b.domain]).length;
   const allDomainsCleared=domainWon>=domainBosses.length;
+  const finalRequires=programOf()==="sc"?"Clear all four SC-900 bosses to unlock.":programOf()==="sec"?"Clear all five Security+ bosses to unlock.":(finalBoss&&finalBoss.requires)||"Clear all 9 domain bosses to unlock.";
   const generated=ui.generated.length?h("div",{class:"misslist",style:"margin-top:12px"},ui.generated.map((q,i)=>h("div",{class:"miss"},
     h("div",{class:"eyebrow"},q.dom+" · candidate"),
     h("div",{},q.q),
@@ -1252,7 +1328,7 @@ function renderGame(){
         h("img",{src:BOSS_IMG(finalBoss.img,allDomainsCleared?"full":"thumb"),alt:finalBoss.name,width:"320",height:"320",loading:"lazy",class:allDomainsCleared?"":"locked"}),
         state.bosses["final|"+finalBoss.domain]?h("div",{class:"boss-check",style:"background:"+finalBoss.color},"✓"):null),
       h("b",{style:"font:700 26px var(--display)"},finalBoss.name),
-      h("p",{class:"muted",style:"margin:0"},allDomainsCleared?finalBoss.domain:(finalBoss.requires||"Clear all 9 domain bosses to unlock.")+" ("+domainWon+"/"+domainBosses.length+")"),
+      h("p",{class:"muted",style:"margin:0"},allDomainsCleared?finalBoss.domain:finalRequires+" ("+domainWon+"/"+domainBosses.length+")"),
       h("div",{class:"actions"},h("button",{class:"btn "+(state.bosses["final|"+finalBoss.domain]?"":"primary"),disabled:allDomainsCleared?null:true,onclick:()=>startBoss("final",finalBoss.domain)},state.bosses["final|"+finalBoss.domain]?"✓ Defeated · rematch":allDomainsCleared?"Challenge final boss":"Locked"),
         state.bosses["final|"+finalBoss.domain]?h("button",{class:"btn small",onclick:()=>{ui.teachesBoss=finalBoss;render();}},"Look again"):null))):null,
     ui.teachesBoss?h("div",{},teachesPanel(ui.teachesBoss),h("div",{class:"actions",style:"margin-top:10px"},h("button",{class:"btn",onclick:()=>{ui.teachesBoss=null;render();}},"Close"))):null);
@@ -1272,7 +1348,7 @@ function renderLab(){
 }
 async function generateQuestions(){
   if(ui.genBusy) return;
-  const hist=qHistory(), scores=["sc","sec"].flatMap(track=>DOMS[track].map(dom=>{const qs=Object.values(Q).filter(q=>q.track===track&&q.dom===dom);const seen=qs.map(q=>hist[q.k]).filter(Boolean);const accuracy=seen.length?seen.reduce((n,r)=>n+r.ok/r.seen,0)/seen.length:0;return {track,dom,accuracy};})).sort((a,b)=>a.accuracy-b.accuracy);
+  const hist=qHistory(), scores=["sc","sec"].filter(inProgram).flatMap(track=>DOMS[track].map(dom=>{const qs=Object.values(Q).filter(q=>q.track===track&&q.dom===dom);const seen=qs.map(q=>hist[q.k]).filter(Boolean);const accuracy=seen.length?seen.reduce((n,r)=>n+r.ok/r.seen,0)/seen.length:0;return {track,dom,accuracy};})).sort((a,b)=>a.accuracy-b.accuracy);
   const target=scores[0];
   const dayCandidates=Object.values(Q).filter(q=>q.track===target.track&&q.dom===target.dom&&q.d<=unlockedDay()).map(q=>q.d);
   const day=dayCandidates.length?Math.min(...dayCandidates):(target.track==="sc"?1:13);
@@ -1427,13 +1503,13 @@ const RICH_CAMPAIGN={
   33:{"id":"m33","title":"Red Versus Blue","track":"sec","domain":"5 Program mgmt","brief":"Before your annual assessment, leadership approves a penetration test and wants to strengthen the human side too.","steps":[["Testers get full network diagrams and source code up front. That's a:",["Known-environment (white box) test","Unknown-environment test","Passive recon only","Tabletop exercise"],0,"Full information provided is a white-box, known-environment test."],["A tester reviews the utility's LinkedIn and public DNS records without touching any systems. That's:",["Passive reconnaissance","Active reconnaissance","Exploitation","A DoS test"],0,"No contact with the target is passive recon."],["The red team and blue team collaborate and share findings live. That's:",["Purple (integrated) teaming","Offensive testing only","Defensive testing only","A black-box test"],0,"Red plus blue working together is purple teaming."],["To strengthen the human side, HR sends fake phishing emails and assigns training to clickers. That's a:",["Security awareness phishing campaign","Penetration test of the firewall","Legal hold","Change request"],0,"Simulated phishing plus targeted training is an awareness program."]],"debrief":"The pen test found real gaps, the teams worked purple, and phishing click rates fell. You closed the loop from tech to people."},
 };
 function renderCampaign(){
-  const day=unlockedDay(), mission=RICH_CAMPAIGN[day];
+  const day=unlockedDay(), mission=RICH_CAMPAIGN[day], dd=displayDay(day);
   if(!mission) return h("section",{class:"panel"},h("h2",{},"Campaign"),h("p",{},"Complete Day 1 to start today's mission."));
   const rec=state.campaign[day]||{stepIdx:0,answers:[]};
   if(rec.stepIdx>=mission.steps.length){
     const score=rec.answers.filter(a=>a.correct).length;
     return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},
-      h("div",{class:"eyebrow"},"Day "+day+" mission · "+mission.domain+" · Leon River Water"),
+      h("div",{class:"eyebrow"},"Day "+dd+" mission · "+mission.domain+" · Leon River Water"),
       h("h2",{},mission.title+" — complete"),
       h("p",{},"Score: "+score+" / "+mission.steps.length),
       h("div",{class:"story"},mission.debrief),
@@ -1441,7 +1517,7 @@ function renderCampaign(){
   }
   const step=mission.steps[rec.stepIdx], answered=rec.answers[rec.stepIdx];
   const kids=[
-    h("div",{class:"eyebrow"},"Day "+day+" mission · "+mission.domain+" · Step "+(rec.stepIdx+1)+" / "+mission.steps.length),
+    h("div",{class:"eyebrow"},"Day "+dd+" mission · "+mission.domain+" · Step "+(rec.stepIdx+1)+" / "+mission.steps.length),
     h("h2",{},mission.title),
   ];
   if(rec.stepIdx===0) kids.push(h("div",{class:"story"},mission.brief));
@@ -1462,8 +1538,8 @@ function renderCampaign(){
       saveProgress(); render();
     }},choice))));
   }
-  const done=Object.keys(state.campaign).filter(d=>{const r=state.campaign[d];const m=RICH_CAMPAIGN[d];return m&&r.stepIdx>=m.steps.length;}).length;
-  kids.push(h("p",{class:"muted",style:"font-size:13px;margin:0"},done+" of "+day+" available mission"+(day===1?"":"s")+" completed so far. A new mission unlocks with each new day."));
+  const done=Object.keys(state.campaign).filter(d=>{const r=state.campaign[d];const m=RICH_CAMPAIGN[d];return m&&inProgram(m.track)&&r.stepIdx>=m.steps.length;}).length;
+  kids.push(h("p",{class:"muted",style:"font-size:13px;margin:0"},done+" of "+dd+" available mission"+(dd===1?"":"s")+" completed so far. A new mission unlocks with each new day."));
   return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},kids);
 }
 // ---------- stats export / import ----------
@@ -1501,7 +1577,8 @@ function statsSnapshot(){
 function buildExportPayload(){
   const snap=statsSnapshot();
   return {
-    app:"ExamHelp", schema:1, exported:new Date().toISOString(),
+    app:"ExamHelp", schema:3, exported:new Date().toISOString(),
+    program:programOf(),
     student:{name:statsIO.name||""},
     plan:{start:state.start, daysDone:Object.keys(state.done).length},
     summary:{
@@ -1566,7 +1643,7 @@ function handleStatsImportFile(file){
     let parsed;
     try{ parsed=JSON.parse(reader.result); }
     catch(e){ statsIO.importError="That file isn't valid JSON."; render(); return; }
-    if(!(parsed&&parsed.app==="ExamHelp"&&typeof parsed.schema==="number"&&parsed.schema<=1&&Array.isArray(parsed.attempts))){
+    if(!(parsed&&parsed.app==="ExamHelp"&&typeof parsed.schema==="number"&&parsed.schema<=3&&Array.isArray(parsed.attempts))){
       statsIO.importError="That doesn't look like an ExamHelp export (missing app/schema/attempts)."; render(); return;
     }
     statsIO.importPreview=parsed; render();
@@ -1587,12 +1664,16 @@ async function applyStatsImport(mode){
   else { attempts.push(...toAdd); }
   attempts.sort((a,b)=>a.ts-b.ts);
   const fileState=p.state||{};
+  // A file without "program" predates Pack 08 — treat it as "both" so nothing breaks.
+  const fileProgram=typeof p.program==="string"?p.program:"both";
   if(mode==="replace"){
     state.start=fileState.start||state.start;
     state.done=Object.assign({},fileState.done||{});
+    state.program=fileProgram;
   } else {
     if(fileState.start&&parseDate(fileState.start)>parseDate(state.start)) state.start=fileState.start;
     state.done=Object.assign({},state.done,fileState.done||{});
+    if(!state.program) state.program=fileProgram;
   }
   saveProgress();
   statsIO.importPreview=null; statsIO.importError=null;
@@ -1636,8 +1717,8 @@ function renderStats(){
   const scR=recent("sc"), secR=recent("sec");
   const tile=(label,val,sub)=>h("div",{class:"tile"},h("span",{class:"eyebrow"},label),h("b",{class:"tabnum"},val),sub?h("span",{class:"muted",style:"font-size:12px"},sub):null);
   const tiles=h("div",{class:"tiles"},
-    tile("SC-900 readiness",scR?scR.p+"%":"–",scR?"last "+scR.n+" answers · target 80%":"no SC-900 answers yet"),
-    tile("Security+ readiness",secR?secR.p+"%":"–",secR?"last "+secR.n+" answers · target 80%":"no Sec+ answers yet"),
+    inProgram("sc")?tile("SC-900 readiness",scR?scR.p+"%":"–",scR?"last "+scR.n+" answers · target 80%":"no SC-900 answers yet"):null,
+    inProgram("sec")?tile("Security+ readiness",secR?secR.p+"%":"–",secR?"last "+secR.n+" answers · target 80%":"no Sec+ answers yet"):null,
     tile("Tests taken",A.length,items.length+" questions answered"),
     tile("Study streak",streak+(streak===1?" day":" days"),"days in a row with a quiz"));
 
@@ -1668,7 +1749,7 @@ function renderStats(){
   const chartLegend=h("div",{class:"legend"},Object.keys(ALL_MODES).map(m=>h("span",{},h("i",{class:"mode-dot",style:"background:"+modeInfo(m).color}),modeInfo(m).name)));
 
   // domains
-  const domBars=["sc","sec"].map(t=>h("div",{class:"bars"},h("h3",{},TRACK[t]),DOMS[t].map(dm=>{
+  const domBars=["sc","sec"].filter(inProgram).map(t=>h("div",{class:"bars"},h("h3",{},TRACK[t]),DOMS[t].map(dm=>{
     const xs=items.filter(x=>x.q.track===t&&x.q.dom===dm); const p=xs.length?pct(xs.reduce((s,x)=>s+x.ok,0),xs.length):null;
     return h("div",{class:"bar"},h("span",{},dm),h("span",{class:"track"},p!=null?h("i",{style:`width:${p}%;background:var(--${t})`}):null),h("span",{class:"tabnum",style:"text-align:right"},p!=null?h("span",{class:"chip "+(p>=80?"good":"weak")},p+"%"):h("span",{class:"muted"},"–")));
   })));
@@ -1717,7 +1798,7 @@ async function getInsights(A,items){
   if(!sample||insight.busy) return;
   insight.busy=true; insight.text="Thinking…"; render();
   const t=todayN();
-  const dom=["sc","sec"].flatMap(tr=>DOMS[tr].map(dm=>{const xs=items.filter(x=>x.q.track===tr&&x.q.dom===dm);return TRACK[tr]+" / "+dm+": "+(xs.length?pct(xs.reduce((s,x)=>s+x.ok,0),xs.length)+"% of "+xs.length:"no data");})).join("\n");
+  const dom=["sc","sec"].filter(inProgram).flatMap(tr=>DOMS[tr].map(dm=>{const xs=items.filter(x=>x.q.track===tr&&x.q.dom===dm);return TRACK[tr]+" / "+dm+": "+(xs.length?pct(xs.reduce((s,x)=>s+x.ok,0),xs.length)+"% of "+xs.length:"no data");})).join("\n");
   const modes=Object.keys(MODES).map(m=>{const xs=items.filter(x=>x.mode===m);return m+": "+(xs.length?pct(xs.reduce((s,x)=>s+x.ok,0),xs.length)+"% accuracy, "+secs(xs.reduce((s,x)=>s+x.ms,0)/xs.length)+" avg":"none");}).join("\n");
   const log=A.slice(-15).map(a=>fmtDT(a.ts)+" | "+a.mode+" | "+a.scope+" | "+a.pct+"% | "+secs(a.ms/a.n)+"/q").join("\n");
   const hist=qHistory();
@@ -1733,7 +1814,7 @@ const STRICT_UNLOCK = false;
 const SC_UNLOCK_DAYS = [1,2,3,4,5,6,7,8,9,10,11];
 const SEC_UNLOCK_DAYS = [13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32];
 const MOCK_SPEC = {
-  sc:{n:50,minutes:65,mix:{"Concepts":6,"Entra":14,"Security solutions":19,"Compliance":11}},
+  sc:{n:60,minutes:65,mix:{"Concepts":7,"Entra":17,"Security solutions":23,"Compliance":13}},
   sec:{n:90,minutes:90,mix:{"1 General concepts":11,"2 Threats & vulns":20,"3 Architecture":16,"4 Operations":25,"5 Program mgmt":18}}
 };
 let mockRun=null, mockTick=null;
@@ -1819,7 +1900,7 @@ function mockVerdict(p){
   return "Not ready yet. Focus on the domains below.";
 }
 function renderMockLaunch(){
-  const cards=["sc","sec"].map(track=>{
+  const cards=["sc","sec"].filter(inProgram).map(track=>{
     const spec=MOCK_SPEC[track], st=mockUnlockStatus(track);
     return h("div",{class:"panel",style:"opacity:"+(st.unlocked?"1":".6")},
       h("div",{class:"row",style:"justify-content:space-between"},h("h3",{},TRACK[track]+" mock exam"),h("span",{class:"tag "+track},TRACK[track])),
@@ -1903,6 +1984,13 @@ function softRender(){ if(run&&!run.finished&&ui.tab==="quiz"){ renderHeader(); 
 function render(){
   renderHeader();
   const v=document.getElementById("view");
+  const tabs=document.querySelector("nav.tabs");
+  if(!state.program){
+    if(tabs) tabs.style.display="none";
+    v.replaceChildren(renderProgramPicker());
+    return;
+  }
+  if(tabs) tabs.style.display="";
   v.replaceChildren(ui.tab==="plan"?renderPlan():ui.tab==="quiz"?renderQuizTab():ui.tab==="stats"?renderStats():ui.tab==="game"?renderGame():ui.tab==="pbq"?renderPBQ():ui.tab==="lab"?renderLab():ui.tab==="mock"?renderMock():renderCampaign());
   if(run&&!run.finished&&run.timedMs&&!run.answered&&!tick) startTimer();
 }

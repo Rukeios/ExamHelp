@@ -74,6 +74,9 @@ tr.detail td{background:var(--sunk);white-space:normal;cursor:default}
 .miss-list li{display:flex;justify-content:space-between;gap:10px}
 footer{text-align:center;font-size:12px;color:var(--muted)}
 .stale{color:var(--warn)}
+.chip.na{background:var(--sunk);color:var(--muted);font-style:italic}
+.bar .track.na::after{content:"n/a";position:absolute;inset:0;display:flex;align-items:center;padding-left:6px;font:500 10px var(--mono);color:var(--muted)}
+select.filter{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:8px 10px;font:inherit}
 </style>
 </head>
 <body>
@@ -99,7 +102,17 @@ footer{text-align:center;font-size:12px;color:var(--muted)}
 
   <div id="tilesBox"></div>
   <section class="panel">
-    <h3 style="margin-bottom:12px">Class roster</h3>
+    <div class="row" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+      <h3 style="margin:0">Class roster</h3>
+      <label class="muted" style="font-size:13px;display:flex;gap:8px;align-items:center">Program
+        <select id="programFilter" class="filter">
+          <option value="all">All students</option>
+          <option value="sc">SC-900 only</option>
+          <option value="sec">Security+ only</option>
+          <option value="both">Both</option>
+        </select>
+      </label>
+    </div>
     <div id="tableBox" class="tablebox"></div>
   </section>
 
@@ -115,16 +128,22 @@ const TRACK = {sc:"SC-900", sec:"Security+"};
 let students = []; // {name, fileName, exported, exportedTs, data, supersededFile}
 let sort = {key:"default", dir:1};
 let expanded = new Set();
+let programFilter = "all";
+const PROGRAM_LABEL = {sc:"SC-900", sec:"Security+", both:"Both"};
 
 function fmtDate(ts){ if(ts==null) return "–"; return new Date(ts).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}); }
 function daysAgo(ts){ return (Date.now()-ts)/864e5; }
 function pctClass(p){ if(p==null) return "neutral"; if(p<70) return "bad"; if(p<80) return "mid"; return "good"; }
 function median(arr){ const xs=arr.filter(x=>x!=null).sort((a,b)=>a-b); if(!xs.length) return null; const m=Math.floor(xs.length/2); return xs.length%2?xs[m]:Math.round((xs[m-1]+xs[m])/2); }
+// A file with no "program" field predates Pack 08 — treat it as "both" so nothing breaks.
+function studentProgram(s){ return s.data.program||"both"; }
+function inProg(s,track){ const p=studentProgram(s); return p==="both"||p===track; }
+function visibleStudents(){ return programFilter==="all"?students:students.filter(s=>studentProgram(s)===programFilter); }
 
 function validate(parsed){
   if(!parsed || typeof parsed!=="object") return "not a JSON object";
   if(parsed.app!=="ExamHelp") return "missing or wrong \"app\" field";
-  if(typeof parsed.schema!=="number" || parsed.schema>1) return "unsupported schema version";
+  if(typeof parsed.schema!=="number" || parsed.schema>3) return "unsupported schema version";
   if(!parsed.summary || typeof parsed.summary!=="object") return "missing \"summary\"";
   if(!Array.isArray(parsed.attempts)) return "missing \"attempts\" array";
   return null;
@@ -142,6 +161,7 @@ function domainList(track){
 
 function weakestGap(s){
   for(const track of ["sc","sec"]){
+    if(!inProg(s,track)) continue; // outside this student's program by design, not a gap
     const doms = (s.data.summary.domains||{})[track]||{};
     for(const dm of domainList(track)){
       const r = doms[dm];
@@ -150,7 +170,7 @@ function weakestGap(s){
     }
   }
   let worst=null;
-  ["sc","sec"].forEach(track=>{
+  ["sc","sec"].filter(t=>inProg(s,t)).forEach(track=>{
     const doms=(s.data.summary.domains||{})[track]||{};
     domainList(track).forEach(dm=>{
       const r=doms[dm];
@@ -233,11 +253,12 @@ function renderErrors(errors){
 
 function renderTiles(){
   const box = document.getElementById("tilesBox");
+  const vis = visibleStudents();
   if(!students.length){ box.innerHTML=""; return; }
-  const scMed = median(students.map(s=>{const r=readiness(s,"sc"); return r?r.pct:null;}));
-  const secMed = median(students.map(s=>{const r=readiness(s,"sec"); return r?r.pct:null;}));
+  const scMed = median(vis.map(s=>{const r=readiness(s,"sc"); return r?r.pct:null;}));
+  const secMed = median(vis.map(s=>{const r=readiness(s,"sec"); return r?r.pct:null;}));
   let noCoverage = 0;
-  students.forEach(s=>["sc","sec"].forEach(track=>{
+  vis.forEach(s=>["sc","sec"].filter(t=>inProg(s,t)).forEach(track=>{
     const doms=(s.data.summary.domains||{})[track]||{};
     domainList(track).forEach(dm=>{ const r=doms[dm]; if(r===null||r===undefined||r.n===0) noCoverage++; });
   }));
@@ -245,7 +266,7 @@ function renderTiles(){
   box.innerHTML = "";
   const wrap = document.createElement("div"); wrap.className = "tiles";
   wrap.append(
-    tile("Students loaded", students.length),
+    tile("Students loaded", vis.length),
     tile("Median SC-900 readiness", scMed==null?"–":scMed+"%"),
     tile("Median Sec+ readiness", secMed==null?"–":secMed+"%"),
     tile("Domains with no coverage", noCoverage, "headline")
@@ -254,7 +275,7 @@ function renderTiles(){
 }
 
 function sortedStudents(){
-  const list = students.slice();
+  const list = visibleStudents().slice();
   if(sort.key==="default"){
     return list.sort((a,b)=>{
       const ka=rowSortKey(a), kb=rowSortKey(b);
@@ -266,6 +287,7 @@ function sortedStudents(){
   const val = s=>{
     switch(sort.key){
       case "name": return s.name.toLowerCase();
+      case "program": return studentProgram(s);
       case "last": return lastActive(s)||0;
       case "tests": return s.data.summary.tests||0;
       case "answered": return s.data.summary.answered||0;
@@ -279,6 +301,7 @@ function sortedStudents(){
 }
 
 function renderReadinessCell(s, track){
+  if(!inProg(s,track)) return "<span class='chip na'>n/a</span>";
   const r = readiness(s, track);
   if(!r) return "<span class='chip neutral'>–</span>";
   return "<span class='chip "+pctClass(r.pct)+"'>"+r.pct+"%</span>";
@@ -291,7 +314,7 @@ function renderTable(){
     return;
   }
   const cols = [
-    ["name","Student"], ["last","Last active"], ["tests","Tests"], ["answered","Answered"],
+    ["name","Student"], ["program","Program"], ["last","Last active"], ["tests","Tests"], ["answered","Answered"],
     ["sc","SC-900"], ["sec","Sec+"], ["gap","Weakest gap"]
   ];
   const table = document.createElement("table");
@@ -319,6 +342,7 @@ function renderTable(){
     tr.className = "row";
     tr.innerHTML =
       "<td>"+escapeHtml(s.name)+"</td>"+
+      "<td>"+PROGRAM_LABEL[studentProgram(s)]+"</td>"+
       "<td class='"+(stale?"stale":"")+"'>"+(la?fmtDate(la):"–")+"</td>"+
       "<td class='num'>"+(s.data.summary.tests||0)+"</td>"+
       "<td class='num'>"+(s.data.summary.answered||0)+"</td>"+
@@ -350,17 +374,18 @@ function buildDetail(s){
   wrap.className = "detail-grid";
   ["sc","sec"].forEach(track=>{
     const col = document.createElement("div");
-    col.innerHTML = "<h3 style='margin-bottom:8px'>"+TRACK[track]+"</h3>";
+    col.innerHTML = "<h3 style='margin-bottom:8px'>"+TRACK[track]+(inProg(s,track)?"":" (n/a)")+"</h3>";
     const bars = document.createElement("div"); bars.className = "bars";
     const doms = (s.data.summary.domains||{})[track]||{};
+    const outOfProgram = !inProg(s,track);
     domainList(track).forEach(dm=>{
       const r = doms[dm];
       const bar = document.createElement("div"); bar.className = "bar";
-      const trackEl = document.createElement("span"); trackEl.className = "track"+(r?"":" empty");
-      if(r){ const i=document.createElement("i"); i.style.width=r.pct+"%"; i.style.background = "var(--"+track+")"; trackEl.append(i); }
+      const trackEl = document.createElement("span"); trackEl.className = "track"+(outOfProgram?" na":r?"":" empty");
+      if(r&&!outOfProgram){ const i=document.createElement("i"); i.style.width=r.pct+"%"; i.style.background = "var(--"+track+")"; trackEl.append(i); }
       bar.innerHTML = "<span>"+escapeHtml(dm)+"</span>";
       bar.append(trackEl);
-      const val = document.createElement("span"); val.style.textAlign="right"; val.innerHTML = r?("<span class='chip "+pctClass(r.pct)+"'>"+r.pct+"%</span>"):"<span class='muted'>–</span>";
+      const val = document.createElement("span"); val.style.textAlign="right"; val.innerHTML = outOfProgram?"<span class='chip na'>n/a</span>":r?("<span class='chip "+pctClass(r.pct)+"'>"+r.pct+"%</span>"):"<span class='muted'>–</span>";
       bar.append(val);
       bars.append(bar);
     });
@@ -402,17 +427,17 @@ function renderAll(){ renderTiles(); renderTable(); }
 function downloadCsv(){
   if(!students.length) return;
   const scDoms = domainList("sc"), secDoms = domainList("sec");
-  const header = ["Student","Last active","Tests","Answered","SC-900","Sec+","Weakest gap"]
+  const header = ["Student","Program","Last active","Tests","Answered","SC-900","Sec+","Weakest gap"]
     .concat(scDoms.map(d=>"SC-900: "+d)).concat(secDoms.map(d=>"Sec+: "+d));
   const rows = [header];
   sortedStudents().forEach(s=>{
     const la = lastActive(s);
-    const sc = readiness(s,"sc"), sec = readiness(s,"sec");
+    const sc = inProg(s,"sc")?readiness(s,"sc"):null, sec = inProg(s,"sec")?readiness(s,"sec"):null;
     const gap = weakestGap(s);
-    const row = [s.name, la?fmtDate(la):"", s.data.summary.tests||0, s.data.summary.answered||0,
-      sc?sc.pct+"%":"", sec?sec.pct+"%":"", gap.text];
-    scDoms.forEach(d=>{ const r=(s.data.summary.domains.sc||{})[d]; row.push(r?r.pct+"%":"not attempted"); });
-    secDoms.forEach(d=>{ const r=(s.data.summary.domains.sec||{})[d]; row.push(r?r.pct+"%":"not attempted"); });
+    const row = [s.name, PROGRAM_LABEL[studentProgram(s)], la?fmtDate(la):"", s.data.summary.tests||0, s.data.summary.answered||0,
+      inProg(s,"sc")?(sc?sc.pct+"%":""):"n/a", inProg(s,"sec")?(sec?sec.pct+"%":""):"n/a", gap.text];
+    scDoms.forEach(d=>{ const r=(s.data.summary.domains.sc||{})[d]; row.push(inProg(s,"sc")?(r?r.pct+"%":"not attempted"):"n/a"); });
+    secDoms.forEach(d=>{ const r=(s.data.summary.domains.sec||{})[d]; row.push(inProg(s,"sec")?(r?r.pct+"%":"not attempted"):"n/a"); });
     rows.push(row);
   });
   const csv = rows.map(r=>r.map(cell=>{ const v=String(cell); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }).join(",")).join("\n");
@@ -432,6 +457,7 @@ drop.addEventListener("drop", e=>{ if(e.dataTransfer && e.dataTransfer.files) ha
 document.getElementById("filePicker").addEventListener("change", e=>{ handleFiles(e.target.files); e.target.value=""; });
 document.getElementById("clearAll").addEventListener("click", ()=>{ students=[]; expanded=new Set(); renderErrors([]); renderAll(); });
 document.getElementById("downloadCsv").addEventListener("click", downloadCsv);
+document.getElementById("programFilter").addEventListener("change", e=>{ programFilter = e.target.value; renderAll(); });
 
 renderAll();
 })();
