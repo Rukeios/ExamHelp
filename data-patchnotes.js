@@ -3,6 +3,14 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"1.4.0", date:"2026-09-28", title:"Save your stats, class rosters, and a free-forever notice", tag:"feature", items:[
+  "Stats tab: export your progress to a file, copy a plain-text summary for email, and import a file back in — merge or replace, your call.",
+  "New roster.html for instructors: drop a stack of students' exported files on it and get a class table, including which domains a student has never once attempted. Nothing uploads anywhere.",
+  "40 more SC-900 questions rebalancing Security solutions coverage toward its real 35-40% exam weight.",
+  "Support link next to patch notes: ExamHelp is free, no account, no ads, and it's staying that way. It's just a quiet way to chip in if it helped and you're able to.",
+  "Renamed the Prestige tier that used to share a name with the Insider Threat boss — it's now 'Rogue Insider' so the two don't get mixed up in your run history."
+]},
+
 { v:"1.3.0", date:"2026-09-27", title:"Patch notes, mock exams, acronym drill", tag:"feature", items:[
   "Quiet version number in the header — click it to see what changed.",
   "Full-length timed mock exams for SC-900 (50 questions, 65 minutes) and Security+ (90 questions, 90 minutes), built to real domain weighting.",

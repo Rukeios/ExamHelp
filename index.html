@@ -319,6 +319,7 @@ footer a{color:inherit}
       <label class="fld">Plan start date<input type="date" id="start"></label>
       <span class="row" style="gap:10px;align-items:center">
         <span class="sync" id="sync">Loading saved progress…</span>
+        <button class="verbtn" id="supportbtn" aria-label="Support ExamHelp">Support</button>
         <button class="verbtn" id="verbtn" aria-label="Patch notes"></button>
       </span>
     </div>
@@ -335,9 +336,11 @@ footer a{color:inherit}
   </header>
   <main id="view"></main>
   <div id="patchModal"></div>
+  <div id="supportModal"></div>
   <footer>
     <div>Study pairing: <a href="https://learn.microsoft.com/en-us/training/courses/sc-900t00" target="_blank" rel="noopener">Microsoft Learn SC-900 course</a> · <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900" target="_blank" rel="noopener">SC-900 skills measured</a> · <a href="https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/" target="_blank" rel="noopener">Professor Messer SY0-701 (free videos)</a> · <a href="https://www.comptia.org/certifications/security" target="_blank" rel="noopener">CompTIA Security+</a></div>
     <div>Keyboard in quizzes: 1–4 pick an answer, Enter goes to the next question.</div>
+    <div>Free and open source. <button class="linklike" id="footerSupport" style="font-size:inherit">Support</button> · <a href="https://github.com/Rukeios/ExamHelp" target="_blank" rel="noopener">Source on GitHub</a> · <button class="linklike" id="footerPatch" style="font-size:inherit">Patch notes</button></div>
   </footer>
 </div>
 
@@ -345,6 +348,7 @@ footer a{color:inherit}
 <script src="data-extra.js"></script>
 <script src="data-pack2.js"></script>
 <script src="data-pack3.js"></script>
+<script src="data-pack4-sc.js"></script>
 <script src="data-acronyms.js"></script>
 <script src="data-patchnotes.js"></script>
 <script src="data-bosses.js"></script>
@@ -370,13 +374,14 @@ const FINAL_BOSS = BOSSES.find(b=>b.final);
 
 // ---------- question index ----------
 const Q = {};
-const EXTRA = window.EXTRA||{}, PACK2 = window.EXTRA2||{}, PACK3 = window.EXTRA3||{};
+const EXTRA = window.EXTRA||{}, PACK2 = window.EXTRA2||{}, PACK3 = window.EXTRA3||{}, PACK4 = window.EXTRA4||{};
 const mkQ = (day,x,k) => ({k, d:day.d, track:day.track, dom:day.dom, q:x[0], o:x[1], a:x[2], why:x[3]});
 DAYS.forEach(day=>{
   (day.q||[]).forEach((x,i)=>{ const k=day.d+"-"+i; Q[k]=mkQ(day,x,k); });
   (EXTRA[day.d]||[]).forEach((x,i)=>{ const k=day.d+"-x"+i; Q[k]=mkQ(day,x,k); });
   (PACK2[day.d]||[]).forEach((x,i)=>{ const k=day.d+"-p"+i; Q[k]=mkQ(day,x,k); });
   (PACK3[day.d]||[]).forEach((x,i)=>{ const k=day.d+"-q"+i; Q[k]=mkQ(day,x,k); });
+  (PACK4[day.d]||[]).forEach((x,i)=>{ const k=day.d+"-s"+i; Q[k]=mkQ(day,x,k); });
 });
 const ACRONYMS = window.ACRONYMS||[];
 const PATCHNOTES = window.PATCHNOTES||[];
@@ -399,7 +404,7 @@ const ACHIEVEMENTS={clean:{name:"Clean Sweep",desc:"Score 100% on a 10+ question
 const PRESTIGE_TIERS=[
   {level:0,name:"Script Kiddie"},
   {level:1,name:"Hacktivist"},
-  {level:2,name:"Insider"},
+  {level:2,name:"Rogue Insider"},
   {level:3,name:"Organized Crime"},
   {level:4,name:"Nation-State"}];
 function tierName(level){ const t=PRESTIGE_TIERS.find(t=>t.level===level); return t?t.name:"APT-"+level; }
@@ -606,6 +611,7 @@ function renderHeader(){
   document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.tab===ui.tab)));
   renderPatchButton();
   renderPatchModal();
+  renderSupportModal();
 }
 document.getElementById("start").addEventListener("change",e=>{ if(e.target.value){ state.start=e.target.value; saveProgress(); render(); }});
 
@@ -637,7 +643,7 @@ function renderPatchButton(){
 }
 function renderPatchModal(){
   const mount=document.getElementById("patchModal"); if(!mount) return;
-  document.body.style.overflow=patchOpen?"hidden":"";
+  if(patchOpen||supportOpen) document.body.style.overflow="hidden"; else document.body.style.overflow="";
   if(!patchOpen){ mount.replaceChildren(); return; }
   const releases=PATCHNOTES.map(r=>h("div",{class:"release"},
     h("div",{class:"relhead"},"v"+r.v+" · "+r.date),
@@ -651,6 +657,31 @@ function renderPatchModal(){
   mount.replaceChildren(backdrop);
   dialog.focus();
 }
+
+// ---------- support ----------
+let supportOpen=false;
+function openSupport(){ supportOpen=true; render(); const dialog=document.querySelector("#supportModal .modal"); if(dialog) dialog.focus(); }
+function closeSupport(){ supportOpen=false; render(); const btn=document.getElementById("supportbtn"); if(btn) btn.focus(); }
+function renderSupportModal(){
+  const mount=document.getElementById("supportModal"); if(!mount) return;
+  if(supportOpen||patchOpen) document.body.style.overflow="hidden"; else document.body.style.overflow="";
+  if(!supportOpen){ mount.replaceChildren(); return; }
+  const dialog=h("div",{class:"modal",role:"dialog","aria-modal":"true","aria-label":"Support ExamHelp",tabindex:"-1"},
+    h("button",{class:"modal-x","aria-label":"Close",onclick:closeSupport},"×"),
+    h("h2",{style:"margin:0"},"This is free"),
+    h("p",{style:"margin:0"},"ExamHelp is free and always will be. No account, no paywall, no ads, and none of your data leaves your browser."),
+    h("p",{style:"margin:0"},"If it helped you pass, and you're in a position to, you can chip in toward the time it takes to keep the question bank current with the exam objectives. If you're a student, please don't — pass your exam and tell someone else about it instead. That helps more."),
+    h("p",{style:"margin:0"},h("a",{href:DONATION_URL,target:"_blank",rel:"noopener"},"Support ExamHelp on Ko-fi")),
+    h("p",{class:"muted",style:"margin:0;font-size:13px"},"Teaching a class? ",h("a",{href:"https://github.com/Rukeios/ExamHelp",target:"_blank",rel:"noopener"},"roster.html"),
+      " in the repo turns your students' exported stats into a class view."));
+  const backdrop=h("div",{class:"modal-backdrop",onclick:e=>{ if(e.target===backdrop) closeSupport(); }},dialog);
+  mount.replaceChildren(backdrop);
+  dialog.focus();
+}
+document.getElementById("supportbtn").addEventListener("click",openSupport);
+document.getElementById("footerSupport").addEventListener("click",openSupport);
+document.getElementById("footerPatch").addEventListener("click",openPatchNotes);
+
 document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>{ if(run&&!run.finished) stopTimer(); run=null; ui.tab=b.dataset.tab; saveUI(); render(); window.scrollTo(0,0); }));
 
 // ---------- plan view ----------
@@ -735,7 +766,7 @@ function lessonPanel(d){
   const forceWritten=d.kind==="review"&&rulesFor(state.prestige).forceWrittenOnReview;
   const n=d.n||scope.keys.length;
   kids.push(h("div",{},h("h3",{style:"margin-bottom:8px"},(d.kind?"":"Mini quiz · ")+n+" questions, shuffled"),h("div",{class:"actions"},quizBtns(scope,n,forceWritten)),
-    forceWritten?h("p",{class:"muted",style:"margin:6px 0 0;font-size:12px"},"Insider tier and up: review days are Written only, no multiple choice."):null));
+    forceWritten?h("p",{class:"muted",style:"margin:6px 0 0;font-size:12px"},"Rogue Insider tier and up: review days are Written only, no multiple choice."):null));
   const done=!!state.done[d.d];
   const modesDone=modesCompleted(scope.id);
   const requiredModes=forceWritten?["written"]:["think","blitz","written"];
@@ -1085,6 +1116,7 @@ function renderBossStage(){
     h("div",{class:"bf-fight"}, curtain, flash, vig, art, introPlate, hud, qbox));
 }
 document.addEventListener("keydown",e=>{
+  if(supportOpen){ if(e.key==="Escape"){ e.preventDefault(); closeSupport(); } return; }
   if(patchOpen){ if(e.key==="Escape"){ e.preventDefault(); closePatchNotes(); } return; }
   if(run&&run.boss&&!run.boss.started){ if(e.key==="Escape"){ e.preventDefault(); skipBossIntro(); } return; }
   if(!run||run.finished||ui.tab!=="quiz"||run.mode==="written") return;
@@ -1434,10 +1466,169 @@ function renderCampaign(){
   kids.push(h("p",{class:"muted",style:"font-size:13px;margin:0"},done+" of "+day+" available mission"+(day===1?"":"s")+" completed so far. A new mission unlocks with each new day."));
   return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},kids);
 }
+// ---------- stats export / import ----------
+// Ko-fi placeholder — swap for the real link before sharing outside the household.
+const DONATION_URL="https://ko-fi.com/examhelp";
+let statsIO={name:"",copied:false,importError:null,importPreview:null};
+function slugify(s){ const t=(s||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,""); return t||"stats"; }
+// Recomputed from scratch each call so it always reflects the latest attempts/state — same
+// logic the Stats tiles/domain bars use, kept in one place so export/summary/import agree.
+function statsSnapshot(){
+  const A=attempts.slice().sort((a,b)=>a.ts-b.ts);
+  const items=A.flatMap(a=>(a.items||[]).map(([k,ok,ms])=>({k,ok,ms,mode:a.mode,ts:a.ts,q:Q[k]}))).filter(x=>x.q);
+  const recent=t=>{const xs=items.filter(x=>x.q.track===t).slice(-60);return xs.length?{pct:pct(xs.reduce((s,x)=>s+x.ok,0),xs.length),n:xs.length}:null;};
+  const days=[...new Set(A.map(a=>midnight(new Date(a.ts)).getTime()))].sort((a,b)=>b-a);
+  let streak=0; {let c=midnight(new Date()).getTime(); if(days[0]!==c) c-=864e5; for(const d of days){ if(d===c){streak++;c-=864e5;} else if(d<c) break; }}
+  const domains={};
+  ["sc","sec"].forEach(t=>{
+    domains[t]={};
+    DOMS[t].forEach(dm=>{
+      const xs=items.filter(x=>x.q.track===t&&x.q.dom===dm);
+      domains[t][dm]=xs.length?{pct:pct(xs.reduce((s,x)=>s+x.ok,0),xs.length),n:xs.length}:null;
+    });
+  });
+  const modes={};
+  Object.keys(ALL_MODES).forEach(m=>{
+    const xs=items.filter(x=>x.mode===m); const n=A.filter(a=>a.mode===m).length;
+    modes[m]={tests:n,pct:xs.length?pct(xs.reduce((s,x)=>s+x.ok,0),xs.length):null,avgMs:xs.length?Math.round(xs.reduce((s,x)=>s+x.ms,0)/xs.length):null};
+  });
+  const hist=qHistory();
+  const missed=Object.entries(hist).filter(([k,r])=>Q[k]&&r.miss>0)
+    .sort((a,b)=>b[1].miss-a[1].miss||(b[1].miss/b[1].seen)-(a[1].miss/a[1].seen)).slice(0,8)
+    .map(([k,r])=>({track:Q[k].track,dom:Q[k].dom,day:Q[k].d,miss:r.miss,seen:r.seen}));
+  return {A,items,recent,streak,domains,modes,missed};
+}
+function buildExportPayload(){
+  const snap=statsSnapshot();
+  return {
+    app:"ExamHelp", schema:1, exported:new Date().toISOString(),
+    student:{name:statsIO.name||""},
+    plan:{start:state.start, daysDone:Object.keys(state.done).length},
+    summary:{
+      tests:snap.A.length, answered:snap.items.length, streak:snap.streak,
+      readiness:{sc:snap.recent("sc"),sec:snap.recent("sec")},
+      domains:snap.domains, modes:snap.modes, topMissed:snap.missed
+    },
+    attempts:snap.A,
+    state:{start:state.start, done:Object.assign({},state.done)}
+  };
+}
+function buildSummaryText(){
+  const snap=statsSnapshot();
+  const readiness={sc:snap.recent("sc"),sec:snap.recent("sec")};
+  const dateStr=new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+  const lines=[];
+  lines.push("ExamHelp — "+(statsIO.name||"Study stats")+" — "+dateStr);
+  lines.push(snap.A.length+" tests · "+snap.items.length+" questions · "+snap.streak+(snap.streak===1?" day":" days")+" streak");
+  lines.push("");
+  lines.push("SC-900 readiness: "+(readiness.sc?readiness.sc.pct+"% (last "+readiness.sc.n+" answers)":"no answers yet"));
+  lines.push("Security+ readiness: "+(readiness.sec?readiness.sec.pct+"% (last "+readiness.sec.n+" answers)":"no answers yet"));
+  ["sc","sec"].forEach(t=>{
+    lines.push("");
+    lines.push(TRACK[t]+" by domain");
+    const width=Math.max(...DOMS[t].map(d=>d.length))+2;
+    DOMS[t].forEach(dm=>{
+      const r=snap.domains[t][dm];
+      const val=r?r.pct+"%  ("+r.n+")":"no attempts";
+      lines.push("  "+dm+" "+".".repeat(Math.max(1,width-dm.length))+" "+val);
+    });
+  });
+  return lines.join("\n");
+}
+function downloadStatsExport(){
+  const payload=buildExportPayload();
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a"); a.href=url; a.download="examhelp-"+slugify(statsIO.name)+"-"+todayISO()+".json";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+async function copyStatsSummary(){
+  const text=buildSummaryText();
+  try{
+    if(!navigator.clipboard||!navigator.clipboard.writeText) throw new Error("no clipboard api");
+    await navigator.clipboard.writeText(text);
+  }catch(e){
+    const ta=document.createElement("textarea");
+    ta.value=text; ta.style.cssText="position:fixed;opacity:0";
+    document.body.append(ta); ta.focus(); ta.select();
+    try{ document.execCommand("copy"); }catch(e2){}
+    ta.remove();
+  }
+  statsIO.copied=true; render();
+  setTimeout(()=>{ statsIO.copied=false; render(); },2000);
+}
+function handleStatsImportFile(file){
+  statsIO.importError=null; statsIO.importPreview=null;
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    let parsed;
+    try{ parsed=JSON.parse(reader.result); }
+    catch(e){ statsIO.importError="That file isn't valid JSON."; render(); return; }
+    if(!(parsed&&parsed.app==="ExamHelp"&&typeof parsed.schema==="number"&&parsed.schema<=1&&Array.isArray(parsed.attempts))){
+      statsIO.importError="That doesn't look like an ExamHelp export (missing app/schema/attempts)."; render(); return;
+    }
+    statsIO.importPreview=parsed; render();
+  };
+  reader.onerror=()=>{ statsIO.importError="Couldn't read that file."; render(); };
+  reader.readAsText(file);
+}
+// Merge never overwrites an existing attempt (dedupe by ts) and unions state.done; replace
+// takes the file's attempts/state wholesale. Db-synced attempts are append-only in this app
+// (there's no delete path to firestore), so with db connected both modes add missing
+// attempts and only "replace" differs by also overwriting local plan state instead of merging it.
+async function applyStatsImport(mode){
+  const p=statsIO.importPreview; if(!p) return;
+  const have=new Set(attempts.map(a=>a.ts));
+  const toAdd=(p.attempts||[]).filter(a=>a&&typeof a.ts==="number"&&!have.has(a.ts));
+  if(db){ for(const a of toAdd){ try{ await db.collection("attempts").add(a); }catch(e){} } }
+  else if(mode==="replace"){ attempts=(p.attempts||[]).slice(); }
+  else { attempts.push(...toAdd); }
+  attempts.sort((a,b)=>a.ts-b.ts);
+  const fileState=p.state||{};
+  if(mode==="replace"){
+    state.start=fileState.start||state.start;
+    state.done=Object.assign({},fileState.done||{});
+  } else {
+    if(fileState.start&&parseDate(fileState.start)>parseDate(state.start)) state.start=fileState.start;
+    state.done=Object.assign({},state.done,fileState.done||{});
+  }
+  saveProgress();
+  statsIO.importPreview=null; statsIO.importError=null;
+  render();
+}
+function renderStatsIOPanel(hasAttempts){
+  const importBtn=h("label",{class:"btn"},"Import stats",h("input",{type:"file",accept:".json,application/json",style:"display:none",onchange:e=>{handleStatsImportFile(e.target.files[0]); e.target.value="";}}));
+  const preview=statsIO.importPreview;
+  let previewBox=null;
+  if(preview){
+    const exportedDate=preview.exported?fmtDT(new Date(preview.exported).getTime()):"unknown date";
+    previewBox=h("div",{class:"panel",style:"background:var(--bg);margin-top:10px"},
+      h("p",{style:"margin:0 0 8px"},"Found "+(preview.summary?preview.summary.tests:preview.attempts.length)+" tests, "+(preview.summary?preview.summary.answered:"?")+" answers, exported "+exportedDate+(preview.student&&preview.student.name?" by "+preview.student.name:"")+"."),
+      h("div",{class:"actions"},
+        h("button",{class:"btn primary",onclick:()=>applyStatsImport("merge")},"Merge (recommended)"),
+        h("button",{class:"btn",onclick:()=>applyStatsImport("replace")},"Replace everything"),
+        h("button",{class:"btn",onclick:()=>{statsIO.importPreview=null;render();}},"Cancel")));
+  }
+  return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:10px"},
+    h("h3",{},"Save or move your stats"),
+    h("p",{class:"muted",style:"margin:0;font-size:13px"},"Everything above lives only in this browser. Export it to move to another device, back it up, or send it to an instructor. Import brings a file back in."),
+    h("label",{class:"row",style:"gap:8px;flex-wrap:wrap"},"Name for the file/summary (optional):",
+      h("input",{type:"text",placeholder:"Your name",value:statsIO.name,oninput:e=>statsIO.name=e.target.value,style:"max-width:220px"})),
+    h("div",{class:"actions",style:"flex-wrap:wrap"},
+      h("button",{class:"btn primary",disabled:hasAttempts?null:true,onclick:downloadStatsExport},"Export stats"),
+      h("button",{class:"btn",disabled:hasAttempts?null:true,onclick:copyStatsSummary},statsIO.copied?"Copied!":"Copy summary"),
+      importBtn),
+    statsIO.importError?h("p",{style:"color:var(--bad);margin:0;font-size:13px"},statsIO.importError):null,
+    previewBox);
+}
 // ---------- stats ----------
 function renderStats(){
   const A=attempts.slice().sort((a,b)=>a.ts-b.ts);
-  if(!A.length) return h("section",{class:"panel"},h("h2",{},"No attempts yet"),h("p",{class:"muted"},"Every quiz you finish is saved here: score, time per question, mode, and which questions you missed. Run one and this page fills in with trends, domain breakdowns, and comparisons."),h("button",{class:"btn primary",onclick:()=>{ui.tab="quiz";render();}},"Go to Quiz"));
+  if(!A.length) return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
+    h("section",{class:"panel"},h("h2",{},"No attempts yet"),h("p",{class:"muted"},"Every quiz you finish is saved here: score, time per question, mode, and which questions you missed. Run one and this page fills in with trends, domain breakdowns, and comparisons."),h("button",{class:"btn primary",onclick:()=>{ui.tab="quiz";render();}},"Go to Quiz")),
+    renderStatsIOPanel(false));
   const items=A.flatMap(a=>(a.items||[]).map(([k,ok,ms])=>({k,ok,ms,mode:a.mode,ts:a.ts,q:Q[k]}))).filter(x=>x.q);
   const recent=t=>{const xs=items.filter(x=>x.q.track===t).slice(-60);return xs.length?{p:pct(xs.reduce((s,x)=>s+x.ok,0),xs.length),n:xs.length}:null;};
   const days=[...new Set(A.map(a=>midnight(new Date(a.ts)).getTime()))].sort((a,b)=>b-a);
@@ -1518,7 +1709,8 @@ function renderStats(){
     h("section",{class:"panel"},h("h3",{style:"margin-bottom:10px"},"Blitz vs Think vs Written"),modeTable,h("p",{class:"muted",style:"font-size:13px;margin:10px 0 0"},"If Think accuracy is much higher than Blitz, you know it but you're slow to recall it. If Written trails both, you're recognizing answers rather than remembering them.")),
     sample?h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:10px"},h("h3",{},"Coach"),h("p",{class:"muted",style:"margin:0;font-size:13px"},"Claude reads your stats above and tells you what to hit next."),insBox,h("div",{class:"actions"},insight_btn)):null,
     h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:10px"},h("h3",{},"Most-missed questions"),missBox),
-    h("section",{class:"panel"},h("h3",{style:"margin-bottom:10px"},"Every test"),logTable));
+    h("section",{class:"panel"},h("h3",{style:"margin-bottom:10px"},"Every test"),logTable),
+    renderStatsIOPanel(true));
 }
 let insight={text:"",busy:false};
 async function getInsights(A,items){
