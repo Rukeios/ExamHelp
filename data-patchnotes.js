@@ -3,6 +3,15 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"1.5.0", date:"2026-09-29", title:"Pick your program: SC-900, Security+, or Both", tag:"feature", items:[
+  "First launch now asks which exam you're studying for. SC-900 only, Security+ only, or Both — pick Both if you're doing what I'm doing.",
+  "Whatever you pick, the Plan tab shows a clean day count for just that program (SC-900 runs 1-12, Security+ runs 1-21) — nothing under the hood was renumbered, so your existing attempt history still lines up.",
+  "The final boss, Ransomware King, stays reachable in every program: clear the four SC-900 bosses, the five Security+ bosses, or all nine on Both.",
+  "Switch programs anytime from the header. Switching only hides the other program's content — none of your progress is deleted, and it's all back the moment you switch again.",
+  "Stats export/import now remembers your program choice (older files without one are treated as Both).",
+  "roster.html: a student's domains outside their chosen program now show as n/a instead of looking like a missed gap, plus a Program column and filter."
+]},
+
 { v:"1.4.0", date:"2026-09-28", title:"Save your stats, class rosters, and a free-forever notice", tag:"feature", items:[
   "Stats tab: export your progress to a file, copy a plain-text summary for email, and import a file back in — merge or replace, your call.",
   "New roster.html for instructors: drop a stack of students' exported files on it and get a class table, including which domains a student has never once attempted. Nothing uploads anywhere.",
