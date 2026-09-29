@@ -213,7 +213,6 @@ n:15},
 
 /* ================= SECURITY+ SY0-701 ================= */
 {d:13,track:"sec",dom:"1 General concepts",min:90,title:"Controls, CIA + AAA, Zero Trust, physical security, deception",
-imgs:[["assets/access-control-aaa.png","Access control lifecycle: identification, authentication, authorization, accounting"],["assets/gap-analysis.png","Gap analysis table: current vs. required controls, CIA risk levels, target remediation quarter"]],
 pts:[
 "Control categories (what kind)|Technical (firewalls, encryption), Managerial (policies, risk assessments), Operational (done by people: guards, training), Physical (fences, locks).",
 "Control types (what it does)|Preventive stops it (a lock). Deterrent discourages it (a warning sign). Detective finds it (camera review, IDS). Corrective fixes it afterward (restore from backup). Compensating substitutes when the ideal control isn't possible. Directive tells people what to do (a policy, an 'authorized personnel only' sign).",
