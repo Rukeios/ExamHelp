@@ -1,21 +1,27 @@
-MIT License
+Copyright (c) 2026 Rukeios. All rights reserved.
 
-Copyright (c) 2026 Rukeios
+ExamHelp is free to use. You may:
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+  - use the app to study, as much as you like, at no cost;
+  - point students to it and use it in a class you teach, including the
+    roster.html instructor view, at no cost.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Without written permission from the copyright holder, you may not copy,
+modify, republish, redistribute, host elsewhere, or sell the source code,
+the question bank, the lesson text, the campaign, or the artwork, in whole
+or in part, and you may not make derivative works from them.
+
+The source is visible on GitHub so you can see how it works and report
+problems. Being able to read it is not permission to reuse it.
+
+Versions of this repository published before 29 September 2026 were released
+under the MIT License. That license continues to apply to those earlier
+versions only.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+LIABILITY ARISING FROM THE USE OF THE SOFTWARE.
+
+Questions or permission requests: open an issue on the GitHub repository.

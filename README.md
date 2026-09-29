@@ -17,8 +17,9 @@ If you're teaching a class through this, or study-group leading one:
   than a low score on something they've at least tried.
 - Nothing uploads anywhere. `roster.html` runs entirely in your browser, off your own
   desktop. No server sees a single student's file.
-- It's MIT licensed — fork it, change the questions, use it in your class, no
-  permission needed.
+- It's free to use, in your own studying or in a class you teach, no permission needed.
+  The code and content are not open source: please don't copy, republish or fork it
+  without asking. See [LICENSE](LICENSE).
 
 ## What's in it
 

@@ -3,6 +3,11 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"1.7.2", date:"2026-09-29", title:"Still free, no longer open source", tag:"fix", items:[
+  "ExamHelp is still completely free to use, for your own studying or in a class. That isn't changing.",
+  "The code and question bank are no longer open source. You can still see the code on GitHub and report problems there, but please don't copy or republish it. Details are in the LICENSE file."
+]},
+
 { v:"1.7.1", date:"2026-09-29", title:"Dark mode gets a server hall", tag:"feature", items:[
   "In dark mode, the app now sits in a dark server hall. The Game tab, where the bosses live, switches to the arena.",
   "Light mode looks exactly the same as before.",
