@@ -332,29 +332,117 @@ body::after{z-index:-1;background:var(--veil)}
   border:2px solid var(--eh-ring-color,#74d7e5);border-radius:50%;animation:eh-ring 380ms ease-out both}
 @keyframes eh-ring{from{transform:translate(-50%,-50%) scale(.25);opacity:.8}to{transform:translate(-50%,-50%) scale(4);opacity:0}}
 @media (prefers-reduced-motion: reduce){.eh-fx-ring{display:none}}
+
+/* ---------- campaign mode: its own page ----------
+   Normal header, tabs and footer are hidden; the campaign has its own bar and one way out.
+   Always wears the dark theme and the server hall (arena during boss fights), whatever the
+   device theme, so it reads as a different place. */
+body.campaign-mode>.wrap>header,body.campaign-mode>.wrap>footer{display:none}
+:root body.campaign-mode{color-scheme:dark;--bg:#0A2942;--surface:#132B38;--sunk:#102C2D;--ink:#E4F2F1;--muted:#9AB9C1;--line:#294D53;
+  --sc:#72A6E3;--sec:#5CC48A;--gold:#5CC48A;--violet:#72A6E3;--ok:#5CC48A;--bad:#F07C73;--okbg:#15301F;--badbg:#3A1C1A;--scbg:#15253A;--secbg:#15301F;
+  --scene:url("assets/bg/bg-hall-960.webp");
+  --veil:linear-gradient(to bottom,rgba(6,20,32,.93) 0%,rgba(6,20,32,.66) 24%,rgba(6,20,32,.66) 70%,rgba(6,20,32,.92) 100%)}
+:root body.campaign-mode.scene-arena{--scene:url("assets/bg/bg-arena-960.webp");
+  --veil:linear-gradient(to bottom,rgba(14,11,9,.94) 0%,rgba(14,11,9,.72) 24%,rgba(14,11,9,.72) 70%,rgba(14,11,9,.93) 100%)}
+@media (max-width:480px){:root body.campaign-mode{--scene:url("assets/bg/bg-hall-480.webp")}:root body.campaign-mode.scene-arena{--scene:url("assets/bg/bg-arena-480.webp")}}
+@media (min-width:761px){:root body.campaign-mode{--scene:url("assets/bg/bg-hall-1920.webp")}:root body.campaign-mode.scene-arena{--scene:url("assets/bg/bg-arena-1920.webp")}}
+body.campaign-mode .panel{background:color-mix(in srgb,var(--surface) 90%,transparent);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.cbar{display:flex;flex-direction:column;gap:8px;margin:4px 0 20px}
+.cbar h1{margin:0;font:700 clamp(30px,6vw,46px)/1 var(--display);text-transform:uppercase;letter-spacing:.01em}
+.cbar .meter{height:6px;border-radius:99px;background:color-mix(in srgb,var(--ink) 14%,transparent);overflow:hidden;max-width:520px}
+.cbar .meter i{display:block;height:100%;background:var(--ok);border-radius:inherit}
+.cexit{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin:28px 0 8px;padding-top:16px;border-top:1px solid var(--line)}
+
+/* ---------- polish pass: app bar, status line, quiet labels ---------- */
+header{gap:16px}
+.appbar{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px}
+.brand{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.brand-name{font:700 30px/1 var(--display);letter-spacing:.005em;color:var(--ink)}
+.brand-sub{font-size:14px;color:var(--muted)}
+.appbar-meta{display:flex;gap:14px;align-items:center}
+.statusline{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;position:relative}
+.statusline .exams{gap:10px}
+.exams .exam{flex-direction:row;align-items:center;gap:10px;padding:8px 12px;min-width:0;border-radius:8px}
+.exams .exam b{font:700 18px/1 var(--display)}
+.exams .exam .eyebrow{white-space:nowrap}
+.exam.run-status{min-width:0}
+.exam.run-status .runbar{width:96px;margin:0}
+.exam.run-status .muted{display:none}
+.rank-badge{align-self:center;background:transparent;color:var(--muted);border:1px solid var(--line);padding:6px 10px;border-radius:8px;font:500 13px var(--body);letter-spacing:0}
+.settings{margin-left:auto;position:relative}
+.settings>summary{list-style:none;cursor:pointer;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 12px;font-weight:600;font-size:14px;user-select:none}
+.settings>summary::-webkit-details-marker{display:none}
+.settings>summary::after{content:"";display:inline-block;width:6px;height:6px;margin:0 0 3px 9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .15s}
+.settings[open]>summary::after{transform:rotate(-135deg);margin-bottom:-1px}
+.settings>summary:hover{border-color:var(--ink)}
+.settings-body{position:absolute;right:0;top:calc(100% + 8px);z-index:30;width:min(380px,calc(100vw - 32px));display:flex;flex-direction:column;gap:14px;
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;box-shadow:0 12px 32px rgba(8,30,48,.18)}
+.settings-body .panel{padding:0;border:0;background:none;max-width:none!important}
+.settings-body .row{flex-wrap:wrap}
+body.onboarding .statusline,body.onboarding nav.tabs{display:none}
+/* labels: quiet, sentence case */
+.eyebrow{font:500 13px/1.35 var(--body);text-transform:none;letter-spacing:0;color:var(--muted)}
+h3{font-size:19px;text-transform:none;letter-spacing:.005em}
+.chip{text-transform:none;letter-spacing:0}
+/* tabs: sentence case, pinned, scroll cleanly on phones */
+nav.tabs{position:sticky;top:0;z-index:20;gap:2px;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  margin:0 -16px;padding:0 16px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{font:600 16px/1 var(--body);text-transform:none;letter-spacing:0;padding:14px 12px 12px;white-space:nowrap;scroll-snap-align:start;flex:0 0 auto}
+@media (max-width:720px){nav.tabs{mask-image:linear-gradient(to right,#000 85%,transparent);-webkit-mask-image:linear-gradient(to right,#000 85%,transparent)}}
+/* level grid: locked is quiet, not an error */
+.cell.locked{background:var(--surface);border-top-color:color-mix(in srgb,var(--c) 35%,var(--line));color:var(--muted);opacity:.55}
+.cell{border-radius:5px}
+/* forms */
+input[type=text],input[type=date],input[type=email],input[type=number],input:not([type]),select,textarea{
+  font:inherit;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-height:40px}
+input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--sc);outline-offset:1px;border-color:var(--sc)}
+.fld{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:var(--muted)}
+/* focus + buttons */
+:focus-visible{outline:2px solid var(--sc);outline-offset:2px}
+.btn,.seg button{border-radius:8px;transition:border-color .12s,background-color .12s}
+.panel{border-radius:10px}
+.program-card{border-radius:10px;padding:18px}
+.program-card>.btn{margin-top:auto}
+.settings-body>div:empty{display:none}
+.setrow{display:grid;grid-template-columns:92px 1fr auto;gap:10px;align-items:baseline;font-size:14px}
+.setrow+.setrow{margin-top:10px}
+.setlabel{color:var(--muted);font-weight:600;font-size:13px}
+.settings-body .fld{display:grid;grid-template-columns:92px 1fr;gap:10px;align-items:center}
+.exam.run-status b{white-space:nowrap}
+@media (max-width:480px){.rank-badge,.exam.run-status .eyebrow,.appbar .sync{display:none}
+  .exam.run-status{flex:1 1 auto}.exam.run-status .runbar{flex:1;width:auto;min-width:40px}.brand-name{font-size:28px}.settings>summary{padding:9px 12px}}
+.setrow,.settings-body .fld{grid-template-columns:108px 1fr auto}
+.settings-body .fld{grid-template-columns:108px 1fr}
+/* pinned tab bar tint: light = page color; dark scenes = a smoky tint that blends with the art */
+nav.tabs{background:var(--navbg,color-mix(in srgb,var(--bg) 92%,transparent))}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) body{--navbg:rgba(4,14,24,.62)}:root:not([data-theme="light"]) body.scene-arena{--navbg:rgba(16,11,8,.66)}}
+:root[data-theme="dark"] body{--navbg:rgba(4,14,24,.62)}:root[data-theme="dark"] body.scene-arena{--navbg:rgba(16,11,8,.66)}
 </style>
 </head>
 <body>
 
 <div class="wrap">
   <header>
-    <div class="head-row">
-      <div>
-        <div class="eyebrow">RJ · 33-level plan · two exams</div>
-        <h1>SC-900 + Sec+ Sprint</h1>
-        <span class="rank-badge" id="rank"></span>
-      </div>
-      <div class="exams" id="exams"></div>
-    </div>
-    <div id="examrow"></div>
-    <div id="programrow"></div>
-    <div class="row" style="justify-content:space-between">
-      <label class="fld">Plan start date<input type="date" id="start"></label>
-      <span class="row" style="gap:10px;align-items:center">
+    <div class="appbar">
+      <div class="brand"><span class="brand-name">ExamHelp</span><span class="brand-sub">SC-900 and Security+ study camp</span></div>
+      <div class="appbar-meta">
         <span class="sync" id="sync">Loading saved progress…</span>
         <button class="verbtn" id="supportbtn" aria-label="Support ExamHelp">Support</button>
         <button class="verbtn" id="verbtn" aria-label="Patch notes"></button>
-      </span>
+      </div>
+    </div>
+    <div class="statusline">
+      <div class="exams" id="exams"></div>
+      <span class="rank-badge" id="rank"></span>
+      <details class="settings" id="settings">
+        <summary>Plan settings</summary>
+        <div class="settings-body">
+          <div id="programrow"></div>
+          <div id="examrow"></div>
+          <label class="fld">Plan start date<input type="date" id="start"></label>
+        </div>
+      </details>
     </div>
     <nav class="tabs" role="tablist">
       <button role="tab" data-tab="plan" aria-selected="true">Plan</button>
@@ -367,7 +455,9 @@ body::after{z-index:-1;background:var(--veil)}
       <button role="tab" data-tab="lab" aria-selected="false">Lab</button>
     </nav>
   </header>
+  <div id="campaignbar"></div>
   <main id="view"></main>
+  <div id="campaignexit"></div>
   <div id="patchModal"></div>
   <div id="supportModal"></div>
   <footer>
@@ -377,23 +467,23 @@ body::after{z-index:-1;background:var(--veil)}
   </footer>
 </div>
 
-<script src="data.js?v=1.8.0"></script>
-<script src="data-extra.js?v=1.8.0"></script>
-<script src="data-pack2.js?v=1.8.0"></script>
-<script src="data-pack3.js?v=1.8.0"></script>
-<script src="data-pack4-sc.js?v=1.8.0"></script>
-<script src="data-pack5-net.js?v=1.8.0"></script>
-<script src="data-acronyms.js?v=1.8.0"></script>
-<script src="data-patchnotes.js?v=1.8.0"></script>
-<script src="data-bosses.js?v=1.8.0"></script>
+<script src="data.js?v=1.9.0"></script>
+<script src="data-extra.js?v=1.9.0"></script>
+<script src="data-pack2.js?v=1.9.0"></script>
+<script src="data-pack3.js?v=1.9.0"></script>
+<script src="data-pack4-sc.js?v=1.9.0"></script>
+<script src="data-pack5-net.js?v=1.9.0"></script>
+<script src="data-acronyms.js?v=1.9.0"></script>
+<script src="data-patchnotes.js?v=1.9.0"></script>
+<script src="data-bosses.js?v=1.9.0"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=1.8.0"></script>
-<script src="data-campaign-flags.js?v=1.8.0"></script>
-<script src="data-campaign-endings.js?v=1.8.0"></script>
-<script src="data-fixes-01.js?v=1.8.0"></script>
-<script src="data-fixes-02.js?v=1.8.0"></script>
-<script src="data-fixes-03.js?v=1.8.0"></script>
-<script src="examhelp-effects.js?v=1.8.0"></script>
+<script src="data-daymissions.js?v=1.9.0"></script>
+<script src="data-campaign-flags.js?v=1.9.0"></script>
+<script src="data-campaign-endings.js?v=1.9.0"></script>
+<script src="data-fixes-01.js?v=1.9.0"></script>
+<script src="data-fixes-02.js?v=1.9.0"></script>
+<script src="data-fixes-03.js?v=1.9.0"></script>
+<script src="examhelp-effects.js?v=1.9.0"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -613,7 +703,8 @@ function renderExamToggle(){
   const mount=document.getElementById("examrow"); if(!mount) return;
   mount.replaceChildren();
   if(!state.examMode&&!examFormOpen){
-    mount.append(h("button",{class:"linklike",onclick:()=>{examFormOpen=true;render();}},"I have an exam booked"));
+    mount.append(h("div",{class:"setrow"},h("span",{class:"setlabel"},"Exam dates"),h("span",{},"None set"),
+      h("button",{class:"linklike",onclick:()=>{examFormOpen=true;render();}},"Add")));
     return;
   }
   if(examFormOpen){
@@ -635,9 +726,9 @@ function renderExamToggle(){
         h("button",{class:"btn",onclick:()=>{examFormOpen=false;render();}},"Cancel"))));
     return;
   }
-  mount.append(h("div",{class:"row",style:"gap:14px"},
-    h("button",{class:"linklike",onclick:()=>{examFormOpen=true;render();}},"Edit exam dates"),
-    h("button",{class:"linklike",onclick:()=>{state.examMode=false;state.examDates={sc:null,sec:null};saveProgress();render();}},"Clear exam dates")));
+  mount.append(h("div",{class:"setrow"},h("span",{class:"setlabel"},"Exam dates"),
+    h("button",{class:"linklike",onclick:()=>{examFormOpen=true;render();}},"Edit"),
+    h("button",{class:"linklike",onclick:()=>{state.examMode=false;state.examDates={sc:null,sec:null};saveProgress();render();}},"Clear")));
 }
 // ---------- program picker ----------
 let programFormOpen=false;
@@ -648,11 +739,10 @@ function renderProgramToggle(){
   mount.replaceChildren();
   if(!state.program) return; // first-run picker owns the decision until one is made
   if(!programFormOpen){
-    mount.append(h("div",{class:"row",style:"gap:10px;align-items:center;flex-wrap:wrap"},
-      h("span",{class:"muted",style:"font-size:13px"},"Program: "+PROGRAM_LABEL[state.program]),
-      h("button",{class:"linklike",onclick:()=>{programFormOpen=true;render();}},"Change"),
-      state.studyMode?h("span",{class:"muted",style:"font-size:13px"},"· Mode: "+STUDY_MODE_LABEL[state.studyMode]):null,
-      state.studyMode?h("button",{class:"linklike",onclick:()=>setStudyMode(state.studyMode==="campaign"?"self":"campaign")},state.studyMode==="campaign"?"Switch to self-paced":"Switch to campaign"):null));
+    mount.append(h("div",{class:"setrow"},h("span",{class:"setlabel"},"Program"),h("span",{},PROGRAM_LABEL[state.program]),
+        h("button",{class:"linklike",onclick:()=>{programFormOpen=true;render();}},"Change")),
+      state.studyMode?h("div",{class:"setrow"},h("span",{class:"setlabel"},"Study mode"),h("span",{},STUDY_MODE_LABEL[state.studyMode]),
+        h("button",{class:"linklike",onclick:()=>setStudyMode(state.studyMode==="campaign"?"self":"campaign")},state.studyMode==="campaign"?"Switch to self-paced":"Switch to campaign")):null);
     return;
   }
   mount.append(h("div",{class:"panel",style:"display:flex;flex-direction:column;gap:8px;max-width:420px"},
@@ -705,8 +795,8 @@ function renderHeader(){
   const lifetimeQ=attempts.reduce((s,a)=>s+a.n,0), lifetimeCorrect=attempts.reduce((s,a)=>s+(a.score||0),0);
   ex.append(h("div",{class:"exam run-status"},
     h("span",{class:"eyebrow"},tierName(state.prestige)+(state.prestige?" — Prestige "+state.prestige:" — Run "+((state.lifetime.runsCompleted||0)+1))),
-    h("b",{class:"tabnum",style:"font-size:20px"},"Level "+Math.min(current,33)+" of 33"),
-    h("div",{class:"runbar"},h("i",{style:"width:"+pct(doneCount,33)+"%"})),
+    h("b",{class:"tabnum"},"Level "+displayDay(current)+" of "+programDays().length),
+    h("div",{class:"runbar","aria-hidden":"true"},h("i",{style:"width:"+pct(programDays().filter(d=>state.done[d.d]).length,programDays().length)+"%"})),
     h("span",{class:"muted",style:"font-size:12px"},(state.lifetime.runsCompleted||0)+" run"+(state.lifetime.runsCompleted===1?"":"s")+" completed · "+lifetimeQ+" questions answered · "+pct(lifetimeCorrect,lifetimeQ)+"% lifetime accuracy")));
 
   if(state.examMode){
@@ -725,6 +815,7 @@ function renderHeader(){
     });
   }
   document.getElementById("start").value=state.start;
+  document.body.classList.toggle("onboarding",!state.program||!state.studyMode);
   renderExamToggle();
   renderProgramToggle();
   document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.tab===ui.tab)));
@@ -732,6 +823,9 @@ function renderHeader(){
   renderPatchModal();
   renderSupportModal();
 }
+// Capture phase: decide "inside or outside" before a button inside the panel re-renders and detaches itself.
+document.addEventListener("click",e=>{ const d=document.getElementById("settings"); if(d&&d.open&&!d.contains(e.target)) d.open=false; },true);
+document.addEventListener("keydown",e=>{ const d=document.getElementById("settings"); if(e.key==="Escape"&&d&&d.open){ d.open=false; d.querySelector("summary").focus(); } });
 document.getElementById("start").addEventListener("change",e=>{ if(e.target.value){ state.start=e.target.value; saveProgress(); render(); }});
 
 // ---------- patch notes ----------
@@ -1190,7 +1284,8 @@ function finish(){
   saveAttempt(run.rec);
   recordGameProgress(run.rec);
   const guidedMatch=/^guided-(\d+)$/.exec(run.rec.scopeId);
-  if(guidedMatch&&run.rec.pct>=GUIDED_PASS){
+  const guidedComplete=run.res.length===run.list.length;   // "End & score" early can't pass a level
+  if(guidedMatch&&guidedComplete&&run.rec.pct>=GUIDED_PASS){
     const gd=Number(guidedMatch[1]), g=G();
     g.passed[gd]=Date.now();
     if(!state.done[gd]) state.done[gd]=Date.now();   // campaign passes count as a cleared level everywhere
@@ -1376,7 +1471,7 @@ function renderResult(){
       h("div",{},h("div",{class:"eyebrow"},"Best streak"),h("div",{class:"tabnum",style:"font:700 26px var(--display)"},r.best)),
       h("div",{},h("div",{class:"eyebrow"},"vs last time"),p?h("div",{class:"tabnum delta "+(d>0?"up":d<0?"down":""),style:"font:700 26px var(--display)"},(d>0?"+":"")+d+" pts"):h("div",{class:"muted"},"First run of this set"),p?h("div",{class:"muted tabnum",style:"font-size:13px"},"was "+p.pct+"% · "+secs(p.ms/p.n)+"/q"):null)),
     run.boss?(bossWon?h("p",{style:"margin:0"},"Boss defeated. The domain badge is yours."):h("p",{style:"margin:0"},"Boss escaped. Finish all 15 with a score of 80% and at least one life remaining.")):(r.pct>=80?h("p",{style:"margin:0"},"That's at or above the 80% practice target."):h("p",{style:"margin:0"},"Under the 80% practice target. Hit the misses below, then run it again.")),
-    h("div",{class:"actions"},
+    state.studyMode==="campaign"?null:h("div",{class:"actions"},
       h("button",{class:"btn primary",onclick:()=>startQuiz({id:run.scope.id,label:run.scope.label,keys:run.list.map(x=>x.k)},run.mode,run.list.length)},"Run it again (new order)"),
       misses.length?h("button",{class:"btn",onclick:()=>startQuiz({id:"retry",label:"Retry misses",keys:misses.map(x=>x.k)},(run.mode==="blitz"||run.mode==="acronym"||run.mode==="mock")?"think":run.mode,misses.length)},"Retry my "+misses.length+" miss"+(misses.length>1?"es":"")):null,
       h("button",{class:"btn",onclick:()=>{run=null;ui.tab="stats";render();}},"See stats"),
@@ -1683,7 +1778,26 @@ const RICH_CAMPAIGN={
 // state.studyMode: "self" | "campaign". Both share level progress (state.done), quiz history
 // and boss wins, so switching never loses anything. state.guided holds the campaign run.
 const STUDY_MODE_LABEL={self:"Self-paced",campaign:"Campaign"};
-function setStudyMode(m){ state.studyMode=m; if(m==="campaign") ui.tab="campaign"; saveUI(); saveProgress(); render(); window.scrollTo(0,0); }
+function setStudyMode(m){
+  if(run){ stopTimer(); run=null; }
+  state.studyMode=m; ui.tab=m==="campaign"?"campaign":"plan";
+  saveUI(); saveProgress(); render(); window.scrollTo(0,0);
+}
+function renderCampaignChrome(on){
+  const bar=document.getElementById("campaignbar"), exit=document.getElementById("campaignexit");
+  if(!bar||!exit) return;
+  if(!on){ bar.replaceChildren(); exit.replaceChildren(); return; }
+  const g=G(), L=guidedLevels(), cleared=L.filter(x=>g.passed[x.d]).length;
+  const at=g.started?L.findIndex(x=>x.d===guidedDay().d)+1:0;
+  bar.replaceChildren(h("div",{class:"cbar"},
+    h("div",{class:"eyebrow"},"ExamHelp · Campaign · "+PROGRAM_LABEL[state.program]),
+    h("h1",{},"Night Shift at Leon River Water"),
+    h("div",{class:"muted",style:"font:500 13px var(--mono)"},"Run "+g.run+(at?" · Level "+at+" of "+L.length:"")+" · "+cleared+" cleared"),
+    h("div",{class:"meter","aria-hidden":"true"},h("i",{style:"width:"+Math.round(100*cleared/L.length)+"%"}))));
+  exit.replaceChildren(h("div",{class:"cexit"},
+    h("span",{class:"muted",style:"font-size:13px"},"Your run saves as you go. Leave any time and pick it back up where you stopped."),
+    h("button",{class:"btn",onclick:()=>setStudyMode("self")},"Leave campaign mode")));
+}
 function renderModePicker(){
   const card=(title,subtitle,lines,btn,onPick)=>h("div",{class:"program-card"},
     h("b",{},title), h("p",{class:"muted",style:"margin:0;font-size:13px"},subtitle),
@@ -1904,15 +2018,23 @@ function guidedResultBlock(){
   const gm=/^guided-(\d+)$/.exec(run.rec.scopeId||"");
   const back=label=>h("button",{class:"btn primary",onclick:()=>{run=null;ui.tab="campaign";saveUI();render();window.scrollTo(0,0);}},label);
   if(gm){
-    const passed=run.rec.pct>=GUIDED_PASS;
+    const complete=run.res.length===run.list.length, passed=complete&&run.rec.pct>=GUIDED_PASS;
     return h("div",{class:"why "+(passed?"":"bad"),style:"display:flex;flex-direction:column;gap:10px"},
-      h("b",{},passed?"Passed. The mission's decisions are unlocked.":"Not yet: "+GUIDED_PASS+"% moves you on. Review the intel and try again."),
+      h("b",{},passed?"Passed. The mission's decisions are unlocked.":!complete?"Ended early. Answer every question to pass the level.":"Not yet: "+GUIDED_PASS+"% moves you on. Review the intel and try again."),
       h("div",{class:"actions"},back(passed?"Continue the campaign →":"Back to the campaign")));
   }
   if(run.boss&&["boss","final"].includes(G().phase)) return h("div",{class:"actions"},back("Back to the campaign"));
   return null;
 }
-function renderCampaign(){ return state.studyMode==="campaign"?renderGuided():renderSelfCampaign(); }
+function renderCampaign(){
+  if(state.studyMode==="campaign") return renderGuided();
+  return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
+    h("section",{class:"panel",style:"display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between"},
+      h("div",{},h("h2",{style:"margin:0"},"Campaign mode"),
+        h("p",{class:"muted",style:"margin:4px 0 0"},"The full guided story: brief, intel, a quiz to pass, then decisions that shape your ending. It runs as its own page.")),
+      h("button",{class:"btn primary",onclick:()=>setStudyMode("campaign")},"Enter campaign mode")),
+    renderSelfCampaign());
+}
 function renderSelfCampaign(){
   const day=unlockedDay(), mission=RICH_CAMPAIGN[day], dd=displayDay(day);
   if(!mission) return h("section",{class:"panel"},h("h2",{},"Campaign"),h("p",{},"Complete Level 1 to start today's mission."));
@@ -1955,8 +2077,8 @@ function renderSelfCampaign(){
   return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},kids);
 }
 // ---------- stats export / import ----------
-// Ko-fi placeholder — swap for the real link before sharing outside the household.
-const DONATION_URL="https://ko-fi.com/examhelp";
+// Donations: Ko-fi. Free forever; this link is the only ask, and it tells students not to.
+const DONATION_URL="https://ko-fi.com/rukeios";
 let statsIO={name:"",copied:false,importError:null,importPreview:null};
 function slugify(s){ const t=(s||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,""); return t||"stats"; }
 // Recomputed from scratch each call so it always reflects the latest attempts/state — same
@@ -2424,6 +2546,7 @@ function renderCore(){
   renderHeader();
   const v=document.getElementById("view");
   const tabs=document.querySelector("nav.tabs");
+  if(!state.program||!state.studyMode){ document.body.classList.remove("campaign-mode"); renderCampaignChrome(false); }
   if(!state.program){
     if(tabs) tabs.style.display="none";
     v.replaceChildren(renderProgramPicker());
@@ -2432,6 +2555,16 @@ function renderCore(){
   if(!state.studyMode){
     if(tabs) tabs.style.display="none";
     v.replaceChildren(renderModePicker());
+    return;
+  }
+  const inCampaign=state.studyMode==="campaign";
+  document.body.classList.toggle("campaign-mode",inCampaign);
+  renderCampaignChrome(inCampaign);
+  if(inCampaign){
+    // Self-contained: no tabs, no plan or quiz pages. Quizzes and boss fights run here.
+    document.body.classList.toggle("scene-arena",!!(run&&run.boss)||["boss","final"].includes(G().phase));
+    v.replaceChildren(run?renderRun():renderGuided());
+    if(run&&!run.finished&&run.timedMs&&!run.answered&&!tick) startTimer();
     return;
   }
   if(tabs) tabs.style.display="";

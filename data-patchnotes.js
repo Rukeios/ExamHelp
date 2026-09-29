@@ -3,6 +3,15 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"1.9.0", date:"2026-09-29", title:"A cleaner ExamHelp, and campaign mode gets its own page", tag:"feature", items:[
+  "New look up top: a slim ExamHelp bar and one status line with your level, progress and rank. Program, study mode, exam dates and start date now live under Plan settings.",
+  "The level count matches your program: SC-900 shows 12 levels, Security+ shows 21, Both shows 33.",
+  "Tabs stay pinned while you scroll, read in plain case, and swipe cleanly on phones. Locked levels on the plan are shown quietly instead of in red.",
+  "Campaign mode is now its own page. No tabs, no detours: brief, intel, quiz, decisions, debrief, bosses, all in one place, always in the server hall. Leave any time with the button at the bottom.",
+  "Campaign quizzes only pass if you answer every question. Ending a quiz early no longer counts.",
+  "The Support link now goes to ExamHelp's real Ko-fi page. ExamHelp is still free, and if you're a student, please don't."
+]},
+
 { v:"1.8.0", date:"2026-09-29", title:"Campaign mode", tag:"feature", items:[
   "New: choose how you study. Self-paced is everything you had before. Campaign walks you through the levels one at a time as a story.",
   "Each campaign level goes: mission brief, the lesson notes as intel, a quiz you pass at 80% (retake it as often as you need), then the mission's decisions and a debrief.",
