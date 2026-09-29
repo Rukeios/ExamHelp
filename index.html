@@ -348,9 +348,14 @@ footer a{color:inherit}
 <script src="data-pack2.js"></script>
 <script src="data-pack3.js"></script>
 <script src="data-pack4-sc.js"></script>
+<script src="data-pack5-net.js"></script>
 <script src="data-acronyms.js"></script>
 <script src="data-patchnotes.js"></script>
 <script src="data-bosses.js"></script>
+<!-- corrections overlays: load after every bank -->
+<script src="data-fixes-01.js"></script>
+<script src="data-fixes-02.js"></script>
+<script src="data-fixes-03.js"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -373,7 +378,7 @@ const FINAL_BOSS = BOSSES.find(b=>b.final);
 
 // ---------- question index ----------
 const Q = {};
-const EXTRA = window.EXTRA||{}, PACK2 = window.EXTRA2||{}, PACK3 = window.EXTRA3||{}, PACK4 = window.EXTRA4||{};
+const EXTRA = window.EXTRA||{}, PACK2 = window.EXTRA2||{}, PACK3 = window.EXTRA3||{}, PACK4 = window.EXTRA4||{}, PACK5 = window.EXTRA5||{};
 const mkQ = (day,x,k) => ({k, d:day.d, track:day.track, dom:day.dom, q:x[0], o:x[1], a:x[2], why:x[3]});
 DAYS.forEach(day=>{
   (day.q||[]).forEach((x,i)=>{ const k=day.d+"-"+i; Q[k]=mkQ(day,x,k); });
@@ -381,6 +386,13 @@ DAYS.forEach(day=>{
   (PACK2[day.d]||[]).forEach((x,i)=>{ const k=day.d+"-p"+i; Q[k]=mkQ(day,x,k); });
   (PACK3[day.d]||[]).forEach((x,i)=>{ const k=day.d+"-q"+i; Q[k]=mkQ(day,x,k); });
   (PACK4[day.d]||[]).forEach((x,i)=>{ const k=day.d+"-s"+i; Q[k]=mkQ(day,x,k); });
+  (PACK5[day.d]||[]).forEach((x,i)=>{ const k=day.d+"-n"+i; Q[k]=mkQ(day,x,k); });
+});
+// Corrections overlay. Applied LAST, after every bank is indexed. Keys never change;
+// only the question, options and explanation are replaced. Answer stays at index 0.
+[window.QFIXES, window.QFIXES2, window.QFIXES3].forEach(FIX=>{
+  Object.keys(FIX||{}).forEach(k=>{ if(!Q[k]) return; const x=FIX[k];
+    Q[k]=Object.assign({},Q[k],{q:x[0],o:x[1],a:x[2],why:x[3]}); });
 });
 const ACRONYMS = window.ACRONYMS||[];
 const PATCHNOTES = window.PATCHNOTES||[];
@@ -403,7 +415,7 @@ const ACHIEVEMENTS={clean:{name:"Clean Sweep",desc:"Score 100% on a 10+ question
 const PRESTIGE_TIERS=[
   {level:0,name:"Script Kiddie"},
   {level:1,name:"Hacktivist"},
-  {level:2,name:"Rogue Insider"},
+  {level:2,name:"Shadow IT"},
   {level:3,name:"Organized Crime"},
   {level:4,name:"Nation-State"}];
 function tierName(level){ const t=PRESTIGE_TIERS.find(t=>t.level===level); return t?t.name:"APT-"+level; }
@@ -834,7 +846,7 @@ function lessonPanel(d){
   const forceWritten=d.kind==="review"&&rulesFor(state.prestige).forceWrittenOnReview;
   const n=d.n||scope.keys.length;
   kids.push(h("div",{},h("h3",{style:"margin-bottom:8px"},(d.kind?"":"Mini quiz · ")+n+" questions, shuffled"),h("div",{class:"actions"},quizBtns(scope,n,forceWritten)),
-    forceWritten?h("p",{class:"muted",style:"margin:6px 0 0;font-size:12px"},"Rogue Insider tier and up: review levels are Written only, no multiple choice."):null));
+    forceWritten?h("p",{class:"muted",style:"margin:6px 0 0;font-size:12px"},"Shadow IT tier and up: review levels are Written only, no multiple choice."):null));
   const done=!!state.done[d.d];
   const modesDone=modesCompleted(scope.id);
   const requiredModes=forceWritten?["written"]:["think","blitz","written"];
@@ -1370,14 +1382,51 @@ function renderPBQ(){
   const selector=h("div",{class:"seg"},modes.map(([id,label])=>h("button",{"aria-pressed":String(ui.pbq===id),onclick:()=>{ui.pbq=id;render();}},label)));
   return h("div",{style:"display:flex;flex-direction:column;gap:16px"},selector,ui.pbq==="firewall"?firewallPBQ():ui.pbq==="port"?portPBQ():ui.pbq==="packet"?packetPBQ():logsPBQ());
 }
+// Firewall builder: graded by SIMULATION, never by comparing rule order.
+// Every test packet is walked through the learner's ruleset top-down, first match wins,
+// implicit deny at the end. Any order that produces the right verdict for every packet passes.
+const FW_RULES={
+  "Deny 203.0.113.77":{action:"deny",src:"203.0.113.77/32",port:null},
+  "Allow admin SSH from 10.10.0.0/16":{action:"allow",src:"10.10.0.0/16",port:22},
+  "Allow HTTPS from any":{action:"allow",src:"0.0.0.0/0",port:443}
+};
+const FW_PACKETS=[
+  {src:"203.0.113.77",port:443,label:"Compromised host → HTTPS",expect:"deny"},
+  {src:"198.51.100.20",port:443,label:"Customer → HTTPS",expect:"allow"},
+  {src:"10.10.4.12",port:22,label:"Admin workstation → SSH",expect:"allow"},
+  {src:"203.0.113.77",port:22,label:"Compromised host → SSH",expect:"deny"},
+  {src:"198.51.100.20",port:22,label:"Internet → SSH",expect:"deny"}
+];
+function ipToInt(ip){ return ip.split(".").reduce((n,o)=>(n*256)+(+o),0); }
+function inCidr(ip,cidr){ const [net,bits]=cidr.split("/"); const b=+bits; if(b===0) return true;
+  const size=2**(32-b); return Math.floor(ipToInt(ip)/size)===Math.floor(ipToInt(net)/size); }
+function fwEvaluate(order,pkt){
+  for(let i=0;i<order.length;i++){ const r=FW_RULES[order[i]];
+    if(r&&inCidr(pkt.src,r.src)&&(r.port===null||r.port===pkt.port)) return {verdict:r.action,by:(i+1)+". "+order[i]}; }
+  return {verdict:"deny",by:"implicit deny"};
+}
 function firewallPBQ(){
-  const correct=["Deny 203.0.113.77","Allow admin SSH from 10.10.0.0/16","Allow HTTPS from any"];
-  const test=pbq.firewall.join("|")===correct.join("|");
+  const base=Object.keys(FW_RULES);
+  const results=FW_PACKETS.map(p=>Object.assign({pkt:p},fwEvaluate(pbq.firewall,p)));
+  const test=results.every(r=>r.verdict===r.pkt.expect);
+  const leak=results.find(r=>r.verdict!==r.pkt.expect&&r.pkt.expect==="deny");
   const rows=pbq.firewall.map((rule,i)=>h("div",{class:"pbq-row"},
     h("div",{class:"drag-item"},(i+1)+". "+rule),
-    h("button",{class:"btn",disabled:i===0?true:null,onclick:()=>{[pbq.firewall[i-1],pbq.firewall[i]]=[pbq.firewall[i],pbq.firewall[i-1]];pbq.firewall.checked=false;render();}},"↑"),
-    h("button",{class:"btn",disabled:i===pbq.firewall.length-1?true:null,onclick:()=>{[pbq.firewall[i+1],pbq.firewall[i]]=[pbq.firewall[i],pbq.firewall[i+1]];pbq.firewall.checked=false;render();}},"↓")));
-  return h("section",{class:"panel"},h("h2",{},"Firewall builder"),h("p",{class:"muted"},"Use the arrows to put the rules in evaluation order. The compromised IP must be denied before broad access is allowed."),h("div",{class:"pbq-list"},rows),h("div",{class:"actions",style:"margin-top:12px"},h("button",{class:"btn primary",onclick:()=>{pbq.firewall.checked=true;render();}},"Run test packets"),h("button",{class:"btn",onclick:()=>{pbq.firewall=shuffle(correct);pbq.firewall.checked=false;render();}},"Reset")),pbq.firewall.checked?h("div",{class:"why "+(test?"":"bad"),style:"margin-top:12px"},h("b",{},test?"Packets handled correctly. ":"A malicious packet was allowed. "),test?"203.0.113.77 is blocked before HTTPS traffic can match the allow rule.":"Put the specific deny rule first; firewall rules stop evaluating after the first match."):null);
+    h("button",{class:"btn","aria-label":"Move rule up",disabled:i===0?true:null,onclick:()=>{[pbq.firewall[i-1],pbq.firewall[i]]=[pbq.firewall[i],pbq.firewall[i-1]];pbq.firewall.checked=false;render();}},"↑"),
+    h("button",{class:"btn","aria-label":"Move rule down",disabled:i===pbq.firewall.length-1?true:null,onclick:()=>{[pbq.firewall[i+1],pbq.firewall[i]]=[pbq.firewall[i],pbq.firewall[i+1]];pbq.firewall.checked=false;render();}},"↓")));
+  const table=pbq.firewall.checked?h("div",{class:"pbq-list",style:"margin-top:12px"},results.map(r=>{const ok=r.verdict===r.pkt.expect;
+    return h("div",{class:"pbq-row",style:"flex-wrap:wrap;gap:6px"},
+      h("span",{},(ok?"✓ ":"✗ ")+r.pkt.label+" ("+r.pkt.src+":"+r.pkt.port+")"),
+      h("span",{class:"muted",style:"font-size:13px"},"→ "+r.verdict.toUpperCase()+" by "+r.by+(ok?"":" · should be "+r.pkt.expect.toUpperCase())));})):null;
+  const verdict=pbq.firewall.checked?h("div",{class:"why "+(test?"":"bad"),style:"margin-top:12px"},
+    h("b",{},test?"Every packet handled correctly. ":leak?"A packet that should be blocked got through. ":"Legitimate traffic was blocked. "),
+    test?"The deny for 203.0.113.77 is evaluated before any allow rule it could match. Other valid orders exist; what matters is the verdict for each packet, not one fixed sequence."
+        :"Rules are checked top-down and the first match wins. A broad allow placed above a specific deny will match first, so the deny never runs."):null;
+  return h("section",{class:"panel"},h("h2",{},"Firewall builder"),
+    h("p",{class:"muted"},"Use the arrows to order the rules, then run test packets through them. Rules are checked top-down, first match wins, and anything that matches nothing is denied."),
+    h("div",{class:"pbq-list"},rows),
+    h("div",{class:"actions",style:"margin-top:12px"},h("button",{class:"btn primary",onclick:()=>{pbq.firewall.checked=true;render();}},"Run test packets"),h("button",{class:"btn",onclick:()=>{pbq.firewall=shuffle(base);pbq.firewall.checked=false;render();}},"Reset")),
+    table,verdict);
 }
 function portPBQ(){
   const answers={22:"SSH",53:"DNS",443:"HTTPS",3389:"RDP"}, protocols=Object.values(answers);

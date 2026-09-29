@@ -3,6 +3,16 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"1.7.0", date:"2026-09-29", title:"64 network questions, 57 fixes, and a fairer firewall builder", tag:"content", items:[
+  "64 new Security+ questions on network attacks and tools: DNS poisoning and tunneling, MAC flooding, VLAN hopping, rogue DHCP, BGP hijacking, microsegmentation, common ports, and command-line tools. These were topics the bank didn't cover at all before.",
+  "57 existing questions rewritten. In most of them the right answer was noticeably longer than the wrong ones, so you could spot it without knowing it. Not anymore.",
+  "Removed about 130 questions that showed up twice under different levels, so a quiz won't hand you the same question twice.",
+  "SC-900: Security Copilot is out (it's no longer on the exam objectives), replaced with Defender Vulnerability Management, threat intelligence, and advanced hunting. The Azure Firewall lesson now explains what actually separates it from an NSG: both track connection state, so 'stateful' was never the difference.",
+  "Firewall builder now grades by running test packets through your rules instead of checking them against one answer key. Any order that blocks the bad traffic and lets the good traffic through is correct, and you see which rule caught each packet.",
+  "The level 2 Prestige tier is now 'Shadow IT', another threat actor from the SY0-701 list. 'Rogue Insider' was still too close to the Insider Threat boss.",
+  "Your progress and unlocks carry over, and nothing was renumbered. Answers you gave on the removed repeat questions no longer count in Stats, but the same questions are still in the bank under their other level."
+]},
+
 { v:"1.6.0", date:"2026-09-28", title:"Days are now levels", tag:"feature", items:[
   "Every 'Day X' label — Plan tab, lesson header, quiz scope, campaign mission, most-missed list — now reads 'Level X'. Same content, same order, same pacing math, just a different name for the unit.",
   "Nothing was renumbered: your saved progress, attempt history, and unlock order are exactly what they were before this update."
