@@ -3,6 +3,13 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"1.7.3", date:"2026-09-29", title:"A little motion", tag:"feature", items:[
+  "Right answers glow green and wrong ones flash, so you feel the result before you read it.",
+  "Tabs slide in, buttons ripple where you tap, and mock exams pulse when the clock starts.",
+  "Beat a boss or pass a mock exam at 80% or better and your results get a gold victory glow.",
+  "Everything stays quick and subtle. If your phone or computer is set to reduce motion, all of it switches off."
+]},
+
 { v:"1.7.2", date:"2026-09-29", title:"Still free, no longer open source", tag:"fix", items:[
   "ExamHelp is still completely free to use, for your own studying or in a class. That isn't changing.",
   "The code and question bank are no longer open source. You can still see the code on GitHub and report problems there, but please don't copy or republish it. Details are in the LICENSE file."
