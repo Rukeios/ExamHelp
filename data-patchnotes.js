@@ -3,6 +3,14 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"1.8.0", date:"2026-09-29", title:"Campaign mode", tag:"feature", items:[
+  "New: choose how you study. Self-paced is everything you had before. Campaign walks you through the levels one at a time as a story.",
+  "Each campaign level goes: mission brief, the lesson notes as intel, a quiz you pass at 80% (retake it as often as you need), then the mission's decisions and a debrief.",
+  "Mission decisions are final for the run. A few of them quietly decide which of nine endings you reach. You get a clear warning before you start.",
+  "A boss guards the end of every exam domain, and the final boss waits at the end.",
+  "Both modes share your levels, quiz history and boss wins, so you can switch any time from the top of the page without losing anything. Starting a new campaign run never touches your stats."
+]},
+
 { v:"1.7.5", date:"2026-09-29", title:"Harder acronyms, livelier answers", tag:"balance", items:[
   "The acronym drill no longer gives the answer away. Before, only the right option's first letters spelled the acronym. Now every option does: the wrong ones are near-misses like 'Security Assertion Management Language' for SAML.",
   "Going the other way ('Which acronym stands for…?'), the wrong answers are look-alikes such as SSO, SSL and SSH, not random picks.",

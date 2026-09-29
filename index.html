@@ -377,20 +377,23 @@ body::after{z-index:-1;background:var(--veil)}
   </footer>
 </div>
 
-<script src="data.js?v=1.7.5"></script>
-<script src="data-extra.js?v=1.7.5"></script>
-<script src="data-pack2.js?v=1.7.5"></script>
-<script src="data-pack3.js?v=1.7.5"></script>
-<script src="data-pack4-sc.js?v=1.7.5"></script>
-<script src="data-pack5-net.js?v=1.7.5"></script>
-<script src="data-acronyms.js?v=1.7.5"></script>
-<script src="data-patchnotes.js?v=1.7.5"></script>
-<script src="data-bosses.js?v=1.7.5"></script>
+<script src="data.js?v=1.8.0"></script>
+<script src="data-extra.js?v=1.8.0"></script>
+<script src="data-pack2.js?v=1.8.0"></script>
+<script src="data-pack3.js?v=1.8.0"></script>
+<script src="data-pack4-sc.js?v=1.8.0"></script>
+<script src="data-pack5-net.js?v=1.8.0"></script>
+<script src="data-acronyms.js?v=1.8.0"></script>
+<script src="data-patchnotes.js?v=1.8.0"></script>
+<script src="data-bosses.js?v=1.8.0"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-fixes-01.js?v=1.7.5"></script>
-<script src="data-fixes-02.js?v=1.7.5"></script>
-<script src="data-fixes-03.js?v=1.7.5"></script>
-<script src="examhelp-effects.js?v=1.7.5"></script>
+<script src="data-daymissions.js?v=1.8.0"></script>
+<script src="data-campaign-flags.js?v=1.8.0"></script>
+<script src="data-campaign-endings.js?v=1.8.0"></script>
+<script src="data-fixes-01.js?v=1.8.0"></script>
+<script src="data-fixes-02.js?v=1.8.0"></script>
+<script src="data-fixes-03.js?v=1.8.0"></script>
+<script src="examhelp-effects.js?v=1.8.0"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -505,6 +508,8 @@ state.lifetime.runsCompleted=state.lifetime.runsCompleted||0; state.lifetime.pre
 state.examMode=!!state.examMode;
 state.examDates=(state.examDates&&typeof state.examDates==="object")?state.examDates:{sc:null,sec:null};
 state.campaign=(state.campaign&&typeof state.campaign==="object"&&!("step" in state.campaign))?state.campaign:{};
+state.studyMode=(state.studyMode==="self"||state.studyMode==="campaign")?state.studyMode:null;
+state.guided=(state.guided&&typeof state.guided==="object"&&state.guided.passed)?state.guided:{run:1,started:null,level:null,phase:"warning",passed:{},missions:{},flags:{},ended:null};
 state.customQuestions.forEach(addCustomQuestion);
 let ui={tab:"plan",sel:null,quiz:{scope:"today",mode:rulesFor(state.prestige).defaultMode,n:10},pbq:"firewall",generated:[],teachesBoss:null,
         acr:{track:"both",dom:"All",n:20,reverse:false,timed:true},
@@ -645,7 +650,9 @@ function renderProgramToggle(){
   if(!programFormOpen){
     mount.append(h("div",{class:"row",style:"gap:10px;align-items:center;flex-wrap:wrap"},
       h("span",{class:"muted",style:"font-size:13px"},"Program: "+PROGRAM_LABEL[state.program]),
-      h("button",{class:"linklike",onclick:()=>{programFormOpen=true;render();}},"Change")));
+      h("button",{class:"linklike",onclick:()=>{programFormOpen=true;render();}},"Change"),
+      state.studyMode?h("span",{class:"muted",style:"font-size:13px"},"· Mode: "+STUDY_MODE_LABEL[state.studyMode]):null,
+      state.studyMode?h("button",{class:"linklike",onclick:()=>setStudyMode(state.studyMode==="campaign"?"self":"campaign")},state.studyMode==="campaign"?"Switch to self-paced":"Switch to campaign"):null));
     return;
   }
   mount.append(h("div",{class:"panel",style:"display:flex;flex-direction:column;gap:8px;max-width:420px"},
@@ -811,6 +818,7 @@ function doPrestige(){
   // Resets: day completion, mock unlocks (derived from state.done), campaign progress, boss defeats for this run.
   // Kept forever: attempts/stats (below), saved custom questions, prestige tier, rank/XP.
   state.done={}; state.campaign={}; state.bosses={};
+  state.guided=freshGuided(state.guided);   // a new prestige run is a new campaign run
   state.runStart=todayISO();
   ui.quiz.mode=rulesFor(state.prestige).defaultMode;
   prestigeConfirmOpen=false;
@@ -1181,6 +1189,14 @@ function finish(){
   run.prev=attempts.filter(a=>a.scopeId===run.rec.scopeId&&a.mode===run.rec.mode).slice(-1)[0]||null;
   saveAttempt(run.rec);
   recordGameProgress(run.rec);
+  const guidedMatch=/^guided-(\d+)$/.exec(run.rec.scopeId);
+  if(guidedMatch&&run.rec.pct>=GUIDED_PASS){
+    const gd=Number(guidedMatch[1]), g=G();
+    g.passed[gd]=Date.now();
+    if(!state.done[gd]) state.done[gd]=Date.now();   // campaign passes count as a cleared level everywhere
+    if(g.level===gd&&g.phase==="quiz") g.phase="decisions";
+    saveProgress();
+  }
   const dayMatch=/^day-(\d+)$/.exec(run.rec.scopeId);
   if(dayMatch){
     const dNum=Number(dayMatch[1]);
@@ -1349,6 +1365,7 @@ function renderResult(){
   const misses=run.res.filter(x=>x[1]<1).map(x=>Q[x[0]]);
   const kids=[
     h("div",{class:"eyebrow"},modeInfo(r.mode).name+" · "+r.scope+" · saved"),
+    guidedResultBlock(),
     bm?h("div",{style:"text-align:center;margin:4px 0 10px"},
       h("img",{class:"boss-fight-img",style:"max-height:32vh",src:BOSS_IMG(bm.img,"full"),alt:bm.name}),
       h("h2",{style:"margin:10px 0 0"},bm.name),
@@ -1662,7 +1679,241 @@ const RICH_CAMPAIGN={
   32:{"id":"m32","title":"The Budget Meeting","track":"sec","domain":"5 Program mgmt","brief":"The CFO wants numbers. A ransomware incident would cost about $400,000 to recover from, and similar utilities get hit about once every 4 years. A managed detection service costs $60,000 a year.","steps":[["What's the annualized loss expectancy (ALE)?",["$100,000","$400,000","$1,600,000","$60,000"],0,"ALE = SLE × ARO = $400,000 × 0.25 = $100,000 per year."],["Is $60,000 a year justified by that number alone?",["Yes, it costs less than the $100,000 expected yearly loss, assuming it meaningfully cuts the risk","No, it's more than the SLE","No, security can never be justified with numbers","Only if the ARO is 0"],0,"If a control costs less than the loss it prevents, it makes financial sense."],["The CFO also buys cyber insurance. That's which risk strategy?",["Transfer","Avoid","Accept","Mitigate"],0,"Insurance shifts the financial impact to another party."],["The utility decides to retire a rarely used risky legacy service entirely. That's risk:",["Avoidance","Transference","Acceptance","Mitigation"],0,"Stopping the activity removes the risk."]],"debrief":"Budget approved. You spoke the CFO's language: dollars, likelihood, and contracts."},
   33:{"id":"m33","title":"Red Versus Blue","track":"sec","domain":"5 Program mgmt","brief":"Before your annual assessment, leadership approves a penetration test and wants to strengthen the human side too.","steps":[["Testers get full network diagrams and source code up front. That's a:",["Known-environment (white box) test","Unknown-environment test","Passive recon only","Tabletop exercise"],0,"Full information provided is a white-box, known-environment test."],["A tester reviews the utility's LinkedIn and public DNS records without touching any systems. That's:",["Passive reconnaissance","Active reconnaissance","Exploitation","A DoS test"],0,"No contact with the target is passive recon."],["The red team and blue team collaborate and share findings live. That's:",["Purple (integrated) teaming","Offensive testing only","Defensive testing only","A black-box test"],0,"Red plus blue working together is purple teaming."],["To strengthen the human side, HR sends fake phishing emails and assigns training to clickers. That's a:",["Security awareness phishing campaign","Penetration test of the firewall","Legal hold","Change request"],0,"Simulated phishing plus targeted training is an awareness program."]],"debrief":"The pen test found real gaps, the teams worked purple, and phishing click rates fell. You closed the loop from tech to people."},
 };
-function renderCampaign(){
+// ---------- study mode: self-paced or campaign ----------
+// state.studyMode: "self" | "campaign". Both share level progress (state.done), quiz history
+// and boss wins, so switching never loses anything. state.guided holds the campaign run.
+const STUDY_MODE_LABEL={self:"Self-paced",campaign:"Campaign"};
+function setStudyMode(m){ state.studyMode=m; if(m==="campaign") ui.tab="campaign"; saveUI(); saveProgress(); render(); window.scrollTo(0,0); }
+function renderModePicker(){
+  const card=(title,subtitle,lines,btn,onPick)=>h("div",{class:"program-card"},
+    h("b",{},title), h("p",{class:"muted",style:"margin:0;font-size:13px"},subtitle),
+    h("ul",{class:"pts",style:"margin:0"},lines.map(l=>h("li",{},l))),
+    h("button",{class:"btn primary",onclick:onPick},btn));
+  return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:16px"},
+    h("h2",{style:"margin:0"},"How do you want to study?"),
+    h("p",{class:"muted",style:"margin:0"},"You can switch any time from the top of the page. Both use the same levels and history, so switching never costs you progress."),
+    h("div",{class:"row",style:"gap:16px;flex-wrap:wrap;align-items:stretch"},
+      card("Self-paced","Every tool, your order",
+        ["Open any unlocked level, quiz in any mode, drill acronyms, fight bosses when you're ready.",
+         "Best if you already know what you need to work on."],
+        "Study self-paced",()=>setStudyMode("self")),
+      card("Campaign","A guided story, one level at a time",
+        ["Each level: a mission brief, the lesson notes, a quiz you pass at "+GUIDED_PASS+"%, then the mission's decisions.",
+         "Bosses guard the end of every exam domain. Your decisions decide which of nine endings you reach."],
+        "Start the campaign",()=>setStudyMode("campaign"))));
+}
+
+// ---------- campaign mode (guided) ----------
+const DAY_MISSIONS=window.DAY_MISSIONS||{};
+const CFLAGS=(window.CAMPAIGN_FLAGS&&window.CAMPAIGN_FLAGS.flags)||[];
+const CBANDS=(window.CAMPAIGN_FLAGS&&window.CAMPAIGN_FLAGS.bands)||{high:3,mid:2};
+const CENDINGS=window.CAMPAIGN_ENDINGS||{};
+const CAXIS=window.CAMPAIGN_AXIS_LABELS||{prev:["Landed","Delayed","Prevented"],resp:["Failed","Partial","Clean"]};
+const GUIDED_PASS=80;
+let guidedAck=false, guidedResetOpen=false;
+function freshGuided(prev){ return {run:((prev&&prev.run)||0)+1,started:null,level:null,phase:"warning",passed:{},missions:{},flags:{},ended:null}; }
+function G(){ if(!state.guided||typeof state.guided!=="object") state.guided=freshGuided(); return state.guided; }
+function guidedLevels(){ return programDays(); }
+function missionIdForDay(d){ return DAY_MISSIONS[d]||("m"+d); }
+function missionForDay(d){ return RICH_CAMPAIGN[Number(missionIdForDay(d).slice(1))]||null; }
+function guidedDay(){
+  const L=guidedLevels(), g=G();
+  if(!L.some(x=>x.d===g.level)) g.level=(L.find(x=>!g.passed[x.d])||L[0]).d;
+  return BYDAY[g.level];
+}
+function guidedKeys(d){ return d.kind==="review"?keysFor(d.from):d.kind==="exam"?keysFor(allTrackDays(d.track)):keysFor([d.d]); }
+function guidedQuizSize(d,keys){ return Math.min(keys.length, d.kind?(d.n||15):10); }
+// The boss owed after this level: only on the last level of its domain in the chosen program.
+function bossOwedAfter(d){
+  if(!d.dom) return null;
+  const L=guidedLevels(), last=[...L].reverse().find(x=>x.track===d.track&&x.dom===d.dom);
+  return last&&last.d===d.d?bossFor(d.track,d.dom):null;
+}
+const bossKey=b=>b.final?"final|"+b.domain:b.track+"|"+b.domain;
+function guidedGo(phase){ G().phase=phase; saveProgress(); render(); window.scrollTo(0,0); }
+function guidedAdvance(){
+  const g=G(), d=guidedDay(), boss=bossOwedAfter(d);
+  if(boss&&!state.bosses[bossKey(boss)]) return guidedGo("boss");
+  const L=guidedLevels(), i=L.findIndex(x=>x.d===d.d), next=L[i+1];
+  if(next){ g.level=next.d; return guidedGo("brief"); }
+  if(FINAL_BOSS&&!state.bosses[bossKey(FINAL_BOSS)]) return guidedGo("final");
+  g.ended=g.ended||Date.now(); guidedGo("ending");
+}
+function guidedFlagsAt(mid,i){ return CFLAGS.filter(f=>f.at===mid+":"+i); }
+function guidedAxis(ax){ return CFLAGS.filter(f=>f.axis===ax&&G().flags[f.k]).length; }
+const guidedBand=n=>n>=CBANDS.high?2:n>=CBANDS.mid?1:0;
+
+function guidedHeader(d,label){
+  const L=guidedLevels(), i=L.findIndex(x=>x.d===d.d);
+  return h("div",{class:"row",style:"gap:8px;flex-wrap:wrap;align-items:center"},
+    h("span",{class:"tag "+d.track},TRACK[d.track]),
+    h("span",{class:"eyebrow"},"Campaign · Level "+(i+1)+" of "+L.length+(d.dom?" · "+d.dom:"")+" · "+label));
+}
+function guidedSteps(active){
+  const steps=[["brief","Brief"],["intel","Intel"],["quiz","Quiz"],["decisions","Decisions"],["debrief","Debrief"]];
+  const at=steps.findIndex(s=>s[0]===active);
+  return h("div",{class:"row",style:"gap:6px;flex-wrap:wrap;font:500 12px var(--mono)","aria-label":"Level progress"},
+    steps.map(([k,l],i)=>h("span",{class:"chip "+(i<at?"good":""),style:i===at?"outline:2px solid var(--ink);outline-offset:1px":"","aria-current":i===at?"step":null},(i<at?"✓ ":"")+l)));
+}
+function guidedFooter(){
+  const g=G();
+  if(!guidedResetOpen) return h("p",{class:"muted",style:"margin:0;font-size:13px"},"Campaign run "+g.run+". ",
+    h("button",{class:"linklike",style:"font-size:inherit",onclick:()=>{guidedResetOpen=true;render();}},"Start a new run"));
+  return h("div",{class:"trap"},h("div",{class:"eyebrow"},"Start a new campaign run?"),
+    h("p",{style:"margin:4px 0 10px"},"This wipes this run's decisions and story progress so you can go for a different ending. Your quiz history, stats, cleared levels and boss wins are not touched."),
+    h("div",{class:"actions"},
+      h("button",{class:"btn primary",onclick:()=>{state.guided=freshGuided(g);guidedResetOpen=false;guidedAck=false;saveProgress();render();window.scrollTo(0,0);}},"Yes, start over"),
+      h("button",{class:"btn",onclick:()=>{guidedResetOpen=false;render();}},"Cancel")));
+}
+function guidedPanel(kids){ return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},kids,guidedFooter()); }
+
+function renderGuided(){
+  const g=G();
+  if(g.phase==="warning"||!g.started) return renderGuidedWarning();
+  const d=guidedDay(), mission=missionForDay(d.d), dd=d;
+  if(g.phase==="brief"){
+    return guidedPanel([guidedHeader(dd,"Mission brief"),guidedSteps("brief"),
+      h("h2",{},mission?mission.title:d.title),
+      mission?h("div",{class:"story"},mission.brief):null,
+      h("p",{class:"muted",style:"margin:0"},"Next: the intel you need for this mission. It's this level's lesson, and the quiz after it covers the same ground."),
+      h("div",{class:"actions"},h("button",{class:"btn primary",onclick:()=>guidedGo("intel")},"Read the intel →"))]);
+  }
+  if(g.phase==="intel"){
+    const kids=[guidedHeader(dd,"Intel"),guidedSteps("intel"),h("h2",{},d.title),
+      h("ul",{class:"pts"},(d.pts||[]).map(p=>{const [a,b]=p.split("|");return h("li",{},h("b",{},a),b);}))];
+    if(d.terms) kids.push(h("div",{},h("h3",{style:"margin-bottom:8px"},"Terms to lock in"),h("dl",{class:"terms"},d.terms.map(([a,b])=>h("div",{},h("dt",{},a),h("dd",{},b))))));
+    if(d.trap) kids.push(h("div",{class:"trap"},h("div",{class:"eyebrow"},"Exam trap"),d.trap));
+    kids.push(h("div",{class:"actions"},h("button",{class:"btn",onclick:()=>guidedGo("brief")},"← Brief"),h("button",{class:"btn primary",onclick:()=>guidedGo("quiz")},"I'm ready for the quiz →")));
+    return guidedPanel(kids);
+  }
+  if(g.phase==="quiz"){
+    const keys=guidedKeys(d), n=guidedQuizSize(d,keys);
+    const last=attempts.filter(a=>a.scopeId==="guided-"+d.d).slice(-1)[0];
+    const cleared=!!state.done[d.d];
+    return guidedPanel([guidedHeader(dd,"Level quiz"),guidedSteps("quiz"),
+      h("h2",{},"Level quiz"),
+      h("p",{style:"margin:0"},n+" questions from this level. Score "+GUIDED_PASS+"% or better to move on to the mission's decisions. You can retake it as many times as you need."),
+      last?h("p",{class:"muted",style:"margin:0"},"Last try: "+last.pct+"%"+(last.pct>=GUIDED_PASS?" — passed.":". Review the intel and go again.")):null,
+      h("div",{class:"actions",style:"flex-wrap:wrap"},
+        h("button",{class:"btn",onclick:()=>guidedGo("intel")},"← Intel"),
+        h("button",{class:"btn primary",disabled:n?null:true,onclick:()=>startQuiz({id:"guided-"+d.d,label:"Campaign · Level "+(guidedLevels().findIndex(x=>x.d===d.d)+1)+" quiz",keys},"think",n)},"Start the quiz")),
+      cleared?h("p",{class:"muted",style:"margin:0;font-size:13px"},"You already cleared this level in self-paced study. ",
+        h("button",{class:"linklike",style:"font-size:inherit",onclick:()=>{g.passed[d.d]=Date.now();guidedGo("decisions");}},"Skip the quiz")):null]);
+  }
+  if(g.phase==="decisions") return renderGuidedDecisions(d,mission);
+  if(g.phase==="debrief"){
+    const rec=(mission&&g.missions[mission.id])||{answers:[]};
+    const sound=rec.answers.filter(a=>a&&a.correct).length;
+    return guidedPanel([guidedHeader(dd,"Debrief"),guidedSteps("debrief"),
+      h("h2",{},(mission?mission.title:d.title)+" — debrief"),
+      mission?h("div",{class:"story"},mission.debrief):null,
+      mission?h("p",{class:"muted",style:"margin:0"},sound+" of "+mission.steps.length+" calls were the textbook move."):null,
+      h("div",{class:"actions"},h("button",{class:"btn primary",onclick:guidedAdvance},"Continue →"))]);
+  }
+  if(g.phase==="boss"||g.phase==="final") return renderGuidedBoss(d,g.phase==="final"?FINAL_BOSS:bossOwedAfter(d));
+  if(g.phase==="ending") return renderGuidedEnding();
+  g.phase="brief"; return renderGuided();
+}
+function renderGuidedWarning(){
+  const g=G();
+  return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px;max-width:720px"},
+    h("div",{class:"eyebrow"},"Campaign · Night Shift at Leon River Water"),
+    h("h2",{style:"margin:0"},"Before you start"),
+    h("div",{class:"story"},"You just started as the security analyst at Leon River Water Authority, a mid-size utility in Central Texas: about 300 employees, Microsoft 365 and Azure in the cloud, and a control network that runs the pumps and the treatment plant. Every level is a real situation on the job."),
+    h("div",{class:"trap"},h("div",{class:"eyebrow"},"Decisions are final for this run"),
+      h("ul",{style:"margin:6px 0 0;padding-left:18px"},
+        h("li",{},"After each level's quiz, you make the mission's calls. Once you pick an answer, it's locked in. There's no undo and no retry."),
+        h("li",{},"A few of those calls quietly decide which of nine endings you reach. You won't be told which ones."),
+        h("li",{},"Quizzes are different: retake them as often as you need. Only story decisions are permanent."),
+        h("li",{},"The only way to change a decision is to start a new run. That never touches your quiz history, stats or cleared levels."))),
+    h("label",{style:"display:flex;flex-wrap:nowrap;gap:10px;align-items:flex-start;cursor:pointer;font-weight:600"},
+      h("input",{type:"checkbox",style:"flex:0 0 auto;width:20px;height:20px;margin:2px 0 0",checked:guidedAck?true:null,onchange:e=>{guidedAck=e.target.checked;render();}}),
+      h("span",{},"I understand my campaign decisions are final for this run.")),
+    h("div",{class:"actions",style:"flex-wrap:wrap"},
+      h("button",{class:"btn primary",disabled:guidedAck?null:true,onclick:()=>{g.started=Date.now();guidedDay();g.phase="brief";guidedAck=false;saveProgress();render();window.scrollTo(0,0);}},"Start the campaign"),
+      h("button",{class:"btn",onclick:()=>setStudyMode("self")},"Switch to self-paced instead")));
+}
+function renderGuidedDecisions(d,mission){
+  const g=G();
+  if(!mission){ g.phase="debrief"; return renderGuided(); }
+  const rec=g.missions[mission.id]||(g.missions[mission.id]={i:0,answers:[]});
+  if(rec.i>=mission.steps.length){ g.phase="debrief"; return renderGuided(); }
+  const step=mission.steps[rec.i], answered=rec.answers[rec.i];
+  const kids=[guidedHeader(d,"Decision "+(rec.i+1)+" of "+mission.steps.length),guidedSteps("decisions"),
+    h("h2",{},mission.title),
+    h("p",{class:"muted",style:"margin:0;font-size:13px"},"🔒 Decisions are final for this run."),
+    h("p",{style:"font-weight:600;margin:0"},step[0])];
+  if(answered){
+    kids.push(h("div",{class:"opts"},step[1].map((c,i)=>h("button",{class:"opt "+(i===step[2]?"right":i===answered.picked?"wrong":""),disabled:true},c))));
+    kids.push(h("div",{class:"why "+(answered.correct?"":"bad")},step[3]));
+    kids.push(h("div",{class:"actions"},h("button",{class:"btn primary",onclick:()=>{rec.i++;if(rec.i>=mission.steps.length)g.phase="debrief";saveProgress();render();}},rec.i+1<mission.steps.length?"Next decision →":"See the debrief →")));
+  } else {
+    // Options appear in a fixed shuffled order per step so a reload can't reveal a pattern.
+    const order=rec.order&&rec.order[rec.i]?rec.order[rec.i]:shuffle(step[1].map((_,i)=>i));
+    rec.order=rec.order||{}; rec.order[rec.i]=order;
+    kids.push(h("div",{class:"opts"},order.map((i,pos)=>h("button",{class:"opt",onclick:()=>{
+      if(rec.answers[rec.i]) return;
+      const correct=i===step[2];
+      rec.answers[rec.i]={picked:i,correct,ts:Date.now()};
+      if(correct){ state.xp+=8; guidedFlagsAt(mission.id,rec.i).forEach(f=>{ g.flags[f.k]=Date.now(); }); }
+      queueFx(correct?"correct":"incorrect",correct?".opts .opt.right":".opts .opt.wrong");
+      saveProgress(); render();
+    }},h("span",{class:"k"},pos+1),h("span",{},step[1][i])))));
+  }
+  return guidedPanel(kids);
+}
+function renderGuidedBoss(d,boss){
+  const g=G();
+  if(!boss){ return guidedPanel([h("p",{},"No boss here."),h("button",{class:"btn primary",onclick:guidedAdvance},"Continue →")]); }
+  const won=!!state.bosses[bossKey(boss)];
+  return guidedPanel([
+    h("div",{class:"eyebrow"},"Campaign · "+(boss.final?"Final boss":"Domain boss · "+boss.domain)),
+    h("div",{style:"text-align:center"},
+      h("img",{class:"boss-fight-img",style:"max-height:36vh;object-fit:contain",src:BOSS_IMG(boss.img,"full"),alt:boss.name}),
+      h("h2",{style:"margin:10px 0 0"},boss.name),
+      h("p",{class:"muted",style:"font-style:italic;margin:4px 0 0"},won?boss.defeat:boss.taunt)),
+    won?h("p",{style:"margin:0"},"Defeated. The way forward is open.")
+       :h("p",{style:"margin:0"},(boss.final?"Everything you've studied, in one fight.":"This boss guards the end of "+boss.domain+".")+" 15 questions, three lives, 80% to win. Lose and you can challenge it again."),
+    h("div",{class:"actions"},won
+      ?h("button",{class:"btn primary",onclick:guidedAdvance},"Continue →")
+      :h("button",{class:"btn primary",onclick:()=>startBoss(boss.final?"final":boss.track,boss.domain)},"Challenge "+boss.name))]);
+}
+function renderGuidedEnding(){
+  const g=G();
+  const flagsPossible=programDays().some(d=>CFLAGS.some(f=>f.at.split(":")[0]===missionIdForDay(d.d)));
+  if(!flagsPossible){
+    return guidedPanel([h("div",{class:"eyebrow"},"Campaign complete"),h("h2",{},"You finished the campaign"),
+      h("p",{style:"margin:0"},"Every level cleared and every boss down. The story's nine endings are decided on the Security+ side of the job. Switch your program to Security+ or Both to play them.")]);
+  }
+  const ps=guidedAxis("prev"), rs=guidedAxis("resp"), pb=guidedBand(ps), rb=guidedBand(rs);
+  const e=CENDINGS[pb+","+rb]||{t:"The end",p:[]};
+  return guidedPanel([
+    h("div",{class:"eyebrow"},"Campaign complete · Run "+g.run),
+    h("h2",{},e.t),
+    h("div",{class:"story",style:"display:flex;flex-direction:column;gap:10px"},e.p.map(t=>h("p",{style:"margin:0"},t))),
+    h("div",{class:"row",style:"gap:18px;flex-wrap:wrap"},
+      h("div",{},h("div",{class:"eyebrow"},"Prevention"),h("b",{},CAXIS.prev[pb])," ("+ps+"/3)"),
+      h("div",{},h("div",{class:"eyebrow"},"Response"),h("b",{},CAXIS.resp[rb])," ("+rs+"/3)")),
+    h("h3",{style:"margin:6px 0 0"},"The six calls that decided it"),
+    h("ul",{class:"pts"},CFLAGS.map(f=>h("li",{style:g.flags[f.k]?"":"opacity:.6"},
+      h("b",{},(g.flags[f.k]?"● ":"○ ")+f.lamp),f.label+" — "+f.where+"."))),
+    h("p",{class:"muted",style:"margin:0"},"Nine endings. You reached one. Start a new run below to try for another.")]);
+}
+function guidedResultBlock(){
+  if(state.studyMode!=="campaign"||!run||!run.rec) return null;
+  const gm=/^guided-(\d+)$/.exec(run.rec.scopeId||"");
+  const back=label=>h("button",{class:"btn primary",onclick:()=>{run=null;ui.tab="campaign";saveUI();render();window.scrollTo(0,0);}},label);
+  if(gm){
+    const passed=run.rec.pct>=GUIDED_PASS;
+    return h("div",{class:"why "+(passed?"":"bad"),style:"display:flex;flex-direction:column;gap:10px"},
+      h("b",{},passed?"Passed. The mission's decisions are unlocked.":"Not yet: "+GUIDED_PASS+"% moves you on. Review the intel and try again."),
+      h("div",{class:"actions"},back(passed?"Continue the campaign →":"Back to the campaign")));
+  }
+  if(run.boss&&["boss","final"].includes(G().phase)) return h("div",{class:"actions"},back("Back to the campaign"));
+  return null;
+}
+function renderCampaign(){ return state.studyMode==="campaign"?renderGuided():renderSelfCampaign(); }
+function renderSelfCampaign(){
   const day=unlockedDay(), mission=RICH_CAMPAIGN[day], dd=displayDay(day);
   if(!mission) return h("section",{class:"panel"},h("h2",{},"Campaign"),h("p",{},"Complete Level 1 to start today's mission."));
   const rec=state.campaign[day]||{stepIdx:0,answers:[]};
@@ -2176,6 +2427,11 @@ function renderCore(){
   if(!state.program){
     if(tabs) tabs.style.display="none";
     v.replaceChildren(renderProgramPicker());
+    return;
+  }
+  if(!state.studyMode){
+    if(tabs) tabs.style.display="none";
+    v.replaceChildren(renderModePicker());
     return;
   }
   if(tabs) tabs.style.display="";
