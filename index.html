@@ -306,7 +306,7 @@ footer a{color:inherit}
   <header>
     <div class="head-row">
       <div>
-        <div class="eyebrow">RJ · 33-day plan · two exams</div>
+        <div class="eyebrow">RJ · 33-level plan · two exams</div>
         <h1>SC-900 + Sec+ Sprint</h1>
         <span class="rank-badge" id="rank"></span>
       </div>
@@ -554,7 +554,7 @@ function paceLine(tr,dateStr,daysLeft){
   const materialLeft=Math.max(0,finalDay-current);
   if(materialLeft<=daysLeft) return null;
   const perDay=(materialLeft/Math.max(1,daysLeft)).toFixed(1);
-  return "You're on day "+current+" with "+daysLeft+" day"+(daysLeft===1?"":"s")+" until "+TRACK[tr]+". You need day "+finalDay+" done by "+fmtD(parseDate(dateStr))+" — that's about "+perDay+" day"+(perDay==="1.0"?"":"s")+" of material per day.";
+  return "You're on level "+current+" with "+daysLeft+" day"+(daysLeft===1?"":"s")+" until "+TRACK[tr]+". You need level "+finalDay+" done by "+fmtD(parseDate(dateStr))+" — that's about "+perDay+" level"+(perDay==="1.0"?"":"s")+" of material per day.";
 }
 let examFormOpen=false;
 function renderExamToggle(){
@@ -589,7 +589,7 @@ function renderExamToggle(){
 }
 // ---------- program picker ----------
 let programFormOpen=false;
-const PROGRAM_LABEL={sc:"SC-900 only",sec:"Security+ only",both:"Both (33-day camp)"};
+const PROGRAM_LABEL={sc:"SC-900 only",sec:"Security+ only",both:"Both (33-level camp)"};
 function setProgram(p){ state.program=p; programFormOpen=false; saveProgress(); render(); }
 function renderProgramToggle(){
   const mount=document.getElementById("programrow"); if(!mount) return;
@@ -630,14 +630,14 @@ function renderProgramPicker(){
     h("p",{class:"muted",style:"margin:0"},"Pick one now — you can change it later, and it never deletes your history."),
     h("div",{class:"row",style:"gap:16px;flex-wrap:wrap;align-items:stretch"},
       card("SC-900","Microsoft Security, Compliance & Identity Fundamentals",
-        ["~"+sc.days+" study days · "+sc.q+" questions · "+sc.dom+" domains · "+sc.boss+" bosses",
+        ["~"+sc.days+" levels · "+sc.q+" questions · "+sc.dom+" domains · "+sc.boss+" bosses",
          "Entry level, no prerequisites, 65 minutes, "+MOCK_SPEC.sc.n+" questions."],
         ()=>setProgram("sc")),
       card("Security+","CompTIA SY0-701",
-        ["~"+sec.days+" study days · "+sec.q+" questions · "+sec.dom+" domains · "+sec.boss+" bosses",
+        ["~"+sec.days+" levels · "+sec.q+" questions · "+sec.dom+" domains · "+sec.boss+" bosses",
          "Assumes some networking background. "+MOCK_SPEC.sec.minutes+" minutes, up to "+MOCK_SPEC.sec.n+" questions."],
         ()=>setProgram("sec")),
-      card("Both","The full 33-day camp",
+      card("Both","The full 33-level camp",
         [bothQ+" questions · "+bothDom+" domains · "+bothBoss+" bosses + the final boss",
          "SC-900 first, then Security+."],
         ()=>setProgram("both"))));
@@ -651,7 +651,7 @@ function renderHeader(){
   const lifetimeQ=attempts.reduce((s,a)=>s+a.n,0), lifetimeCorrect=attempts.reduce((s,a)=>s+(a.score||0),0);
   ex.append(h("div",{class:"exam run-status"},
     h("span",{class:"eyebrow"},tierName(state.prestige)+(state.prestige?" — Prestige "+state.prestige:" — Run "+((state.lifetime.runsCompleted||0)+1))),
-    h("b",{class:"tabnum",style:"font-size:20px"},"Day "+Math.min(current,33)+" of 33"),
+    h("b",{class:"tabnum",style:"font-size:20px"},"Level "+Math.min(current,33)+" of 33"),
     h("div",{class:"runbar"},h("i",{style:"width:"+pct(doneCount,33)+"%"})),
     h("span",{class:"muted",style:"font-size:12px"},(state.lifetime.runsCompleted||0)+" run"+(state.lifetime.runsCompleted===1?"":"s")+" completed · "+lifetimeQ+" questions answered · "+pct(lifetimeCorrect,lifetimeQ)+"% lifetime accuracy")));
 
@@ -779,10 +779,10 @@ function prestigeBanner(){
     h("div",{class:"row",style:"justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"},
       h("h2",{style:"margin:0"},"Camp complete — "+tierName(state.prestige)+" run finished"),
       h("button",{class:"btn primary",onclick:()=>{prestigeConfirmOpen=true;render();}},"Prestige to "+nextName)),
-    h("p",{class:"muted",style:"margin:0;font-size:13px"},programDays().length+" days · "+totalQ+" questions answered this run · "+pct(totalCorrect,totalQ)+"% accuracy"+(bestStreak?" · best streak "+bestStreak:"")),
+    h("p",{class:"muted",style:"margin:0;font-size:13px"},programDays().length+" levels · "+totalQ+" questions answered this run · "+pct(totalCorrect,totalQ)+"% accuracy"+(bestStreak?" · best streak "+bestStreak:"")),
     prestigeConfirmOpen?h("div",{class:"panel",style:"border-color:var(--bad);display:flex;flex-direction:column;gap:8px"},
       h("p",{style:"margin:0"},h("b",{},"Prestige to "+nextName+"?")),
-      h("p",{class:"muted",style:"margin:0;font-size:13px"},"Resets: day completion, mock exam unlocks, campaign mission completion, current run progress."),
+      h("p",{class:"muted",style:"margin:0;font-size:13px"},"Resets: level completion, mock exam unlocks, campaign mission completion, current run progress."),
       h("p",{class:"muted",style:"margin:0;font-size:13px"},"Kept forever: every quiz attempt and all statistics, your saved custom questions, your prestige tier, and your rank/XP progress."),
       h("div",{class:"actions"},
         h("button",{class:"btn primary",onclick:doPrestige},"Confirm prestige"),
@@ -796,17 +796,17 @@ function renderPlan(){
   pd.forEach(d=>{
     const locked=d.d>current;
     const cls=["cell",d.track,d.kind||"",state.done[d.d]?"done":"",d.d===t?"today":"",d.d===ui.sel?"sel":"",locked?"locked":""].join(" ");
-    const title=locked?"Complete Day "+disp[current]+" to unlock Day "+disp[d.d]:"Day "+disp[d.d]+" · "+fmtD(dayDate(d.d))+"\n"+d.title;
-    strip.append(h("button",{class:cls,role:"listitem","aria-label":"Day "+disp[d.d]+": "+d.title,title,disabled:locked?true:null,onclick:()=>{ui.sel=d.d;render();}},disp[d.d]));
+    const title=locked?"Complete Level "+disp[current]+" to unlock Level "+disp[d.d]:"Level "+disp[d.d]+" · "+fmtD(dayDate(d.d))+"\n"+d.title;
+    strip.append(h("button",{class:cls,role:"listitem","aria-label":"Level "+disp[d.d]+": "+d.title,title,disabled:locked?true:null,onclick:()=>{ui.sel=d.d;render();}},disp[d.d]));
   });
   const legendKids=[];
-  if(inProgram("sc")) legendKids.push(h("span",{},h("i",{class:"sw",style:"background:var(--sc)"}),"SC-900 (days 1–"+disp[12]+")"));
-  if(inProgram("sec")) legendKids.push(h("span",{},h("i",{class:"sw",style:"background:var(--sec)"}),"Security+ (days "+(programOf()==="both"?disp[13]:1)+"–"+disp[33]+")"));
+  if(inProgram("sc")) legendKids.push(h("span",{},h("i",{class:"sw",style:"background:var(--sc)"}),"SC-900 (levels 1–"+disp[12]+")"));
+  if(inProgram("sec")) legendKids.push(h("span",{},h("i",{class:"sw",style:"background:var(--sec)"}),"Security+ (levels "+(programOf()==="both"?disp[13]:1)+"–"+disp[33]+")"));
   legendKids.push(
-    h("span",{},h("i",{class:"sw",style:"background:repeating-linear-gradient(135deg,var(--surface) 0 3px,var(--line) 3px 5px);border:1px solid var(--line)"}),"Review day"),
+    h("span",{},h("i",{class:"sw",style:"background:repeating-linear-gradient(135deg,var(--surface) 0 3px,var(--line) 3px 5px);border:1px solid var(--line)"}),"Review level"),
     h("span",{},h("i",{class:"sw",style:"background:var(--gold);border-radius:50%;width:8px;height:8px"}),"Exam"),
     h("span",{},h("i",{class:"sw",style:"box-shadow:inset 0 0 0 2px var(--gold)"}),"Today"),
-    h("span",{class:"tabnum"},Object.keys(state.done).filter(dd=>inProgram(BYDAY[dd]&&BYDAY[dd].track)).length+" / "+pd.length+" days done · Day "+disp[current]+" is active"));
+    h("span",{class:"tabnum"},Object.keys(state.done).filter(dd=>inProgram(BYDAY[dd]&&BYDAY[dd].track)).length+" / "+pd.length+" levels done · Level "+disp[current]+" is active"));
   const legend=h("div",{class:"legend"},legendKids);
   return h("div",{style:"display:flex;flex-direction:column;gap:14px"},prestigeBanner(),strip,legend,lessonPanel(BYDAY[ui.sel]));
 }
@@ -822,26 +822,26 @@ function quizBtns(scope,n,forceWritten){
 }
 function lessonPanel(d){
   const date=fmtD(dayDate(d.d)), dd=displayDay(d.d);
-  const kids=[h("div",{class:"row"},h("span",{class:"tag "+d.track},TRACK[d.track]),h("span",{class:"eyebrow"},"Day "+dd+" · "+date+(d.dom?" · "+d.dom:"")+(d.min?" · ~"+d.min+" min":"")))];
+  const kids=[h("div",{class:"row"},h("span",{class:"tag "+d.track},TRACK[d.track]),h("span",{class:"eyebrow"},"Level "+dd+" · "+date+(d.dom?" · "+d.dom:"")+(d.min?" · ~"+d.min+" min":"")))];
   kids.push(h("h2",{},d.title));
   kids.push(h("ul",{class:"pts"},d.pts.map(p=>{const [a,b]=p.split("|");return h("li",{},h("b",{},a),b);})));
   if(d.terms) kids.push(h("div",{},h("h3",{style:"margin-bottom:8px"},d.d===31?"Ports to lock in":"Terms to lock in"),h("dl",{class:"terms"},d.terms.map(([a,b])=>h("div",{},h("dt",{},a),h("dd",{},b))))));
   if(d.trap) kids.push(h("div",{class:"trap"},h("div",{class:"eyebrow"},"Exam trap"),d.trap));
   let scope;
-  if(d.kind==="review") scope={id:"day-"+d.d,label:"Day "+dd+" review",keys:keysFor(d.from)};
+  if(d.kind==="review") scope={id:"day-"+d.d,label:"Level "+dd+" review",keys:keysFor(d.from)};
   else if(d.kind==="exam") scope={id:"day-"+d.d,label:TRACK[d.track]+" warmup",keys:keysFor(allTrackDays(d.track))};
-  else scope={id:"day-"+d.d,label:"Day "+dd,keys:interleavedKeys([d.d])};
+  else scope={id:"day-"+d.d,label:"Level "+dd,keys:interleavedKeys([d.d])};
   const forceWritten=d.kind==="review"&&rulesFor(state.prestige).forceWrittenOnReview;
   const n=d.n||scope.keys.length;
   kids.push(h("div",{},h("h3",{style:"margin-bottom:8px"},(d.kind?"":"Mini quiz · ")+n+" questions, shuffled"),h("div",{class:"actions"},quizBtns(scope,n,forceWritten)),
-    forceWritten?h("p",{class:"muted",style:"margin:6px 0 0;font-size:12px"},"Rogue Insider tier and up: review days are Written only, no multiple choice."):null));
+    forceWritten?h("p",{class:"muted",style:"margin:6px 0 0;font-size:12px"},"Rogue Insider tier and up: review levels are Written only, no multiple choice."):null));
   const done=!!state.done[d.d];
   const modesDone=modesCompleted(scope.id);
   const requiredModes=forceWritten?["written"]:["think","blitz","written"];
   const remaining=requiredModes.length-requiredModes.filter(m=>modesDone.has(m)).length;
   kids.push(h("div",{class:"actions"},
-    done?h("span",{class:"chip good"},"✓ Day complete"):h("span",{class:"muted",style:"font-size:13px"},"Complete "+(forceWritten?"the Written quiz":"all 3 quiz modes")+" above to unlock the next day"+(remaining>0&&!forceWritten?" ("+remaining+" left)":"")),
-    done&&d.d<unlockedDay()?h("button",{class:"btn",onclick:()=>{ui.sel=d.d+1;render();window.scrollTo(0,0);}},"Next day →"):null));
+    done?h("span",{class:"chip good"},"✓ Level complete"):h("span",{class:"muted",style:"font-size:13px"},"Complete "+(forceWritten?"the Written quiz":"all 3 quiz modes")+" above to unlock the next level"+(remaining>0&&!forceWritten?" ("+remaining+" left)":"")),
+    done&&d.d<unlockedDay()?h("button",{class:"btn",onclick:()=>{ui.sel=d.d+1;render();window.scrollTo(0,0);}},"Next level →"):null));
   if(d.track==="sc"&&!d.kind) kids.push(h("p",{class:"muted",style:"margin:0;font-size:13px"},"Pair it with the matching Microsoft Learn module (link below), about 30 minutes."));
   if(d.track==="sec"&&!d.kind) kids.push(h("p",{class:"muted",style:"margin:0;font-size:13px"},"Pair it with the matching Professor Messer videos for "+d.dom.replace(/^\d /,"Domain "+d.dom[0]+": ")+", about 30–45 minutes at 1.25×."));
   return h("section",{class:"panel lesson"},kids);
@@ -855,7 +855,7 @@ function scopes(){
   const upTo=DAYS.filter(d=>d.q&&d.d<=t&&inProgram(d.track)).map(d=>d.d);
   const todayKeys=td.kind==="review"?keysFor(td.from):td.kind==="exam"?keysFor(allTrackDays(td.track)):interleavedKeys([t]);
   const list=[
-    {id:"today",label:"Today (Day "+displayDay(t)+")",keys:todayKeys},
+    {id:"today",label:"Today (Level "+displayDay(t)+")",keys:todayKeys},
     {id:"sofar",label:"Everything so far",keys:keysFor(upTo)}];
   if(inProgram("sc")) list.push({id:"sc",label:"SC-900 unlocked",keys:Object.values(Q).filter(q=>q.track==="sc"&&q.d<=t).map(q=>q.k)});
   if(inProgram("sec")) list.push({id:"sec",label:"Security+ unlocked",keys:Object.values(Q).filter(q=>q.track==="sec"&&q.d<=t).map(q=>q.k)});
@@ -1079,7 +1079,7 @@ function renderRun(){
   const it=run.list[run.i], q=it.q, a=run.answered;
   const showLabels=rulesFor(state.prestige).showLabels;
   const head=h("div",{class:"qhead"},
-    h("div",{class:"row"},h("span",{class:"tag "+q.track,style:"padding:2px 8px;border-radius:3px;font:600 12px var(--mono)"},TRACK[q.track]),h("span",{class:"eyebrow"},modeInfo(run.mode).name+" · "+run.scope.label+(showLabels?" · Day "+q.d+" · "+q.dom:""))),
+    h("div",{class:"row"},h("span",{class:"tag "+q.track,style:"padding:2px 8px;border-radius:3px;font:600 12px var(--mono)"},TRACK[q.track]),h("span",{class:"eyebrow"},modeInfo(run.mode).name+" · "+run.scope.label+(showLabels?" · Level "+q.d+" · "+q.dom:""))),
     h("div",{class:"row"},run.streak>=3?h("span",{class:"streak"},run.streak+" in a row"):null,h("span",{class:"eyebrow tabnum"},(run.i+1)+" / "+run.list.length),
       h("button",{class:"btn small",onclick:()=>{ if(run.res.length) finish(); else {stopTimer();run=null;render();} }},run.res.length?"End & score":"Quit")));
   const kids=[head];
@@ -1162,7 +1162,7 @@ function renderBossStage(){
     const it=run.list[run.i], q=it.q, a=run.answered;
     const kids=[
       h("div",{class:"row",style:"justify-content:space-between;align-items:center"},
-        h("span",{class:"eyebrow",style:"color:#9AB9C1"},TRACK[q.track]+" · Day "+q.d+" · "+q.dom),
+        h("span",{class:"eyebrow",style:"color:#9AB9C1"},TRACK[q.track]+" · Level "+q.d+" · "+q.dom),
         h("span",{class:"eyebrow tabnum",style:"color:#9AB9C1"},(run.i+1)+" / "+run.list.length)),
       h("div",{class:"bf-qtext"},q.q),
       h("div",{class:"bf-opts"},it.order.map((oi,pos)=>{
@@ -1236,7 +1236,7 @@ function renderResult(){
       misses.length?h("button",{class:"btn",onclick:()=>startQuiz({id:"retry",label:"Retry misses",keys:misses.map(x=>x.k)},(run.mode==="blitz"||run.mode==="acronym"||run.mode==="mock")?"think":run.mode,misses.length)},"Retry my "+misses.length+" miss"+(misses.length>1?"es":"")):null,
       h("button",{class:"btn",onclick:()=>{run=null;ui.tab="stats";render();}},"See stats"),
       h("button",{class:"btn",onclick:()=>{run=null;render();}},"New quiz"))];
-  if(misses.length) kids.push(h("h3",{},"Review what you missed"),h("div",{class:"misslist"},misses.map(q=>h("div",{class:"miss"},h("div",{class:"eyebrow"},"Day "+q.d+" · "+q.dom),h("div",{},q.q),h("div",{class:"ans"},h("b",{style:"color:var(--ok)"},"Answer: "),q.o[q.a]),h("div",{class:"muted",style:"font-size:14px"},q.why)))));
+  if(misses.length) kids.push(h("h3",{},"Review what you missed"),h("div",{class:"misslist"},misses.map(q=>h("div",{class:"miss"},h("div",{class:"eyebrow"},"Level "+q.d+" · "+q.dom),h("div",{},q.q),h("div",{class:"ans"},h("b",{style:"color:var(--ok)"},"Answer: "),q.o[q.a]),h("div",{class:"muted",style:"font-size:14px"},q.why)))));
   else kids.push(h("p",{style:"margin:0"},"Clean sweep. Nothing to review."));
   const out=[h("section",{class:"panel runner"},kids)];
   if(bm) out.push(teachesPanel(bm));
@@ -1461,7 +1461,7 @@ function logsPBQ(){
 // ---------- scenario campaign ----------
 // One scenario mission per plan day, tied to that day's topic. state.campaign[day] tracks per-day step/answers,
 // so finishing today's mission never marks other days complete.
-const CAMPAIGN_STORY={title:"Night Shift at Leon River Water",setting:"You just started as the security analyst at Leon River Water Authority, a mid-size utility in Central Texas. About 300 employees, Microsoft 365 and Azure in the cloud, a control network that runs the pumps and treatment plant, and a help desk of two. There are 33 missions, one for each day of your plan. The first twelve lean on SC-900 ground, the rest on Security+. Each is a real situation. Pick the best move at each step."};
+const CAMPAIGN_STORY={title:"Night Shift at Leon River Water",setting:"You just started as the security analyst at Leon River Water Authority, a mid-size utility in Central Texas. About 300 employees, Microsoft 365 and Azure in the cloud, a control network that runs the pumps and treatment plant, and a help desk of two. There are 33 missions, one for each level of your plan. The first twelve lean on SC-900 ground, the rest on Security+. Each is a real situation. Pick the best move at each step."};
 const RICH_CAMPAIGN={
   1:{"id":"m1","title":"Day One: Keys to the Kingdom","track":"sc","domain":"Entra","brief":"Your manager hands you the Microsoft 365 admin portal. You find 14 accounts with Global Administrator, MFA isn't required for anyone, and the help desk resets about 40 passwords a week by hand.","steps":[["Fourteen Global Admins is a problem. What's the best fix?",["Give each admin the narrowest built-in role they need, and use PIM so admin roles activate just in time","Keep all 14 but make them change passwords monthly","Delete every admin account and share one master login","Move the admins into a Microsoft 365 group"],0,"Least privilege plus PIM: fewer standing admins, elevation only when needed, time-limited and audited."],["You need MFA for everyone this week, and there's no budget for premium licenses. What do you turn on?",["Security defaults","Conditional Access policies","Entra ID Protection risk policies","Access reviews"],0,"Security defaults are free and require MFA for everyone. Conditional Access needs Entra ID P1."],["What cuts the 40 weekly password-reset tickets?",["Self-service password reset","A longer password expiry period","Defender for Identity","A custom banned password list"],0,"SSPR lets users verify themselves and reset their own password."],["Staff keep choosing passwords like 'LeonRiver2026'. What blocks that?",["A custom banned password list","Smart lockout","Security defaults","Sensitivity labels"],0,"The custom banned list blocks org-specific words on top of Microsoft's global list."]],"debrief":"You shrank the admin attack surface, got MFA everywhere, and gave the help desk its week back. Identity is the new perimeter, and you just built the wall."},
   2:{"id":"m2","title":"The Blueprint","track":"sc","domain":"Concepts","brief":"Leadership read the phrase 'Zero Trust' in a vendor pitch and wants to know what it actually means for the utility. You're asked to explain the model and where to start.","steps":[["Which statement captures Zero Trust?",["Never trust by default; verify every request explicitly, use least privilege, and assume breach","Trust anything already inside the corporate network","Trust any device with antivirus installed","Trust users after they sign in once"],0,"Zero Trust kills implicit trust: verify explicitly, least privilege, assume breach."],["Which is NOT one of the three Zero Trust principles?",["Trust traffic on the internal network","Verify explicitly","Use least-privilege access","Assume breach"],0,"'Inside equals trusted' is exactly the assumption Zero Trust removes."],["The team wants layered protection so one failure doesn't expose everything. That approach is:",["Defense in depth","Shared responsibility","A honeypot","Single sign-on"],0,"Multiple independent layers around the same asset is defense in depth."],["Where does Zero Trust say to start verifying?",["With identity, since identity is the primary control plane","With the office door locks","With the coffee machine firmware","Nowhere; buy one product and you're done"],0,"Identity is the new perimeter and the main place to verify explicitly."]],"debrief":"You gave leadership a plain-English model and a starting point: identity first, verify everything, assume the attacker is already in."},
@@ -1499,20 +1499,20 @@ const RICH_CAMPAIGN={
 };
 function renderCampaign(){
   const day=unlockedDay(), mission=RICH_CAMPAIGN[day], dd=displayDay(day);
-  if(!mission) return h("section",{class:"panel"},h("h2",{},"Campaign"),h("p",{},"Complete Day 1 to start today's mission."));
+  if(!mission) return h("section",{class:"panel"},h("h2",{},"Campaign"),h("p",{},"Complete Level 1 to start today's mission."));
   const rec=state.campaign[day]||{stepIdx:0,answers:[]};
   if(rec.stepIdx>=mission.steps.length){
     const score=rec.answers.filter(a=>a.correct).length;
     return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},
-      h("div",{class:"eyebrow"},"Day "+dd+" mission · "+mission.domain+" · Leon River Water"),
+      h("div",{class:"eyebrow"},"Level "+dd+" mission · "+mission.domain+" · Leon River Water"),
       h("h2",{},mission.title+" — complete"),
       h("p",{},"Score: "+score+" / "+mission.steps.length),
       h("div",{class:"story"},mission.debrief),
-      h("button",{class:"btn",onclick:()=>{delete state.campaign[day];saveProgress();render();}},"Replay this day's mission"));
+      h("button",{class:"btn",onclick:()=>{delete state.campaign[day];saveProgress();render();}},"Replay this level's mission"));
   }
   const step=mission.steps[rec.stepIdx], answered=rec.answers[rec.stepIdx];
   const kids=[
-    h("div",{class:"eyebrow"},"Day "+dd+" mission · "+mission.domain+" · Step "+(rec.stepIdx+1)+" / "+mission.steps.length),
+    h("div",{class:"eyebrow"},"Level "+dd+" mission · "+mission.domain+" · Step "+(rec.stepIdx+1)+" / "+mission.steps.length),
     h("h2",{},mission.title),
   ];
   if(rec.stepIdx===0) kids.push(h("div",{class:"story"},mission.brief));
@@ -1534,7 +1534,7 @@ function renderCampaign(){
     }},choice))));
   }
   const done=Object.keys(state.campaign).filter(d=>{const r=state.campaign[d];const m=RICH_CAMPAIGN[d];return m&&inProgram(m.track)&&r.stepIdx>=m.steps.length;}).length;
-  kids.push(h("p",{class:"muted",style:"font-size:13px;margin:0"},done+" of "+dd+" available mission"+(dd===1?"":"s")+" completed so far. A new mission unlocks with each new day."));
+  kids.push(h("p",{class:"muted",style:"font-size:13px;margin:0"},done+" of "+dd+" available mission"+(dd===1?"":"s")+" completed so far. A new mission unlocks with each new level."));
   return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},kids);
 }
 // ---------- stats export / import ----------
@@ -1759,7 +1759,7 @@ function renderStats(){
   // most missed
   const hist=qHistory();
   const missed=Object.entries(hist).filter(([k,r])=>Q[k]&&r.miss>0).sort((a,b)=>b[1].miss-a[1].miss||(b[1].miss/b[1].seen)-(a[1].miss/a[1].seen)).slice(0,8);
-  const missBox=missed.length?h("div",{class:"misslist"},missed.map(([k,r])=>{const q=Q[k];return h("div",{class:"miss"},h("div",{class:"eyebrow"},"Missed "+(Number.isInteger(r.miss)?r.miss:r.miss.toFixed(1))+" of "+r.seen+" · Day "+q.d+" · "+q.dom),h("div",{},q.q),h("div",{class:"ans"},h("b",{style:"color:var(--ok)"},"Answer: "),q.o[q.a]));}),
+  const missBox=missed.length?h("div",{class:"misslist"},missed.map(([k,r])=>{const q=Q[k];return h("div",{class:"miss"},h("div",{class:"eyebrow"},"Missed "+(Number.isInteger(r.miss)?r.miss:r.miss.toFixed(1))+" of "+r.seen+" · Level "+q.d+" · "+q.dom),h("div",{},q.q),h("div",{class:"ans"},h("b",{style:"color:var(--ok)"},"Answer: "),q.o[q.a]));}),
       h("div",{class:"actions"},h("button",{class:"btn primary",onclick:()=>startQuiz({id:"weak",label:"Most missed",keys:missed.map(m=>m[0])},"written",missed.length)},"Written run on these "+missed.length),h("button",{class:"btn",onclick:()=>startQuiz({id:"weak",label:"Most missed",keys:missed.map(m=>m[0])},"think",missed.length)},"Think run on these"))):h("p",{class:"muted"},"No misses yet.");
 
   // log
@@ -1775,12 +1775,12 @@ function renderStats(){
   const insight_btn=sample?h("button",{class:"btn primary",disabled:insight.busy?true:null,onclick:()=>getInsights(A,items)},insight.text?"Refresh coaching":"Get coaching from Claude"):null;
 
   const runsBox=state.lifetime.prestigeHistory.length?h("div",{class:"tablebox"},h("table",{},h("thead",{},h("tr",{},h("th",{},"Tier"),h("th",{},"Completed"),h("th",{class:"num"},"Accuracy"))),
-    h("tbody",{},state.lifetime.prestigeHistory.slice().reverse().map(r=>h("tr",{},h("td",{},tierName(r.level)),h("td",{},fmtDT(r.completedAt)),h("td",{class:"num"},r.accuracy+"%")))))):h("p",{class:"muted"},"Finish all 33 days and prestige to start your run history.");
+    h("tbody",{},state.lifetime.prestigeHistory.slice().reverse().map(r=>h("tr",{},h("td",{},tierName(r.level)),h("td",{},fmtDT(r.completedAt)),h("td",{class:"num"},r.accuracy+"%")))))):h("p",{class:"muted"},"Finish all 33 levels and prestige to start your run history.");
 
   return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
     tiles,
     h("section",{class:"panel"},h("div",{class:"row",style:"justify-content:space-between;margin-bottom:10px"},h("h3",{},"Score trend · last "+last.length+" tests"),chartLegend),h("div",{class:"chartbox"},svg)),
-    h("section",{class:"panel"},h("h3",{style:"margin-bottom:10px"},"Runs"),h("p",{class:"muted",style:"margin:0 0 10px;font-size:13px"},"Every completed 33-day run, at the prestige tier it was earned at."),runsBox),
+    h("section",{class:"panel"},h("h3",{style:"margin-bottom:10px"},"Runs"),h("p",{class:"muted",style:"margin:0 0 10px;font-size:13px"},"Every completed 33-level run, at the prestige tier it was earned at."),runsBox),
     h("section",{class:"panel"},h("h3",{style:"margin-bottom:12px"},"Accuracy by exam domain"),h("div",{class:"cols"},domBars),h("p",{class:"muted",style:"font-size:12px;margin:10px 0 0"},"Dashed line = 80% practice target.")),
     h("section",{class:"panel"},h("h3",{style:"margin-bottom:10px"},"Blitz vs Think vs Written"),modeTable,h("p",{class:"muted",style:"font-size:13px;margin:10px 0 0"},"If Think accuracy is much higher than Blitz, you know it but you're slow to recall it. If Written trails both, you're recognizing answers rather than remembering them.")),
     sample?h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:10px"},h("h3",{},"Coach"),h("p",{class:"muted",style:"margin:0;font-size:13px"},"Claude reads your stats above and tells you what to hit next."),insBox,h("div",{class:"actions"},insight_btn)):null,
@@ -1798,7 +1798,7 @@ async function getInsights(A,items){
   const log=A.slice(-15).map(a=>fmtDT(a.ts)+" | "+a.mode+" | "+a.scope+" | "+a.pct+"% | "+secs(a.ms/a.n)+"/q").join("\n");
   const hist=qHistory();
   const top=Object.entries(hist).filter(([k,r])=>Q[k]&&r.miss>0).sort((a,b)=>b[1].miss-a[1].miss).slice(0,6).map(([k,r])=>"- "+Q[k].q+" (answer: "+Q[k].o[Q[k].a]+"; missed "+r.miss+"/"+r.seen+")").join("\n");
-  const prompt="You're a blunt, encouraging study coach for RJ, a military veteran preparing for Microsoft SC-900 (exam on day 12 of his plan) and CompTIA Security+ SY0-701 (exam on day 33). Today is day "+t+" of 33. Practice target is 80%.\n\nAccuracy by domain:\n"+dom+"\n\nBy mode:\n"+modes+"\n\nRecent tests:\n"+log+"\n\nMost-missed questions:\n"+top+"\n\nWrite a short plan in plain text, no markdown headers or bold: 1) one sentence on where he stands for the next exam, 2) the 2–3 weakest concepts and a one-line plain-English explanation of each, 3) exactly what to run in this quiz app today (scope + mode). Under 180 words.";
+  const prompt="You're a blunt, encouraging study coach for RJ, a military veteran preparing for Microsoft SC-900 (exam on level 12 of his plan) and CompTIA Security+ SY0-701 (exam on level 33). Today is level "+t+" of 33. Practice target is 80%.\n\nAccuracy by domain:\n"+dom+"\n\nBy mode:\n"+modes+"\n\nRecent tests:\n"+log+"\n\nMost-missed questions:\n"+top+"\n\nWrite a short plan in plain text, no markdown headers or bold: 1) one sentence on where he stands for the next exam, 2) the 2–3 weakest concepts and a one-line plain-English explanation of each, 3) exactly what to run in this quiz app today (scope + mode). Under 180 words.";
   try{ await sample(prompt,{cache:false,onText:({text})=>{insight.text=text;const el=document.getElementById("insout");if(el)el.textContent=text;}}); }
   catch(e){ insight.text=(e&&e.text)||(e&&e.code==="rate_limited"?"Too many requests right now. Try again in a bit.":e&&e.code==="not_granted"?"Coaching is off for this page.":"Couldn't reach Claude. Try again."); if(e&&["not_granted","sampling_disabled","not_declared"].includes(e.code)) sample=null; }
   insight.busy=false; render();
@@ -1901,7 +1901,7 @@ function renderMockLaunch(){
       h("div",{class:"row",style:"justify-content:space-between"},h("h3",{},TRACK[track]+" mock exam"),h("span",{class:"tag "+track},TRACK[track])),
       h("p",{class:"muted",style:"margin:4px 0 10px"},spec.n+" questions · "+spec.minutes+" minute limit · domain-weighted mix"),
       st.unlocked?h("button",{class:"btn primary",onclick:()=>startMock(track)},"Start "+TRACK[track]+" mock"):
-        h("p",{class:"muted",style:"font-size:13px"},"Locked — finish "+(st.need-st.have)+" more study day"+(st.need-st.have===1?"":"s")+" ("+st.have+" of "+st.need+" complete)"));
+        h("p",{class:"muted",style:"font-size:13px"},"Locked — finish "+(st.need-st.have)+" more level"+(st.need-st.have===1?"":"s")+" ("+st.have+" of "+st.need+" complete)"));
   });
   return h("div",{style:"display:flex;flex-direction:column;gap:14px"},
     h("section",{class:"panel"},h("h2",{},"Mock exam"),h("p",{class:"muted",style:"margin:0"},"Full-length, timed, no feedback until you submit. Built to feel like the real thing.")),
