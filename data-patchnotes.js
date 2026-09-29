@@ -3,6 +3,11 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"1.7.4", date:"2026-09-29", title:"Small fixes", tag:"fix", items:[
+  "The version button next to Patch notes no longer shows the word 'null' after you've read the latest notes.",
+  "After an update, your browser now picks up the new version right away instead of showing the old one for a few minutes."
+]},
+
 { v:"1.7.3", date:"2026-09-29", title:"A little motion", tag:"feature", items:[
   "Right answers glow green and wrong ones flash, so you feel the result before you read it.",
   "Tabs slide in, buttons ripple where you tap, and mock exams pulse when the clock starts.",
