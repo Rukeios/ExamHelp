@@ -3,6 +3,12 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"1.7.1", date:"2026-09-29", title:"Dark mode gets a server hall", tag:"feature", items:[
+  "In dark mode, the app now sits in a dark server hall. The Game tab, where the bosses live, switches to the arena.",
+  "Light mode looks exactly the same as before.",
+  "Phones load a smaller version of each background, so it won't eat your data."
+]},
+
 { v:"1.7.0", date:"2026-09-29", title:"64 network questions, 57 fixes, and a fairer firewall builder", tag:"content", items:[
   "64 new Security+ questions on network attacks and tools: DNS poisoning and tunneling, MAC flooding, VLAN hopping, rogue DHCP, BGP hijacking, microsegmentation, common ports, and command-line tools. These were topics the bank didn't cover at all before.",
   "57 existing questions rewritten. In most of them the right answer was noticeably longer than the wrong ones, so you could spot it without knowing it. Not anymore.",
