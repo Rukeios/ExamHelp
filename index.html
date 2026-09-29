@@ -348,9 +348,14 @@ footer a{color:inherit}
 <script src="data-pack2.js"></script>
 <script src="data-pack3.js"></script>
 <script src="data-pack4-sc.js"></script>
+<script src="data-pack5-net.js"></script>
 <script src="data-acronyms.js"></script>
 <script src="data-patchnotes.js"></script>
 <script src="data-bosses.js"></script>
+<!-- corrections overlays: load after every bank -->
+<script src="data-fixes-01.js"></script>
+<script src="data-fixes-02.js"></script>
+<script src="data-fixes-03.js"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -373,7 +378,7 @@ const FINAL_BOSS = BOSSES.find(b=>b.final);
 
 // ---------- question index ----------
 const Q = {};
-const EXTRA = window.EXTRA||{}, PACK2 = window.EXTRA2||{}, PACK3 = window.EXTRA3||{}, PACK4 = window.EXTRA4||{};
+const EXTRA = window.EXTRA||{}, PACK2 = window.EXTRA2||{}, PACK3 = window.EXTRA3||{}, PACK4 = window.EXTRA4||{}, PACK5 = window.EXTRA5||{};
 const mkQ = (day,x,k) => ({k, d:day.d, track:day.track, dom:day.dom, q:x[0], o:x[1], a:x[2], why:x[3]});
 DAYS.forEach(day=>{
   (day.q||[]).forEach((x,i)=>{ const k=day.d+"-"+i; Q[k]=mkQ(day,x,k); });
@@ -381,6 +386,13 @@ DAYS.forEach(day=>{
   (PACK2[day.d]||[]).forEach((x,i)=>{ const k=day.d+"-p"+i; Q[k]=mkQ(day,x,k); });
   (PACK3[day.d]||[]).forEach((x,i)=>{ const k=day.d+"-q"+i; Q[k]=mkQ(day,x,k); });
   (PACK4[day.d]||[]).forEach((x,i)=>{ const k=day.d+"-s"+i; Q[k]=mkQ(day,x,k); });
+  (PACK5[day.d]||[]).forEach((x,i)=>{ const k=day.d+"-n"+i; Q[k]=mkQ(day,x,k); });
+});
+// Corrections overlay. Applied LAST, after every bank is indexed. Keys never change;
+// only the question, options and explanation are replaced. Answer stays at index 0.
+[window.QFIXES, window.QFIXES2, window.QFIXES3].forEach(FIX=>{
+  Object.keys(FIX||{}).forEach(k=>{ if(!Q[k]) return; const x=FIX[k];
+    Q[k]=Object.assign({},Q[k],{q:x[0],o:x[1],a:x[2],why:x[3]}); });
 });
 const ACRONYMS = window.ACRONYMS||[];
 const PATCHNOTES = window.PATCHNOTES||[];
