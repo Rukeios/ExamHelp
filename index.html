@@ -403,7 +403,7 @@ const ACHIEVEMENTS={clean:{name:"Clean Sweep",desc:"Score 100% on a 10+ question
 const PRESTIGE_TIERS=[
   {level:0,name:"Script Kiddie"},
   {level:1,name:"Hacktivist"},
-  {level:2,name:"Rogue Insider"},
+  {level:2,name:"Shadow IT"},
   {level:3,name:"Organized Crime"},
   {level:4,name:"Nation-State"}];
 function tierName(level){ const t=PRESTIGE_TIERS.find(t=>t.level===level); return t?t.name:"APT-"+level; }
@@ -834,7 +834,7 @@ function lessonPanel(d){
   const forceWritten=d.kind==="review"&&rulesFor(state.prestige).forceWrittenOnReview;
   const n=d.n||scope.keys.length;
   kids.push(h("div",{},h("h3",{style:"margin-bottom:8px"},(d.kind?"":"Mini quiz · ")+n+" questions, shuffled"),h("div",{class:"actions"},quizBtns(scope,n,forceWritten)),
-    forceWritten?h("p",{class:"muted",style:"margin:6px 0 0;font-size:12px"},"Rogue Insider tier and up: review levels are Written only, no multiple choice."):null));
+    forceWritten?h("p",{class:"muted",style:"margin:6px 0 0;font-size:12px"},"Shadow IT tier and up: review levels are Written only, no multiple choice."):null));
   const done=!!state.done[d.d];
   const modesDone=modesCompleted(scope.id);
   const requiredModes=forceWritten?["written"]:["think","blitz","written"];

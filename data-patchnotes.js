@@ -3,6 +3,11 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"1.7.0", date:"2026-09-29", title:"Firewall builder fix and a tier rename", tag:"fix", items:[
+  "Firewall builder now grades by running test packets through your rules, not by checking them against one answer key. Any order that blocks the bad traffic and lets the good traffic through is marked correct, and you see which rule caught each packet.",
+  "The level 2 Prestige tier is now 'Shadow IT', another threat actor straight from the SY0-701 list. 'Rogue Insider' was still too close to the Insider Threat boss. Your run history is unchanged."
+]},
+
 { v:"1.6.0", date:"2026-09-28", title:"Days are now levels", tag:"feature", items:[
   "Every 'Day X' label — Plan tab, lesson header, quiz scope, campaign mission, most-missed list — now reads 'Level X'. Same content, same order, same pacing math, just a different name for the unit.",
   "Nothing was renumbered: your saved progress, attempt history, and unlock order are exactly what they were before this update."
