@@ -377,20 +377,20 @@ body::after{z-index:-1;background:var(--veil)}
   </footer>
 </div>
 
-<script src="data.js?v=1.7.4"></script>
-<script src="data-extra.js?v=1.7.4"></script>
-<script src="data-pack2.js?v=1.7.4"></script>
-<script src="data-pack3.js?v=1.7.4"></script>
-<script src="data-pack4-sc.js?v=1.7.4"></script>
-<script src="data-pack5-net.js?v=1.7.4"></script>
-<script src="data-acronyms.js?v=1.7.4"></script>
-<script src="data-patchnotes.js?v=1.7.4"></script>
-<script src="data-bosses.js?v=1.7.4"></script>
+<script src="data.js?v=1.7.5"></script>
+<script src="data-extra.js?v=1.7.5"></script>
+<script src="data-pack2.js?v=1.7.5"></script>
+<script src="data-pack3.js?v=1.7.5"></script>
+<script src="data-pack4-sc.js?v=1.7.5"></script>
+<script src="data-pack5-net.js?v=1.7.5"></script>
+<script src="data-acronyms.js?v=1.7.5"></script>
+<script src="data-patchnotes.js?v=1.7.5"></script>
+<script src="data-bosses.js?v=1.7.5"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-fixes-01.js?v=1.7.4"></script>
-<script src="data-fixes-02.js?v=1.7.4"></script>
-<script src="data-fixes-03.js?v=1.7.4"></script>
-<script src="examhelp-effects.js?v=1.7.4"></script>
+<script src="data-fixes-01.js?v=1.7.5"></script>
+<script src="data-fixes-02.js?v=1.7.5"></script>
+<script src="data-fixes-03.js?v=1.7.5"></script>
+<script src="examhelp-effects.js?v=1.7.5"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -943,12 +943,92 @@ function acronymDomains(){
   const pool=ACRONYMS.filter(e=>tf==="both"?true:(e.t===tf||e.t==="both"));
   return [...new Set(pool.map(e=>e.d))].sort();
 }
+// ---------- acronym drill: decoys that survive the first-letter check ----------
+// Wrong answers used to be other acronyms' expansions, so the right one was the only
+// option whose initials spelled the acronym. Now:
+//  forward ("What does X stand for?"): the real expansion with 1–2 words swapped for words
+//    that start with the same letter, so every option has matching initials.
+//  reverse ("Which acronym stands for …?"): real acronyms that look like the right one.
+const ACR_STOP=new Set(["of","and","for","the","as","a","an","on","in","to","over","with","by","&","or","at"]);
+// Curated, hyphen-free. Modifiers swap for modifiers, nouns for nouns, so decoys read as
+// real terms instead of failing on grammar.
+const ACR_MODS=("Active Adaptive Advanced Annual Applied Asymmetric Authenticated Automated Automatic Binary Central Certified "+
+  "Common Compliant Conditional Continuous Critical Cryptographic Cyber Default Digital Direct Discretionary Distributed Dynamic "+
+  "Electronic Embedded Encrypted Enhanced Enterprise Ephemeral Extended Extensible External Federal Federated General Global "+
+  "Hashed Hosted Hybrid Identified Independent Industrial Integrated Internal International Isolated Layered Lightweight Local "+
+  "Logical Managed Mandatory Master Mobile Multifactor Mutual National Native Open Operational Perfect Persistent Personal "+
+  "Physical Portable Primary Private Privileged Protected Public Redundant Remote Restricted Secure Secured Sensitive Shared "+
+  "Signed Simple Single Static Structured Supervisory Symmetric Technical Temporary Trusted Unified Universal Verified Virtual "+
+  "Wide Wireless").split(" ");
+const ACR_NOUNS=("Access Account Accounting Address Agent Agreement Algorithm Analysis Analytics Application Architecture Assertion "+
+  "Assessment Asset Assurance Attack Attestation Audit Authentication Authority Authorization Automation Availability Backup "+
+  "Baseline Behavior Block Boundary Broker Browser Business Capacity Center Certificate Channel Cipher Client Code Command "+
+  "Compliance Configuration Connection Content Continuity Control Controller Credential Cryptography Data Database Decision "+
+  "Defense Delivery Deployment Detection Development Device Directory Discovery Domain Edge Encryption Endpoint Enforcement "+
+  "Engine Entity Environment Event Exchange Execution Exposure Factor Failure Federation File Firewall Framework Function "+
+  "Gateway Governance Group Hardware Hash Health Host Identity Impact Index Indicator Information Infrastructure Injection "+
+  "Inspection Integrity Intelligence Interface Internet Intrusion Isolation Kernel Key Language Layer Level Lifecycle List "+
+  "Loss Management Message Method Model Module Monitoring Network Node Object Objective Operations Orchestration Organization "+
+  "Packet Password Perimeter Permission Plan Platform Point Policy Portal Posture Prevention Privacy Procedure Process Profile "+
+  "Program Protection Protocol Provider Query Rate Recovery Registry Report Reporting Repository Request Resource Response "+
+  "Review Risk Routing Rule Scanning Scoring Secrecy Security Segment Server Service Session Signature Software Source Standard "+
+  "Storage Structure System Technology Testing Threat Time Token Traffic Transfer Transport Trust Tunnel Usage User Validation "+
+  "Value Verification Vulnerability Weakness Workload Zone").split(" ");
+// Accepted real-world variants that would make a decoy actually correct.
+const ACR_VARIANTS=new Set(["security incident and event management","data leak prevention","data leakage prevention"]);
+// Expansions made of names or hyphenated phrases: no word to swap, so hand-written decoys.
+const ACR_MANUAL={RSA:["Rivest-Schneier-Adleman","Rabin-Shamir-Adleman","Rivest-Shamir-Anderson"],
+  MITM:["Man-in-the-Machine","Malware-in-the-Middle","Monitor-in-the-Middle"],
+  JIT:["Just-in-Transit","Just-in-Token","Join-in-Time"],
+  DH:["Diffie-Hoffman","Daemen-Hellman","Diffie-Hamming"],
+  "TOC/TOU":["Time-of-Change to Time-of-Update","Token-of-Check to Token-of-Use","Time-of-Commit to Time-of-Use"],
+  SDN:["Software-Delivered Networking","System-Defined Networking","Software-Defined Nodes"],
+  PSK:["Private Session Key","Pre-Signed Key","Public Shared Key"]};
+let ACR_BANK=null, ACR_REAL=null;
+function acrBank(){
+  if(ACR_BANK) return ACR_BANK;
+  ACR_REAL=new Set(ACRONYMS.map(e=>e.f.toLowerCase()));
+  const idx=list=>{ const m={}; list.forEach(w=>{ const k=w[0].toLowerCase(); (m[k]=m[k]||[]).push(w); }); return m; };
+  ACR_BANK={mods:idx(ACR_MODS),nouns:idx(ACR_NOUNS),isMod:new Set(ACR_MODS)};
+  return ACR_BANK;
+}
+function acrDecoys(full,n,abbr){
+  if(abbr&&ACR_MANUAL[abbr]) return shuffle(ACR_MANUAL[abbr]).slice(0,n);
+  const bank=acrBank();
+  const toks=full.split(" ");
+  const slots=toks.map((t,i)=>{ const core=t.replace(/[^A-Za-z]+$/,""); return {i,core,tail:t.slice(core.length)}; })
+    .filter(s=>/^[A-Z][A-Za-z]{2,}$/.test(s.core)&&!ACR_STOP.has(s.core.toLowerCase()))
+    .map(s=>{ const L=s.core[0].toLowerCase(); const src=bank.isMod.has(s.core)?bank.mods:bank.nouns;
+      return Object.assign(s,{opts:(src[L]||[]).filter(w=>w!==s.core&&Math.abs(w.length-s.core.length)<=4)}); })
+    .filter(s=>s.opts.length);
+  const out=new Set();
+  for(let tries=0;tries<80&&out.size<n&&slots.length;tries++){
+    const k=slots.length>2&&Math.random()<.4?2:1;
+    const t=toks.slice();
+    shuffle(slots).slice(0,k).forEach(s=>{ t[s.i]=s.opts[Math.floor(Math.random()*s.opts.length)]+s.tail; });
+    const cand=t.join(" "), low=cand.toLowerCase();
+    if(cand!==full&&!ACR_REAL.has(low)&&!ACR_VARIANTS.has(low)) out.add(cand);
+  }
+  return [...out].slice(0,n);
+}
+function acrLookalikes(entry,pool,n){
+  const letters=s=>s.toUpperCase().replace(/[^A-Z0-9]/g,"");
+  const A=letters(entry.a);
+  const score=b=>{ const B=letters(b); let common=0; const bag=[...B];
+    for(const ch of A){ const j=bag.indexOf(ch); if(j>=0){ common++; bag.splice(j,1); } }
+    return common*2+(B[0]===A[0]?3:0)-Math.abs(B.length-A.length)*2+Math.random(); };
+  const seen=new Set([entry.a]);
+  return pool.filter(e=>e.a!==entry.a&&e.f!==entry.f)
+    .map(e=>[e.a,score(e.a)]).sort((x,y)=>y[1]-x[1])
+    .map(x=>x[0]).filter(a=>!seen.has(a)&&seen.add(a)).slice(0,n);
+}
 function buildAcronymQuestion(entry,pool,reverse){
-  const sameDom=pool.filter(e=>e!==entry&&e.d===entry.d&&e.f!==entry.f&&e.a!==entry.a);
-  const rest=pool.filter(e=>e!==entry&&e.f!==entry.f&&e.a!==entry.a);
-  const distractSrc=shuffle(sameDom.length>=3?sameDom:rest);
-  const distractors=[];
-  for(const e of distractSrc){ if(distractors.length>=3) break; const val=reverse?e.a:e.f; if(!distractors.includes(val)) distractors.push(val); }
+  let distractors=reverse?acrLookalikes(entry,pool.length>=12?pool:ACRONYMS,3):acrDecoys(entry.f,3,entry.a);
+  if(distractors.length<3){
+    // fallback: the old same-domain pull, only to fill any gap
+    const src=shuffle(pool.filter(e=>e!==entry&&e.f!==entry.f&&e.a!==entry.a));
+    for(const e of src){ if(distractors.length>=3) break; const v=reverse?e.a:e.f; if(!distractors.includes(v)) distractors.push(v); }
+  }
   const correct=reverse?entry.a:entry.f;
   const opts=shuffle([correct,...distractors.slice(0,3)]);
   while(opts.length<4) opts.push("—");
@@ -2069,10 +2149,22 @@ function softRender(){ if(run&&!run.finished&&ui.tab==="quiz"){ renderHeader(); 
 // rendered element (render() replaces the DOM, so animating the old node shows nothing).
 let fxQueue=[];
 function queueFx(kind,sel){ fxQueue.push([kind,sel]); }
+const FX_BOOST={
+  correct:[[{transform:"scale(1)"},{transform:"scale(1.04)",offset:.35},{transform:"scale(1)"}],520],
+  incorrect:[[{transform:"translateX(0)"},{transform:"translateX(-8px)",offset:.15},{transform:"translateX(7px)",offset:.35},
+              {transform:"translateX(-5px)",offset:.55},{transform:"translateX(3px)",offset:.75},{transform:"translateX(0)"}],480],
+  panel:[[{opacity:0,transform:"translateY(16px)"},{opacity:1,transform:"translateY(0)"}],340]};
 function runFx(){
   const FX=window.ExamHelpFX, q=fxQueue; fxQueue=[];
   if(!FX) return;
-  q.forEach(([k,sel])=>{ const el=document.querySelector(sel); if(el&&typeof FX[k]==="function") FX[k](el); });
+  const still=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  q.forEach(([k,sel])=>{
+    const el=document.querySelector(sel); if(!el) return;
+    // The kit's effects are deliberately faint; these make answers and tab changes readable
+    // at a glance. Panel uses only ours, since both animate opacity/transform on the same node.
+    if(k!=="panel"&&typeof FX[k]==="function") FX[k](el);
+    const boost=FX_BOOST[k]; if(boost&&!still&&el.animate) el.animate(boost[0],{duration:boost[1],easing:"cubic-bezier(.2,.7,.2,1)"});
+  });
   document.querySelectorAll(".btn.primary,.opt:not([disabled])").forEach(e=>e.setAttribute("data-eh-click",""));
 }
 function render(){ renderCore(); runFx(); }

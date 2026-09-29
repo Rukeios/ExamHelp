@@ -3,6 +3,12 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"1.7.5", date:"2026-09-29", title:"Harder acronyms, livelier answers", tag:"balance", items:[
+  "The acronym drill no longer gives the answer away. Before, only the right option's first letters spelled the acronym. Now every option does: the wrong ones are near-misses like 'Security Assertion Management Language' for SAML.",
+  "Going the other way ('Which acronym stands for…?'), the wrong answers are look-alikes such as SSO, SSL and SSH, not random picks.",
+  "Right answers now pop, wrong answers shake, and tabs slide up when you switch. It all still switches off if your device is set to reduce motion."
+]},
+
 { v:"1.7.4", date:"2026-09-29", title:"Small fixes", tag:"fix", items:[
   "The version button next to Patch notes no longer shows the word 'null' after you've read the latest notes.",
   "After an update, your browser now picks up the new version right away instead of showing the old one for a few minutes."
