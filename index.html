@@ -352,29 +352,97 @@ body.campaign-mode .panel{background:color-mix(in srgb,var(--surface) 90%,transp
 .cbar .meter{height:6px;border-radius:99px;background:color-mix(in srgb,var(--ink) 14%,transparent);overflow:hidden;max-width:520px}
 .cbar .meter i{display:block;height:100%;background:var(--ok);border-radius:inherit}
 .cexit{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin:28px 0 8px;padding-top:16px;border-top:1px solid var(--line)}
+
+/* ---------- polish pass: app bar, status line, quiet labels ---------- */
+header{gap:16px}
+.appbar{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px}
+.brand{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.brand-name{font:700 30px/1 var(--display);letter-spacing:.005em;color:var(--ink)}
+.brand-sub{font-size:14px;color:var(--muted)}
+.appbar-meta{display:flex;gap:14px;align-items:center}
+.statusline{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;position:relative}
+.statusline .exams{gap:10px}
+.exams .exam{flex-direction:row;align-items:center;gap:10px;padding:8px 12px;min-width:0;border-radius:8px}
+.exams .exam b{font:700 18px/1 var(--display)}
+.exams .exam .eyebrow{white-space:nowrap}
+.exam.run-status{min-width:0}
+.exam.run-status .runbar{width:96px;margin:0}
+.exam.run-status .muted{display:none}
+.rank-badge{align-self:center;background:transparent;color:var(--muted);border:1px solid var(--line);padding:6px 10px;border-radius:8px;font:500 13px var(--body);letter-spacing:0}
+.settings{margin-left:auto;position:relative}
+.settings>summary{list-style:none;cursor:pointer;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 12px;font-weight:600;font-size:14px;user-select:none}
+.settings>summary::-webkit-details-marker{display:none}
+.settings>summary::after{content:"";display:inline-block;width:6px;height:6px;margin:0 0 3px 9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .15s}
+.settings[open]>summary::after{transform:rotate(-135deg);margin-bottom:-1px}
+.settings>summary:hover{border-color:var(--ink)}
+.settings-body{position:absolute;right:0;top:calc(100% + 8px);z-index:30;width:min(380px,calc(100vw - 32px));display:flex;flex-direction:column;gap:14px;
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;box-shadow:0 12px 32px rgba(8,30,48,.18)}
+.settings-body .panel{padding:0;border:0;background:none;max-width:none!important}
+.settings-body .row{flex-wrap:wrap}
+body.onboarding .statusline,body.onboarding nav.tabs{display:none}
+/* labels: quiet, sentence case */
+.eyebrow{font:500 13px/1.35 var(--body);text-transform:none;letter-spacing:0;color:var(--muted)}
+h3{font-size:19px;text-transform:none;letter-spacing:.005em}
+.chip{text-transform:none;letter-spacing:0}
+/* tabs: sentence case, pinned, scroll cleanly on phones */
+nav.tabs{position:sticky;top:0;z-index:20;gap:2px;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  margin:0 -16px;padding:0 16px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{font:600 16px/1 var(--body);text-transform:none;letter-spacing:0;padding:14px 12px 12px;white-space:nowrap;scroll-snap-align:start;flex:0 0 auto}
+@media (max-width:720px){nav.tabs{mask-image:linear-gradient(to right,#000 85%,transparent);-webkit-mask-image:linear-gradient(to right,#000 85%,transparent)}}
+/* level grid: locked is quiet, not an error */
+.cell.locked{background:var(--surface);border-top-color:color-mix(in srgb,var(--c) 35%,var(--line));color:var(--muted);opacity:.55}
+.cell{border-radius:5px}
+/* forms */
+input[type=text],input[type=date],input[type=email],input[type=number],input:not([type]),select,textarea{
+  font:inherit;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-height:40px}
+input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--sc);outline-offset:1px;border-color:var(--sc)}
+.fld{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:var(--muted)}
+/* focus + buttons */
+:focus-visible{outline:2px solid var(--sc);outline-offset:2px}
+.btn,.seg button{border-radius:8px;transition:border-color .12s,background-color .12s}
+.panel{border-radius:10px}
+.program-card{border-radius:10px;padding:18px}
+.program-card>.btn{margin-top:auto}
+.settings-body>div:empty{display:none}
+.setrow{display:grid;grid-template-columns:92px 1fr auto;gap:10px;align-items:baseline;font-size:14px}
+.setrow+.setrow{margin-top:10px}
+.setlabel{color:var(--muted);font-weight:600;font-size:13px}
+.settings-body .fld{display:grid;grid-template-columns:92px 1fr;gap:10px;align-items:center}
+.exam.run-status b{white-space:nowrap}
+@media (max-width:480px){.rank-badge,.exam.run-status .eyebrow,.appbar .sync{display:none}
+  .exam.run-status{flex:1 1 auto}.exam.run-status .runbar{flex:1;width:auto;min-width:40px}.brand-name{font-size:28px}.settings>summary{padding:9px 12px}}
+.setrow,.settings-body .fld{grid-template-columns:108px 1fr auto}
+.settings-body .fld{grid-template-columns:108px 1fr}
+/* pinned tab bar tint: light = page color; dark scenes = a smoky tint that blends with the art */
+nav.tabs{background:var(--navbg,color-mix(in srgb,var(--bg) 92%,transparent))}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) body{--navbg:rgba(4,14,24,.62)}:root:not([data-theme="light"]) body.scene-arena{--navbg:rgba(16,11,8,.66)}}
+:root[data-theme="dark"] body{--navbg:rgba(4,14,24,.62)}:root[data-theme="dark"] body.scene-arena{--navbg:rgba(16,11,8,.66)}
 </style>
 </head>
 <body>
 
 <div class="wrap">
   <header>
-    <div class="head-row">
-      <div>
-        <div class="eyebrow">RJ · 33-level plan · two exams</div>
-        <h1>SC-900 + Sec+ Sprint</h1>
-        <span class="rank-badge" id="rank"></span>
-      </div>
-      <div class="exams" id="exams"></div>
-    </div>
-    <div id="examrow"></div>
-    <div id="programrow"></div>
-    <div class="row" style="justify-content:space-between">
-      <label class="fld">Plan start date<input type="date" id="start"></label>
-      <span class="row" style="gap:10px;align-items:center">
+    <div class="appbar">
+      <div class="brand"><span class="brand-name">ExamHelp</span><span class="brand-sub">SC-900 and Security+ study camp</span></div>
+      <div class="appbar-meta">
         <span class="sync" id="sync">Loading saved progress…</span>
         <button class="verbtn" id="supportbtn" aria-label="Support ExamHelp">Support</button>
         <button class="verbtn" id="verbtn" aria-label="Patch notes"></button>
-      </span>
+      </div>
+    </div>
+    <div class="statusline">
+      <div class="exams" id="exams"></div>
+      <span class="rank-badge" id="rank"></span>
+      <details class="settings" id="settings">
+        <summary>Plan settings</summary>
+        <div class="settings-body">
+          <div id="programrow"></div>
+          <div id="examrow"></div>
+          <label class="fld">Plan start date<input type="date" id="start"></label>
+        </div>
+      </details>
     </div>
     <nav class="tabs" role="tablist">
       <button role="tab" data-tab="plan" aria-selected="true">Plan</button>
@@ -635,7 +703,8 @@ function renderExamToggle(){
   const mount=document.getElementById("examrow"); if(!mount) return;
   mount.replaceChildren();
   if(!state.examMode&&!examFormOpen){
-    mount.append(h("button",{class:"linklike",onclick:()=>{examFormOpen=true;render();}},"I have an exam booked"));
+    mount.append(h("div",{class:"setrow"},h("span",{class:"setlabel"},"Exam dates"),h("span",{},"None set"),
+      h("button",{class:"linklike",onclick:()=>{examFormOpen=true;render();}},"Add")));
     return;
   }
   if(examFormOpen){
@@ -657,9 +726,9 @@ function renderExamToggle(){
         h("button",{class:"btn",onclick:()=>{examFormOpen=false;render();}},"Cancel"))));
     return;
   }
-  mount.append(h("div",{class:"row",style:"gap:14px"},
-    h("button",{class:"linklike",onclick:()=>{examFormOpen=true;render();}},"Edit exam dates"),
-    h("button",{class:"linklike",onclick:()=>{state.examMode=false;state.examDates={sc:null,sec:null};saveProgress();render();}},"Clear exam dates")));
+  mount.append(h("div",{class:"setrow"},h("span",{class:"setlabel"},"Exam dates"),
+    h("button",{class:"linklike",onclick:()=>{examFormOpen=true;render();}},"Edit"),
+    h("button",{class:"linklike",onclick:()=>{state.examMode=false;state.examDates={sc:null,sec:null};saveProgress();render();}},"Clear")));
 }
 // ---------- program picker ----------
 let programFormOpen=false;
@@ -670,11 +739,10 @@ function renderProgramToggle(){
   mount.replaceChildren();
   if(!state.program) return; // first-run picker owns the decision until one is made
   if(!programFormOpen){
-    mount.append(h("div",{class:"row",style:"gap:10px;align-items:center;flex-wrap:wrap"},
-      h("span",{class:"muted",style:"font-size:13px"},"Program: "+PROGRAM_LABEL[state.program]),
-      h("button",{class:"linklike",onclick:()=>{programFormOpen=true;render();}},"Change"),
-      state.studyMode?h("span",{class:"muted",style:"font-size:13px"},"· Mode: "+STUDY_MODE_LABEL[state.studyMode]):null,
-      state.studyMode?h("button",{class:"linklike",onclick:()=>setStudyMode(state.studyMode==="campaign"?"self":"campaign")},state.studyMode==="campaign"?"Switch to self-paced":"Switch to campaign"):null));
+    mount.append(h("div",{class:"setrow"},h("span",{class:"setlabel"},"Program"),h("span",{},PROGRAM_LABEL[state.program]),
+        h("button",{class:"linklike",onclick:()=>{programFormOpen=true;render();}},"Change")),
+      state.studyMode?h("div",{class:"setrow"},h("span",{class:"setlabel"},"Study mode"),h("span",{},STUDY_MODE_LABEL[state.studyMode]),
+        h("button",{class:"linklike",onclick:()=>setStudyMode(state.studyMode==="campaign"?"self":"campaign")},state.studyMode==="campaign"?"Switch to self-paced":"Switch to campaign")):null);
     return;
   }
   mount.append(h("div",{class:"panel",style:"display:flex;flex-direction:column;gap:8px;max-width:420px"},
@@ -727,8 +795,8 @@ function renderHeader(){
   const lifetimeQ=attempts.reduce((s,a)=>s+a.n,0), lifetimeCorrect=attempts.reduce((s,a)=>s+(a.score||0),0);
   ex.append(h("div",{class:"exam run-status"},
     h("span",{class:"eyebrow"},tierName(state.prestige)+(state.prestige?" — Prestige "+state.prestige:" — Run "+((state.lifetime.runsCompleted||0)+1))),
-    h("b",{class:"tabnum",style:"font-size:20px"},"Level "+Math.min(current,33)+" of 33"),
-    h("div",{class:"runbar"},h("i",{style:"width:"+pct(doneCount,33)+"%"})),
+    h("b",{class:"tabnum"},"Level "+displayDay(current)+" of "+programDays().length),
+    h("div",{class:"runbar","aria-hidden":"true"},h("i",{style:"width:"+pct(programDays().filter(d=>state.done[d.d]).length,programDays().length)+"%"})),
     h("span",{class:"muted",style:"font-size:12px"},(state.lifetime.runsCompleted||0)+" run"+(state.lifetime.runsCompleted===1?"":"s")+" completed · "+lifetimeQ+" questions answered · "+pct(lifetimeCorrect,lifetimeQ)+"% lifetime accuracy")));
 
   if(state.examMode){
@@ -747,6 +815,7 @@ function renderHeader(){
     });
   }
   document.getElementById("start").value=state.start;
+  document.body.classList.toggle("onboarding",!state.program||!state.studyMode);
   renderExamToggle();
   renderProgramToggle();
   document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.tab===ui.tab)));
@@ -754,6 +823,9 @@ function renderHeader(){
   renderPatchModal();
   renderSupportModal();
 }
+// Capture phase: decide "inside or outside" before a button inside the panel re-renders and detaches itself.
+document.addEventListener("click",e=>{ const d=document.getElementById("settings"); if(d&&d.open&&!d.contains(e.target)) d.open=false; },true);
+document.addEventListener("keydown",e=>{ const d=document.getElementById("settings"); if(e.key==="Escape"&&d&&d.open){ d.open=false; d.querySelector("summary").focus(); } });
 document.getElementById("start").addEventListener("change",e=>{ if(e.target.value){ state.start=e.target.value; saveProgress(); render(); }});
 
 // ---------- patch notes ----------
