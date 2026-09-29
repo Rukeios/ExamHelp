@@ -332,6 +332,26 @@ body::after{z-index:-1;background:var(--veil)}
   border:2px solid var(--eh-ring-color,#74d7e5);border-radius:50%;animation:eh-ring 380ms ease-out both}
 @keyframes eh-ring{from{transform:translate(-50%,-50%) scale(.25);opacity:.8}to{transform:translate(-50%,-50%) scale(4);opacity:0}}
 @media (prefers-reduced-motion: reduce){.eh-fx-ring{display:none}}
+
+/* ---------- campaign mode: its own page ----------
+   Normal header, tabs and footer are hidden; the campaign has its own bar and one way out.
+   Always wears the dark theme and the server hall (arena during boss fights), whatever the
+   device theme, so it reads as a different place. */
+body.campaign-mode>.wrap>header,body.campaign-mode>.wrap>footer{display:none}
+:root body.campaign-mode{color-scheme:dark;--bg:#0A2942;--surface:#132B38;--sunk:#102C2D;--ink:#E4F2F1;--muted:#9AB9C1;--line:#294D53;
+  --sc:#72A6E3;--sec:#5CC48A;--gold:#5CC48A;--violet:#72A6E3;--ok:#5CC48A;--bad:#F07C73;--okbg:#15301F;--badbg:#3A1C1A;--scbg:#15253A;--secbg:#15301F;
+  --scene:url("assets/bg/bg-hall-960.webp");
+  --veil:linear-gradient(to bottom,rgba(6,20,32,.93) 0%,rgba(6,20,32,.66) 24%,rgba(6,20,32,.66) 70%,rgba(6,20,32,.92) 100%)}
+:root body.campaign-mode.scene-arena{--scene:url("assets/bg/bg-arena-960.webp");
+  --veil:linear-gradient(to bottom,rgba(14,11,9,.94) 0%,rgba(14,11,9,.72) 24%,rgba(14,11,9,.72) 70%,rgba(14,11,9,.93) 100%)}
+@media (max-width:480px){:root body.campaign-mode{--scene:url("assets/bg/bg-hall-480.webp")}:root body.campaign-mode.scene-arena{--scene:url("assets/bg/bg-arena-480.webp")}}
+@media (min-width:761px){:root body.campaign-mode{--scene:url("assets/bg/bg-hall-1920.webp")}:root body.campaign-mode.scene-arena{--scene:url("assets/bg/bg-arena-1920.webp")}}
+body.campaign-mode .panel{background:color-mix(in srgb,var(--surface) 90%,transparent);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.cbar{display:flex;flex-direction:column;gap:8px;margin:4px 0 20px}
+.cbar h1{margin:0;font:700 clamp(30px,6vw,46px)/1 var(--display);text-transform:uppercase;letter-spacing:.01em}
+.cbar .meter{height:6px;border-radius:99px;background:color-mix(in srgb,var(--ink) 14%,transparent);overflow:hidden;max-width:520px}
+.cbar .meter i{display:block;height:100%;background:var(--ok);border-radius:inherit}
+.cexit{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin:28px 0 8px;padding-top:16px;border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -367,7 +387,9 @@ body::after{z-index:-1;background:var(--veil)}
       <button role="tab" data-tab="lab" aria-selected="false">Lab</button>
     </nav>
   </header>
+  <div id="campaignbar"></div>
   <main id="view"></main>
+  <div id="campaignexit"></div>
   <div id="patchModal"></div>
   <div id="supportModal"></div>
   <footer>
@@ -1190,7 +1212,8 @@ function finish(){
   saveAttempt(run.rec);
   recordGameProgress(run.rec);
   const guidedMatch=/^guided-(\d+)$/.exec(run.rec.scopeId);
-  if(guidedMatch&&run.rec.pct>=GUIDED_PASS){
+  const guidedComplete=run.res.length===run.list.length;   // "End & score" early can't pass a level
+  if(guidedMatch&&guidedComplete&&run.rec.pct>=GUIDED_PASS){
     const gd=Number(guidedMatch[1]), g=G();
     g.passed[gd]=Date.now();
     if(!state.done[gd]) state.done[gd]=Date.now();   // campaign passes count as a cleared level everywhere
@@ -1376,7 +1399,7 @@ function renderResult(){
       h("div",{},h("div",{class:"eyebrow"},"Best streak"),h("div",{class:"tabnum",style:"font:700 26px var(--display)"},r.best)),
       h("div",{},h("div",{class:"eyebrow"},"vs last time"),p?h("div",{class:"tabnum delta "+(d>0?"up":d<0?"down":""),style:"font:700 26px var(--display)"},(d>0?"+":"")+d+" pts"):h("div",{class:"muted"},"First run of this set"),p?h("div",{class:"muted tabnum",style:"font-size:13px"},"was "+p.pct+"% · "+secs(p.ms/p.n)+"/q"):null)),
     run.boss?(bossWon?h("p",{style:"margin:0"},"Boss defeated. The domain badge is yours."):h("p",{style:"margin:0"},"Boss escaped. Finish all 15 with a score of 80% and at least one life remaining.")):(r.pct>=80?h("p",{style:"margin:0"},"That's at or above the 80% practice target."):h("p",{style:"margin:0"},"Under the 80% practice target. Hit the misses below, then run it again.")),
-    h("div",{class:"actions"},
+    state.studyMode==="campaign"?null:h("div",{class:"actions"},
       h("button",{class:"btn primary",onclick:()=>startQuiz({id:run.scope.id,label:run.scope.label,keys:run.list.map(x=>x.k)},run.mode,run.list.length)},"Run it again (new order)"),
       misses.length?h("button",{class:"btn",onclick:()=>startQuiz({id:"retry",label:"Retry misses",keys:misses.map(x=>x.k)},(run.mode==="blitz"||run.mode==="acronym"||run.mode==="mock")?"think":run.mode,misses.length)},"Retry my "+misses.length+" miss"+(misses.length>1?"es":"")):null,
       h("button",{class:"btn",onclick:()=>{run=null;ui.tab="stats";render();}},"See stats"),
@@ -1683,7 +1706,26 @@ const RICH_CAMPAIGN={
 // state.studyMode: "self" | "campaign". Both share level progress (state.done), quiz history
 // and boss wins, so switching never loses anything. state.guided holds the campaign run.
 const STUDY_MODE_LABEL={self:"Self-paced",campaign:"Campaign"};
-function setStudyMode(m){ state.studyMode=m; if(m==="campaign") ui.tab="campaign"; saveUI(); saveProgress(); render(); window.scrollTo(0,0); }
+function setStudyMode(m){
+  if(run){ stopTimer(); run=null; }
+  state.studyMode=m; ui.tab=m==="campaign"?"campaign":"plan";
+  saveUI(); saveProgress(); render(); window.scrollTo(0,0);
+}
+function renderCampaignChrome(on){
+  const bar=document.getElementById("campaignbar"), exit=document.getElementById("campaignexit");
+  if(!bar||!exit) return;
+  if(!on){ bar.replaceChildren(); exit.replaceChildren(); return; }
+  const g=G(), L=guidedLevels(), cleared=L.filter(x=>g.passed[x.d]).length;
+  const at=g.started?L.findIndex(x=>x.d===guidedDay().d)+1:0;
+  bar.replaceChildren(h("div",{class:"cbar"},
+    h("div",{class:"eyebrow"},"ExamHelp · Campaign · "+PROGRAM_LABEL[state.program]),
+    h("h1",{},"Night Shift at Leon River Water"),
+    h("div",{class:"muted",style:"font:500 13px var(--mono)"},"Run "+g.run+(at?" · Level "+at+" of "+L.length:"")+" · "+cleared+" cleared"),
+    h("div",{class:"meter","aria-hidden":"true"},h("i",{style:"width:"+Math.round(100*cleared/L.length)+"%"}))));
+  exit.replaceChildren(h("div",{class:"cexit"},
+    h("span",{class:"muted",style:"font-size:13px"},"Your run saves as you go. Leave any time and pick it back up where you stopped."),
+    h("button",{class:"btn",onclick:()=>setStudyMode("self")},"Leave campaign mode")));
+}
 function renderModePicker(){
   const card=(title,subtitle,lines,btn,onPick)=>h("div",{class:"program-card"},
     h("b",{},title), h("p",{class:"muted",style:"margin:0;font-size:13px"},subtitle),
@@ -1904,15 +1946,23 @@ function guidedResultBlock(){
   const gm=/^guided-(\d+)$/.exec(run.rec.scopeId||"");
   const back=label=>h("button",{class:"btn primary",onclick:()=>{run=null;ui.tab="campaign";saveUI();render();window.scrollTo(0,0);}},label);
   if(gm){
-    const passed=run.rec.pct>=GUIDED_PASS;
+    const complete=run.res.length===run.list.length, passed=complete&&run.rec.pct>=GUIDED_PASS;
     return h("div",{class:"why "+(passed?"":"bad"),style:"display:flex;flex-direction:column;gap:10px"},
-      h("b",{},passed?"Passed. The mission's decisions are unlocked.":"Not yet: "+GUIDED_PASS+"% moves you on. Review the intel and try again."),
+      h("b",{},passed?"Passed. The mission's decisions are unlocked.":!complete?"Ended early. Answer every question to pass the level.":"Not yet: "+GUIDED_PASS+"% moves you on. Review the intel and try again."),
       h("div",{class:"actions"},back(passed?"Continue the campaign →":"Back to the campaign")));
   }
   if(run.boss&&["boss","final"].includes(G().phase)) return h("div",{class:"actions"},back("Back to the campaign"));
   return null;
 }
-function renderCampaign(){ return state.studyMode==="campaign"?renderGuided():renderSelfCampaign(); }
+function renderCampaign(){
+  if(state.studyMode==="campaign") return renderGuided();
+  return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
+    h("section",{class:"panel",style:"display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between"},
+      h("div",{},h("h2",{style:"margin:0"},"Campaign mode"),
+        h("p",{class:"muted",style:"margin:4px 0 0"},"The full guided story: brief, intel, a quiz to pass, then decisions that shape your ending. It runs as its own page.")),
+      h("button",{class:"btn primary",onclick:()=>setStudyMode("campaign")},"Enter campaign mode")),
+    renderSelfCampaign());
+}
 function renderSelfCampaign(){
   const day=unlockedDay(), mission=RICH_CAMPAIGN[day], dd=displayDay(day);
   if(!mission) return h("section",{class:"panel"},h("h2",{},"Campaign"),h("p",{},"Complete Level 1 to start today's mission."));
@@ -2424,6 +2474,7 @@ function renderCore(){
   renderHeader();
   const v=document.getElementById("view");
   const tabs=document.querySelector("nav.tabs");
+  if(!state.program||!state.studyMode){ document.body.classList.remove("campaign-mode"); renderCampaignChrome(false); }
   if(!state.program){
     if(tabs) tabs.style.display="none";
     v.replaceChildren(renderProgramPicker());
@@ -2432,6 +2483,16 @@ function renderCore(){
   if(!state.studyMode){
     if(tabs) tabs.style.display="none";
     v.replaceChildren(renderModePicker());
+    return;
+  }
+  const inCampaign=state.studyMode==="campaign";
+  document.body.classList.toggle("campaign-mode",inCampaign);
+  renderCampaignChrome(inCampaign);
+  if(inCampaign){
+    // Self-contained: no tabs, no plan or quiz pages. Quizzes and boss fights run here.
+    document.body.classList.toggle("scene-arena",!!(run&&run.boss)||["boss","final"].includes(G().phase));
+    v.replaceChildren(run?renderRun():renderGuided());
+    if(run&&!run.finished&&run.timedMs&&!run.answered&&!tick) startTimer();
     return;
   }
   if(tabs) tabs.style.display="";
