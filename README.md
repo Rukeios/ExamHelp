@@ -1,6 +1,6 @@
 # ExamHelp
 
-A free, offline study app for Microsoft SC-900 and CompTIA Security+ SY0-701, with 732
+A free, offline study app for Microsoft SC-900 and CompTIA Security+ SY0-701, with 801
 practice questions.
 
 **Live app:** https://rukeios.github.io/ExamHelp/
@@ -68,5 +68,5 @@ In the repository settings, select **Pages**, choose **Deploy from a branch**, a
 ## Support
 
 ExamHelp is free and always will be. If it helped you pass and you're in a position to,
-there's a quiet Support link in the app's header. If you're a student, please don't —
+you can chip in at [ko-fi.com/rukeios](https://ko-fi.com/rukeios). If you're a student, please don't —
 pass your exam and tell someone else about it instead.

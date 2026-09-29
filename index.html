@@ -2005,8 +2005,8 @@ function renderSelfCampaign(){
   return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},kids);
 }
 // ---------- stats export / import ----------
-// Ko-fi placeholder — swap for the real link before sharing outside the household.
-const DONATION_URL="https://ko-fi.com/examhelp";
+// Donations: Ko-fi. Free forever; this link is the only ask, and it tells students not to.
+const DONATION_URL="https://ko-fi.com/rukeios";
 let statsIO={name:"",copied:false,importError:null,importPreview:null};
 function slugify(s){ const t=(s||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,""); return t||"stats"; }
 // Recomputed from scratch each call so it always reflects the latest attempts/state — same
