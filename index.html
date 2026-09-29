@@ -324,6 +324,14 @@ body::after{z-index:-1;background:var(--veil)}
 @media (prefers-color-scheme: dark) and (min-width:761px){:root:not([data-theme="light"]) body{--scene:url("assets/bg/bg-hall-1920.webp")}:root:not([data-theme="light"]) body.scene-arena{--scene:url("assets/bg/bg-arena-1920.webp")}}
 @media (max-width:480px){:root[data-theme="dark"] body{--scene:url("assets/bg/bg-hall-480.webp")}:root[data-theme="dark"] body.scene-arena{--scene:url("assets/bg/bg-arena-480.webp")}}
 @media (min-width:761px){:root[data-theme="dark"] body{--scene:url("assets/bg/bg-hall-1920.webp")}:root[data-theme="dark"] body.scene-arena{--scene:url("assets/bg/bg-arena-1920.webp")}}
+
+/* ---------- motion effects (examhelp-effects.js) ----------
+   Tap ripple on primary buttons and answer options. Off under reduced motion. */
+[data-eh-click]{position:relative}
+.eh-fx-ring{position:fixed;z-index:10000;pointer-events:none;width:16px;height:16px;box-sizing:border-box;
+  border:2px solid var(--eh-ring-color,#74d7e5);border-radius:50%;animation:eh-ring 380ms ease-out both}
+@keyframes eh-ring{from{transform:translate(-50%,-50%) scale(.25);opacity:.8}to{transform:translate(-50%,-50%) scale(4);opacity:0}}
+@media (prefers-reduced-motion: reduce){.eh-fx-ring{display:none}}
 </style>
 </head>
 <body>
@@ -365,7 +373,7 @@ body::after{z-index:-1;background:var(--veil)}
   <footer>
     <div>Study pairing: <a href="https://learn.microsoft.com/en-us/training/courses/sc-900t00" target="_blank" rel="noopener">Microsoft Learn SC-900 course</a> · <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900" target="_blank" rel="noopener">SC-900 skills measured</a> · <a href="https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/" target="_blank" rel="noopener">Professor Messer SY0-701 (free videos)</a> · <a href="https://www.comptia.org/certifications/security" target="_blank" rel="noopener">CompTIA Security+</a></div>
     <div>Keyboard in quizzes: 1–4 pick an answer, Enter goes to the next question.</div>
-    <div>Free and open source. <button class="linklike" id="footerSupport" style="font-size:inherit">Support</button> · <a href="https://github.com/Rukeios/ExamHelp" target="_blank" rel="noopener">Source on GitHub</a> · <button class="linklike" id="footerPatch" style="font-size:inherit">Patch notes</button></div>
+    <div>Free to use. <button class="linklike" id="footerSupport" style="font-size:inherit">Support</button> · <a href="https://github.com/Rukeios/ExamHelp" target="_blank" rel="noopener">GitHub</a> · <button class="linklike" id="footerPatch" style="font-size:inherit">Patch notes</button></div>
   </footer>
 </div>
 
@@ -382,6 +390,7 @@ body::after{z-index:-1;background:var(--veil)}
 <script src="data-fixes-01.js"></script>
 <script src="data-fixes-02.js"></script>
 <script src="data-fixes-03.js"></script>
+<script src="examhelp-effects.js"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -785,7 +794,7 @@ document.getElementById("supportbtn").addEventListener("click",openSupport);
 document.getElementById("footerSupport").addEventListener("click",openSupport);
 document.getElementById("footerPatch").addEventListener("click",openPatchNotes);
 
-document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>{ if(run&&!run.finished) stopTimer(); run=null; ui.tab=b.dataset.tab; saveUI(); render(); window.scrollTo(0,0); }));
+document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>{ if(run&&!run.finished) stopTimer(); run=null; ui.tab=b.dataset.tab; saveUI(); queueFx("panel","#view"); render(); window.scrollTo(0,0); }));
 
 // ---------- plan view ----------
 function currentRunAttempts(){
@@ -1064,6 +1073,7 @@ function answer(origIdx){
     else{ run.boss.lives--; run.boss.fx={kind:"rage"}; }
   }
   run.streak=ok?run.streak+1:0; run.best=Math.max(run.best,run.streak);
+  queueFx(ok?"correct":"incorrect",ok?".opts .opt.right":".opts .opt.wrong");
   stopTimer();
   if(run.mode==="blitz"||run.mode==="acronym"){ render(); setTimeout(next, ok?350:900); }
   else render();
@@ -1246,7 +1256,7 @@ function renderResult(){
   const bm=run.boss&&run.boss.meta;
   const bossWon=run.boss&&r.pct>=80&&run.boss.lives>0&&r.n===15;
   if(bm&&run.boss&&!run.boss.endingPlayed){
-    const finishEnding=()=>{ if(run&&run.boss){ run.boss.endingPlayed=true; render(); } };
+    const finishEnding=()=>{ if(run&&run.boss){ run.boss.endingPlayed=true; if(bossWon) queueFx("victory","#view .panel"); render(); } };
     if(!run.boss.endingTimer) run.boss.endingTimer=setTimeout(finishEnding,reducedMotion()?0:(bossWon?1300:900));
     return h("section",{class:"panel runner bf-stage",style:"--boss:"+bm.color,onclick:()=>{clearTimeout(run.boss.endingTimer);finishEnding();}},
       h("div",{class:"bf-fight"},
@@ -1605,6 +1615,7 @@ function renderCampaign(){
       if(correct) state.xp+=8;
       const answers=rec.answers.slice(); answers[rec.stepIdx]={picked:i,correct};
       state.campaign[day]={stepIdx:rec.stepIdx,answers};
+      queueFx(correct?"correct":"incorrect",correct?".opts .opt.right":".opts .opt.wrong");
       saveProgress(); render();
     }},choice))));
   }
@@ -1910,6 +1921,7 @@ function startMock(track){
   const {list,shortfalls}=buildMockList(track);
   const spec=MOCK_SPEC[track];
   mockRun={track,list,i:0,flags:{},answers:{},t0:Date.now(),timeLimitMs:spec.minutes*60000,shortfalls,navOpen:false,confirmOpen:false,submitted:false,rec:null};
+  queueFx("challenge","#view .panel");
   render(); window.scrollTo(0,0); startMockTimer();
 }
 function stopMockTimer(){ if(mockTick){ clearInterval(mockTick); mockTick=null; } }
@@ -1961,6 +1973,7 @@ function submitMock(auto){
   mockRun.rec={ts:Date.now(),mode:"mock",scopeId:"mock-"+mockRun.track,scope:"Mock exam: "+TRACK[mockRun.track],track:mockRun.track,n,score,pct:pct(score,n),ms:Date.now()-mockRun.t0,durationLimitMs:mockRun.timeLimitMs,perDomain,items:res,unanswered,prestige:state.prestige};
   saveAttempt(mockRun.rec);
   recordGameProgress(mockRun.rec);
+  if(mockRun.rec&&mockRun.rec.pct>=80) queueFx("victory","#view .panel");
   render(); window.scrollTo(0,0);
 }
 function mockVerdict(p){
@@ -2051,7 +2064,19 @@ function renderMock(){
 
 // ---------- render ----------
 function softRender(){ if(run&&!run.finished&&ui.tab==="quiz"){ renderHeader(); return; } render(); }
-function render(){
+// ---------- motion effects ----------
+// Effects are queued by handlers and played after the next render, on the freshly
+// rendered element (render() replaces the DOM, so animating the old node shows nothing).
+let fxQueue=[];
+function queueFx(kind,sel){ fxQueue.push([kind,sel]); }
+function runFx(){
+  const FX=window.ExamHelpFX, q=fxQueue; fxQueue=[];
+  if(!FX) return;
+  q.forEach(([k,sel])=>{ const el=document.querySelector(sel); if(el&&typeof FX[k]==="function") FX[k](el); });
+  document.querySelectorAll(".btn.primary,.opt:not([disabled])").forEach(e=>e.setAttribute("data-eh-click",""));
+}
+function render(){ renderCore(); runFx(); }
+function renderCore(){
   document.body.classList.toggle("scene-arena",ui.tab==="game");
   renderHeader();
   const v=document.getElementById("view");

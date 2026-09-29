@@ -2,7 +2,10 @@
 
 The most valuable contribution here is a question correction. If you spot a wrong
 answer, a confusing distractor, or an outdated reference, please open an issue — even
-just the question text and what's wrong is enough. A pull request is welcome too.
+just the question text and what's wrong is enough.
+
+ExamHelp isn't open source (see [LICENSE](LICENSE)), so issues are the way in. By
+submitting a correction or suggestion, you agree it can be used in ExamHelp.
 
 ## Question format
 
@@ -22,6 +25,6 @@ answered. Keep it factual and brief.
 
 ## Other contributions
 
-Bug reports, accessibility fixes, and small UI improvements are welcome too. The app is
+Bug reports, accessibility problems, and UI suggestions are welcome too, as issues. The app is
 a single self-contained `index.html` (no build step, no libraries) plus a few data
 files — please keep it that way rather than introducing a framework or bundler.
