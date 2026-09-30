@@ -455,7 +455,13 @@ nav.tabs{background:var(--navbg,color-mix(in srgb,var(--bg) 92%,transparent))}
 .seal.won{border-style:solid;border-color:color-mix(in srgb,var(--seal) 60%,var(--line));color:var(--ink)}
 .seal.won span{border-style:solid;border-color:var(--seal);background:color-mix(in srgb,var(--seal) 22%,var(--surface));color:var(--ink)}
 .seal small{font-size:12px;line-height:1.2}
+.seg-sm button{padding:4px 10px;font-size:13px}
+.report{display:flex;flex-direction:column;gap:8px;background:var(--sunk);padding:14px}
 </style>
+<script>
+// Theme choice (Light / Dark / System). Applied before the page draws to avoid a flash.
+(function(){ try{ var t=localStorage.getItem("sprint.v2.theme"); if(t==="light"||t==="dark") document.documentElement.setAttribute("data-theme",t); }catch(e){} })();
+</script>
 </head>
 <body>
 
@@ -835,12 +841,20 @@ function renderExamToggle(){
 let programFormOpen=false;
 const PROGRAM_LABEL={sc:"SC-900 only",sec:"Security+ only",both:"Both (33-level camp)"};
 function setProgram(p){ state.program=p; programFormOpen=false; saveProgress(); render(); }
+function themeChoice(){ try{ const t=localStorage.getItem(LS+".theme"); return t==="light"||t==="dark"?t:"system"; }catch(e){ return "system"; } }
+function setTheme(t){
+  try{ if(t==="system") localStorage.removeItem(LS+".theme"); else localStorage.setItem(LS+".theme",t); }catch(e){}
+  if(t==="system") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme",t);
+  render();
+}
 function renderProgramToggle(){
   const mount=document.getElementById("programrow"); if(!mount) return;
   mount.replaceChildren();
   if(!state.program) return; // first-run picker owns the decision until one is made
   if(!programFormOpen){
-    mount.append(h("div",{class:"setrow"},h("span",{class:"setlabel"},"Program"),h("span",{},PROGRAM_LABEL[state.program]),
+    mount.append(h("div",{class:"setrow"},h("span",{class:"setlabel"},"Theme"),
+        h("div",{class:"seg seg-sm",role:"group","aria-label":"Theme"},[["light","Light"],["dark","Dark"],["system","System"]].map(([k,l])=>h("button",{"aria-pressed":String(themeChoice()===k),onclick:()=>setTheme(k)},l))),null),
+      h("div",{class:"setrow"},h("span",{class:"setlabel"},"Program"),h("span",{},PROGRAM_LABEL[state.program]),
         h("button",{class:"linklike",onclick:()=>{programFormOpen=true;render();}},"Change")),
       state.studyMode?h("div",{class:"setrow"},h("span",{class:"setlabel"},"Study mode"),h("span",{},STUDY_MODE_LABEL[state.studyMode]),
         h("button",{class:"linklike",onclick:()=>setStudyMode(state.studyMode==="campaign"?"self":"campaign")},state.studyMode==="campaign"?"Switch to self-paced":"Switch to campaign")):null);
@@ -1474,8 +1488,34 @@ function renderRun(){
       kids.push(h("div",{class:"actions"},h("button",{class:"btn primary",id:"nextbtn",onclick:next},run.i<run.list.length-1?"Next →":"See results")));
     }
     if(a&&run.timedMs&&a.pick===-1) kids.push(h("div",{class:"why bad"},h("b",{},"Time. ")));
+    if(a&&run.mode!=="blitz") kids.push(reportBlock(q,a.pick));
   }
   return h("section",{class:"panel runner"},kids);
+}
+// ---------- report a question ----------
+// Builds a copyable report with the question id and content version. The learner's own answer
+// is left out unless they choose to include it. Nothing is sent anywhere automatically.
+let reportOpen=null, reportIncludeAnswer=false, reportCopied=false;
+function reportText(q,pick){
+  const v=(PATCHNOTES[0]&&PATCHNOTES[0].v)||"?";
+  const lines=["ExamHelp question report","Question ID: "+q.k,"Content version: "+v,"Exam: "+(TRACK[q.track]||q.track)+(q.dom?" · "+q.dom:""),"","Question: "+q.q,"Listed answer: "+q.o[q.a]];
+  if(reportIncludeAnswer&&pick!=null&&pick>=0) lines.push("My answer: "+q.o[pick]);
+  lines.push("","What's wrong or unclear:","");
+  return lines.join("\n");
+}
+function reportBlock(q,pick){
+  if(reportOpen!==q.k) return h("p",{style:"margin:0;font-size:13px"},h("button",{class:"linklike",style:"font-size:inherit",onclick:()=>{reportOpen=q.k;reportCopied=false;render();}},"Report a problem with this question"));
+  const text=reportText(q,pick);
+  const issue="https://github.com/Rukeios/ExamHelp/issues/new?title="+encodeURIComponent("Question "+q.k+": ")+"&body="+encodeURIComponent(text);
+  return h("div",{class:"panel report"},
+    h("h3",{style:"margin:0"},"Report this question"),
+    h("p",{class:"muted",style:"margin:0;font-size:13px"},"Copy this and add what's wrong, or open it as a GitHub issue. Nothing is sent until you do."),
+    h("textarea",{readonly:true,rows:"7",style:"width:100%;font:13px var(--mono)"},text),
+    h("label",{style:"display:flex;gap:8px;align-items:center;font-size:13px"},h("input",{type:"checkbox",checked:reportIncludeAnswer?true:null,onchange:e=>{reportIncludeAnswer=e.target.checked;render();}}),"Include the answer I picked"),
+    h("div",{class:"actions",style:"flex-wrap:wrap"},
+      h("button",{class:"btn primary",onclick:async()=>{ try{ await navigator.clipboard.writeText(text); }catch(e){} reportCopied=true; render(); }},reportCopied?"Copied":"Copy report"),
+      h("a",{class:"btn",href:issue,target:"_blank",rel:"noopener"},"Open a GitHub issue"),
+      h("button",{class:"btn",onclick:()=>{reportOpen=null;render();}},"Close")));
 }
 function renderBossStage(){
   const b=run.boss, bm=b.meta;
