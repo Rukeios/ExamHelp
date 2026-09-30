@@ -604,6 +604,7 @@ state.examMode=!!state.examMode;
 state.examDates=(state.examDates&&typeof state.examDates==="object")?state.examDates:{sc:null,sec:null};
 state.campaign=(state.campaign&&typeof state.campaign==="object"&&!("step" in state.campaign))?state.campaign:{};
 state.studyMode=(state.studyMode==="self"||state.studyMode==="campaign")?state.studyMode:null;
+state.review=(state.review&&typeof state.review==="object")?state.review:{};
 state.guided=(state.guided&&typeof state.guided==="object"&&state.guided.passed)?state.guided:{run:1,started:null,level:null,phase:"warning",passed:{},missions:{},flags:{},ended:null};
 state.customQuestions.forEach(addCustomQuestion);
 let ui={tab:"plan",sel:null,quiz:{scope:"today",mode:rulesFor(state.prestige).defaultMode,n:10},pbq:"firewall",generated:[],teachesBoss:null,
@@ -689,6 +690,66 @@ if(window.claude && typeof window.claude.use==="function"){
 }
 
 // ---------- per-question history ----------
+// ---------- review scheduler ----------
+// Per-question stages with fixed intervals (1, 3, 7, 14 days). A right answer moves an item
+// one stage out, but at most once per calendar day, so repeating it right away can't fake
+// mastery. A miss sends it back to stage 1, due tomorrow. These are product defaults, not a
+// claim about the optimal schedule. Acronym drill items are separate and not scheduled.
+const REVIEW_DAYS=[1,3,7,14];
+function addDaysISO(iso,n){ const d=parseDate(iso); d.setDate(d.getDate()+n); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+const reviewable=k=>!!Q[k]&&!/^acr-/.test(k);
+function recordReview(items){
+  if(!state.review||typeof state.review!=="object") state.review={};
+  const today=todayISO();
+  (items||[]).forEach(([k,ok])=>{
+    if(!reviewable(k)) return;
+    const r=state.review[k]||(state.review[k]={stage:0,due:null,last:null,lapses:0});
+    if(!(ok>=1)){
+      if(!(r.last===today&&r.stage===1)) r.lapses=(r.lapses||0)+(r.stage>0?1:0);
+      r.stage=1; r.due=addDaysISO(today,1); r.last=today; return;
+    }
+    if(r.last===today) return;
+    r.stage=Math.min((r.stage||0)+1,REVIEW_DAYS.length); r.due=addDaysISO(today,REVIEW_DAYS[r.stage-1]); r.last=today;
+  });
+}
+function dueKeys(){
+  const today=todayISO(), R=state.review||{};
+  return Object.keys(R).filter(k=>Q[k]&&inProgram(Q[k].track)&&R[k].due&&R[k].due<=today).sort((a,b)=>R[a].due<R[b].due?-1:1);
+}
+// Due first, then missed-before, then new material from unlocked levels. Membership is decided
+// first; only then is the presentation order shuffled. Each item carries why it was picked.
+function buildReviewSession(n){
+  const hist=qHistory(), t=unlockedDay(), out=[], reasons={};
+  const add=(k,why)=>{ if(out.length<n&&!reasons[k]){ out.push(k); reasons[k]=why; } };
+  dueKeys().forEach(k=>add(k,"Due for review"));
+  Object.keys(hist).filter(k=>Q[k]&&!/^acr-|^generated-/.test(k)&&inProgram(Q[k].track)&&hist[k].miss>0)
+    .sort((a,b)=>(hist[b].miss/hist[b].seen)-(hist[a].miss/hist[a].seen)).forEach(k=>add(k,"Missed before"));
+  shuffle(Object.values(Q).filter(q=>inProgram(q.track)&&q.d<=t&&!hist[q.k]&&!/^generated-/.test(q.k)).map(q=>q.k)).forEach(k=>add(k,"New to you"));
+  return {keys:shuffle(out),reasons};
+}
+// ---------- evidence, not a single "readiness" number ----------
+// Four separate signals, each with its sample size. Written answers are self-graded and custom
+// questions are the learner's own, so both are left out of assessment by default.
+const MIN_EVIDENCE=20;
+const assessable=(k,mode)=>mode!=="written"&&!!Q[k]&&!/^generated-|^acr-/.test(k);
+function evidenceFor(filter){   // filter(q) picks track or domain
+  const A=attempts.slice().sort((a,b)=>a.ts-b.ts), lastSeen={}, rows=[];
+  A.forEach(a=>(a.items||[]).forEach(([k,ok])=>{
+    if(!assessable(k,a.mode)||!filter(Q[k])) { lastSeen[k]=a.ts; return; }
+    const gap=lastSeen[k]!=null?a.ts-lastSeen[k]:null;
+    rows.push({k,ok:ok>=1?1:0,delayed:gap!=null&&gap>=864e5,mock:a.mode==="mock",ts:a.ts}); lastSeen[k]=a.ts;
+  }));
+  const total=Object.values(Q).filter(q=>filter(q)&&!/^generated-|^acr-/.test(q.k)).length;
+  const seen=new Set(rows.map(r=>r.k)).size;
+  const rate=xs=>xs.length?{p:pct(xs.reduce((s,x)=>s+x.ok,0),xs.length),n:xs.length}:{p:null,n:0};
+  return {coverage:{seen,total,p:total?pct(seen,total):0}, recent:rate(rows.slice(-60)), delayed:rate(rows.filter(r=>r.delayed).slice(-60)), n:rows.length};
+}
+function mockEvidence(track){
+  const ms=attempts.filter(a=>a.mode==="mock"&&a.track===track).sort((a,b)=>a.ts-b.ts);
+  return ms.length?{last:ms[ms.length-1].pct,best:Math.max(...ms.map(a=>a.pct)),n:ms.length}:null;
+}
+const evText=r=>r.n>=MIN_EVIDENCE?r.p+"%":"—";
+const evSub=(r,what)=>r.n>=MIN_EVIDENCE?what:"Not enough evidence yet: "+r.n+" of "+MIN_EVIDENCE+" answers";
 function qHistory(){
   const m={};
   attempts.forEach(a=>(a.items||[]).forEach(([k,ok,ms])=>{ const r=m[k]||(m[k]={seen:0,miss:0,ok:0,ms:0}); r.seen++; r.ok+=ok; r.miss+=(1-ok); r.ms+=ms; }));
@@ -1016,10 +1077,22 @@ function scopes(){
     {id:"sofar",label:"Everything so far",keys:keysFor(upTo)}];
   if(inProgram("sc")) list.push({id:"sc",label:"SC-900 unlocked",keys:Object.values(Q).filter(q=>q.track==="sc"&&q.d<=t).map(q=>q.k)});
   if(inProgram("sec")) list.push({id:"sec",label:"Security+ unlocked",keys:Object.values(Q).filter(q=>q.track==="sec"&&q.d<=t).map(q=>q.k)});
+  const dueN=dueKeys().length;
+  list.unshift({id:"review",label:dueN?"Review ("+dueN+" due)":"Review",keys:buildReviewSession(9999).keys});
   list.push({id:"weak",label:"Weak spots ("+weak.length+")",keys:weak});
+  // Open practice: any domain in the program, locked levels included. Level gating still
+  // applies to progression and mock exams, not to practice.
+  const doms=programDomains(), dm=doms.includes(ui.quiz.dom)?ui.quiz.dom:doms[0];
+  if(dm){
+    const inDom=Object.values(Q).filter(q=>inProgram(q.track)&&q.dom===dm&&!/^generated-/.test(q.k)).map(q=>q.k);
+    const f=ui.quiz.filter||"all", R=state.review||{}, today=todayISO();
+    const keys=f==="unseen"?inDom.filter(k=>!hist[k]):f==="missed"?inDom.filter(k=>hist[k]&&hist[k].miss>0):f==="due"?inDom.filter(k=>R[k]&&R[k].due&&R[k].due<=today):inDom;
+    list.push({id:"domain",label:"Any domain",keys,dom:dm});
+  }
   list.push({id:"all",label:"Everything unlocked",keys:Object.values(Q).filter(q=>q.d<=t&&inProgram(q.track)).map(q=>q.k)});
   return list;
 }
+function programDomains(){ return ["sc","sec"].filter(inProgram).flatMap(t=>(DOMS[t]||[]).map(d=>d)); }
 function renderQuizTab(){
   if(run) return renderRun();
   const sc=scopes(); const cur=sc.find(s=>s.id===ui.quiz.scope)||sc[0];
@@ -1033,6 +1106,10 @@ function renderQuizTab(){
   return h("section",{class:"panel launch"},
     h("h2",{},"Run a quiz"),
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"What"),seg(sc.map(s=>[s.id,s.label]),cur.id,v=>ui.quiz.scope=v)),
+    cur.id==="review"?h("p",{class:"muted",style:"margin:-4px 0 0;font-size:13px;max-width:66ch"},"Questions due today come first, then ones you've missed, then new ones from your unlocked levels. Each shows why it was picked. A right answer brings a question back in 1, 3, 7, then 14 days; a miss brings it back tomorrow."):null,
+    cur.id==="domain"?h("div",{style:"display:flex;flex-direction:column;gap:10px"},
+      h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Domain (all levels, including locked ones)"),seg(programDomains().map(d=>[d,d]),cur.dom,v=>ui.quiz.dom=v)),
+      h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Which questions"),seg([["all","All"],["unseen","Not seen yet"],["missed","Missed before"],["due","Due for review"]],ui.quiz.filter||"all",v=>ui.quiz.filter=v))):null,
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Mode"),seg(modeChoices,ui.quiz.mode,v=>ui.quiz.mode=v),h("p",{class:"muted",style:"margin:6px 0 0;font-size:13px"},MODES[ui.quiz.mode].desc)),
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"How many"),seg([[5,"5"],[10,"10"],[20,"20"],[40,"40"],[999,"All"]],ui.quiz.n,v=>ui.quiz.n=v)),
     h("p",{class:"muted",style:"margin:0;font-size:13px"},avail+" questions in this pool"+(avail&&wantN>avail?" (questions repeat with fresh shuffles to reach "+wantN+")":"")+". Order and answer positions reshuffle every run, and questions you've missed or never seen come up more often."),
@@ -1186,8 +1263,10 @@ function pick(keys,n){
 }
 function startQuiz(scope,mode,n){
   stopTimer();
-  const keys=pick(scope.keys,n);
+  const built=scope.id==="review"?buildReviewSession(n>=999?9999:n):null;
+  const keys=built?built.keys:pick(scope.keys,n);
   run={scope:{id:scope.id,label:scope.label},mode,timedMs:mode==="blitz"?BLITZ_MS:0,list:keys.map(k=>{const q=Q[k];const order=shuffle([0,1,2,3].slice(0,q.o.length));return {k,q,order};}),i:0,res:[],t0:Date.now(),qt:Date.now(),answered:null,streak:0,best:0,finished:false,written:{text:"",revealed:false,ai:null,busy:false}};
+  run.reasons=built?built.reasons:null;
   ui.tab="quiz"; render(); window.scrollTo(0,0);
   if(run.timedMs) startTimer();
 }
@@ -1281,6 +1360,7 @@ function finish(){
   if(run.boss&&run.boss.lives>=0&&run.res.length===15&&run.rec.pct>=80){ state.bosses[run.boss.track+"|"+run.boss.dom]=Date.now(); saveProgress(); }
   run.prev=attempts.filter(a=>a.scopeId===run.rec.scopeId&&a.mode===run.rec.mode).slice(-1)[0]||null;
   saveAttempt(run.rec);
+  recordReview(run.res); saveProgress();
   recordGameProgress(run.rec);
   const guidedMatch=/^guided-(\d+)$/.exec(run.rec.scopeId);
   const guidedComplete=run.res.length===run.list.length;   // "End & score" early can't pass a level
@@ -1321,6 +1401,10 @@ function renderRun(){
     h("div",{class:"row"},run.streak>=3?h("span",{class:"streak"},run.streak+" in a row"):null,h("span",{class:"eyebrow tabnum"},(run.i+1)+" / "+run.list.length),
       h("button",{class:"btn small",onclick:()=>{ if(run.res.length) finish(); else {stopTimer();run=null;render();} }},run.res.length?"End & score":"Quit")));
   const kids=[head];
+  const why=run.reasons&&run.reasons[it.k];
+  if(why||/^generated-/.test(it.k)) kids.push(h("div",{class:"row",style:"gap:6px"},
+    why?h("span",{class:"chip "+(why==="Due for review"?"good":why==="Missed before"?"weak":""),style:why==="New to you"?"background:var(--scbg);color:var(--sc)":""},why):null,
+    /^generated-/.test(it.k)?h("span",{class:"chip",style:"background:var(--sunk);color:var(--muted)"},"Your own question"):null));
   if(run.timedMs) kids.push(h("div",{class:"row",style:"gap:8px"},h("div",{class:"timer",id:"twrap",style:"flex:1"},h("i",{id:"tbar"})),h("span",{class:"eyebrow tabnum",id:"tlab",style:"width:32px;text-align:right"},Math.ceil(run.timedMs/1000)+"s")));
   kids.push(h("div",{class:"qtext"},q.q));
   if(run.mode==="written"){
@@ -2198,8 +2282,8 @@ function buildSummaryText(){
   lines.push("ExamHelp — "+(statsIO.name||"Study stats")+" — "+dateStr);
   lines.push(snap.A.length+" tests · "+snap.items.length+" questions · "+snap.streak+(snap.streak===1?" day":" days")+" streak");
   lines.push("");
-  lines.push("SC-900 readiness: "+(readiness.sc?readiness.sc.pct+"% (last "+readiness.sc.n+" answers)":"no answers yet"));
-  lines.push("Security+ readiness: "+(readiness.sec?readiness.sec.pct+"% (last "+readiness.sec.n+" answers)":"no answers yet"));
+  lines.push("SC-900 recent accuracy: "+(readiness.sc?readiness.sc.pct+"% (last "+readiness.sc.n+" answers)":"no answers yet"));
+  lines.push("Security+ recent accuracy: "+(readiness.sec?readiness.sec.pct+"% (last "+readiness.sec.n+" answers)":"no answers yet"));
   ["sc","sec"].forEach(t=>{
     lines.push("");
     lines.push(TRACK[t]+" by domain");
@@ -2336,13 +2420,24 @@ function renderStats(){
   const recent=t=>{const xs=items.filter(x=>x.q.track===t).slice(-60);return xs.length?{p:pct(xs.reduce((s,x)=>s+x.ok,0),xs.length),n:xs.length}:null;};
   const days=[...new Set(A.map(a=>midnight(new Date(a.ts)).getTime()))].sort((a,b)=>b-a);
   let streak=0; {let c=midnight(new Date()).getTime(); if(days[0]!==c) c-=864e5; for(const d of days){ if(d===c){streak++;c-=864e5;} else if(d<c) break; }}
-  const scR=recent("sc"), secR=recent("sec");
   const tile=(label,val,sub)=>h("div",{class:"tile"},h("span",{class:"eyebrow"},label),h("b",{class:"tabnum"},val),sub?h("span",{class:"muted",style:"font-size:12px"},sub):null);
-  const tiles=h("div",{class:"tiles"},
-    inProgram("sc")?tile("SC-900 readiness",scR?scR.p+"%":"–",scR?"last "+scR.n+" answers · target 80%":"no SC-900 answers yet"):null,
-    inProgram("sec")?tile("Security+ readiness",secR?secR.p+"%":"–",secR?"last "+secR.n+" answers · target 80%":"no Sec+ answers yet"):null,
-    tile("Tests taken",A.length,items.length+" questions answered"),
-    tile("Study streak",streak+(streak===1?" day":" days"),"days in a row with a quiz"));
+  const evidenceRow=t=>{
+    const e=evidenceFor(q=>q.track===t), m=mockEvidence(t);
+    return h("div",{style:"display:flex;flex-direction:column;gap:8px"},
+      h("h3",{style:"margin:0"},TRACK[t]),
+      h("div",{class:"tiles"},
+        tile("Coverage",e.coverage.p+"%",e.coverage.seen+" of "+e.coverage.total+" questions seen"),
+        tile("Recent accuracy",evText(e.recent),evSub(e.recent,"last "+e.recent.n+" answers")),
+        tile("Delayed recall",evText(e.delayed),evSub(e.delayed,e.delayed.n+" answers a day or more after last seeing them")),
+        tile("Mock exam",m?m.last+"%":"None yet",m?"best "+m.best+"% across "+m.n+" mock"+(m.n===1?"":"s"):"full timed practice exam")));
+  };
+  const tiles=h("div",{style:"display:flex;flex-direction:column;gap:16px"},
+    ["sc","sec"].filter(inProgram).map(evidenceRow),
+    h("div",{class:"tiles"},
+      tile("Tests taken",A.length,items.length+" questions answered"),
+      tile("Study streak",streak+(streak===1?" day":" days"),"days in a row with a quiz"),
+      tile("Due for review",dueKeys().length,"questions scheduled for today")),
+    h("p",{class:"muted",style:"margin:0;font-size:13px;max-width:72ch"},"These describe your practice, not a prediction of your exam score. Written answers (self-graded) and your own custom questions aren't counted. Aim for high delayed recall and a mock exam at 80% or better."));
 
   // trend chart
   const last=A.slice(-30), W=640, H=220, L=34, R=10, T=12, B=26;
@@ -2513,6 +2608,7 @@ function submitMock(auto){
   });
   mockRun.rec={ts:Date.now(),mode:"mock",scopeId:"mock-"+mockRun.track,scope:"Mock exam: "+TRACK[mockRun.track],track:mockRun.track,n,score,pct:pct(score,n),ms:Date.now()-mockRun.t0,durationLimitMs:mockRun.timeLimitMs,perDomain,items:res,unanswered,prestige:state.prestige};
   saveAttempt(mockRun.rec);
+  recordReview(mockRun.rec.items); saveProgress();
   recordGameProgress(mockRun.rec);
   if(mockRun.rec&&mockRun.rec.pct>=80) queueFx("victory","#view .panel");
   render(); window.scrollTo(0,0);
