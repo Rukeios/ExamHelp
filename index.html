@@ -467,23 +467,23 @@ nav.tabs{background:var(--navbg,color-mix(in srgb,var(--bg) 92%,transparent))}
   </footer>
 </div>
 
-<script src="data.js?v=1.9.0"></script>
-<script src="data-extra.js?v=1.9.0"></script>
-<script src="data-pack2.js?v=1.9.0"></script>
-<script src="data-pack3.js?v=1.9.0"></script>
-<script src="data-pack4-sc.js?v=1.9.0"></script>
-<script src="data-pack5-net.js?v=1.9.0"></script>
-<script src="data-acronyms.js?v=1.9.0"></script>
-<script src="data-patchnotes.js?v=1.9.0"></script>
-<script src="data-bosses.js?v=1.9.0"></script>
+<script src="data.js?v=1.9.1"></script>
+<script src="data-extra.js?v=1.9.1"></script>
+<script src="data-pack2.js?v=1.9.1"></script>
+<script src="data-pack3.js?v=1.9.1"></script>
+<script src="data-pack4-sc.js?v=1.9.1"></script>
+<script src="data-pack5-net.js?v=1.9.1"></script>
+<script src="data-acronyms.js?v=1.9.1"></script>
+<script src="data-patchnotes.js?v=1.9.1"></script>
+<script src="data-bosses.js?v=1.9.1"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=1.9.0"></script>
-<script src="data-campaign-flags.js?v=1.9.0"></script>
-<script src="data-campaign-endings.js?v=1.9.0"></script>
-<script src="data-fixes-01.js?v=1.9.0"></script>
-<script src="data-fixes-02.js?v=1.9.0"></script>
-<script src="data-fixes-03.js?v=1.9.0"></script>
-<script src="examhelp-effects.js?v=1.9.0"></script>
+<script src="data-daymissions.js?v=1.9.1"></script>
+<script src="data-campaign-flags.js?v=1.9.1"></script>
+<script src="data-campaign-endings.js?v=1.9.1"></script>
+<script src="data-fixes-01.js?v=1.9.1"></script>
+<script src="data-fixes-02.js?v=1.9.1"></script>
+<script src="data-fixes-03.js?v=1.9.1"></script>
+<script src="examhelp-effects.js?v=1.9.1"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -1824,6 +1824,9 @@ const CBANDS=(window.CAMPAIGN_FLAGS&&window.CAMPAIGN_FLAGS.bands)||{high:3,mid:2
 const CENDINGS=window.CAMPAIGN_ENDINGS||{};
 const CAXIS=window.CAMPAIGN_AXIS_LABELS||{prev:["Landed","Delayed","Prevented"],resp:["Failed","Partial","Clean"]};
 const GUIDED_PASS=80;
+// From prestige 2 (Shadow IT) up, campaign level quizzes run on the Blitz timer.
+const GUIDED_TIMED_FROM=2;
+function guidedQuizTimed(){ return (state.prestige||0)>=GUIDED_TIMED_FROM; }
 let guidedAck=false, guidedResetOpen=false;
 function freshGuided(prev){ return {run:((prev&&prev.run)||0)+1,started:null,level:null,phase:"warning",passed:{},missions:{},flags:{},ended:null}; }
 function G(){ if(!state.guided||typeof state.guided!=="object") state.guided=freshGuided(); return state.guided; }
@@ -1904,13 +1907,16 @@ function renderGuided(){
     const keys=guidedKeys(d), n=guidedQuizSize(d,keys);
     const last=attempts.filter(a=>a.scopeId==="guided-"+d.d).slice(-1)[0];
     const cleared=!!state.done[d.d];
+    const timed=guidedQuizTimed();
     return guidedPanel([guidedHeader(dd,"Level quiz"),guidedSteps("quiz"),
       h("h2",{},"Level quiz"),
       h("p",{style:"margin:0"},n+" questions from this level. Score "+GUIDED_PASS+"% or better to move on to the mission's decisions. You can retake it as many times as you need."),
+      timed?h("div",{class:"trap"},h("div",{class:"eyebrow"},"Timed at "+tierName(state.prestige)),
+        "You get "+(BLITZ_MS/1000)+" seconds per question. A question that runs out counts as wrong, and explanations come at the end."):null,
       last?h("p",{class:"muted",style:"margin:0"},"Last try: "+last.pct+"%"+(last.pct>=GUIDED_PASS?" — passed.":". Review the intel and go again.")):null,
       h("div",{class:"actions",style:"flex-wrap:wrap"},
         h("button",{class:"btn",onclick:()=>guidedGo("intel")},"← Intel"),
-        h("button",{class:"btn primary",disabled:n?null:true,onclick:()=>startQuiz({id:"guided-"+d.d,label:"Campaign · Level "+(guidedLevels().findIndex(x=>x.d===d.d)+1)+" quiz",keys},"think",n)},"Start the quiz")),
+        h("button",{class:"btn primary",disabled:n?null:true,onclick:()=>startQuiz({id:"guided-"+d.d,label:"Campaign · Level "+(guidedLevels().findIndex(x=>x.d===d.d)+1)+" quiz",keys},timed?"blitz":"think",n)},timed?"Start the timed quiz":"Start the quiz")),
       cleared?h("p",{class:"muted",style:"margin:0;font-size:13px"},"You already cleared this level in self-paced study. ",
         h("button",{class:"linklike",style:"font-size:inherit",onclick:()=>{g.passed[d.d]=Date.now();guidedGo("decisions");}},"Skip the quiz")):null]);
   }
