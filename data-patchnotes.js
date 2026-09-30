@@ -3,6 +3,11 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"1.9.3", date:"2026-09-29", title:"Acronym drill: one direction only", tag:"balance", items:[
+  "Reverse mode is gone from the acronym drill. Picking the acronym from its full name was too easy, since you could just match the first letters.",
+  "Every acronym question now shows the acronym and asks what it stands for, with look-alike wrong answers that share its initials."
+]},
+
 { v:"1.9.2", date:"2026-09-29", title:"Take your time on acronyms", tag:"fix", items:[
   "The acronym drill no longer jumps to the next question on its own. After you answer, it shows the acronym and its full name and waits for you, so you can write it down. Press Next (or Enter) when you're ready.",
   "Only Blitz moves on automatically now, whether you picked it yourself or you're on a timed campaign quiz. Every other quiz waits for you."

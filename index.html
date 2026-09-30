@@ -467,23 +467,23 @@ nav.tabs{background:var(--navbg,color-mix(in srgb,var(--bg) 92%,transparent))}
   </footer>
 </div>
 
-<script src="data.js?v=1.9.2"></script>
-<script src="data-extra.js?v=1.9.2"></script>
-<script src="data-pack2.js?v=1.9.2"></script>
-<script src="data-pack3.js?v=1.9.2"></script>
-<script src="data-pack4-sc.js?v=1.9.2"></script>
-<script src="data-pack5-net.js?v=1.9.2"></script>
-<script src="data-acronyms.js?v=1.9.2"></script>
-<script src="data-patchnotes.js?v=1.9.2"></script>
-<script src="data-bosses.js?v=1.9.2"></script>
+<script src="data.js?v=1.9.3"></script>
+<script src="data-extra.js?v=1.9.3"></script>
+<script src="data-pack2.js?v=1.9.3"></script>
+<script src="data-pack3.js?v=1.9.3"></script>
+<script src="data-pack4-sc.js?v=1.9.3"></script>
+<script src="data-pack5-net.js?v=1.9.3"></script>
+<script src="data-acronyms.js?v=1.9.3"></script>
+<script src="data-patchnotes.js?v=1.9.3"></script>
+<script src="data-bosses.js?v=1.9.3"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=1.9.2"></script>
-<script src="data-campaign-flags.js?v=1.9.2"></script>
-<script src="data-campaign-endings.js?v=1.9.2"></script>
-<script src="data-fixes-01.js?v=1.9.2"></script>
-<script src="data-fixes-02.js?v=1.9.2"></script>
-<script src="data-fixes-03.js?v=1.9.2"></script>
-<script src="examhelp-effects.js?v=1.9.2"></script>
+<script src="data-daymissions.js?v=1.9.3"></script>
+<script src="data-campaign-flags.js?v=1.9.3"></script>
+<script src="data-campaign-endings.js?v=1.9.3"></script>
+<script src="data-fixes-01.js?v=1.9.3"></script>
+<script src="data-fixes-02.js?v=1.9.3"></script>
+<script src="data-fixes-03.js?v=1.9.3"></script>
+<script src="examhelp-effects.js?v=1.9.3"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -602,7 +602,7 @@ state.studyMode=(state.studyMode==="self"||state.studyMode==="campaign")?state.s
 state.guided=(state.guided&&typeof state.guided==="object"&&state.guided.passed)?state.guided:{run:1,started:null,level:null,phase:"warning",passed:{},missions:{},flags:{},ended:null};
 state.customQuestions.forEach(addCustomQuestion);
 let ui={tab:"plan",sel:null,quiz:{scope:"today",mode:rulesFor(state.prestige).defaultMode,n:10},pbq:"firewall",generated:[],teachesBoss:null,
-        acr:{track:"both",dom:"All",n:20,reverse:false,timed:true},
+        acr:{track:"both",dom:"All",n:20,timed:true},
         mock:{track:"sc"}};
 try{const u=JSON.parse(localStorage.getItem(LS+".ui")||"null"); if(u){ui.tab=u.tab||ui.tab; Object.assign(ui.quiz,u.quiz||{}); if(u.acr) Object.assign(ui.acr,u.acr);}}catch(e){}
 function saveUI(){try{localStorage.setItem(LS+".ui",JSON.stringify({tab:ui.tab,quiz:ui.quiz,acr:ui.acr}));}catch(e){}}
@@ -1050,7 +1050,6 @@ function acronymDomains(){
 // option whose initials spelled the acronym. Now:
 //  forward ("What does X stand for?"): the real expansion with 1–2 words swapped for words
 //    that start with the same letter, so every option has matching initials.
-//  reverse ("Which acronym stands for …?"): real acronyms that look like the right one.
 const ACR_STOP=new Set(["of","and","for","the","as","a","an","on","in","to","over","with","by","&","or","at"]);
 // Curated, hyphen-free. Modifiers swap for modifiers, nouns for nouns, so decoys read as
 // real terms instead of failing on grammar.
@@ -1113,30 +1112,19 @@ function acrDecoys(full,n,abbr){
   }
   return [...out].slice(0,n);
 }
-function acrLookalikes(entry,pool,n){
-  const letters=s=>s.toUpperCase().replace(/[^A-Z0-9]/g,"");
-  const A=letters(entry.a);
-  const score=b=>{ const B=letters(b); let common=0; const bag=[...B];
-    for(const ch of A){ const j=bag.indexOf(ch); if(j>=0){ common++; bag.splice(j,1); } }
-    return common*2+(B[0]===A[0]?3:0)-Math.abs(B.length-A.length)*2+Math.random(); };
-  const seen=new Set([entry.a]);
-  return pool.filter(e=>e.a!==entry.a&&e.f!==entry.f)
-    .map(e=>[e.a,score(e.a)]).sort((x,y)=>y[1]-x[1])
-    .map(x=>x[0]).filter(a=>!seen.has(a)&&seen.add(a)).slice(0,n);
-}
-function buildAcronymQuestion(entry,pool,reverse){
-  let distractors=reverse?acrLookalikes(entry,pool.length>=12?pool:ACRONYMS,3):acrDecoys(entry.f,3,entry.a);
+function buildAcronymQuestion(entry,pool){
+  let distractors=acrDecoys(entry.f,3,entry.a);
   if(distractors.length<3){
     // fallback: the old same-domain pull, only to fill any gap
     const src=shuffle(pool.filter(e=>e!==entry&&e.f!==entry.f&&e.a!==entry.a));
-    for(const e of src){ if(distractors.length>=3) break; const v=reverse?e.a:e.f; if(!distractors.includes(v)) distractors.push(v); }
+    for(const e of src){ if(distractors.length>=3) break; const v=e.f; if(!distractors.includes(v)) distractors.push(v); }
   }
-  const correct=reverse?entry.a:entry.f;
+  const correct=entry.f;
   const opts=shuffle([correct,...distractors.slice(0,3)]);
   while(opts.length<4) opts.push("—");
   const a=opts.indexOf(correct);
   const track=entry.t==="both"?"sc":entry.t;
-  const q=reverse?'Which acronym stands for: "'+entry.f+'"?':'What does "'+entry.a+'" stand for?';
+  const q='What does "'+entry.a+'" stand for?';
   const why=entry.n||"";
   const k="acr-"+entry.a;
   const obj={k,d:"—",track,dom:entry.d,q,o:opts,a,why,acr:entry.a,full:entry.f};
@@ -1154,7 +1142,6 @@ function renderAcronymLauncher(){
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Domain"),seg(doms.map(d=>[d,d]),doms.includes(ui.acr.dom)?ui.acr.dom:"All",v=>ui.acr.dom=v)),
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"How many"),seg([[10,"10"],[20,"20"],[40,"40"],[999,"All"]],ui.acr.n,v=>{ui.acr.n=v;saveUI();render();})),
     h("div",{class:"row",style:"gap:16px"},
-      h("label",{class:"row",style:"gap:6px"},h("input",{type:"checkbox",checked:ui.acr.reverse?true:null,onchange:e=>{ui.acr.reverse=e.target.checked;saveUI();render();}}),"Reverse: show expansion, pick the acronym"),
       h("label",{class:"row",style:"gap:6px"},h("input",{type:"checkbox",checked:ui.acr.timed?true:null,onchange:e=>{ui.acr.timed=e.target.checked;saveUI();render();}}),"Timed (10s each)")),
     h("p",{class:"muted",style:"margin:0;font-size:13px"},pool.length+" acronyms in this pool"+(pool.length&&wantN>pool.length?" (repeat with fresh distractors to reach "+wantN+")":"")+"."),
     h("div",{class:"actions"},h("button",{class:"btn primary",disabled:pool.length?null:true,onclick:startAcronymDrill},pool.length?"Start Acronyms · "+wantN+" questions":"Nothing here yet")));
@@ -1166,7 +1153,7 @@ function startAcronymDrill(){
   const entries=shuffle(pool); const chosen=[];
   while(chosen.length<n) chosen.push(...shuffle(pool));
   const list=chosen.slice(0,n).map(entry=>{
-    const q=buildAcronymQuestion(entry,pool,ui.acr.reverse);
+    const q=buildAcronymQuestion(entry,pool);
     const order=shuffle([0,1,2,3].slice(0,q.o.length));
     return {k:q.k,q,order};
   });
