@@ -419,6 +419,28 @@ nav.tabs{background:var(--navbg,color-mix(in srgb,var(--bg) 92%,transparent))}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) body{--navbg:rgba(4,14,24,.62)}:root:not([data-theme="light"]) body.scene-arena{--navbg:rgba(16,11,8,.66)}}
 :root[data-theme="dark"] body{--navbg:rgba(4,14,24,.62)}:root[data-theme="dark"] body.scene-arena{--navbg:rgba(16,11,8,.66)}
 .sync.sync-bad{color:var(--bad);font-weight:600}
+
+/* ---------- 2.0: Home (Command Center) and Study sub-navigation ---------- */
+.subnav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.subnav::-webkit-scrollbar{display:none}
+.subnav button{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-weight:600;font-size:14px;color:var(--muted);position:relative}
+.subnav button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.subnav .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--bad);margin-left:6px;vertical-align:middle}
+.home{display:flex;flex-direction:column;gap:16px}
+.home-top{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px;align-items:start}
+.home-next{display:flex;flex-direction:column;gap:10px;border-left:4px solid var(--sc)}
+.home-next h2{font-size:clamp(24px,4vw,32px)}
+.home-side{display:flex;flex-direction:column;gap:12px}
+.home-side .panel{padding:16px}
+.home-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.home-list li{display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.home-list li span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.home-list li .muted{flex:0 0 auto;font-size:12px}
+.dommap{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.domcard{display:flex;flex-direction:column;gap:6px;border:1px solid var(--line);border-top:3px solid var(--c,var(--line));border-radius:8px;padding:12px;background:var(--surface)}
+.domcard.sc{--c:var(--sc)} .domcard.sec{--c:var(--sec)}
+.domcard .btn{align-self:flex-start}
+@media (max-width:760px){.home-top{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -445,15 +467,12 @@ nav.tabs{background:var(--navbg,color-mix(in srgb,var(--bg) 92%,transparent))}
         </div>
       </details>
     </div>
-    <nav class="tabs" role="tablist">
-      <button role="tab" data-tab="plan" aria-selected="true">Plan</button>
-      <button role="tab" data-tab="quiz" aria-selected="false">Quiz</button>
-      <button role="tab" data-tab="stats" aria-selected="false">Stats</button>
-      <button role="tab" data-tab="game" aria-selected="false">Game</button>
-      <button role="tab" data-tab="pbq" aria-selected="false">PBQs</button>
+    <nav class="tabs" role="tablist" aria-label="Main">
+      <button role="tab" data-tab="home" aria-selected="true">Home</button>
+      <button role="tab" data-tab="study" aria-selected="false">Study</button>
       <button role="tab" data-tab="campaign" aria-selected="false">Campaign</button>
-      <button role="tab" data-tab="mock" aria-selected="false">Mock</button>
-      <button role="tab" data-tab="lab" aria-selected="false">Lab</button>
+      <button role="tab" data-tab="game" aria-selected="false">Arena</button>
+      <button role="tab" data-tab="stats" aria-selected="false">Progress</button>
     </nav>
   </header>
   <div id="campaignbar"></div>
@@ -607,7 +626,7 @@ state.studyMode=(state.studyMode==="self"||state.studyMode==="campaign")?state.s
 state.review=(state.review&&typeof state.review==="object")?state.review:{};
 state.guided=(state.guided&&typeof state.guided==="object"&&state.guided.passed)?state.guided:{run:1,started:null,level:null,phase:"warning",passed:{},missions:{},flags:{},ended:null};
 state.customQuestions.forEach(addCustomQuestion);
-let ui={tab:"plan",sel:null,quiz:{scope:"today",mode:rulesFor(state.prestige).defaultMode,n:10},pbq:"firewall",generated:[],teachesBoss:null,
+let ui={tab:"home",studyTab:"plan",sel:null,quiz:{scope:"today",mode:rulesFor(state.prestige).defaultMode,n:10},pbq:"firewall",generated:[],teachesBoss:null,
         acr:{track:"both",dom:"All",n:20,timed:true},
         mock:{track:"sc"}};
 try{const u=JSON.parse(localStorage.getItem(LS+".ui")||"null"); if(u){ui.tab=u.tab||ui.tab; Object.assign(ui.quiz,u.quiz||{}); if(u.acr) Object.assign(ui.acr,u.acr);}}catch(e){}
@@ -887,7 +906,7 @@ function renderHeader(){
   document.body.classList.toggle("onboarding",!state.program||!state.studyMode);
   renderExamToggle();
   renderProgramToggle();
-  document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.tab===ui.tab)));
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.tab===topTab())));
   renderPatchButton();
   renderPatchModal();
   renderSupportModal();
@@ -964,7 +983,7 @@ document.getElementById("supportbtn").addEventListener("click",openSupport);
 document.getElementById("footerSupport").addEventListener("click",openSupport);
 document.getElementById("footerPatch").addEventListener("click",openPatchNotes);
 
-document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>{ if(run&&!run.finished) stopTimer(); run=null; ui.tab=b.dataset.tab; saveUI(); queueFx("panel","#view"); render(); window.scrollTo(0,0); }));
+document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>goTab(b.dataset.tab==="study"?(ui.studyTab||"plan"):b.dataset.tab)));
 
 // ---------- plan view ----------
 function currentRunAttempts(){
@@ -1094,7 +1113,7 @@ function scopes(){
 }
 function programDomains(){ return ["sc","sec"].filter(inProgram).flatMap(t=>(DOMS[t]||[]).map(d=>d)); }
 function renderQuizTab(){
-  if(run) return renderRun();
+  if(run){ resumeRun(); return renderRun(); }
   const sc=scopes(); const cur=sc.find(s=>s.id===ui.quiz.scope)||sc[0];
   const seg=(items,val,set)=>h("div",{class:"seg"},items.map(([v,l])=>h("button",{"aria-pressed":String(v===val),onclick:()=>{set(v);saveUI();render();}},l)));
   const avail=cur.keys.length;
@@ -1865,7 +1884,7 @@ const RICH_CAMPAIGN={
 const STUDY_MODE_LABEL={self:"Self-paced",campaign:"Campaign"};
 function setStudyMode(m){
   if(run){ stopTimer(); run=null; }
-  state.studyMode=m; ui.tab=m==="campaign"?"campaign":"plan";
+  state.studyMode=m; ui.tab=m==="campaign"?"campaign":"home";
   saveUI(); saveProgress(); render(); window.scrollTo(0,0);
 }
 function renderCampaignChrome(on){
@@ -2136,6 +2155,73 @@ function guidedResultBlock(){
   }
   if(run.boss&&["boss","final"].includes(G().phase)) return h("div",{class:"actions"},back("Back to the campaign"));
   return null;
+}
+// ---------- navigation: Home / Study / Campaign / Arena / Progress ----------
+const STUDY_TABS=["plan","quiz","acr","pbq","mock","lab"];
+const STUDY_VIEWS=[["plan","Lessons"],["quiz","Practice"],["acr","Acronyms"],["pbq","PBQs"],["mock","Mock exam"],["lab","Question Lab"]];
+function topTab(){ return STUDY_TABS.includes(ui.tab)?"study":ui.tab; }
+// Leaving a quiz pauses it rather than throwing it away; coming back resumes it.
+function goTab(t){
+  if(run&&!run.finished&&t!=="quiz"){ stopTimer(); if(!run.pauseAt) run.pauseAt=Date.now(); }
+  if(t==="quiz"&&ui.quiz.mode==="acronym"){ ui.quiz.mode=ui.lastMode&&ui.lastMode!=="acronym"?ui.lastMode:rulesFor(state.prestige).defaultMode; }
+  ui.tab=t; saveUI(); queueFx("panel","#view"); render(); window.scrollTo(0,0);
+}
+function resumeRun(){ if(run&&run.pauseAt){ run.qt+=Date.now()-run.pauseAt; run.pauseAt=null; } }
+function renderStudyNav(){
+  const cur=ui.tab==="quiz"&&ui.quiz.mode==="acronym"?"acr":ui.tab;
+  return h("div",{class:"subnav",role:"tablist","aria-label":"Study"},STUDY_VIEWS.map(([k,l])=>h("button",{role:"tab","aria-selected":String(k===cur),onclick:()=>goTab(k)},l,
+    k==="quiz"&&run&&!run.finished&&run.pauseAt?h("span",{class:"dot","aria-label":"quiz paused"}):null)));
+}
+function nextBoss(){
+  const order=["sc","sec"].filter(inProgram).flatMap(t=>(DOMS[t]||[]).map(d=>bossFor(t,d)).filter(Boolean));
+  const b=order.find(b=>!state.bosses[b.track+"|"+b.domain]);
+  if(!b) return FINAL_BOSS&&!state.bosses["final|"+FINAL_BOSS.domain]?{b:FINAL_BOSS,open:order.every(x=>state.bosses[x.track+"|"+x.domain])}:null;
+  return {b,open:Object.values(Q).some(q=>q.track===b.track&&q.dom===b.domain&&q.d<=unlockedDay())};
+}
+function renderHome(){
+  const t=unlockedDay(), day=BYDAY[t], due=dueKeys().length, A=attempts.slice().sort((a,b)=>b.ts-a.ts);
+  const paused=run&&!run.finished;
+  let action;
+  if(paused) action={why:"You left a quiz partway through.",title:"Resume your quiz",detail:run.scope.label+" · question "+(run.i+1)+" of "+run.list.length,
+    btn:"Resume",go:()=>goTab("quiz")};
+  else if(due) action={why:due+" question"+(due===1?" is":"s are")+" due for review today. Reviewing on schedule is what makes it stick.",title:"Review "+Math.min(due,20)+" due question"+(Math.min(due,20)===1?"":"s"),
+    detail:"Due items first, then ones you've missed",btn:"Start review",go:()=>startQuiz({id:"review",label:"Review",keys:[]},"think",Math.min(due,20))};
+  else if(!A.length) action={why:"You haven't answered anything yet.",title:"Start Level 1: "+BYDAY[programDays()[0].d].title,
+    detail:"Read the lesson, then take its quiz",btn:"Open Level 1",go:()=>{ui.sel=programDays()[0].d;goTab("plan");},
+    alt:["Or take a 10-question check across everything",()=>startQuiz({id:"diagnostic",label:"Diagnostic",keys:Object.values(Q).filter(q=>inProgram(q.track)&&!/^generated-|^acr-/.test(q.k)).map(q=>q.k)},"think",10)]};
+  else action={why:"Nothing is due. Pick up where your plan left off.",title:"Continue Level "+displayDay(t)+": "+day.title,
+    detail:(day.dom||(day.kind==="review"?"Review checkpoint":"Exam checkpoint"))+(day.min?" · about "+day.min+" min":""),btn:"Open Level "+displayDay(t),go:()=>{ui.sel=t;goTab("plan");}};
+  const next=h("section",{class:"panel home-next"},
+    h("p",{class:"muted",style:"margin:0"},action.why),
+    h("h2",{style:"margin:0"},action.title),
+    h("p",{style:"margin:0"},action.detail),
+    h("div",{class:"actions",style:"flex-wrap:wrap"},h("button",{class:"btn primary",onclick:action.go},action.btn),
+      action.alt?h("button",{class:"btn",onclick:action.alt[1]},action.alt[0]):null,
+      h("button",{class:"btn",onclick:()=>{ui.quiz.scope="domain";goTab("quiz");}},"Study anything instead")));
+  const nb=nextBoss();
+  const side=h("div",{class:"home-side"},
+    h("section",{class:"panel"},h("h3",{style:"margin:0 0 6px"},"Review queue"),
+      h("p",{style:"margin:0"},due?h("b",{},due+" due now"):"Nothing due today"),
+      h("p",{class:"muted",style:"margin:4px 0 0;font-size:13px"},Object.keys(state.review||{}).length+" questions on your schedule")),
+    h("section",{class:"panel"},h("h3",{style:"margin:0 0 6px"},"Recent activity"),
+      A.length?h("ul",{class:"home-list"},A.slice(0,4).map(a=>h("li",{},h("span",{},a.scope||a.scopeId),h("span",{class:"muted tabnum"},a.pct+"% · "+fmtDT(a.ts))))):h("p",{class:"muted",style:"margin:0"},"Your quizzes will show up here.")),
+    nb?h("section",{class:"panel"},h("h3",{style:"margin:0 0 6px"},"Next boss"),
+      h("p",{style:"margin:0"},h("b",{},nb.b.name)," · "+(nb.b.final?"final boss":nb.b.domain)),
+      h("p",{class:"muted",style:"margin:4px 0 0;font-size:13px"},nb.open?"Ready to challenge in the Arena.":"Unlocks when you reach its domain."),
+      nb.open?h("button",{class:"btn small",style:"margin-top:8px",onclick:()=>goTab("game")},"Go to the Arena"):null):null);
+  const doms=["sc","sec"].filter(inProgram).flatMap(tr=>(DOMS[tr]||[]).map(dm=>({tr,dm})));
+  const map=h("section",{class:"panel"},h("h3",{style:"margin:0 0 4px"},"Domain map"),
+    h("p",{class:"muted",style:"margin:0 0 12px;font-size:13px"},"Coverage is how much of a domain you've seen. Accuracy needs at least "+MIN_EVIDENCE+" answers before it means much."),
+    h("div",{class:"dommap"},doms.map(({tr,dm})=>{
+      const e=evidenceFor(q=>q.track===tr&&q.dom===dm), boss=bossFor(tr,dm), won=boss&&state.bosses[tr+"|"+dm];
+      return h("div",{class:"domcard "+tr},
+        h("div",{class:"row",style:"justify-content:space-between;gap:8px"},h("b",{},dm),won?h("span",{class:"chip good"},"Boss defeated"):null),
+        h("span",{class:"muted",style:"font-size:12px"},TRACK[tr]),
+        h("div",{class:"runbar","aria-hidden":"true"},h("i",{style:"width:"+e.coverage.p+"%"})),
+        h("span",{style:"font-size:13px"},e.coverage.seen+" of "+e.coverage.total+" seen · "+(e.recent.n>=MIN_EVIDENCE?e.recent.p+"% recent accuracy":e.n?"accuracy after "+MIN_EVIDENCE+" answers ("+e.n+" so far)":"not started")),
+        h("button",{class:"btn small",onclick:()=>{ui.quiz.scope="domain";ui.quiz.dom=dm;ui.quiz.filter="all";goTab("quiz");}},"Practice"));
+    })));
+  return h("div",{class:"home"},h("div",{class:"home-top"},next,side),map);
 }
 function renderCampaign(){
   if(state.studyMode==="campaign") return renderGuided();
@@ -2752,10 +2838,13 @@ function renderCore(){
     return;
   }
   if(tabs) tabs.style.display="";
-  v.replaceChildren(ui.tab==="plan"?renderPlan():ui.tab==="quiz"?renderQuizTab():ui.tab==="stats"?renderStats():ui.tab==="game"?renderGame():ui.tab==="pbq"?renderPBQ():ui.tab==="lab"?renderLab():ui.tab==="mock"?renderMock():renderCampaign());
-  if(run&&!run.finished&&run.timedMs&&!run.answered&&!tick) startTimer();
+  if(STUDY_TABS.includes(ui.tab)) ui.studyTab=ui.tab==="quiz"&&ui.quiz.mode==="acronym"?"acr":ui.tab;
+  if(ui.tab==="acr"){ ui.tab="quiz"; if(ui.quiz.mode!=="acronym"){ ui.lastMode=ui.quiz.mode; ui.quiz.mode="acronym"; } }
+  const main=ui.tab==="home"?renderHome():ui.tab==="plan"?renderPlan():ui.tab==="quiz"?renderQuizTab():ui.tab==="stats"?renderStats():ui.tab==="game"?renderGame():ui.tab==="pbq"?renderPBQ():ui.tab==="lab"?renderLab():ui.tab==="mock"?renderMock():renderCampaign();
+  v.replaceChildren(STUDY_TABS.includes(ui.tab)?h("div",{style:"display:flex;flex-direction:column;gap:16px"},renderStudyNav(),main):main);
+  if(run&&!run.finished&&run.timedMs&&!run.answered&&!tick&&ui.tab==="quiz") startTimer();
 }
-if(location.hash==="#quiz"||location.hash==="#stats"||location.hash==="#plan") ui.tab=location.hash.slice(1);
+if(["#home","#quiz","#stats","#plan"].includes(location.hash)) ui.tab=location.hash.slice(1);
 render();
 })();
 </script>
