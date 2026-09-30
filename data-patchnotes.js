@@ -3,6 +3,11 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"1.9.2", date:"2026-09-29", title:"Take your time on acronyms", tag:"fix", items:[
+  "The acronym drill no longer jumps to the next question on its own. After you answer, it shows the acronym and its full name and waits for you, so you can write it down. Press Next (or Enter) when you're ready.",
+  "Only Blitz moves on automatically now, whether you picked it yourself or you're on a timed campaign quiz. Every other quiz waits for you."
+]},
+
 { v:"1.9.1", date:"2026-09-29", title:"Campaign quizzes get a clock", tag:"balance", items:[
   "From the Shadow IT prestige tier up, campaign level quizzes are timed: 20 seconds per question, explanations at the end.",
   "A question that runs out of time counts as wrong. You still need 80% on the full quiz to move on, and you can retake it as often as you like."
