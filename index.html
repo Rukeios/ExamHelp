@@ -441,6 +441,20 @@ nav.tabs{background:var(--navbg,color-mix(in srgb,var(--bg) 92%,transparent))}
 .domcard.sc{--c:var(--sc)} .domcard.sec{--c:var(--sec)}
 .domcard .btn{align-self:flex-start}
 @media (max-width:760px){.home-top{grid-template-columns:1fr}}
+
+/* ---------- 2.0: boss dossiers and domain seals ---------- */
+.boss-thumb-box img.locked{filter:grayscale(.65) brightness(.8);opacity:.85}
+.boss-lock{position:absolute;left:8px;top:8px;background:rgba(0,0,0,.72);color:#fff;font:600 12px var(--body);padding:3px 9px;border-radius:999px}
+.dossier{display:flex;flex-direction:column;gap:4px}
+.dossier-body{display:flex;flex-direction:column;gap:2px;margin:8px 0 10px;font-size:13px}
+.dossier-body ul{margin:0 0 6px;padding-left:18px}
+.dossier-body p{margin:0 0 6px}
+.seals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
+.seal{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:10px 6px;border:1px dashed var(--line);border-radius:10px;color:var(--muted)}
+.seal span{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:2px dashed var(--line);font:700 20px var(--display)}
+.seal.won{border-style:solid;border-color:color-mix(in srgb,var(--seal) 60%,var(--line));color:var(--ink)}
+.seal.won span{border-style:solid;border-color:var(--seal);background:color-mix(in srgb,var(--seal) 22%,var(--surface));color:var(--ink)}
+.seal small{font-size:12px;line-height:1.2}
 </style>
 </head>
 <body>
@@ -1644,23 +1658,43 @@ function renderGame(){
       h("button",{class:"btn",onclick:()=>{ui.generated.splice(i,1);render();}},"Discard"))))):null;
   const haveKey=!!(byokGet()&&byokGet().key);
   const engine=sample?h("span",{class:"chip good"},"Using Claude"):haveKey?h("span",{class:"chip good"},"Using your "+byokGet().provider+" key"):h("span",{class:"chip weak"},"No generator connected");
+  // Boss dossier: what it tests, how to unlock it, your best result, and a way to practice.
   const bossCard=(b)=>{
     const won=state.bosses[b.track+"|"+b.domain];
     const available=Object.values(Q).some(q=>q.track===b.track&&q.dom===b.domain&&q.d<=unlockedDay());
-    return h("div",{class:"game-card boss "+b.track,style:"border-left-color:"+b.color},
+    const firstDay=programDays().find(d=>d.track===b.track&&d.dom===b.domain);
+    const tries=attempts.filter(a=>a.scopeId==="boss-"+b.track+"-"+b.domain);
+    const best=tries.length?Math.max(...tries.map(a=>a.pct)):null;
+    return h("div",{class:"game-card boss dossier "+b.track,style:"border-left-color:"+b.color},
       h("div",{class:"boss-thumb-box"},
-        h("img",{src:BOSS_IMG(b.img,"thumb"),alt:b.name+" — "+b.domain,width:"320",height:"320",loading:"lazy",class:won?"":"locked"}),
-        won?h("div",{class:"boss-check",style:"background:"+b.color},"✓"):null),
-      h("span",{class:"tag "+b.track},TRACK[b.track]),h("b",{},b.name),h("p",{class:"muted",style:"margin:5px 0 12px;font-size:13px"},b.domain),
-      h("div",{class:"actions",style:"flex-wrap:wrap"},
-        h("button",{class:"btn "+(won?"":"primary"),disabled:available?null:true,onclick:()=>startBoss(b.track,b.domain)},won?"✓ Defeated · rematch":available?"Challenge boss":"Locked until this domain unlocks"),
+        h("img",{src:BOSS_IMG(b.img,"thumb"),alt:b.name+", "+b.domain+" boss",width:"320",height:"320",loading:"lazy",class:available?"":"locked"}),
+        won?h("div",{class:"boss-check",style:"background:"+b.color},"✓"):null,
+        !available?h("div",{class:"boss-lock"},"Locked"):null),
+      h("span",{class:"tag "+b.track},TRACK[b.track]),h("b",{},b.name),h("p",{class:"muted",style:"margin:2px 0 0;font-size:13px"},b.domain),
+      h("div",{class:"dossier-body"},
+        h("div",{class:"eyebrow"},"Tests"),
+        h("ul",{},(b.teaches||[]).slice(0,3).map(t=>h("li",{},t.split(":")[0]))),
+        h("div",{class:"eyebrow"},"Unlock"),
+        h("p",{},available?"Unlocked.":"Reach Level "+(firstDay?displayDay(firstDay.d):"?")+" ("+b.domain+")."),
+        h("div",{class:"eyebrow"},"Your best"),
+        h("p",{},best==null?"Not attempted yet":best+"% over "+tries.length+" attempt"+(tries.length===1?"":"s")+(won?" · defeated":""))),
+      h("div",{class:"actions",style:"flex-wrap:wrap;margin-top:auto"},
+        h("button",{class:"btn "+(won?"":"primary"),disabled:available?null:true,onclick:()=>startBoss(b.track,b.domain)},won?"Rematch":available?"Challenge boss":"Locked"),
+        h("button",{class:"btn small",onclick:()=>{ui.quiz.scope="domain";ui.quiz.dom=b.domain;ui.quiz.filter="all";goTab("quiz");}},"Practice this domain"),
         won?h("button",{class:"btn small",onclick:()=>{ui.teachesBoss=b;render();}},"Look again"):null));
   };
+  const sealBosses=["sc","sec"].filter(inProgram).flatMap(t=>(DOMS[t]||[]).map(d=>bossFor(t,d)).filter(Boolean));
+  const seals=h("section",{class:"panel"},h("h2",{style:"margin-bottom:4px"},"Domain seals"),
+    h("p",{class:"muted",style:"margin:0 0 12px"},sealBosses.filter(b=>state.bosses[b.track+"|"+b.domain]).length+" of "+sealBosses.length+" earned. Each seal is a defeated domain boss."),
+    h("div",{class:"seals"},sealBosses.map(b=>{ const won=state.bosses[b.track+"|"+b.domain];
+      return h("div",{class:"seal"+(won?" won":""),style:"--seal:"+b.color,title:b.domain+(won?": earned "+fmtD(new Date(won)):": not yet earned")},
+        h("span",{"aria-hidden":"true"},won?"✓":"·"),h("small",{},b.domain)); })));
   return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
     h("section",{class:"panel"},h("div",{class:"game-grid"},
       h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Current rank"),h("b",{},title),h("div",{class:"tabnum"},state.xp+" XP"+(next?" · "+(next[1]-state.xp)+" to "+next[0]:" · top rank"))),
       h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Daily missions "+(allDone?"🔥":"")),missions.map(m=>h("div",{class:"mission"},h("i",{},m.now>=m.goal?"✓":"○"),h("span",{},m.text,h("span",{class:"muted"}," · "+Math.min(m.now,m.goal)+"/"+m.goal))))),
       h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Achievements"),Object.entries(ACHIEVEMENTS).map(([key,a])=>h("div",{class:"mission"},h("i",{},state.achievements[key]?"★":"○"),h("span",{},a.name,h("span",{class:"muted"}," · "+a.desc))))))),
+    seals,
     h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Domain boss fights"),h("p",{class:"muted",style:"margin-top:0"},"15 questions, 3 mistakes allowed. The fourth mistake ends the fight. Finish with 3 or fewer mistakes (12 of 15) to win, and you can always try again."),h("div",{class:"game-grid"},domainBosses.map(bossCard))),
     finalBoss?h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Final boss"),h("div",{class:"boss-final-row"},
       h("div",{class:"boss-thumb-box",style:"max-height:220px"},
