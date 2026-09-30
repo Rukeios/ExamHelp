@@ -418,7 +418,66 @@ input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px soli
 nav.tabs{background:var(--navbg,color-mix(in srgb,var(--bg) 92%,transparent))}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) body{--navbg:rgba(4,14,24,.62)}:root:not([data-theme="light"]) body.scene-arena{--navbg:rgba(16,11,8,.66)}}
 :root[data-theme="dark"] body{--navbg:rgba(4,14,24,.62)}:root[data-theme="dark"] body.scene-arena{--navbg:rgba(16,11,8,.66)}
+.sync.sync-bad{color:var(--bad);font-weight:600}
+
+/* ---------- 2.0: Home (Command Center) and Study sub-navigation ---------- */
+.subnav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.subnav::-webkit-scrollbar{display:none}
+.subnav button{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-weight:600;font-size:14px;color:var(--muted);position:relative}
+.subnav button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.subnav .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--bad);margin-left:6px;vertical-align:middle}
+.home{display:flex;flex-direction:column;gap:16px}
+.home-top{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px;align-items:start}
+.home-next{display:flex;flex-direction:column;gap:10px;border-left:4px solid var(--sc)}
+.home-next h2{font-size:clamp(24px,4vw,32px)}
+.home-side{display:flex;flex-direction:column;gap:12px}
+.home-side .panel{padding:16px}
+.home-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.home-list li{display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.home-list li span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.home-list li .muted{flex:0 0 auto;font-size:12px}
+.dommap{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.domcard{display:flex;flex-direction:column;gap:6px;border:1px solid var(--line);border-top:3px solid var(--c,var(--line));border-radius:8px;padding:12px;background:var(--surface)}
+.domcard.sc{--c:var(--sc)} .domcard.sec{--c:var(--sec)}
+.domcard .btn{align-self:flex-start}
+@media (max-width:760px){.home-top{grid-template-columns:1fr}}
+
+/* ---------- 2.0: boss dossiers and domain seals ---------- */
+.boss-thumb-box img.locked{filter:grayscale(.65) brightness(.8);opacity:.85}
+.boss-lock{position:absolute;left:8px;top:8px;background:rgba(0,0,0,.72);color:#fff;font:600 12px var(--body);padding:3px 9px;border-radius:999px}
+.dossier{display:flex;flex-direction:column;gap:4px}
+.dossier-body{display:flex;flex-direction:column;gap:2px;margin:8px 0 10px;font-size:13px}
+.dossier-body ul{margin:0 0 6px;padding-left:18px}
+.dossier-body p{margin:0 0 6px}
+.seals{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
+.seal{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:10px 6px;border:1px dashed var(--line);border-radius:10px;color:var(--muted)}
+.seal span{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:2px dashed var(--line);font:700 20px var(--display)}
+.seal.won{border-style:solid;border-color:color-mix(in srgb,var(--seal) 60%,var(--line));color:var(--ink)}
+.seal.won span{border-style:solid;border-color:var(--seal);background:color-mix(in srgb,var(--seal) 22%,var(--surface));color:var(--ink)}
+.seal small{font-size:12px;line-height:1.2}
+.seg-sm button{padding:4px 10px;font-size:13px}
+.report{display:flex;flex-direction:column;gap:8px;background:var(--sunk);padding:14px}
+
+/* ---------- 2.0: campaign facility map ---------- */
+.facility summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;gap:4px;align-items:baseline}
+.facility summary::-webkit-details-marker{display:none}
+.facility summary::after{content:"Show";margin-left:auto;font-size:13px;color:var(--muted);text-decoration:underline}
+.facility[open] summary::after{content:"Hide"}
+.fmap{display:grid;grid-template-columns:repeat(6,1fr);grid-template-areas:"office office identity identity cloud cloud" "plant plant plant recovery recovery recovery";gap:8px}
+.fzone{text-align:left;display:flex;flex-direction:column;gap:3px;min-height:92px;padding:12px;border-radius:8px;border:1px dashed var(--line);background:color-mix(in srgb,var(--surface) 70%,transparent);color:var(--muted)}
+.fzone b{color:var(--ink);font:700 18px var(--display)}
+.fzone small{font-size:12px}
+.fzone .fcount{margin-top:auto;font:500 12px var(--mono)}
+.fzone.lit{border-style:solid;border-color:color-mix(in srgb,var(--ok) 55%,var(--line));background:color-mix(in srgb,var(--ok) 12%,var(--surface));color:var(--ink)}
+.fzone.sel{outline:2px solid var(--ink);outline-offset:1px}
+.fz-office{grid-area:office}.fz-identity{grid-area:identity}.fz-cloud{grid-area:cloud}.fz-plant{grid-area:plant}.fz-recovery{grid-area:recovery}
+.fhistory{margin-top:12px}
+@media (max-width:560px){.fmap{grid-template-columns:1fr 1fr;grid-template-areas:"office identity" "cloud plant" "recovery recovery"}}
 </style>
+<script>
+// Theme choice (Light / Dark / System). Applied before the page draws to avoid a flash.
+(function(){ try{ var t=localStorage.getItem("sprint.v2.theme"); if(t==="light"||t==="dark") document.documentElement.setAttribute("data-theme",t); }catch(e){} })();
+</script>
 </head>
 <body>
 
@@ -444,15 +503,12 @@ nav.tabs{background:var(--navbg,color-mix(in srgb,var(--bg) 92%,transparent))}
         </div>
       </details>
     </div>
-    <nav class="tabs" role="tablist">
-      <button role="tab" data-tab="plan" aria-selected="true">Plan</button>
-      <button role="tab" data-tab="quiz" aria-selected="false">Quiz</button>
-      <button role="tab" data-tab="stats" aria-selected="false">Stats</button>
-      <button role="tab" data-tab="game" aria-selected="false">Game</button>
-      <button role="tab" data-tab="pbq" aria-selected="false">PBQs</button>
+    <nav class="tabs" role="tablist" aria-label="Main">
+      <button role="tab" data-tab="home" aria-selected="true">Home</button>
+      <button role="tab" data-tab="study" aria-selected="false">Study</button>
       <button role="tab" data-tab="campaign" aria-selected="false">Campaign</button>
-      <button role="tab" data-tab="mock" aria-selected="false">Mock</button>
-      <button role="tab" data-tab="lab" aria-selected="false">Lab</button>
+      <button role="tab" data-tab="game" aria-selected="false">Arena</button>
+      <button role="tab" data-tab="stats" aria-selected="false">Progress</button>
     </nav>
   </header>
   <div id="campaignbar"></div>
@@ -467,23 +523,23 @@ nav.tabs{background:var(--navbg,color-mix(in srgb,var(--bg) 92%,transparent))}
   </footer>
 </div>
 
-<script src="data.js?v=1.9.2"></script>
-<script src="data-extra.js?v=1.9.2"></script>
-<script src="data-pack2.js?v=1.9.2"></script>
-<script src="data-pack3.js?v=1.9.2"></script>
-<script src="data-pack4-sc.js?v=1.9.2"></script>
-<script src="data-pack5-net.js?v=1.9.2"></script>
-<script src="data-acronyms.js?v=1.9.2"></script>
-<script src="data-patchnotes.js?v=1.9.2"></script>
-<script src="data-bosses.js?v=1.9.2"></script>
+<script src="data.js?v=2.0.0"></script>
+<script src="data-extra.js?v=2.0.0"></script>
+<script src="data-pack2.js?v=2.0.0"></script>
+<script src="data-pack3.js?v=2.0.0"></script>
+<script src="data-pack4-sc.js?v=2.0.0"></script>
+<script src="data-pack5-net.js?v=2.0.0"></script>
+<script src="data-acronyms.js?v=2.0.0"></script>
+<script src="data-patchnotes.js?v=2.0.0"></script>
+<script src="data-bosses.js?v=2.0.0"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=1.9.2"></script>
-<script src="data-campaign-flags.js?v=1.9.2"></script>
-<script src="data-campaign-endings.js?v=1.9.2"></script>
-<script src="data-fixes-01.js?v=1.9.2"></script>
-<script src="data-fixes-02.js?v=1.9.2"></script>
-<script src="data-fixes-03.js?v=1.9.2"></script>
-<script src="examhelp-effects.js?v=1.9.2"></script>
+<script src="data-daymissions.js?v=2.0.0"></script>
+<script src="data-campaign-flags.js?v=2.0.0"></script>
+<script src="data-campaign-endings.js?v=2.0.0"></script>
+<script src="data-fixes-01.js?v=2.0.0"></script>
+<script src="data-fixes-02.js?v=2.0.0"></script>
+<script src="data-fixes-03.js?v=2.0.0"></script>
+<script src="examhelp-effects.js?v=2.0.0"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -589,7 +645,11 @@ let state={start:"2026-09-24",done:{},xp:0,achievements:{},bosses:{},customQuest
 let attempts=[];
 let db=null, sample=null;
 function lsGet(){try{return JSON.parse(localStorage.getItem(LS)||"null");}catch(e){return null;}}
-function lsSet(){try{localStorage.setItem(LS,JSON.stringify({state,attempts:db?[]:attempts}));}catch(e){}}
+let saveFailed=false;
+function lsSet(){
+  try{ localStorage.setItem(LS,JSON.stringify({state,attempts:db?[]:attempts})); if(saveFailed){ saveFailed=false; setSync("Saved in this browser only"); } }
+  catch(e){ saveFailed=true; try{ setSync("Couldn't save: this browser is blocking storage or it's full. Back up from Progress before closing."); document.getElementById("sync").classList.add("sync-bad"); }catch(_){} }
+}
 const saved=lsGet(); if(saved){ if(saved.state) state=Object.assign(state,saved.state); if(!db && saved.attempts) attempts=saved.attempts; }
 state.done=state.done||{}; state.achievements=state.achievements||{}; state.bosses=state.bosses||{}; state.customQuestions=state.customQuestions||[]; state.prestige=state.prestige||0;
 state.runStart=state.runStart||todayISO();
@@ -599,10 +659,11 @@ state.examMode=!!state.examMode;
 state.examDates=(state.examDates&&typeof state.examDates==="object")?state.examDates:{sc:null,sec:null};
 state.campaign=(state.campaign&&typeof state.campaign==="object"&&!("step" in state.campaign))?state.campaign:{};
 state.studyMode=(state.studyMode==="self"||state.studyMode==="campaign")?state.studyMode:null;
+state.review=(state.review&&typeof state.review==="object")?state.review:{};
 state.guided=(state.guided&&typeof state.guided==="object"&&state.guided.passed)?state.guided:{run:1,started:null,level:null,phase:"warning",passed:{},missions:{},flags:{},ended:null};
 state.customQuestions.forEach(addCustomQuestion);
-let ui={tab:"plan",sel:null,quiz:{scope:"today",mode:rulesFor(state.prestige).defaultMode,n:10},pbq:"firewall",generated:[],teachesBoss:null,
-        acr:{track:"both",dom:"All",n:20,reverse:false,timed:true},
+let ui={tab:"home",studyTab:"plan",sel:null,quiz:{scope:"today",mode:rulesFor(state.prestige).defaultMode,n:10},pbq:"firewall",generated:[],teachesBoss:null,
+        acr:{track:"both",dom:"All",n:20,timed:true},
         mock:{track:"sc"}};
 try{const u=JSON.parse(localStorage.getItem(LS+".ui")||"null"); if(u){ui.tab=u.tab||ui.tab; Object.assign(ui.quiz,u.quiz||{}); if(u.acr) Object.assign(ui.acr,u.acr);}}catch(e){}
 function saveUI(){try{localStorage.setItem(LS+".ui",JSON.stringify({tab:ui.tab,quiz:ui.quiz,acr:ui.acr}));}catch(e){}}
@@ -612,7 +673,9 @@ function saveProgress(){
   lsSet();
   if(db){ const body={start:state.start,done:state.done}; progWriting=progWriting.then(()=>db.doc("meta/progress").set(body)).catch(()=>{}); }
 }
+function attemptId(){ return Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,8); }
 async function saveAttempt(rec){
+  if(!rec.id) rec.id=attemptId();
   if(db){
     try{ await db.collection("attempts").add(rec); return; }
     catch(e){ if(e&&e.code==="quota_exceeded"){ setSync("Storage full: delete old attempts to save new ones"); } }
@@ -682,6 +745,66 @@ if(window.claude && typeof window.claude.use==="function"){
 }
 
 // ---------- per-question history ----------
+// ---------- review scheduler ----------
+// Per-question stages with fixed intervals (1, 3, 7, 14 days). A right answer moves an item
+// one stage out, but at most once per calendar day, so repeating it right away can't fake
+// mastery. A miss sends it back to stage 1, due tomorrow. These are product defaults, not a
+// claim about the optimal schedule. Acronym drill items are separate and not scheduled.
+const REVIEW_DAYS=[1,3,7,14];
+function addDaysISO(iso,n){ const d=parseDate(iso); d.setDate(d.getDate()+n); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+const reviewable=k=>!!Q[k]&&!/^acr-/.test(k);
+function recordReview(items){
+  if(!state.review||typeof state.review!=="object") state.review={};
+  const today=todayISO();
+  (items||[]).forEach(([k,ok])=>{
+    if(!reviewable(k)) return;
+    const r=state.review[k]||(state.review[k]={stage:0,due:null,last:null,lapses:0});
+    if(!(ok>=1)){
+      if(!(r.last===today&&r.stage===1)) r.lapses=(r.lapses||0)+(r.stage>0?1:0);
+      r.stage=1; r.due=addDaysISO(today,1); r.last=today; return;
+    }
+    if(r.last===today) return;
+    r.stage=Math.min((r.stage||0)+1,REVIEW_DAYS.length); r.due=addDaysISO(today,REVIEW_DAYS[r.stage-1]); r.last=today;
+  });
+}
+function dueKeys(){
+  const today=todayISO(), R=state.review||{};
+  return Object.keys(R).filter(k=>Q[k]&&inProgram(Q[k].track)&&R[k].due&&R[k].due<=today).sort((a,b)=>R[a].due<R[b].due?-1:1);
+}
+// Due first, then missed-before, then new material from unlocked levels. Membership is decided
+// first; only then is the presentation order shuffled. Each item carries why it was picked.
+function buildReviewSession(n){
+  const hist=qHistory(), t=unlockedDay(), out=[], reasons={};
+  const add=(k,why)=>{ if(out.length<n&&!reasons[k]){ out.push(k); reasons[k]=why; } };
+  dueKeys().forEach(k=>add(k,"Due for review"));
+  Object.keys(hist).filter(k=>Q[k]&&!/^acr-|^generated-/.test(k)&&inProgram(Q[k].track)&&hist[k].miss>0)
+    .sort((a,b)=>(hist[b].miss/hist[b].seen)-(hist[a].miss/hist[a].seen)).forEach(k=>add(k,"Missed before"));
+  shuffle(Object.values(Q).filter(q=>inProgram(q.track)&&q.d<=t&&!hist[q.k]&&!/^generated-/.test(q.k)).map(q=>q.k)).forEach(k=>add(k,"New to you"));
+  return {keys:shuffle(out),reasons};
+}
+// ---------- evidence, not a single "readiness" number ----------
+// Four separate signals, each with its sample size. Written answers are self-graded and custom
+// questions are the learner's own, so both are left out of assessment by default.
+const MIN_EVIDENCE=20;
+const assessable=(k,mode)=>mode!=="written"&&!!Q[k]&&!/^generated-|^acr-/.test(k);
+function evidenceFor(filter){   // filter(q) picks track or domain
+  const A=attempts.slice().sort((a,b)=>a.ts-b.ts), lastSeen={}, rows=[];
+  A.forEach(a=>(a.items||[]).forEach(([k,ok])=>{
+    if(!assessable(k,a.mode)||!filter(Q[k])) { lastSeen[k]=a.ts; return; }
+    const gap=lastSeen[k]!=null?a.ts-lastSeen[k]:null;
+    rows.push({k,ok:ok>=1?1:0,delayed:gap!=null&&gap>=864e5,mock:a.mode==="mock",ts:a.ts}); lastSeen[k]=a.ts;
+  }));
+  const total=Object.values(Q).filter(q=>filter(q)&&!/^generated-|^acr-/.test(q.k)).length;
+  const seen=new Set(rows.map(r=>r.k)).size;
+  const rate=xs=>xs.length?{p:pct(xs.reduce((s,x)=>s+x.ok,0),xs.length),n:xs.length}:{p:null,n:0};
+  return {coverage:{seen,total,p:total?pct(seen,total):0}, recent:rate(rows.slice(-60)), delayed:rate(rows.filter(r=>r.delayed).slice(-60)), n:rows.length};
+}
+function mockEvidence(track){
+  const ms=attempts.filter(a=>a.mode==="mock"&&a.track===track).sort((a,b)=>a.ts-b.ts);
+  return ms.length?{last:ms[ms.length-1].pct,best:Math.max(...ms.map(a=>a.pct)),n:ms.length}:null;
+}
+const evText=r=>r.n>=MIN_EVIDENCE?r.p+"%":"—";
+const evSub=(r,what)=>r.n>=MIN_EVIDENCE?what:"Not enough evidence yet: "+r.n+" of "+MIN_EVIDENCE+" answers";
 function qHistory(){
   const m={};
   attempts.forEach(a=>(a.items||[]).forEach(([k,ok,ms])=>{ const r=m[k]||(m[k]={seen:0,miss:0,ok:0,ms:0}); r.seen++; r.ok+=ok; r.miss+=(1-ok); r.ms+=ms; }));
@@ -734,12 +857,20 @@ function renderExamToggle(){
 let programFormOpen=false;
 const PROGRAM_LABEL={sc:"SC-900 only",sec:"Security+ only",both:"Both (33-level camp)"};
 function setProgram(p){ state.program=p; programFormOpen=false; saveProgress(); render(); }
+function themeChoice(){ try{ const t=localStorage.getItem(LS+".theme"); return t==="light"||t==="dark"?t:"system"; }catch(e){ return "system"; } }
+function setTheme(t){
+  try{ if(t==="system") localStorage.removeItem(LS+".theme"); else localStorage.setItem(LS+".theme",t); }catch(e){}
+  if(t==="system") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme",t);
+  render();
+}
 function renderProgramToggle(){
   const mount=document.getElementById("programrow"); if(!mount) return;
   mount.replaceChildren();
   if(!state.program) return; // first-run picker owns the decision until one is made
   if(!programFormOpen){
-    mount.append(h("div",{class:"setrow"},h("span",{class:"setlabel"},"Program"),h("span",{},PROGRAM_LABEL[state.program]),
+    mount.append(h("div",{class:"setrow"},h("span",{class:"setlabel"},"Theme"),
+        h("div",{class:"seg seg-sm",role:"group","aria-label":"Theme"},[["light","Light"],["dark","Dark"],["system","System"]].map(([k,l])=>h("button",{"aria-pressed":String(themeChoice()===k),onclick:()=>setTheme(k)},l))),null),
+      h("div",{class:"setrow"},h("span",{class:"setlabel"},"Program"),h("span",{},PROGRAM_LABEL[state.program]),
         h("button",{class:"linklike",onclick:()=>{programFormOpen=true;render();}},"Change")),
       state.studyMode?h("div",{class:"setrow"},h("span",{class:"setlabel"},"Study mode"),h("span",{},STUDY_MODE_LABEL[state.studyMode]),
         h("button",{class:"linklike",onclick:()=>setStudyMode(state.studyMode==="campaign"?"self":"campaign")},state.studyMode==="campaign"?"Switch to self-paced":"Switch to campaign")):null);
@@ -756,7 +887,8 @@ function renderProgramToggle(){
 }
 function programCounts(track){
   return {
-    days: DAYS.filter(d=>d.track===track&&d.q).length,
+    days: DAYS.filter(d=>d.track===track&&d.q&&!d.kind).length,
+    checks: DAYS.filter(d=>d.track===track&&d.kind).length,
     q: Object.values(Q).filter(q=>q.track===track).length,
     dom: (DOMS[track]||[]).length,
     boss: BOSSES.filter(b=>b.track===track&&!b.final).length
@@ -774,11 +906,11 @@ function renderProgramPicker(){
     h("p",{class:"muted",style:"margin:0"},"Pick one now — you can change it later, and it never deletes your history."),
     h("div",{class:"row",style:"gap:16px;flex-wrap:wrap;align-items:stretch"},
       card("SC-900","Microsoft Security, Compliance & Identity Fundamentals",
-        ["~"+sc.days+" levels · "+sc.q+" questions · "+sc.dom+" domains · "+sc.boss+" bosses",
+        [sc.days+" lessons + "+sc.checks+" checkpoints · "+sc.q+" questions · "+sc.dom+" domains · "+sc.boss+" bosses",
          "Entry level, no prerequisites, 65 minutes, "+MOCK_SPEC.sc.n+" questions."],
         ()=>setProgram("sc")),
       card("Security+","CompTIA SY0-701",
-        ["~"+sec.days+" levels · "+sec.q+" questions · "+sec.dom+" domains · "+sec.boss+" bosses",
+        [sec.days+" lessons + "+sec.checks+" checkpoints · "+sec.q+" questions · "+sec.dom+" domains · "+sec.boss+" bosses",
          "Assumes some networking background. "+MOCK_SPEC.sec.minutes+" minutes, up to "+MOCK_SPEC.sec.n+" questions."],
         ()=>setProgram("sec")),
       card("Both","The full 33-level camp",
@@ -818,7 +950,7 @@ function renderHeader(){
   document.body.classList.toggle("onboarding",!state.program||!state.studyMode);
   renderExamToggle();
   renderProgramToggle();
-  document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.tab===ui.tab)));
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.tab===topTab())));
   renderPatchButton();
   renderPatchModal();
   renderSupportModal();
@@ -895,7 +1027,7 @@ document.getElementById("supportbtn").addEventListener("click",openSupport);
 document.getElementById("footerSupport").addEventListener("click",openSupport);
 document.getElementById("footerPatch").addEventListener("click",openPatchNotes);
 
-document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>{ if(run&&!run.finished) stopTimer(); run=null; ui.tab=b.dataset.tab; saveUI(); queueFx("panel","#view"); render(); window.scrollTo(0,0); }));
+document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>goTab(b.dataset.tab==="study"?(ui.studyTab||"plan"):b.dataset.tab)));
 
 // ---------- plan view ----------
 function currentRunAttempts(){
@@ -1008,12 +1140,24 @@ function scopes(){
     {id:"sofar",label:"Everything so far",keys:keysFor(upTo)}];
   if(inProgram("sc")) list.push({id:"sc",label:"SC-900 unlocked",keys:Object.values(Q).filter(q=>q.track==="sc"&&q.d<=t).map(q=>q.k)});
   if(inProgram("sec")) list.push({id:"sec",label:"Security+ unlocked",keys:Object.values(Q).filter(q=>q.track==="sec"&&q.d<=t).map(q=>q.k)});
+  const dueN=dueKeys().length;
+  list.unshift({id:"review",label:dueN?"Review ("+dueN+" due)":"Review",keys:buildReviewSession(9999).keys});
   list.push({id:"weak",label:"Weak spots ("+weak.length+")",keys:weak});
+  // Open practice: any domain in the program, locked levels included. Level gating still
+  // applies to progression and mock exams, not to practice.
+  const doms=programDomains(), dm=doms.includes(ui.quiz.dom)?ui.quiz.dom:doms[0];
+  if(dm){
+    const inDom=Object.values(Q).filter(q=>inProgram(q.track)&&q.dom===dm&&!/^generated-/.test(q.k)).map(q=>q.k);
+    const f=ui.quiz.filter||"all", R=state.review||{}, today=todayISO();
+    const keys=f==="unseen"?inDom.filter(k=>!hist[k]):f==="missed"?inDom.filter(k=>hist[k]&&hist[k].miss>0):f==="due"?inDom.filter(k=>R[k]&&R[k].due&&R[k].due<=today):inDom;
+    list.push({id:"domain",label:"Any domain",keys,dom:dm});
+  }
   list.push({id:"all",label:"Everything unlocked",keys:Object.values(Q).filter(q=>q.d<=t&&inProgram(q.track)).map(q=>q.k)});
   return list;
 }
+function programDomains(){ return ["sc","sec"].filter(inProgram).flatMap(t=>(DOMS[t]||[]).map(d=>d)); }
 function renderQuizTab(){
-  if(run) return renderRun();
+  if(run){ resumeRun(); return renderRun(); }
   const sc=scopes(); const cur=sc.find(s=>s.id===ui.quiz.scope)||sc[0];
   const seg=(items,val,set)=>h("div",{class:"seg"},items.map(([v,l])=>h("button",{"aria-pressed":String(v===val),onclick:()=>{set(v);saveUI();render();}},l)));
   const avail=cur.keys.length;
@@ -1025,6 +1169,10 @@ function renderQuizTab(){
   return h("section",{class:"panel launch"},
     h("h2",{},"Run a quiz"),
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"What"),seg(sc.map(s=>[s.id,s.label]),cur.id,v=>ui.quiz.scope=v)),
+    cur.id==="review"?h("p",{class:"muted",style:"margin:-4px 0 0;font-size:13px;max-width:66ch"},"Questions due today come first, then ones you've missed, then new ones from your unlocked levels. Each shows why it was picked. A right answer brings a question back in 1, 3, 7, then 14 days; a miss brings it back tomorrow."):null,
+    cur.id==="domain"?h("div",{style:"display:flex;flex-direction:column;gap:10px"},
+      h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Domain (all levels, including locked ones)"),seg(programDomains().map(d=>[d,d]),cur.dom,v=>ui.quiz.dom=v)),
+      h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Which questions"),seg([["all","All"],["unseen","Not seen yet"],["missed","Missed before"],["due","Due for review"]],ui.quiz.filter||"all",v=>ui.quiz.filter=v))):null,
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Mode"),seg(modeChoices,ui.quiz.mode,v=>ui.quiz.mode=v),h("p",{class:"muted",style:"margin:6px 0 0;font-size:13px"},MODES[ui.quiz.mode].desc)),
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"How many"),seg([[5,"5"],[10,"10"],[20,"20"],[40,"40"],[999,"All"]],ui.quiz.n,v=>ui.quiz.n=v)),
     h("p",{class:"muted",style:"margin:0;font-size:13px"},avail+" questions in this pool"+(avail&&wantN>avail?" (questions repeat with fresh shuffles to reach "+wantN+")":"")+". Order and answer positions reshuffle every run, and questions you've missed or never seen come up more often."),
@@ -1050,7 +1198,6 @@ function acronymDomains(){
 // option whose initials spelled the acronym. Now:
 //  forward ("What does X stand for?"): the real expansion with 1–2 words swapped for words
 //    that start with the same letter, so every option has matching initials.
-//  reverse ("Which acronym stands for …?"): real acronyms that look like the right one.
 const ACR_STOP=new Set(["of","and","for","the","as","a","an","on","in","to","over","with","by","&","or","at"]);
 // Curated, hyphen-free. Modifiers swap for modifiers, nouns for nouns, so decoys read as
 // real terms instead of failing on grammar.
@@ -1113,30 +1260,19 @@ function acrDecoys(full,n,abbr){
   }
   return [...out].slice(0,n);
 }
-function acrLookalikes(entry,pool,n){
-  const letters=s=>s.toUpperCase().replace(/[^A-Z0-9]/g,"");
-  const A=letters(entry.a);
-  const score=b=>{ const B=letters(b); let common=0; const bag=[...B];
-    for(const ch of A){ const j=bag.indexOf(ch); if(j>=0){ common++; bag.splice(j,1); } }
-    return common*2+(B[0]===A[0]?3:0)-Math.abs(B.length-A.length)*2+Math.random(); };
-  const seen=new Set([entry.a]);
-  return pool.filter(e=>e.a!==entry.a&&e.f!==entry.f)
-    .map(e=>[e.a,score(e.a)]).sort((x,y)=>y[1]-x[1])
-    .map(x=>x[0]).filter(a=>!seen.has(a)&&seen.add(a)).slice(0,n);
-}
-function buildAcronymQuestion(entry,pool,reverse){
-  let distractors=reverse?acrLookalikes(entry,pool.length>=12?pool:ACRONYMS,3):acrDecoys(entry.f,3,entry.a);
+function buildAcronymQuestion(entry,pool){
+  let distractors=acrDecoys(entry.f,3,entry.a);
   if(distractors.length<3){
     // fallback: the old same-domain pull, only to fill any gap
     const src=shuffle(pool.filter(e=>e!==entry&&e.f!==entry.f&&e.a!==entry.a));
-    for(const e of src){ if(distractors.length>=3) break; const v=reverse?e.a:e.f; if(!distractors.includes(v)) distractors.push(v); }
+    for(const e of src){ if(distractors.length>=3) break; const v=e.f; if(!distractors.includes(v)) distractors.push(v); }
   }
-  const correct=reverse?entry.a:entry.f;
+  const correct=entry.f;
   const opts=shuffle([correct,...distractors.slice(0,3)]);
   while(opts.length<4) opts.push("—");
   const a=opts.indexOf(correct);
   const track=entry.t==="both"?"sc":entry.t;
-  const q=reverse?'Which acronym stands for: "'+entry.f+'"?':'What does "'+entry.a+'" stand for?';
+  const q='What does "'+entry.a+'" stand for?';
   const why=entry.n||"";
   const k="acr-"+entry.a;
   const obj={k,d:"—",track,dom:entry.d,q,o:opts,a,why,acr:entry.a,full:entry.f};
@@ -1154,7 +1290,6 @@ function renderAcronymLauncher(){
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Domain"),seg(doms.map(d=>[d,d]),doms.includes(ui.acr.dom)?ui.acr.dom:"All",v=>ui.acr.dom=v)),
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"How many"),seg([[10,"10"],[20,"20"],[40,"40"],[999,"All"]],ui.acr.n,v=>{ui.acr.n=v;saveUI();render();})),
     h("div",{class:"row",style:"gap:16px"},
-      h("label",{class:"row",style:"gap:6px"},h("input",{type:"checkbox",checked:ui.acr.reverse?true:null,onchange:e=>{ui.acr.reverse=e.target.checked;saveUI();render();}}),"Reverse: show expansion, pick the acronym"),
       h("label",{class:"row",style:"gap:6px"},h("input",{type:"checkbox",checked:ui.acr.timed?true:null,onchange:e=>{ui.acr.timed=e.target.checked;saveUI();render();}}),"Timed (10s each)")),
     h("p",{class:"muted",style:"margin:0;font-size:13px"},pool.length+" acronyms in this pool"+(pool.length&&wantN>pool.length?" (repeat with fresh distractors to reach "+wantN+")":"")+"."),
     h("div",{class:"actions"},h("button",{class:"btn primary",disabled:pool.length?null:true,onclick:startAcronymDrill},pool.length?"Start Acronyms · "+wantN+" questions":"Nothing here yet")));
@@ -1166,7 +1301,7 @@ function startAcronymDrill(){
   const entries=shuffle(pool); const chosen=[];
   while(chosen.length<n) chosen.push(...shuffle(pool));
   const list=chosen.slice(0,n).map(entry=>{
-    const q=buildAcronymQuestion(entry,pool,ui.acr.reverse);
+    const q=buildAcronymQuestion(entry,pool);
     const order=shuffle([0,1,2,3].slice(0,q.o.length));
     return {k:q.k,q,order};
   });
@@ -1181,16 +1316,20 @@ function pick(keys,n){
   if(!keys.length) return [];
   const hist=qHistory();
   const w=k=>{const r=hist[k];return (r?r.miss*2+(r.miss/r.seen)*2:1.5)+Math.random()*2.2;};
-  const ranked=shuffle(keys.map(k=>[k,w(k)]).sort((a,b)=>b[1]-a[1]).map(x=>x[0]));
-  if(n>=999) return ranked;
+  // Rank by weakness (with a little noise so ties vary), take the top n, THEN shuffle the
+  // presentation order. Shuffling before slicing would throw the ranking away.
+  const ranked=keys.map(k=>[k,w(k)]).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
+  if(n>=999) return shuffle(ranked);
   const first=ranked.slice(0,Math.min(n,keys.length));
   while(first.length<n) first.push(...shuffle(keys).slice(0,n-first.length));
-  return first;
+  return shuffle(first);
 }
 function startQuiz(scope,mode,n){
   stopTimer();
-  const keys=pick(scope.keys,n);
+  const built=scope.id==="review"?buildReviewSession(n>=999?9999:n):null;
+  const keys=built?built.keys:pick(scope.keys,n);
   run={scope:{id:scope.id,label:scope.label},mode,timedMs:mode==="blitz"?BLITZ_MS:0,list:keys.map(k=>{const q=Q[k];const order=shuffle([0,1,2,3].slice(0,q.o.length));return {k,q,order};}),i:0,res:[],t0:Date.now(),qt:Date.now(),answered:null,streak:0,best:0,finished:false,written:{text:"",revealed:false,ai:null,busy:false}};
+  run.reasons=built?built.reasons:null;
   ui.tab="quiz"; render(); window.scrollTo(0,0);
   if(run.timedMs) startTimer();
 }
@@ -1252,7 +1391,7 @@ function answer(origIdx){
   run.res.push([it.k,ok,ms]);
   if(run.boss){
     if(ok){ run.boss.fx={kind:"flinch",dmg:Math.floor(Math.random()*18+8)}; }
-    else{ run.boss.lives--; run.boss.fx={kind:"rage"}; }
+    else{ run.boss.lives--; run.boss.fx={kind:"rage"}; }   // lives = mistakes still allowed; below 0 = the 4th mistake
   }
   run.streak=ok?run.streak+1:0; run.best=Math.max(run.best,run.streak);
   queueFx(ok?"correct":"incorrect",ok?".opts .opt.right":".opts .opt.wrong");
@@ -1271,7 +1410,7 @@ function gradeWritten(score){
 }
 function next(){
   if(!run||run.finished) return;
-  if(run.boss&&run.boss.lives<=0){ finish(); return; }
+  if(run.boss&&run.boss.lives<0){ finish(); return; }
   if(run.i>=run.list.length-1){ finish(); return; }
   run.i++; run.answered=null; run.qt=Date.now(); run.written={text:"",revealed:false,ai:null,busy:false};
   render(); if(run.timedMs) startTimer();
@@ -1281,9 +1420,10 @@ function finish(){
   const score=run.res.reduce((s,r)=>s+r[1],0), n=run.res.length;
   const tracks=[...new Set(run.res.map(r=>Q[r[0]].track))];
   run.rec={ts:Date.now(),mode:run.mode,scopeId:run.scope.id,scope:run.scope.label,track:tracks.length===1?tracks[0]:"mix",n,score,pct:pct(score,n),ms:Date.now()-run.t0,best:run.best,items:run.res,prestige:state.prestige};
-  if(run.boss&&run.boss.lives>0&&run.res.length===15&&run.rec.pct>=80){ state.bosses[run.boss.track+"|"+run.boss.dom]=Date.now(); saveProgress(); }
+  if(run.boss&&run.boss.lives>=0&&run.res.length===15&&run.rec.pct>=80){ state.bosses[run.boss.track+"|"+run.boss.dom]=Date.now(); saveProgress(); }
   run.prev=attempts.filter(a=>a.scopeId===run.rec.scopeId&&a.mode===run.rec.mode).slice(-1)[0]||null;
   saveAttempt(run.rec);
+  recordReview(run.res); saveProgress();
   recordGameProgress(run.rec);
   const guidedMatch=/^guided-(\d+)$/.exec(run.rec.scopeId);
   const guidedComplete=run.res.length===run.list.length;   // "End & score" early can't pass a level
@@ -1324,6 +1464,10 @@ function renderRun(){
     h("div",{class:"row"},run.streak>=3?h("span",{class:"streak"},run.streak+" in a row"):null,h("span",{class:"eyebrow tabnum"},(run.i+1)+" / "+run.list.length),
       h("button",{class:"btn small",onclick:()=>{ if(run.res.length) finish(); else {stopTimer();run=null;render();} }},run.res.length?"End & score":"Quit")));
   const kids=[head];
+  const why=run.reasons&&run.reasons[it.k];
+  if(why||/^generated-/.test(it.k)) kids.push(h("div",{class:"row",style:"gap:6px"},
+    why?h("span",{class:"chip "+(why==="Due for review"?"good":why==="Missed before"?"weak":""),style:why==="New to you"?"background:var(--scbg);color:var(--sc)":""},why):null,
+    /^generated-/.test(it.k)?h("span",{class:"chip",style:"background:var(--sunk);color:var(--muted)"},"Your own question"):null));
   if(run.timedMs) kids.push(h("div",{class:"row",style:"gap:8px"},h("div",{class:"timer",id:"twrap",style:"flex:1"},h("i",{id:"tbar"})),h("span",{class:"eyebrow tabnum",id:"tlab",style:"width:32px;text-align:right"},Math.ceil(run.timedMs/1000)+"s")));
   kids.push(h("div",{class:"qtext"},q.q));
   if(run.mode==="written"){
@@ -1360,8 +1504,34 @@ function renderRun(){
       kids.push(h("div",{class:"actions"},h("button",{class:"btn primary",id:"nextbtn",onclick:next},run.i<run.list.length-1?"Next →":"See results")));
     }
     if(a&&run.timedMs&&a.pick===-1) kids.push(h("div",{class:"why bad"},h("b",{},"Time. ")));
+    if(a&&run.mode!=="blitz") kids.push(reportBlock(q,a.pick));
   }
   return h("section",{class:"panel runner"},kids);
+}
+// ---------- report a question ----------
+// Builds a copyable report with the question id and content version. The learner's own answer
+// is left out unless they choose to include it. Nothing is sent anywhere automatically.
+let reportOpen=null, reportIncludeAnswer=false, reportCopied=false;
+function reportText(q,pick){
+  const v=(PATCHNOTES[0]&&PATCHNOTES[0].v)||"?";
+  const lines=["ExamHelp question report","Question ID: "+q.k,"Content version: "+v,"Exam: "+(TRACK[q.track]||q.track)+(q.dom?" · "+q.dom:""),"","Question: "+q.q,"Listed answer: "+q.o[q.a]];
+  if(reportIncludeAnswer&&pick!=null&&pick>=0) lines.push("My answer: "+q.o[pick]);
+  lines.push("","What's wrong or unclear:","");
+  return lines.join("\n");
+}
+function reportBlock(q,pick){
+  if(reportOpen!==q.k) return h("p",{style:"margin:0;font-size:13px"},h("button",{class:"linklike",style:"font-size:inherit",onclick:()=>{reportOpen=q.k;reportCopied=false;render();}},"Report a problem with this question"));
+  const text=reportText(q,pick);
+  const issue="https://github.com/Rukeios/ExamHelp/issues/new?title="+encodeURIComponent("Question "+q.k+": ")+"&body="+encodeURIComponent(text);
+  return h("div",{class:"panel report"},
+    h("h3",{style:"margin:0"},"Report this question"),
+    h("p",{class:"muted",style:"margin:0;font-size:13px"},"Copy this and add what's wrong, or open it as a GitHub issue. Nothing is sent until you do."),
+    h("textarea",{readonly:true,rows:"7",style:"width:100%;font:13px var(--mono)"},text),
+    h("label",{style:"display:flex;gap:8px;align-items:center;font-size:13px"},h("input",{type:"checkbox",checked:reportIncludeAnswer?true:null,onchange:e=>{reportIncludeAnswer=e.target.checked;render();}}),"Include the answer I picked"),
+    h("div",{class:"actions",style:"flex-wrap:wrap"},
+      h("button",{class:"btn primary",onclick:async()=>{ try{ await navigator.clipboard.writeText(text); }catch(e){} reportCopied=true; render(); }},reportCopied?"Copied":"Copy report"),
+      h("a",{class:"btn",href:issue,target:"_blank",rel:"noopener"},"Open a GitHub issue"),
+      h("button",{class:"btn",onclick:()=>{reportOpen=null;render();}},"Close")));
 }
 function renderBossStage(){
   const b=run.boss, bm=b.meta;
@@ -1449,7 +1619,7 @@ function teachesPanel(boss,heading){
 function renderResult(){
   const r=run.rec, p=run.prev;
   const bm=run.boss&&run.boss.meta;
-  const bossWon=run.boss&&r.pct>=80&&run.boss.lives>0&&r.n===15;
+  const bossWon=run.boss&&r.pct>=80&&run.boss.lives>=0&&r.n===15;
   if(bm&&run.boss&&!run.boss.endingPlayed){
     const finishEnding=()=>{ if(run&&run.boss){ run.boss.endingPlayed=true; if(bossWon) queueFx("victory","#view .panel"); render(); } };
     if(!run.boss.endingTimer) run.boss.endingTimer=setTimeout(finishEnding,reducedMotion()?0:(bossWon?1300:900));
@@ -1474,7 +1644,7 @@ function renderResult(){
       h("div",{},h("div",{class:"eyebrow"},"Time"),h("div",{class:"tabnum",style:"font:700 26px var(--display)"},secs(r.ms)),h("div",{class:"muted tabnum",style:"font-size:13px"},secs(avg)+" per question")),
       h("div",{},h("div",{class:"eyebrow"},"Best streak"),h("div",{class:"tabnum",style:"font:700 26px var(--display)"},r.best)),
       h("div",{},h("div",{class:"eyebrow"},"vs last time"),p?h("div",{class:"tabnum delta "+(d>0?"up":d<0?"down":""),style:"font:700 26px var(--display)"},(d>0?"+":"")+d+" pts"):h("div",{class:"muted"},"First run of this set"),p?h("div",{class:"muted tabnum",style:"font-size:13px"},"was "+p.pct+"% · "+secs(p.ms/p.n)+"/q"):null)),
-    run.boss?(bossWon?h("p",{style:"margin:0"},"Boss defeated. The domain badge is yours."):h("p",{style:"margin:0"},"Boss escaped. Finish all 15 with a score of 80% and at least one life remaining.")):(r.pct>=80?h("p",{style:"margin:0"},"That's at or above the 80% practice target."):h("p",{style:"margin:0"},"Under the 80% practice target. Hit the misses below, then run it again.")),
+    run.boss?(bossWon?h("p",{style:"margin:0"},"Boss defeated. The domain badge is yours."):h("p",{style:"margin:0"},"Boss escaped. Finish all 15 questions with 3 mistakes or fewer to win.")):(r.pct>=80?h("p",{style:"margin:0"},"That's at or above the 80% practice target."):h("p",{style:"margin:0"},"Under the 80% practice target. Hit the misses below, then run it again.")),
     state.studyMode==="campaign"?null:h("div",{class:"actions"},
       h("button",{class:"btn primary",onclick:()=>startQuiz({id:run.scope.id,label:run.scope.label,keys:run.list.map(x=>x.k)},run.mode,run.list.length)},"Run it again (new order)"),
       misses.length?h("button",{class:"btn",onclick:()=>startQuiz({id:"retry",label:"Retry misses",keys:misses.map(x=>x.k)},(run.mode==="blitz"||run.mode==="acronym"||run.mode==="mock")?"think":run.mode,misses.length)},"Retry my "+misses.length+" miss"+(misses.length>1?"es":"")):null,
@@ -1544,24 +1714,44 @@ function renderGame(){
       h("button",{class:"btn",onclick:()=>{ui.generated.splice(i,1);render();}},"Discard"))))):null;
   const haveKey=!!(byokGet()&&byokGet().key);
   const engine=sample?h("span",{class:"chip good"},"Using Claude"):haveKey?h("span",{class:"chip good"},"Using your "+byokGet().provider+" key"):h("span",{class:"chip weak"},"No generator connected");
+  // Boss dossier: what it tests, how to unlock it, your best result, and a way to practice.
   const bossCard=(b)=>{
     const won=state.bosses[b.track+"|"+b.domain];
     const available=Object.values(Q).some(q=>q.track===b.track&&q.dom===b.domain&&q.d<=unlockedDay());
-    return h("div",{class:"game-card boss "+b.track,style:"border-left-color:"+b.color},
+    const firstDay=programDays().find(d=>d.track===b.track&&d.dom===b.domain);
+    const tries=attempts.filter(a=>a.scopeId==="boss-"+b.track+"-"+b.domain);
+    const best=tries.length?Math.max(...tries.map(a=>a.pct)):null;
+    return h("div",{class:"game-card boss dossier "+b.track,style:"border-left-color:"+b.color},
       h("div",{class:"boss-thumb-box"},
-        h("img",{src:BOSS_IMG(b.img,"thumb"),alt:b.name+" — "+b.domain,width:"320",height:"320",loading:"lazy",class:won?"":"locked"}),
-        won?h("div",{class:"boss-check",style:"background:"+b.color},"✓"):null),
-      h("span",{class:"tag "+b.track},TRACK[b.track]),h("b",{},b.name),h("p",{class:"muted",style:"margin:5px 0 12px;font-size:13px"},b.domain),
-      h("div",{class:"actions",style:"flex-wrap:wrap"},
-        h("button",{class:"btn "+(won?"":"primary"),disabled:available?null:true,onclick:()=>startBoss(b.track,b.domain)},won?"✓ Defeated · rematch":available?"Challenge boss":"Locked until this domain unlocks"),
+        h("img",{src:BOSS_IMG(b.img,"thumb"),alt:b.name+", "+b.domain+" boss",width:"320",height:"320",loading:"lazy",class:available?"":"locked"}),
+        won?h("div",{class:"boss-check",style:"background:"+b.color},"✓"):null,
+        !available?h("div",{class:"boss-lock"},"Locked"):null),
+      h("span",{class:"tag "+b.track},TRACK[b.track]),h("b",{},b.name),h("p",{class:"muted",style:"margin:2px 0 0;font-size:13px"},b.domain),
+      h("div",{class:"dossier-body"},
+        h("div",{class:"eyebrow"},"Tests"),
+        h("ul",{},(b.teaches||[]).slice(0,3).map(t=>h("li",{},t.split(":")[0]))),
+        h("div",{class:"eyebrow"},"Unlock"),
+        h("p",{},available?"Unlocked.":"Reach Level "+(firstDay?displayDay(firstDay.d):"?")+" ("+b.domain+")."),
+        h("div",{class:"eyebrow"},"Your best"),
+        h("p",{},best==null?"Not attempted yet":best+"% over "+tries.length+" attempt"+(tries.length===1?"":"s")+(won?" · defeated":""))),
+      h("div",{class:"actions",style:"flex-wrap:wrap;margin-top:auto"},
+        h("button",{class:"btn "+(won?"":"primary"),disabled:available?null:true,onclick:()=>startBoss(b.track,b.domain)},won?"Rematch":available?"Challenge boss":"Locked"),
+        h("button",{class:"btn small",onclick:()=>{ui.quiz.scope="domain";ui.quiz.dom=b.domain;ui.quiz.filter="all";goTab("quiz");}},"Practice this domain"),
         won?h("button",{class:"btn small",onclick:()=>{ui.teachesBoss=b;render();}},"Look again"):null));
   };
+  const sealBosses=["sc","sec"].filter(inProgram).flatMap(t=>(DOMS[t]||[]).map(d=>bossFor(t,d)).filter(Boolean));
+  const seals=h("section",{class:"panel"},h("h2",{style:"margin-bottom:4px"},"Domain seals"),
+    h("p",{class:"muted",style:"margin:0 0 12px"},sealBosses.filter(b=>state.bosses[b.track+"|"+b.domain]).length+" of "+sealBosses.length+" earned. Each seal is a defeated domain boss."),
+    h("div",{class:"seals"},sealBosses.map(b=>{ const won=state.bosses[b.track+"|"+b.domain];
+      return h("div",{class:"seal"+(won?" won":""),style:"--seal:"+b.color,title:b.domain+(won?": earned "+fmtD(new Date(won)):": not yet earned")},
+        h("span",{"aria-hidden":"true"},won?"✓":"·"),h("small",{},b.domain)); })));
   return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
     h("section",{class:"panel"},h("div",{class:"game-grid"},
       h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Current rank"),h("b",{},title),h("div",{class:"tabnum"},state.xp+" XP"+(next?" · "+(next[1]-state.xp)+" to "+next[0]:" · top rank"))),
       h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Daily missions "+(allDone?"🔥":"")),missions.map(m=>h("div",{class:"mission"},h("i",{},m.now>=m.goal?"✓":"○"),h("span",{},m.text,h("span",{class:"muted"}," · "+Math.min(m.now,m.goal)+"/"+m.goal))))),
       h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Achievements"),Object.entries(ACHIEVEMENTS).map(([key,a])=>h("div",{class:"mission"},h("i",{},state.achievements[key]?"★":"○"),h("span",{},a.name,h("span",{class:"muted"}," · "+a.desc))))))),
-    h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Domain boss fights"),h("p",{class:"muted",style:"margin-top:0"},"Survive a 15-question run with three lives and score at least 80% to clear a boss."),h("div",{class:"game-grid"},domainBosses.map(bossCard))),
+    seals,
+    h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Domain boss fights"),h("p",{class:"muted",style:"margin-top:0"},"15 questions, 3 mistakes allowed. The fourth mistake ends the fight. Finish with 3 or fewer mistakes (12 of 15) to win, and you can always try again."),h("div",{class:"game-grid"},domainBosses.map(bossCard))),
     finalBoss?h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Final boss"),h("div",{class:"boss-final-row"},
       h("div",{class:"boss-thumb-box",style:"max-height:220px"},
         h("img",{src:BOSS_IMG(finalBoss.img,allDomainsCleared?"full":"thumb"),alt:finalBoss.name,width:"320",height:"320",loading:"lazy",class:allDomainsCleared?"":"locked"}),
@@ -1784,7 +1974,7 @@ const RICH_CAMPAIGN={
 const STUDY_MODE_LABEL={self:"Self-paced",campaign:"Campaign"};
 function setStudyMode(m){
   if(run){ stopTimer(); run=null; }
-  state.studyMode=m; ui.tab=m==="campaign"?"campaign":"plan";
+  state.studyMode=m; ui.tab=m==="campaign"?"campaign":"home";
   saveUI(); saveProgress(); render(); window.scrollTo(0,0);
 }
 function renderCampaignChrome(on){
@@ -1799,7 +1989,8 @@ function renderCampaignChrome(on){
     h("div",{class:"muted",style:"font:500 13px var(--mono)"},"Run "+g.run+(at?" · Level "+at+" of "+L.length:"")+" · "+cleared+" cleared"),
     h("div",{class:"meter","aria-hidden":"true"},h("i",{style:"width:"+Math.round(100*cleared/L.length)+"%"}))));
   exit.replaceChildren(h("div",{class:"cexit"},
-    h("span",{class:"muted",style:"font-size:13px"},"Your run saves as you go. Leave any time and pick it back up where you stopped."),
+    h("span",{class:"muted",style:"font-size:13px"},"Your run saves as you go. Leave any time and pick it back up where you stopped. ",
+      h("button",{class:"linklike",style:"font-size:inherit",onclick:downloadBackup},"Download a backup")),
     h("button",{class:"btn",onclick:()=>setStudyMode("self")},"Leave campaign mode")));
 }
 function renderModePicker(){
@@ -1863,6 +2054,18 @@ function guidedAdvance(){
 function guidedFlagsAt(mid,i){ return CFLAGS.filter(f=>f.at===mid+":"+i); }
 function guidedAxis(ax){ return CFLAGS.filter(f=>f.axis===ax&&G().flags[f.k]).length; }
 const guidedBand=n=>n>=CBANDS.high?2:n>=CBANDS.mid?1:0;
+// Ending text that only claims what the flags support (see data-campaign-endings.js rules).
+function endingParagraphs(key,flags){
+  const e=CENDINGS[key]; if(!e) return [];
+  const R=(window.CAMPAIGN_ENDING_RULES||{})[key]||{};
+  const ok=c=>(c.all||[]).every(f=>flags[f])&&(c.none||[]).every(f=>!flags[f]);
+  return e.p.map((t,i)=>{
+    const r=R[i]; if(!r) return t;
+    if(r.parts) return r.parts.filter(ok).map(x=>x.t).join(" ");
+    if(r.alts){ const m=r.alts.find(ok); return m?m.t:null; }
+    return ok(r)?t:(r.alt||null);
+  }).filter(Boolean);
+}
 
 function guidedHeader(d,label){
   const L=guidedLevels(), i=L.findIndex(x=>x.d===d.d);
@@ -1886,8 +2089,39 @@ function guidedFooter(){
       h("button",{class:"btn primary",onclick:()=>{state.guided=freshGuided(g);guidedResetOpen=false;guidedAck=false;saveProgress();render();window.scrollTo(0,0);}},"Yes, start over"),
       h("button",{class:"btn",onclick:()=>{guidedResetOpen=false;render();}},"Cancel")));
 }
-function guidedPanel(kids){ return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},kids,guidedFooter()); }
+function guidedPanel(kids){ return h("div",{style:"display:flex;flex-direction:column;gap:14px"},
+  h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},kids,guidedFooter()),
+  G().started?renderFacility():null); }
 
+// ---------- facility map (fictional Leon River Water) ----------
+// Each mission happens somewhere. A zone fills in only when you've finished one of its
+// missions in this run; nothing about future missions or hidden flags is shown.
+const FACILITY_ZONES=[
+  {id:"office",name:"Office",what:"People, email, policy and budget",m:["m2","m9","m13","m15","m16","m17","m21","m28","m31","m32","m33"]},
+  {id:"identity",name:"Identity",what:"Accounts, sign-ins and access",m:["m1","m4","m5","m6","m18","m19","m29","m30"]},
+  {id:"cloud",name:"Cloud",what:"Microsoft 365, Azure and the web portal",m:["m3","m7","m8","m10","m11","m12","m14","m20","m23"]},
+  {id:"plant",name:"Plant",what:"Pumps, SCADA and the control network",m:["m22","m27"]},
+  {id:"recovery",name:"Response & Recovery",what:"Incidents, evidence and backups",m:["m24","m25","m26"]}];
+let facilityZone=null;
+function renderFacility(){
+  const g=G(), done=mid=>{ const r=g.missions[mid], m=RICH_CAMPAIGN[Number(mid.slice(1))]; return !!(r&&m&&r.i>=m.steps.length); };
+  const logged=FACILITY_ZONES.reduce((n,z)=>n+z.m.filter(done).length,0);
+  const zone=FACILITY_ZONES.find(z=>z.id===facilityZone);
+  const lvlOf=mid=>{ const L=guidedLevels(); const i=L.findIndex(d=>missionIdForDay(d.d)===mid); return i<0?null:i+1; };
+  return h("details",{class:"panel facility",open:facilityZone?true:null},
+    h("summary",{},h("b",{},"Facility map"),h("span",{class:"muted"}," · "+logged+" incident"+(logged===1?"":"s")+" logged this run")),
+    h("p",{class:"muted",style:"margin:10px 0;font-size:13px"},"Leon River Water is fictional. A zone lights up once you've finished a mission there. Select a zone to read its incident history."),
+    h("div",{class:"fmap",role:"group","aria-label":"Facility zones"},FACILITY_ZONES.map(z=>{
+      const n=z.m.filter(done).length;
+      return h("button",{class:"fzone fz-"+z.id+(n?" lit":"")+(facilityZone===z.id?" sel":""),"aria-pressed":String(facilityZone===z.id),
+        onclick:()=>{facilityZone=facilityZone===z.id?null:z.id;render();}},
+        h("b",{},z.name),h("small",{},z.what),h("span",{class:"fcount"},n?n+" incident"+(n===1?"":"s"):"quiet so far"));
+    })),
+    zone?h("div",{class:"fhistory"},h("h3",{style:"margin:0 0 6px"},zone.name+": incident history"),
+      zone.m.filter(done).length?h("ul",{class:"pts"},zone.m.filter(done).map(mid=>{ const m=RICH_CAMPAIGN[Number(mid.slice(1))], r=g.missions[mid], ok=r.answers.filter(a=>a&&a.correct).length;
+        return h("li",{},h("b",{},m.title),(lvlOf(mid)?"Level "+lvlOf(mid)+". ":"")+ok+" of "+m.steps.length+" calls were the recommended move."); }))
+        :h("p",{class:"muted",style:"margin:0"},"Nothing has happened here yet.")):null);
+}
 function renderGuided(){
   const g=G();
   if(g.phase==="warning"||!g.started) return renderGuidedWarning();
@@ -1928,10 +2162,16 @@ function renderGuided(){
   if(g.phase==="debrief"){
     const rec=(mission&&g.missions[mission.id])||{answers:[]};
     const sound=rec.answers.filter(a=>a&&a.correct).length;
+    const calls=mission?mission.steps.map((st,i)=>{ const a=rec.answers[i]; if(!a) return null;
+      return h("li",{},h("b",{},(a.correct?"✓ ":"✗ ")+st[0]),
+        h("span",{},"You chose: "+st[1][a.picked]+"."),
+        a.correct?null:h("span",{class:"muted",style:"display:block"},"Recommended: "+st[1][st[2]]+".")); }).filter(Boolean):[];
     return guidedPanel([guidedHeader(dd,"Debrief"),guidedSteps("debrief"),
       h("h2",{},(mission?mission.title:d.title)+" — debrief"),
-      mission?h("div",{class:"story"},mission.debrief):null,
-      mission?h("p",{class:"muted",style:"margin:0"},sound+" of "+mission.steps.length+" calls were the textbook move."):null,
+      mission?h("p",{style:"margin:0"},sound+" of "+mission.steps.length+" calls were the recommended move."):null,
+      calls.length?h("ul",{class:"pts"},calls):null,
+      mission?h("div",{},h("h3",{style:"margin:0 0 8px"},sound===mission.steps.length?"What happened":"What the recommended response achieves"),
+        h("div",{class:"story"},mission.debrief)):null,
       h("div",{class:"actions"},h("button",{class:"btn primary",onclick:guidedAdvance},"Continue →"))]);
   }
   if(g.phase==="boss"||g.phase==="final") return renderGuidedBoss(d,g.phase==="final"?FINAL_BOSS:bossOwedAfter(d));
@@ -1968,7 +2208,8 @@ function renderGuidedDecisions(d,mission){
     h("p",{class:"muted",style:"margin:0;font-size:13px"},"🔒 Decisions are final for this run."),
     h("p",{style:"font-weight:600;margin:0"},step[0])];
   if(answered){
-    kids.push(h("div",{class:"opts"},step[1].map((c,i)=>h("button",{class:"opt "+(i===step[2]?"right":i===answered.picked?"wrong":""),disabled:true},c))));
+    const shown=(rec.order&&rec.order[rec.i])||step[1].map((_,i)=>i);
+    kids.push(h("div",{class:"opts"},shown.map((i,pos)=>h("button",{class:"opt "+(i===step[2]?"right":i===answered.picked?"wrong":""),disabled:true},h("span",{class:"k"},pos+1),h("span",{},step[1][i])))));
     kids.push(h("div",{class:"why "+(answered.correct?"":"bad")},step[3]));
     kids.push(h("div",{class:"actions"},h("button",{class:"btn primary",onclick:()=>{rec.i++;if(rec.i>=mission.steps.length)g.phase="debrief";saveProgress();render();}},rec.i+1<mission.steps.length?"Next decision →":"See the debrief →")));
   } else {
@@ -1997,7 +2238,7 @@ function renderGuidedBoss(d,boss){
       h("h2",{style:"margin:10px 0 0"},boss.name),
       h("p",{class:"muted",style:"font-style:italic;margin:4px 0 0"},won?boss.defeat:boss.taunt)),
     won?h("p",{style:"margin:0"},"Defeated. The way forward is open.")
-       :h("p",{style:"margin:0"},(boss.final?"Everything you've studied, in one fight.":"This boss guards the end of "+boss.domain+".")+" 15 questions, three lives, 80% to win. Lose and you can challenge it again."),
+       :h("p",{style:"margin:0"},(boss.final?"Everything you've studied, in one fight.":"This boss guards the end of "+boss.domain+".")+" 15 questions, 3 mistakes allowed. The fourth mistake ends the fight. Lose and you can challenge it again."),
     h("div",{class:"actions"},won
       ?h("button",{class:"btn primary",onclick:guidedAdvance},"Continue →")
       :h("button",{class:"btn primary",onclick:()=>startBoss(boss.final?"final":boss.track,boss.domain)},"Challenge "+boss.name))]);
@@ -2014,7 +2255,7 @@ function renderGuidedEnding(){
   return guidedPanel([
     h("div",{class:"eyebrow"},"Campaign complete · Run "+g.run),
     h("h2",{},e.t),
-    h("div",{class:"story",style:"display:flex;flex-direction:column;gap:10px"},e.p.map(t=>h("p",{style:"margin:0"},t))),
+    h("div",{class:"story",style:"display:flex;flex-direction:column;gap:10px"},endingParagraphs(pb+","+rb,g.flags).map(t=>h("p",{style:"margin:0"},t))),
     h("div",{class:"row",style:"gap:18px;flex-wrap:wrap"},
       h("div",{},h("div",{class:"eyebrow"},"Prevention"),h("b",{},CAXIS.prev[pb])," ("+ps+"/3)"),
       h("div",{},h("div",{class:"eyebrow"},"Response"),h("b",{},CAXIS.resp[rb])," ("+rs+"/3)")),
@@ -2036,55 +2277,85 @@ function guidedResultBlock(){
   if(run.boss&&["boss","final"].includes(G().phase)) return h("div",{class:"actions"},back("Back to the campaign"));
   return null;
 }
+// ---------- navigation: Home / Study / Campaign / Arena / Progress ----------
+const STUDY_TABS=["plan","quiz","acr","pbq","mock","lab"];
+const STUDY_VIEWS=[["plan","Lessons"],["quiz","Practice"],["acr","Acronyms"],["pbq","PBQs"],["mock","Mock exam"],["lab","Question Lab"]];
+function topTab(){ return STUDY_TABS.includes(ui.tab)?"study":ui.tab; }
+// Leaving a quiz pauses it rather than throwing it away; coming back resumes it.
+function goTab(t){
+  if(run&&!run.finished&&t!=="quiz"){ stopTimer(); if(!run.pauseAt) run.pauseAt=Date.now(); }
+  if(t==="quiz"&&ui.quiz.mode==="acronym"){ ui.quiz.mode=ui.lastMode&&ui.lastMode!=="acronym"?ui.lastMode:rulesFor(state.prestige).defaultMode; }
+  ui.tab=t; saveUI(); queueFx("panel","#view"); render(); window.scrollTo(0,0);
+}
+function resumeRun(){ if(run&&run.pauseAt){ run.qt+=Date.now()-run.pauseAt; run.pauseAt=null; } }
+function renderStudyNav(){
+  const cur=ui.tab==="quiz"&&ui.quiz.mode==="acronym"?"acr":ui.tab;
+  return h("div",{class:"subnav",role:"tablist","aria-label":"Study"},STUDY_VIEWS.map(([k,l])=>h("button",{role:"tab","aria-selected":String(k===cur),onclick:()=>goTab(k)},l,
+    k==="quiz"&&run&&!run.finished&&run.pauseAt?h("span",{class:"dot","aria-label":"quiz paused"}):null)));
+}
+function nextBoss(){
+  const order=["sc","sec"].filter(inProgram).flatMap(t=>(DOMS[t]||[]).map(d=>bossFor(t,d)).filter(Boolean));
+  const b=order.find(b=>!state.bosses[b.track+"|"+b.domain]);
+  if(!b) return FINAL_BOSS&&!state.bosses["final|"+FINAL_BOSS.domain]?{b:FINAL_BOSS,open:order.every(x=>state.bosses[x.track+"|"+x.domain])}:null;
+  return {b,open:Object.values(Q).some(q=>q.track===b.track&&q.dom===b.domain&&q.d<=unlockedDay())};
+}
+function renderHome(){
+  const t=unlockedDay(), day=BYDAY[t], due=dueKeys().length, A=attempts.slice().sort((a,b)=>b.ts-a.ts);
+  const paused=run&&!run.finished;
+  let action;
+  if(paused) action={why:"You left a quiz partway through.",title:"Resume your quiz",detail:run.scope.label+" · question "+(run.i+1)+" of "+run.list.length,
+    btn:"Resume",go:()=>goTab("quiz")};
+  else if(due) action={why:due+" question"+(due===1?" is":"s are")+" due for review today. Reviewing on schedule is what makes it stick.",title:"Review "+Math.min(due,20)+" due question"+(Math.min(due,20)===1?"":"s"),
+    detail:"Due items first, then ones you've missed",btn:"Start review",go:()=>startQuiz({id:"review",label:"Review",keys:[]},"think",Math.min(due,20))};
+  else if(!A.length) action={why:"You haven't answered anything yet.",title:"Start Level 1: "+BYDAY[programDays()[0].d].title,
+    detail:"Read the lesson, then take its quiz",btn:"Open Level 1",go:()=>{ui.sel=programDays()[0].d;goTab("plan");},
+    alt:["Or take a 10-question check across everything",()=>startQuiz({id:"diagnostic",label:"Diagnostic",keys:Object.values(Q).filter(q=>inProgram(q.track)&&!/^generated-|^acr-/.test(q.k)).map(q=>q.k)},"think",10)]};
+  else action={why:"Nothing is due. Pick up where your plan left off.",title:"Continue Level "+displayDay(t)+": "+day.title,
+    detail:(day.dom||(day.kind==="review"?"Review checkpoint":"Exam checkpoint"))+(day.min?" · about "+day.min+" min":""),btn:"Open Level "+displayDay(t),go:()=>{ui.sel=t;goTab("plan");}};
+  const next=h("section",{class:"panel home-next"},
+    h("p",{class:"muted",style:"margin:0"},action.why),
+    h("h2",{style:"margin:0"},action.title),
+    h("p",{style:"margin:0"},action.detail),
+    h("div",{class:"actions",style:"flex-wrap:wrap"},h("button",{class:"btn primary",onclick:action.go},action.btn),
+      action.alt?h("button",{class:"btn",onclick:action.alt[1]},action.alt[0]):null,
+      h("button",{class:"btn",onclick:()=>{ui.quiz.scope="domain";goTab("quiz");}},"Study anything instead")));
+  const nb=nextBoss();
+  const side=h("div",{class:"home-side"},
+    h("section",{class:"panel"},h("h3",{style:"margin:0 0 6px"},"Review queue"),
+      h("p",{style:"margin:0"},due?h("b",{},due+" due now"):"Nothing due today"),
+      h("p",{class:"muted",style:"margin:4px 0 0;font-size:13px"},Object.keys(state.review||{}).length+" questions on your schedule")),
+    h("section",{class:"panel"},h("h3",{style:"margin:0 0 6px"},"Recent activity"),
+      A.length?h("ul",{class:"home-list"},A.slice(0,4).map(a=>h("li",{},h("span",{},a.scope||a.scopeId),h("span",{class:"muted tabnum"},a.pct+"% · "+fmtDT(a.ts))))):h("p",{class:"muted",style:"margin:0"},"Your quizzes will show up here.")),
+    nb?h("section",{class:"panel"},h("h3",{style:"margin:0 0 6px"},"Next boss"),
+      h("p",{style:"margin:0"},h("b",{},nb.b.name)," · "+(nb.b.final?"final boss":nb.b.domain)),
+      h("p",{class:"muted",style:"margin:4px 0 0;font-size:13px"},nb.open?"Ready to challenge in the Arena.":"Unlocks when you reach its domain."),
+      nb.open?h("button",{class:"btn small",style:"margin-top:8px",onclick:()=>goTab("game")},"Go to the Arena"):null):null);
+  const doms=["sc","sec"].filter(inProgram).flatMap(tr=>(DOMS[tr]||[]).map(dm=>({tr,dm})));
+  const map=h("section",{class:"panel"},h("h3",{style:"margin:0 0 4px"},"Domain map"),
+    h("p",{class:"muted",style:"margin:0 0 12px;font-size:13px"},"Coverage is how much of a domain you've seen. Accuracy needs at least "+MIN_EVIDENCE+" answers before it means much."),
+    h("div",{class:"dommap"},doms.map(({tr,dm})=>{
+      const e=evidenceFor(q=>q.track===tr&&q.dom===dm), boss=bossFor(tr,dm), won=boss&&state.bosses[tr+"|"+dm];
+      return h("div",{class:"domcard "+tr},
+        h("div",{class:"row",style:"justify-content:space-between;gap:8px"},h("b",{},dm),won?h("span",{class:"chip good"},"Boss defeated"):null),
+        h("span",{class:"muted",style:"font-size:12px"},TRACK[tr]),
+        h("div",{class:"runbar","aria-hidden":"true"},h("i",{style:"width:"+e.coverage.p+"%"})),
+        h("span",{style:"font-size:13px"},e.coverage.seen+" of "+e.coverage.total+" seen · "+(e.recent.n>=MIN_EVIDENCE?e.recent.p+"% recent accuracy":e.n?"accuracy after "+MIN_EVIDENCE+" answers ("+e.n+" so far)":"not started")),
+        h("button",{class:"btn small",onclick:()=>{ui.quiz.scope="domain";ui.quiz.dom=dm;ui.quiz.filter="all";goTab("quiz");}},"Practice"));
+    })));
+  return h("div",{class:"home"},h("div",{class:"home-top"},next,side),map);
+}
 function renderCampaign(){
   if(state.studyMode==="campaign") return renderGuided();
-  return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
-    h("section",{class:"panel",style:"display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between"},
-      h("div",{},h("h2",{style:"margin:0"},"Campaign mode"),
-        h("p",{class:"muted",style:"margin:4px 0 0"},"The full guided story: brief, intel, a quiz to pass, then decisions that shape your ending. It runs as its own page.")),
-      h("button",{class:"btn primary",onclick:()=>setStudyMode("campaign")},"Enter campaign mode")),
-    renderSelfCampaign());
-}
-function renderSelfCampaign(){
-  const day=unlockedDay(), mission=RICH_CAMPAIGN[day], dd=displayDay(day);
-  if(!mission) return h("section",{class:"panel"},h("h2",{},"Campaign"),h("p",{},"Complete Level 1 to start today's mission."));
-  const rec=state.campaign[day]||{stepIdx:0,answers:[]};
-  if(rec.stepIdx>=mission.steps.length){
-    const score=rec.answers.filter(a=>a.correct).length;
-    return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},
-      h("div",{class:"eyebrow"},"Level "+dd+" mission · "+mission.domain+" · Leon River Water"),
-      h("h2",{},mission.title+" — complete"),
-      h("p",{},"Score: "+score+" / "+mission.steps.length),
-      h("div",{class:"story"},mission.debrief),
-      h("button",{class:"btn",onclick:()=>{delete state.campaign[day];saveProgress();render();}},"Replay this level's mission"));
-  }
-  const step=mission.steps[rec.stepIdx], answered=rec.answers[rec.stepIdx];
-  const kids=[
-    h("div",{class:"eyebrow"},"Level "+dd+" mission · "+mission.domain+" · Step "+(rec.stepIdx+1)+" / "+mission.steps.length),
-    h("h2",{},mission.title),
-  ];
-  if(rec.stepIdx===0) kids.push(h("div",{class:"story"},mission.brief));
-  kids.push(h("p",{style:"font-weight:600;margin:0"},step[0]));
-  if(answered){
-    kids.push(h("div",{class:"opts"},step[1].map((choice,i)=>h("button",{class:"opt "+(i===step[2]?"right":i===answered.picked?"wrong":""),disabled:true},choice))));
-    kids.push(h("div",{class:"why "+(answered.correct?"":"bad")},step[3]));
-    kids.push(h("button",{class:"btn primary",onclick:()=>{
-      state.campaign[day]={stepIdx:rec.stepIdx+1,answers:rec.answers};
-      saveProgress(); render();
-    }},rec.stepIdx+1<mission.steps.length?"Next step →":"See debrief"));
-  } else {
-    kids.push(h("div",{class:"opts"},step[1].map((choice,i)=>h("button",{class:"opt",onclick:()=>{
-      const correct=i===step[2];
-      if(correct) state.xp+=8;
-      const answers=rec.answers.slice(); answers[rec.stepIdx]={picked:i,correct};
-      state.campaign[day]={stepIdx:rec.stepIdx,answers};
-      queueFx(correct?"correct":"incorrect",correct?".opts .opt.right":".opts .opt.wrong");
-      saveProgress(); render();
-    }},choice))));
-  }
-  const done=Object.keys(state.campaign).filter(d=>{const r=state.campaign[d];const m=RICH_CAMPAIGN[d];return m&&inProgram(m.track)&&r.stepIdx>=m.steps.length;}).length;
-  kids.push(h("p",{class:"muted",style:"font-size:13px;margin:0"},done+" of "+dd+" available mission"+(dd===1?"":"s")+" completed so far. A new mission unlocks with each new level."));
-  return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},kids);
+  // Self-paced: the Campaign destination is a door into the one campaign. The old per-day
+  // mission list was retired in 2.0 (it didn't shuffle choices and ran on different rules).
+  const g=G(), L=guidedLevels(), cleared=L.filter(x=>g.passed[x.d]).length;
+  const at=g.started?L.findIndex(x=>x.d===guidedDay().d)+1:0;
+  const status=!g.started?"Not started yet.":g.phase==="ending"?"Run "+g.run+" complete.":"Run "+g.run+": level "+at+" of "+L.length+", "+cleared+" cleared.";
+  return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:12px"},
+    h("h2",{style:"margin:0"},"Night Shift at Leon River Water"),
+    h("p",{style:"margin:0;max-width:62ch"},"The guided campaign: each level is a mission brief, the lesson as intel, a quiz you pass at "+GUIDED_PASS+"%, then decisions that shape which of nine endings you reach. It runs as its own page, and your self-paced progress carries over."),
+    h("p",{class:"muted",style:"margin:0"},status),
+    h("div",{class:"actions"},h("button",{class:"btn primary",onclick:()=>setStudyMode("campaign")},g.started?"Resume the campaign":"Enter campaign mode")));
 }
 // ---------- stats export / import ----------
 // Donations: Ko-fi. Free forever; this link is the only ask, and it tells students not to.
@@ -2134,6 +2405,82 @@ function buildExportPayload(){
     state:{start:state.start, done:Object.assign({},state.done)}
   };
 }
+// ---------- full backup (schema 4) ----------
+// Everything needed to pick up exactly where you were: all learner state (levels, XP, bosses,
+// prestige, campaign run with decisions, option order and phase, custom questions), every
+// attempt, and view preferences. API keys live in a separate store and are never included.
+const BACKUP_SCHEMA=4;
+function buildBackup(){
+  let uiPrefs=null; try{ uiPrefs=JSON.parse(localStorage.getItem(LS+".ui")||"null"); }catch(e){}
+  let theme=null; try{ theme=localStorage.getItem(LS+".theme"); }catch(e){}
+  return { app:"ExamHelp", kind:"backup", schema:BACKUP_SCHEMA, exported:new Date().toISOString(),
+    contentVersion:(PATCHNOTES[0]&&PATCHNOTES[0].v)||null,
+    state:JSON.parse(JSON.stringify(state)), attempts:JSON.parse(JSON.stringify(attempts)), prefs:{ui:uiPrefs,theme} };
+}
+function downloadBackup(){
+  const blob=new Blob([JSON.stringify(buildBackup(),null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob), a=document.createElement("a");
+  a.href=url; a.download="examhelp-backup-"+todayISO()+".json"; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+// Checks every field a restore would write. Returns a list of problems; empty means safe.
+function validateBackup(p){
+  const errs=[], isObj=x=>x&&typeof x==="object"&&!Array.isArray(x), isNum=x=>typeof x==="number"&&isFinite(x);
+  if(!isObj(p)||p.app!=="ExamHelp"||p.kind!=="backup") return ["not an ExamHelp backup file"];
+  if(!isNum(p.schema)||p.schema>BACKUP_SCHEMA) errs.push("made by a newer version of ExamHelp (backup format "+p.schema+")");
+  const st=p.state;
+  if(!isObj(st)) return errs.concat("missing learner state");
+  if(!isObj(st.done)) errs.push("level progress is malformed");
+  else if(Object.entries(st.done).some(([k,v])=>!/^\d+$/.test(k)||!isNum(v))) errs.push("level progress has invalid entries");
+  if(st.bosses!=null&&!isObj(st.bosses)) errs.push("boss wins are malformed");
+  if(st.xp!=null&&!isNum(st.xp)) errs.push("XP is not a number");
+  if(st.prestige!=null&&!isNum(st.prestige)) errs.push("prestige is not a number");
+  if(st.program!=null&&!["sc","sec","both"].includes(st.program)) errs.push("unknown program");
+  if(st.studyMode!=null&&!["self","campaign"].includes(st.studyMode)) errs.push("unknown study mode");
+  if(st.customQuestions!=null&&!Array.isArray(st.customQuestions)) errs.push("custom questions are malformed");
+  if(st.start!=null&&!/^\d{4}-\d{2}-\d{2}$/.test(st.start)) errs.push("plan start date is malformed");
+  const g=st.guided;
+  if(g!=null){
+    if(!isObj(g)||!isObj(g.passed)||!isObj(g.missions)||!isObj(g.flags)) errs.push("campaign run is malformed");
+    else {
+      if(typeof g.phase!=="string") errs.push("campaign phase is missing");
+      Object.entries(g.missions).forEach(([mid,r])=>{
+        if(!isObj(r)||!isNum(r.i)||!Array.isArray(r.answers)) errs.push("campaign mission "+mid+" is malformed");
+        else r.answers.forEach(a=>{ if(a!=null&&(!isObj(a)||!isNum(a.picked))) errs.push("a decision in "+mid+" is malformed"); });
+      });
+      Object.keys(g.flags).forEach(k=>{ if(!CFLAGS.some(f=>f.k===k)) errs.push("unknown campaign flag "+k); });
+    }
+  }
+  if(!Array.isArray(p.attempts)) errs.push("attempt history is missing");
+  else if(p.attempts.some(a=>!isObj(a)||!isNum(a.ts)||!Array.isArray(a.items||[]))) errs.push("some attempts are malformed");
+  return [...new Set(errs)];
+}
+// Snapshot what's in this browser right now so an import can be undone.
+function snapshotBeforeImport(){
+  try{ const raw=localStorage.getItem(LS); localStorage.setItem(LS+".preimport",JSON.stringify({ts:Date.now(),raw,ui:localStorage.getItem(LS+".ui")})); return true; }
+  catch(e){ return false; }
+}
+function preImportSnapshot(){ try{ return JSON.parse(localStorage.getItem(LS+".preimport")||"null"); }catch(e){ return null; } }
+function undoLastImport(){
+  const snap=preImportSnapshot(); if(!snap) return;
+  try{
+    if(snap.raw==null) localStorage.removeItem(LS); else localStorage.setItem(LS,snap.raw);
+    if(snap.ui!=null) localStorage.setItem(LS+".ui",snap.ui);
+    localStorage.removeItem(LS+".preimport");
+  }catch(e){ statsIO.importError="Couldn't undo: this browser refused to save."; render(); return; }
+  location.reload();
+}
+function restoreBackup(p){
+  const problems=validateBackup(p);
+  if(problems.length){ statsIO.importError="Nothing was changed. This backup can't be restored: "+problems.join("; ")+"."; render(); return; }
+  if(!snapshotBeforeImport()){ statsIO.importError="Nothing was changed. This browser won't let ExamHelp save a safety copy first."; render(); return; }
+  try{
+    localStorage.setItem(LS,JSON.stringify({state:p.state,attempts:p.attempts}));
+    if(p.prefs&&p.prefs.ui) localStorage.setItem(LS+".ui",JSON.stringify(p.prefs.ui));
+    if(p.prefs&&p.prefs.theme) localStorage.setItem(LS+".theme",p.prefs.theme);
+  }catch(e){ undoLastImport(); statsIO.importError="Nothing was changed. The browser ran out of room while restoring."; render(); return; }
+  location.reload();   // re-run normal loading so every default and guard applies to the restored data
+}
 function buildSummaryText(){
   const snap=statsSnapshot();
   const readiness={sc:snap.recent("sc"),sec:snap.recent("sec")};
@@ -2142,8 +2489,8 @@ function buildSummaryText(){
   lines.push("ExamHelp — "+(statsIO.name||"Study stats")+" — "+dateStr);
   lines.push(snap.A.length+" tests · "+snap.items.length+" questions · "+snap.streak+(snap.streak===1?" day":" days")+" streak");
   lines.push("");
-  lines.push("SC-900 readiness: "+(readiness.sc?readiness.sc.pct+"% (last "+readiness.sc.n+" answers)":"no answers yet"));
-  lines.push("Security+ readiness: "+(readiness.sec?readiness.sec.pct+"% (last "+readiness.sec.n+" answers)":"no answers yet"));
+  lines.push("SC-900 recent accuracy: "+(readiness.sc?readiness.sc.pct+"% (last "+readiness.sc.n+" answers)":"no answers yet"));
+  lines.push("Security+ recent accuracy: "+(readiness.sec?readiness.sec.pct+"% (last "+readiness.sec.n+" answers)":"no answers yet"));
   ["sc","sec"].forEach(t=>{
     lines.push("");
     lines.push(TRACK[t]+" by domain");
@@ -2187,8 +2534,13 @@ function handleStatsImportFile(file){
     let parsed;
     try{ parsed=JSON.parse(reader.result); }
     catch(e){ statsIO.importError="That file isn't valid JSON."; render(); return; }
+    if(parsed&&parsed.app==="ExamHelp"&&parsed.kind==="backup"){
+      const problems=validateBackup(parsed);
+      if(problems.length){ statsIO.importError="Nothing was changed. This backup can't be restored: "+problems.join("; ")+"."; render(); return; }
+      statsIO.importPreview=parsed; render(); return;
+    }
     if(!(parsed&&parsed.app==="ExamHelp"&&typeof parsed.schema==="number"&&parsed.schema<=3&&Array.isArray(parsed.attempts))){
-      statsIO.importError="That doesn't look like an ExamHelp export (missing app/schema/attempts)."; render(); return;
+      statsIO.importError="That doesn't look like an ExamHelp file. Use a Full backup or an Instructor summary exported from ExamHelp."; render(); return;
     }
     statsIO.importPreview=parsed; render();
   };
@@ -2201,8 +2553,11 @@ function handleStatsImportFile(file){
 // attempts and only "replace" differs by also overwriting local plan state instead of merging it.
 async function applyStatsImport(mode){
   const p=statsIO.importPreview; if(!p) return;
-  const have=new Set(attempts.map(a=>a.ts));
-  const toAdd=(p.attempts||[]).filter(a=>a&&typeof a.ts==="number"&&!have.has(a.ts));
+  if(p.kind==="backup"){ restoreBackup(p); return; }
+  snapshotBeforeImport();
+  // Stable ids when both sides have them; older records fall back to the timestamp.
+  const haveId=new Set(attempts.map(a=>a.id).filter(Boolean)), haveTs=new Set(attempts.map(a=>a.ts));
+  const toAdd=(p.attempts||[]).filter(a=>a&&typeof a.ts==="number"&&!(a.id?haveId.has(a.id):haveTs.has(a.ts)));
   if(db){ for(const a of toAdd){ try{ await db.collection("attempts").add(a); }catch(e){} } }
   else if(mode==="replace"){ attempts=(p.attempts||[]).slice(); }
   else { attempts.push(...toAdd); }
@@ -2224,10 +2579,21 @@ async function applyStatsImport(mode){
   render();
 }
 function renderStatsIOPanel(hasAttempts){
-  const importBtn=h("label",{class:"btn"},"Import stats",h("input",{type:"file",accept:".json,application/json",style:"display:none",onchange:e=>{handleStatsImportFile(e.target.files[0]); e.target.value="";}}));
+  const importBtn=h("label",{class:"btn"},"Import a file",h("input",{type:"file",accept:".json,application/json",style:"display:none",onchange:e=>{handleStatsImportFile(e.target.files[0]); e.target.value="";}}));
   const preview=statsIO.importPreview;
   let previewBox=null;
-  if(preview){
+  if(preview&&preview.kind==="backup"){
+    const st=preview.state||{}, g=st.guided||{}, exportedDate=preview.exported?fmtDT(new Date(preview.exported).getTime()):"unknown date";
+    previewBox=h("div",{class:"panel",style:"background:var(--bg);margin-top:10px;display:flex;flex-direction:column;gap:8px"},
+      h("p",{style:"margin:0"},h("b",{},"Full backup from "+exportedDate+". "),
+        (preview.attempts||[]).length+" quizzes, "+Object.keys(st.done||{}).length+" levels cleared, "+(st.xp||0)+" XP, "+Object.keys(st.bosses||{}).length+" bosses defeated"+
+        (g.started?", campaign run "+g.run+" in progress":"")+"."),
+      h("p",{class:"muted",style:"margin:0;font-size:13px"},"Restoring replaces everything in this browser with the backup. A safety copy of what's here now is kept, so you can undo it."),
+      h("div",{class:"actions"},
+        h("button",{class:"btn primary",onclick:()=>applyStatsImport("replace")},"Restore this backup"),
+        h("button",{class:"btn",onclick:()=>{statsIO.importPreview=null;render();}},"Cancel")));
+  }
+  else if(preview){
     const exportedDate=preview.exported?fmtDT(new Date(preview.exported).getTime()):"unknown date";
     previewBox=h("div",{class:"panel",style:"background:var(--bg);margin-top:10px"},
       h("p",{style:"margin:0 0 8px"},"Found "+(preview.summary?preview.summary.tests:preview.attempts.length)+" tests, "+(preview.summary?preview.summary.answered:"?")+" answers, exported "+exportedDate+(preview.student&&preview.student.name?" by "+preview.student.name:"")+"."),
@@ -2237,16 +2603,19 @@ function renderStatsIOPanel(hasAttempts){
         h("button",{class:"btn",onclick:()=>{statsIO.importPreview=null;render();}},"Cancel")));
   }
   return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:10px"},
-    h("h3",{},"Save or move your stats"),
-    h("p",{class:"muted",style:"margin:0;font-size:13px"},"Everything above lives only in this browser. Export it to move to another device, back it up, or send it to an instructor. Import brings a file back in."),
+    h("h3",{},"Back up or share your progress"),
+    h("p",{class:"muted",style:"margin:0;font-size:13px;max-width:70ch"},"Everything lives only in this browser. A full backup restores all of it on another device: levels, XP, bosses, your campaign run and every quiz. An instructor summary is the smaller file your instructor's roster reads."),
     h("label",{class:"row",style:"gap:8px;flex-wrap:wrap"},"Name for the file/summary (optional):",
       h("input",{type:"text",placeholder:"Your name",value:statsIO.name,oninput:e=>statsIO.name=e.target.value,style:"max-width:220px"})),
     h("div",{class:"actions",style:"flex-wrap:wrap"},
-      h("button",{class:"btn primary",disabled:hasAttempts?null:true,onclick:downloadStatsExport},"Export stats"),
+      h("button",{class:"btn primary",onclick:downloadBackup},"Download full backup"),
+      h("button",{class:"btn",disabled:hasAttempts?null:true,onclick:downloadStatsExport},"Instructor summary"),
       h("button",{class:"btn",disabled:hasAttempts?null:true,onclick:copyStatsSummary},statsIO.copied?"Copied!":"Copy summary"),
       importBtn),
     statsIO.importError?h("p",{style:"color:var(--bad);margin:0;font-size:13px"},statsIO.importError):null,
-    previewBox);
+    previewBox,
+    (()=>{ const snap=preImportSnapshot(); return snap?h("p",{class:"muted",style:"margin:0;font-size:13px"},"Your last import was "+fmtDT(snap.ts)+". ",
+      h("button",{class:"linklike",style:"font-size:inherit",onclick:undoLastImport},"Undo it and restore what you had before")):null; })());
 }
 // ---------- stats ----------
 function renderStats(){
@@ -2258,13 +2627,24 @@ function renderStats(){
   const recent=t=>{const xs=items.filter(x=>x.q.track===t).slice(-60);return xs.length?{p:pct(xs.reduce((s,x)=>s+x.ok,0),xs.length),n:xs.length}:null;};
   const days=[...new Set(A.map(a=>midnight(new Date(a.ts)).getTime()))].sort((a,b)=>b-a);
   let streak=0; {let c=midnight(new Date()).getTime(); if(days[0]!==c) c-=864e5; for(const d of days){ if(d===c){streak++;c-=864e5;} else if(d<c) break; }}
-  const scR=recent("sc"), secR=recent("sec");
   const tile=(label,val,sub)=>h("div",{class:"tile"},h("span",{class:"eyebrow"},label),h("b",{class:"tabnum"},val),sub?h("span",{class:"muted",style:"font-size:12px"},sub):null);
-  const tiles=h("div",{class:"tiles"},
-    inProgram("sc")?tile("SC-900 readiness",scR?scR.p+"%":"–",scR?"last "+scR.n+" answers · target 80%":"no SC-900 answers yet"):null,
-    inProgram("sec")?tile("Security+ readiness",secR?secR.p+"%":"–",secR?"last "+secR.n+" answers · target 80%":"no Sec+ answers yet"):null,
-    tile("Tests taken",A.length,items.length+" questions answered"),
-    tile("Study streak",streak+(streak===1?" day":" days"),"days in a row with a quiz"));
+  const evidenceRow=t=>{
+    const e=evidenceFor(q=>q.track===t), m=mockEvidence(t);
+    return h("div",{style:"display:flex;flex-direction:column;gap:8px"},
+      h("h3",{style:"margin:0"},TRACK[t]),
+      h("div",{class:"tiles"},
+        tile("Coverage",e.coverage.p+"%",e.coverage.seen+" of "+e.coverage.total+" questions seen"),
+        tile("Recent accuracy",evText(e.recent),evSub(e.recent,"last "+e.recent.n+" answers")),
+        tile("Delayed recall",evText(e.delayed),evSub(e.delayed,e.delayed.n+" answers a day or more after last seeing them")),
+        tile("Mock exam",m?m.last+"%":"None yet",m?"best "+m.best+"% across "+m.n+" mock"+(m.n===1?"":"s"):"full timed practice exam")));
+  };
+  const tiles=h("div",{style:"display:flex;flex-direction:column;gap:16px"},
+    ["sc","sec"].filter(inProgram).map(evidenceRow),
+    h("div",{class:"tiles"},
+      tile("Tests taken",A.length,items.length+" questions answered"),
+      tile("Study streak",streak+(streak===1?" day":" days"),"days in a row with a quiz"),
+      tile("Due for review",dueKeys().length,"questions scheduled for today")),
+    h("p",{class:"muted",style:"margin:0;font-size:13px;max-width:72ch"},"These describe your practice, not a prediction of your exam score. Written answers (self-graded) and your own custom questions aren't counted. Aim for high delayed recall and a mock exam at 80% or better."));
 
   // trend chart
   const last=A.slice(-30), W=640, H=220, L=34, R=10, T=12, B=26;
@@ -2435,6 +2815,7 @@ function submitMock(auto){
   });
   mockRun.rec={ts:Date.now(),mode:"mock",scopeId:"mock-"+mockRun.track,scope:"Mock exam: "+TRACK[mockRun.track],track:mockRun.track,n,score,pct:pct(score,n),ms:Date.now()-mockRun.t0,durationLimitMs:mockRun.timeLimitMs,perDomain,items:res,unanswered,prestige:state.prestige};
   saveAttempt(mockRun.rec);
+  recordReview(mockRun.rec.items); saveProgress();
   recordGameProgress(mockRun.rec);
   if(mockRun.rec&&mockRun.rec.pct>=80) queueFx("victory","#view .panel");
   render(); window.scrollTo(0,0);
@@ -2578,10 +2959,13 @@ function renderCore(){
     return;
   }
   if(tabs) tabs.style.display="";
-  v.replaceChildren(ui.tab==="plan"?renderPlan():ui.tab==="quiz"?renderQuizTab():ui.tab==="stats"?renderStats():ui.tab==="game"?renderGame():ui.tab==="pbq"?renderPBQ():ui.tab==="lab"?renderLab():ui.tab==="mock"?renderMock():renderCampaign());
-  if(run&&!run.finished&&run.timedMs&&!run.answered&&!tick) startTimer();
+  if(STUDY_TABS.includes(ui.tab)) ui.studyTab=ui.tab==="quiz"&&ui.quiz.mode==="acronym"?"acr":ui.tab;
+  if(ui.tab==="acr"){ ui.tab="quiz"; if(ui.quiz.mode!=="acronym"){ ui.lastMode=ui.quiz.mode; ui.quiz.mode="acronym"; } }
+  const main=ui.tab==="home"?renderHome():ui.tab==="plan"?renderPlan():ui.tab==="quiz"?renderQuizTab():ui.tab==="stats"?renderStats():ui.tab==="game"?renderGame():ui.tab==="pbq"?renderPBQ():ui.tab==="lab"?renderLab():ui.tab==="mock"?renderMock():renderCampaign();
+  v.replaceChildren(STUDY_TABS.includes(ui.tab)?h("div",{style:"display:flex;flex-direction:column;gap:16px"},renderStudyNav(),main):main);
+  if(run&&!run.finished&&run.timedMs&&!run.answered&&!tick&&ui.tab==="quiz") startTimer();
 }
-if(location.hash==="#quiz"||location.hash==="#stats"||location.hash==="#plan") ui.tab=location.hash.slice(1);
+if(["#home","#quiz","#stats","#plan"].includes(location.hash)) ui.tab=location.hash.slice(1);
 render();
 })();
 </script>
