@@ -3,6 +3,11 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"1.9.1", date:"2026-09-29", title:"Campaign quizzes get a clock", tag:"balance", items:[
+  "From the Shadow IT prestige tier up, campaign level quizzes are timed: 20 seconds per question, explanations at the end.",
+  "A question that runs out of time counts as wrong. You still need 80% on the full quiz to move on, and you can retake it as often as you like."
+]},
+
 { v:"1.9.0", date:"2026-09-29", title:"A cleaner ExamHelp, and campaign mode gets its own page", tag:"feature", items:[
   "New look up top: a slim ExamHelp bar and one status line with your level, progress and rank. Program, study mode, exam dates and start date now live under Plan settings.",
   "The level count matches your program: SC-900 shows 12 levels, Security+ shows 21, Both shows 33.",
