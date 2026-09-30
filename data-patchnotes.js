@@ -3,6 +3,14 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.0.1", date:"2026-09-30", title:"Honest results and a cleaner Home", tag:"fix", items:[
+  "Ending a quiz early now says so up front: \"Session ended early: 1 of 5 answered.\" Unfinished sessions no longer get 80%-target praise, a Clean Sweep badge, or credit toward finishing a level's modes. A button lets you answer the questions you skipped.",
+  "No more repeated questions. If a set has fewer unique questions than you asked for, the session is shorter and tells you why, with a separate retry round if you want another pass.",
+  "Boss fights in small domains use the questions available instead of repeating them. You still need to finish at 80% or better with 3 mistakes or fewer.",
+  "Home's headline is shorter: \"Continue: Security basics\", with the level's topics underneath in smaller text."
+]},
+
+
 { v:"2.0.0", date:"2026-09-30", title:"ExamHelp 2.0: know what to do next, and remember it", tag:"feature", items:[
   "New Home screen. It tells you the one thing to do next and why: finish a quiz you left, review what's due, or continue your plan. The domain map shows how much of each area you've covered.",
   "Five places instead of eight tabs: Home, Study, Campaign, Arena and Progress. Lessons, Practice, Acronyms, PBQs, Mock exam and Question Lab all live under Study.",
