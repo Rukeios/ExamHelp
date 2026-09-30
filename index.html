@@ -467,23 +467,23 @@ nav.tabs{background:var(--navbg,color-mix(in srgb,var(--bg) 92%,transparent))}
   </footer>
 </div>
 
-<script src="data.js?v=1.9.1"></script>
-<script src="data-extra.js?v=1.9.1"></script>
-<script src="data-pack2.js?v=1.9.1"></script>
-<script src="data-pack3.js?v=1.9.1"></script>
-<script src="data-pack4-sc.js?v=1.9.1"></script>
-<script src="data-pack5-net.js?v=1.9.1"></script>
-<script src="data-acronyms.js?v=1.9.1"></script>
-<script src="data-patchnotes.js?v=1.9.1"></script>
-<script src="data-bosses.js?v=1.9.1"></script>
+<script src="data.js?v=1.9.2"></script>
+<script src="data-extra.js?v=1.9.2"></script>
+<script src="data-pack2.js?v=1.9.2"></script>
+<script src="data-pack3.js?v=1.9.2"></script>
+<script src="data-pack4-sc.js?v=1.9.2"></script>
+<script src="data-pack5-net.js?v=1.9.2"></script>
+<script src="data-acronyms.js?v=1.9.2"></script>
+<script src="data-patchnotes.js?v=1.9.2"></script>
+<script src="data-bosses.js?v=1.9.2"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=1.9.1"></script>
-<script src="data-campaign-flags.js?v=1.9.1"></script>
-<script src="data-campaign-endings.js?v=1.9.1"></script>
-<script src="data-fixes-01.js?v=1.9.1"></script>
-<script src="data-fixes-02.js?v=1.9.1"></script>
-<script src="data-fixes-03.js?v=1.9.1"></script>
-<script src="examhelp-effects.js?v=1.9.1"></script>
+<script src="data-daymissions.js?v=1.9.2"></script>
+<script src="data-campaign-flags.js?v=1.9.2"></script>
+<script src="data-campaign-endings.js?v=1.9.2"></script>
+<script src="data-fixes-01.js?v=1.9.2"></script>
+<script src="data-fixes-02.js?v=1.9.2"></script>
+<script src="data-fixes-03.js?v=1.9.2"></script>
+<script src="examhelp-effects.js?v=1.9.2"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -1139,7 +1139,7 @@ function buildAcronymQuestion(entry,pool,reverse){
   const q=reverse?'Which acronym stands for: "'+entry.f+'"?':'What does "'+entry.a+'" stand for?';
   const why=entry.n||"";
   const k="acr-"+entry.a;
-  const obj={k,d:"—",track,dom:entry.d,q,o:opts,a,why};
+  const obj={k,d:"—",track,dom:entry.d,q,o:opts,a,why,acr:entry.a,full:entry.f};
   Q[k]=obj;
   return obj;
 }
@@ -1257,7 +1257,9 @@ function answer(origIdx){
   run.streak=ok?run.streak+1:0; run.best=Math.max(run.best,run.streak);
   queueFx(ok?"correct":"incorrect",ok?".opts .opt.right":".opts .opt.wrong");
   stopTimer();
-  if(run.mode==="blitz"||run.mode==="acronym"){ render(); setTimeout(next, ok?350:900); }
+  // Only Blitz moves on by itself (including timed campaign quizzes, which run in Blitz).
+  // Everything else waits for Next so there's time to read the answer and take notes.
+  if(run.mode==="blitz"){ render(); setTimeout(next, ok?350:900); }
   else render();
 }
 function gradeWritten(score){
@@ -1353,7 +1355,9 @@ function renderRun(){
       kids.push(h("div",{class:"actions"},h("button",{class:"btn primary",id:"nextbtn",onclick:next},run.i<run.list.length-1?"Next →":"See results")));
     }
     if(a&&run.mode==="acronym"){
-      kids.push(h("div",{class:"why"+(a.ok?"":" bad")},h("b",{},a.ok?"Right. ":"Answer: "+q.o[q.a]+". "),q.why));
+      kids.push(h("div",{class:"why"+(a.ok?"":" bad")},h("b",{},a.ok?"Right. ":"Not quite. "),
+        q.acr&&q.full?h("span",{},h("b",{},q.acr)," = "+q.full+". "):"Answer: "+q.o[q.a]+". ",q.why||""));
+      kids.push(h("div",{class:"actions"},h("button",{class:"btn primary",id:"nextbtn",onclick:next},run.i<run.list.length-1?"Next →":"See results")));
     }
     if(a&&run.timedMs&&a.pick===-1) kids.push(h("div",{class:"why bad"},h("b",{},"Time. ")));
   }
@@ -1432,7 +1436,7 @@ document.addEventListener("keydown",e=>{
   if(e.target&&e.target.tagName==="TEXTAREA") return;
   const it=run.list[run.i];
   if(!run.answered&&/^[1-4]$/.test(e.key)){ const pos=+e.key-1; if(pos<it.order.length){ e.preventDefault(); answer(it.order[pos]); } }
-  else if(run.answered&&run.mode==="think"&&e.key==="Enter"){ e.preventDefault(); next(); }
+  else if(run.answered&&(run.mode==="think"||run.mode==="acronym")&&e.key==="Enter"){ e.preventDefault(); next(); }
 });
 function teachesPanel(boss,heading){
   if(!boss) return null;
