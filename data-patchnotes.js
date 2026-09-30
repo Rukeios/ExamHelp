@@ -3,6 +3,21 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.1.0", date:"2026-10-01", title:"CertificationNation 2.1: study your way", tag:"feature", items:[
+  "ExamHelp is now CertificationNation. Nothing about your progress changed: levels, scores, campaign decisions, rewards and backups all carry over, and old ExamHelp backup files still import.",
+  "New in Study: Notes & cards. Pocket Notes are short, copyable study cards for every SC-900 lesson (61 concepts), each with an exam clue and links to its Microsoft Learn sources. Copy a note, save it, or practice it.",
+  "Flashcards built from the same notes: see the prompt, recall it, press Space to reveal, then rate yourself Again, Almost or Got it. Choose 5, 10 or an open-ended session. Your ratings decide when a card comes back; they're kept apart from quiz scores and never change your accuracy.",
+  "Don't Mix These Up: 19 side-by-side comparisons of concepts people confuse, such as authentication vs authorization, hashing vs encryption, and Defender for Identity vs Entra ID Protection. Each has the difference, an exam clue, a small workplace example and why the other option doesn't fit.",
+  "Real-World Practice: 78 SC-900 workplace scenarios, three for each concept group: identify what's happening, choose the next step, or pick what fits the constraints. Every answer explains why the other options don't fit and gives a copyable takeaway. Find them under Practice → Real-World, or finish any deck with one.",
+  "My Field Guide collects everything you save. Search it, add your own notes (kept separate from the study content), copy one item or a selection, or print a clean copy.",
+  "5-Minute Sprint: three notes, three recall cards and one scenario, with a short summary at the end. No countdown; stop and pick up later.",
+  "Deck stamps and cosmetic titles for studying, plus a milestone the first time you remember a card on a later day. None of them add XP. The Night Shift achievement is retired: the app shouldn't reward staying up late. If you earned it, it stays on your profile.",
+  "Security+ notes, flashcards and scenarios are next, in batches. This release covers SC-900 fully; the coverage report in the repo shows exactly what exists.",
+  "Content was drafted with AI help and checked against Microsoft Learn by an independent automated review. It hasn't had a human expert review yet, so use Report a problem if something looks wrong.",
+  "Full backups now include your saved items, flashcard progress, stamps, titles and any unfinished sprint or flashcard session."
+]},
+
+
 { v:"2.0.1", date:"2026-09-30", title:"Honest results and a cleaner Home", tag:"fix", items:[
   "Ending a quiz early now says so up front: \"Session ended early: 1 of 5 answered.\" Unfinished sessions no longer get 80%-target praise, a Clean Sweep badge, or credit toward finishing a level's modes. A button lets you answer the questions you skipped.",
   "No more repeated questions. If a set has fewer unique questions than you asked for, the session is shorter and tells you why, with a separate retry round if you want another pass.",

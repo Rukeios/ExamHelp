@@ -4,8 +4,8 @@ The most valuable contribution here is a question correction. If you spot a wron
 answer, a confusing distractor, or an outdated reference, please open an issue — even
 just the question text and what's wrong is enough.
 
-ExamHelp isn't open source (see [LICENSE](LICENSE)), so issues are the way in. By
-submitting a correction or suggestion, you agree it can be used in ExamHelp.
+CertificationNation (formerly ExamHelp) isn't open source (see [LICENSE](LICENSE)), so issues are the way in. By
+submitting a correction or suggestion, you agree it can be used in CertificationNation.
 
 ## Question format
 
