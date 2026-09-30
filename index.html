@@ -418,6 +418,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px soli
 nav.tabs{background:var(--navbg,color-mix(in srgb,var(--bg) 92%,transparent))}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) body{--navbg:rgba(4,14,24,.62)}:root:not([data-theme="light"]) body.scene-arena{--navbg:rgba(16,11,8,.66)}}
 :root[data-theme="dark"] body{--navbg:rgba(4,14,24,.62)}:root[data-theme="dark"] body.scene-arena{--navbg:rgba(16,11,8,.66)}
+.sync.sync-bad{color:var(--bad);font-weight:600}
 </style>
 </head>
 <body>
@@ -589,7 +590,11 @@ let state={start:"2026-09-24",done:{},xp:0,achievements:{},bosses:{},customQuest
 let attempts=[];
 let db=null, sample=null;
 function lsGet(){try{return JSON.parse(localStorage.getItem(LS)||"null");}catch(e){return null;}}
-function lsSet(){try{localStorage.setItem(LS,JSON.stringify({state,attempts:db?[]:attempts}));}catch(e){}}
+let saveFailed=false;
+function lsSet(){
+  try{ localStorage.setItem(LS,JSON.stringify({state,attempts:db?[]:attempts})); if(saveFailed){ saveFailed=false; setSync("Saved in this browser only"); } }
+  catch(e){ saveFailed=true; try{ setSync("Couldn't save: this browser is blocking storage or it's full. Back up from Progress before closing."); document.getElementById("sync").classList.add("sync-bad"); }catch(_){} }
+}
 const saved=lsGet(); if(saved){ if(saved.state) state=Object.assign(state,saved.state); if(!db && saved.attempts) attempts=saved.attempts; }
 state.done=state.done||{}; state.achievements=state.achievements||{}; state.bosses=state.bosses||{}; state.customQuestions=state.customQuestions||[]; state.prestige=state.prestige||0;
 state.runStart=state.runStart||todayISO();
@@ -612,7 +617,9 @@ function saveProgress(){
   lsSet();
   if(db){ const body={start:state.start,done:state.done}; progWriting=progWriting.then(()=>db.doc("meta/progress").set(body)).catch(()=>{}); }
 }
+function attemptId(){ return Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,8); }
 async function saveAttempt(rec){
+  if(!rec.id) rec.id=attemptId();
   if(db){
     try{ await db.collection("attempts").add(rec); return; }
     catch(e){ if(e&&e.code==="quota_exceeded"){ setSync("Storage full: delete old attempts to save new ones"); } }
@@ -756,7 +763,8 @@ function renderProgramToggle(){
 }
 function programCounts(track){
   return {
-    days: DAYS.filter(d=>d.track===track&&d.q).length,
+    days: DAYS.filter(d=>d.track===track&&d.q&&!d.kind).length,
+    checks: DAYS.filter(d=>d.track===track&&d.kind).length,
     q: Object.values(Q).filter(q=>q.track===track).length,
     dom: (DOMS[track]||[]).length,
     boss: BOSSES.filter(b=>b.track===track&&!b.final).length
@@ -774,11 +782,11 @@ function renderProgramPicker(){
     h("p",{class:"muted",style:"margin:0"},"Pick one now — you can change it later, and it never deletes your history."),
     h("div",{class:"row",style:"gap:16px;flex-wrap:wrap;align-items:stretch"},
       card("SC-900","Microsoft Security, Compliance & Identity Fundamentals",
-        ["~"+sc.days+" levels · "+sc.q+" questions · "+sc.dom+" domains · "+sc.boss+" bosses",
+        [sc.days+" lessons + "+sc.checks+" checkpoints · "+sc.q+" questions · "+sc.dom+" domains · "+sc.boss+" bosses",
          "Entry level, no prerequisites, 65 minutes, "+MOCK_SPEC.sc.n+" questions."],
         ()=>setProgram("sc")),
       card("Security+","CompTIA SY0-701",
-        ["~"+sec.days+" levels · "+sec.q+" questions · "+sec.dom+" domains · "+sec.boss+" bosses",
+        [sec.days+" lessons + "+sec.checks+" checkpoints · "+sec.q+" questions · "+sec.dom+" domains · "+sec.boss+" bosses",
          "Assumes some networking background. "+MOCK_SPEC.sec.minutes+" minutes, up to "+MOCK_SPEC.sec.n+" questions."],
         ()=>setProgram("sec")),
       card("Both","The full 33-level camp",
@@ -1168,11 +1176,13 @@ function pick(keys,n){
   if(!keys.length) return [];
   const hist=qHistory();
   const w=k=>{const r=hist[k];return (r?r.miss*2+(r.miss/r.seen)*2:1.5)+Math.random()*2.2;};
-  const ranked=shuffle(keys.map(k=>[k,w(k)]).sort((a,b)=>b[1]-a[1]).map(x=>x[0]));
-  if(n>=999) return ranked;
+  // Rank by weakness (with a little noise so ties vary), take the top n, THEN shuffle the
+  // presentation order. Shuffling before slicing would throw the ranking away.
+  const ranked=keys.map(k=>[k,w(k)]).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
+  if(n>=999) return shuffle(ranked);
   const first=ranked.slice(0,Math.min(n,keys.length));
   while(first.length<n) first.push(...shuffle(keys).slice(0,n-first.length));
-  return first;
+  return shuffle(first);
 }
 function startQuiz(scope,mode,n){
   stopTimer();
@@ -1239,7 +1249,7 @@ function answer(origIdx){
   run.res.push([it.k,ok,ms]);
   if(run.boss){
     if(ok){ run.boss.fx={kind:"flinch",dmg:Math.floor(Math.random()*18+8)}; }
-    else{ run.boss.lives--; run.boss.fx={kind:"rage"}; }
+    else{ run.boss.lives--; run.boss.fx={kind:"rage"}; }   // lives = mistakes still allowed; below 0 = the 4th mistake
   }
   run.streak=ok?run.streak+1:0; run.best=Math.max(run.best,run.streak);
   queueFx(ok?"correct":"incorrect",ok?".opts .opt.right":".opts .opt.wrong");
@@ -1258,7 +1268,7 @@ function gradeWritten(score){
 }
 function next(){
   if(!run||run.finished) return;
-  if(run.boss&&run.boss.lives<=0){ finish(); return; }
+  if(run.boss&&run.boss.lives<0){ finish(); return; }
   if(run.i>=run.list.length-1){ finish(); return; }
   run.i++; run.answered=null; run.qt=Date.now(); run.written={text:"",revealed:false,ai:null,busy:false};
   render(); if(run.timedMs) startTimer();
@@ -1268,7 +1278,7 @@ function finish(){
   const score=run.res.reduce((s,r)=>s+r[1],0), n=run.res.length;
   const tracks=[...new Set(run.res.map(r=>Q[r[0]].track))];
   run.rec={ts:Date.now(),mode:run.mode,scopeId:run.scope.id,scope:run.scope.label,track:tracks.length===1?tracks[0]:"mix",n,score,pct:pct(score,n),ms:Date.now()-run.t0,best:run.best,items:run.res,prestige:state.prestige};
-  if(run.boss&&run.boss.lives>0&&run.res.length===15&&run.rec.pct>=80){ state.bosses[run.boss.track+"|"+run.boss.dom]=Date.now(); saveProgress(); }
+  if(run.boss&&run.boss.lives>=0&&run.res.length===15&&run.rec.pct>=80){ state.bosses[run.boss.track+"|"+run.boss.dom]=Date.now(); saveProgress(); }
   run.prev=attempts.filter(a=>a.scopeId===run.rec.scopeId&&a.mode===run.rec.mode).slice(-1)[0]||null;
   saveAttempt(run.rec);
   recordGameProgress(run.rec);
@@ -1436,7 +1446,7 @@ function teachesPanel(boss,heading){
 function renderResult(){
   const r=run.rec, p=run.prev;
   const bm=run.boss&&run.boss.meta;
-  const bossWon=run.boss&&r.pct>=80&&run.boss.lives>0&&r.n===15;
+  const bossWon=run.boss&&r.pct>=80&&run.boss.lives>=0&&r.n===15;
   if(bm&&run.boss&&!run.boss.endingPlayed){
     const finishEnding=()=>{ if(run&&run.boss){ run.boss.endingPlayed=true; if(bossWon) queueFx("victory","#view .panel"); render(); } };
     if(!run.boss.endingTimer) run.boss.endingTimer=setTimeout(finishEnding,reducedMotion()?0:(bossWon?1300:900));
@@ -1461,7 +1471,7 @@ function renderResult(){
       h("div",{},h("div",{class:"eyebrow"},"Time"),h("div",{class:"tabnum",style:"font:700 26px var(--display)"},secs(r.ms)),h("div",{class:"muted tabnum",style:"font-size:13px"},secs(avg)+" per question")),
       h("div",{},h("div",{class:"eyebrow"},"Best streak"),h("div",{class:"tabnum",style:"font:700 26px var(--display)"},r.best)),
       h("div",{},h("div",{class:"eyebrow"},"vs last time"),p?h("div",{class:"tabnum delta "+(d>0?"up":d<0?"down":""),style:"font:700 26px var(--display)"},(d>0?"+":"")+d+" pts"):h("div",{class:"muted"},"First run of this set"),p?h("div",{class:"muted tabnum",style:"font-size:13px"},"was "+p.pct+"% · "+secs(p.ms/p.n)+"/q"):null)),
-    run.boss?(bossWon?h("p",{style:"margin:0"},"Boss defeated. The domain badge is yours."):h("p",{style:"margin:0"},"Boss escaped. Finish all 15 with a score of 80% and at least one life remaining.")):(r.pct>=80?h("p",{style:"margin:0"},"That's at or above the 80% practice target."):h("p",{style:"margin:0"},"Under the 80% practice target. Hit the misses below, then run it again.")),
+    run.boss?(bossWon?h("p",{style:"margin:0"},"Boss defeated. The domain badge is yours."):h("p",{style:"margin:0"},"Boss escaped. Finish all 15 questions with 3 mistakes or fewer to win.")):(r.pct>=80?h("p",{style:"margin:0"},"That's at or above the 80% practice target."):h("p",{style:"margin:0"},"Under the 80% practice target. Hit the misses below, then run it again.")),
     state.studyMode==="campaign"?null:h("div",{class:"actions"},
       h("button",{class:"btn primary",onclick:()=>startQuiz({id:run.scope.id,label:run.scope.label,keys:run.list.map(x=>x.k)},run.mode,run.list.length)},"Run it again (new order)"),
       misses.length?h("button",{class:"btn",onclick:()=>startQuiz({id:"retry",label:"Retry misses",keys:misses.map(x=>x.k)},(run.mode==="blitz"||run.mode==="acronym"||run.mode==="mock")?"think":run.mode,misses.length)},"Retry my "+misses.length+" miss"+(misses.length>1?"es":"")):null,
@@ -1548,7 +1558,7 @@ function renderGame(){
       h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Current rank"),h("b",{},title),h("div",{class:"tabnum"},state.xp+" XP"+(next?" · "+(next[1]-state.xp)+" to "+next[0]:" · top rank"))),
       h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Daily missions "+(allDone?"🔥":"")),missions.map(m=>h("div",{class:"mission"},h("i",{},m.now>=m.goal?"✓":"○"),h("span",{},m.text,h("span",{class:"muted"}," · "+Math.min(m.now,m.goal)+"/"+m.goal))))),
       h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Achievements"),Object.entries(ACHIEVEMENTS).map(([key,a])=>h("div",{class:"mission"},h("i",{},state.achievements[key]?"★":"○"),h("span",{},a.name,h("span",{class:"muted"}," · "+a.desc))))))),
-    h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Domain boss fights"),h("p",{class:"muted",style:"margin-top:0"},"Survive a 15-question run with three lives and score at least 80% to clear a boss."),h("div",{class:"game-grid"},domainBosses.map(bossCard))),
+    h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Domain boss fights"),h("p",{class:"muted",style:"margin-top:0"},"15 questions, 3 mistakes allowed. The fourth mistake ends the fight. Finish with 3 or fewer mistakes (12 of 15) to win, and you can always try again."),h("div",{class:"game-grid"},domainBosses.map(bossCard))),
     finalBoss?h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Final boss"),h("div",{class:"boss-final-row"},
       h("div",{class:"boss-thumb-box",style:"max-height:220px"},
         h("img",{src:BOSS_IMG(finalBoss.img,allDomainsCleared?"full":"thumb"),alt:finalBoss.name,width:"320",height:"320",loading:"lazy",class:allDomainsCleared?"":"locked"}),
@@ -1786,7 +1796,8 @@ function renderCampaignChrome(on){
     h("div",{class:"muted",style:"font:500 13px var(--mono)"},"Run "+g.run+(at?" · Level "+at+" of "+L.length:"")+" · "+cleared+" cleared"),
     h("div",{class:"meter","aria-hidden":"true"},h("i",{style:"width:"+Math.round(100*cleared/L.length)+"%"}))));
   exit.replaceChildren(h("div",{class:"cexit"},
-    h("span",{class:"muted",style:"font-size:13px"},"Your run saves as you go. Leave any time and pick it back up where you stopped."),
+    h("span",{class:"muted",style:"font-size:13px"},"Your run saves as you go. Leave any time and pick it back up where you stopped. ",
+      h("button",{class:"linklike",style:"font-size:inherit",onclick:downloadBackup},"Download a backup")),
     h("button",{class:"btn",onclick:()=>setStudyMode("self")},"Leave campaign mode")));
 }
 function renderModePicker(){
@@ -1850,6 +1861,18 @@ function guidedAdvance(){
 function guidedFlagsAt(mid,i){ return CFLAGS.filter(f=>f.at===mid+":"+i); }
 function guidedAxis(ax){ return CFLAGS.filter(f=>f.axis===ax&&G().flags[f.k]).length; }
 const guidedBand=n=>n>=CBANDS.high?2:n>=CBANDS.mid?1:0;
+// Ending text that only claims what the flags support (see data-campaign-endings.js rules).
+function endingParagraphs(key,flags){
+  const e=CENDINGS[key]; if(!e) return [];
+  const R=(window.CAMPAIGN_ENDING_RULES||{})[key]||{};
+  const ok=c=>(c.all||[]).every(f=>flags[f])&&(c.none||[]).every(f=>!flags[f]);
+  return e.p.map((t,i)=>{
+    const r=R[i]; if(!r) return t;
+    if(r.parts) return r.parts.filter(ok).map(x=>x.t).join(" ");
+    if(r.alts){ const m=r.alts.find(ok); return m?m.t:null; }
+    return ok(r)?t:(r.alt||null);
+  }).filter(Boolean);
+}
 
 function guidedHeader(d,label){
   const L=guidedLevels(), i=L.findIndex(x=>x.d===d.d);
@@ -1915,10 +1938,16 @@ function renderGuided(){
   if(g.phase==="debrief"){
     const rec=(mission&&g.missions[mission.id])||{answers:[]};
     const sound=rec.answers.filter(a=>a&&a.correct).length;
+    const calls=mission?mission.steps.map((st,i)=>{ const a=rec.answers[i]; if(!a) return null;
+      return h("li",{},h("b",{},(a.correct?"✓ ":"✗ ")+st[0]),
+        h("span",{},"You chose: "+st[1][a.picked]+"."),
+        a.correct?null:h("span",{class:"muted",style:"display:block"},"Recommended: "+st[1][st[2]]+".")); }).filter(Boolean):[];
     return guidedPanel([guidedHeader(dd,"Debrief"),guidedSteps("debrief"),
       h("h2",{},(mission?mission.title:d.title)+" — debrief"),
-      mission?h("div",{class:"story"},mission.debrief):null,
-      mission?h("p",{class:"muted",style:"margin:0"},sound+" of "+mission.steps.length+" calls were the textbook move."):null,
+      mission?h("p",{style:"margin:0"},sound+" of "+mission.steps.length+" calls were the recommended move."):null,
+      calls.length?h("ul",{class:"pts"},calls):null,
+      mission?h("div",{},h("h3",{style:"margin:0 0 8px"},sound===mission.steps.length?"What happened":"What the recommended response achieves"),
+        h("div",{class:"story"},mission.debrief)):null,
       h("div",{class:"actions"},h("button",{class:"btn primary",onclick:guidedAdvance},"Continue →"))]);
   }
   if(g.phase==="boss"||g.phase==="final") return renderGuidedBoss(d,g.phase==="final"?FINAL_BOSS:bossOwedAfter(d));
@@ -1955,7 +1984,8 @@ function renderGuidedDecisions(d,mission){
     h("p",{class:"muted",style:"margin:0;font-size:13px"},"🔒 Decisions are final for this run."),
     h("p",{style:"font-weight:600;margin:0"},step[0])];
   if(answered){
-    kids.push(h("div",{class:"opts"},step[1].map((c,i)=>h("button",{class:"opt "+(i===step[2]?"right":i===answered.picked?"wrong":""),disabled:true},c))));
+    const shown=(rec.order&&rec.order[rec.i])||step[1].map((_,i)=>i);
+    kids.push(h("div",{class:"opts"},shown.map((i,pos)=>h("button",{class:"opt "+(i===step[2]?"right":i===answered.picked?"wrong":""),disabled:true},h("span",{class:"k"},pos+1),h("span",{},step[1][i])))));
     kids.push(h("div",{class:"why "+(answered.correct?"":"bad")},step[3]));
     kids.push(h("div",{class:"actions"},h("button",{class:"btn primary",onclick:()=>{rec.i++;if(rec.i>=mission.steps.length)g.phase="debrief";saveProgress();render();}},rec.i+1<mission.steps.length?"Next decision →":"See the debrief →")));
   } else {
@@ -1984,7 +2014,7 @@ function renderGuidedBoss(d,boss){
       h("h2",{style:"margin:10px 0 0"},boss.name),
       h("p",{class:"muted",style:"font-style:italic;margin:4px 0 0"},won?boss.defeat:boss.taunt)),
     won?h("p",{style:"margin:0"},"Defeated. The way forward is open.")
-       :h("p",{style:"margin:0"},(boss.final?"Everything you've studied, in one fight.":"This boss guards the end of "+boss.domain+".")+" 15 questions, three lives, 80% to win. Lose and you can challenge it again."),
+       :h("p",{style:"margin:0"},(boss.final?"Everything you've studied, in one fight.":"This boss guards the end of "+boss.domain+".")+" 15 questions, 3 mistakes allowed. The fourth mistake ends the fight. Lose and you can challenge it again."),
     h("div",{class:"actions"},won
       ?h("button",{class:"btn primary",onclick:guidedAdvance},"Continue →")
       :h("button",{class:"btn primary",onclick:()=>startBoss(boss.final?"final":boss.track,boss.domain)},"Challenge "+boss.name))]);
@@ -2001,7 +2031,7 @@ function renderGuidedEnding(){
   return guidedPanel([
     h("div",{class:"eyebrow"},"Campaign complete · Run "+g.run),
     h("h2",{},e.t),
-    h("div",{class:"story",style:"display:flex;flex-direction:column;gap:10px"},e.p.map(t=>h("p",{style:"margin:0"},t))),
+    h("div",{class:"story",style:"display:flex;flex-direction:column;gap:10px"},endingParagraphs(pb+","+rb,g.flags).map(t=>h("p",{style:"margin:0"},t))),
     h("div",{class:"row",style:"gap:18px;flex-wrap:wrap"},
       h("div",{},h("div",{class:"eyebrow"},"Prevention"),h("b",{},CAXIS.prev[pb])," ("+ps+"/3)"),
       h("div",{},h("div",{class:"eyebrow"},"Response"),h("b",{},CAXIS.resp[rb])," ("+rs+"/3)")),
@@ -2025,53 +2055,16 @@ function guidedResultBlock(){
 }
 function renderCampaign(){
   if(state.studyMode==="campaign") return renderGuided();
-  return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
-    h("section",{class:"panel",style:"display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between"},
-      h("div",{},h("h2",{style:"margin:0"},"Campaign mode"),
-        h("p",{class:"muted",style:"margin:4px 0 0"},"The full guided story: brief, intel, a quiz to pass, then decisions that shape your ending. It runs as its own page.")),
-      h("button",{class:"btn primary",onclick:()=>setStudyMode("campaign")},"Enter campaign mode")),
-    renderSelfCampaign());
-}
-function renderSelfCampaign(){
-  const day=unlockedDay(), mission=RICH_CAMPAIGN[day], dd=displayDay(day);
-  if(!mission) return h("section",{class:"panel"},h("h2",{},"Campaign"),h("p",{},"Complete Level 1 to start today's mission."));
-  const rec=state.campaign[day]||{stepIdx:0,answers:[]};
-  if(rec.stepIdx>=mission.steps.length){
-    const score=rec.answers.filter(a=>a.correct).length;
-    return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},
-      h("div",{class:"eyebrow"},"Level "+dd+" mission · "+mission.domain+" · Leon River Water"),
-      h("h2",{},mission.title+" — complete"),
-      h("p",{},"Score: "+score+" / "+mission.steps.length),
-      h("div",{class:"story"},mission.debrief),
-      h("button",{class:"btn",onclick:()=>{delete state.campaign[day];saveProgress();render();}},"Replay this level's mission"));
-  }
-  const step=mission.steps[rec.stepIdx], answered=rec.answers[rec.stepIdx];
-  const kids=[
-    h("div",{class:"eyebrow"},"Level "+dd+" mission · "+mission.domain+" · Step "+(rec.stepIdx+1)+" / "+mission.steps.length),
-    h("h2",{},mission.title),
-  ];
-  if(rec.stepIdx===0) kids.push(h("div",{class:"story"},mission.brief));
-  kids.push(h("p",{style:"font-weight:600;margin:0"},step[0]));
-  if(answered){
-    kids.push(h("div",{class:"opts"},step[1].map((choice,i)=>h("button",{class:"opt "+(i===step[2]?"right":i===answered.picked?"wrong":""),disabled:true},choice))));
-    kids.push(h("div",{class:"why "+(answered.correct?"":"bad")},step[3]));
-    kids.push(h("button",{class:"btn primary",onclick:()=>{
-      state.campaign[day]={stepIdx:rec.stepIdx+1,answers:rec.answers};
-      saveProgress(); render();
-    }},rec.stepIdx+1<mission.steps.length?"Next step →":"See debrief"));
-  } else {
-    kids.push(h("div",{class:"opts"},step[1].map((choice,i)=>h("button",{class:"opt",onclick:()=>{
-      const correct=i===step[2];
-      if(correct) state.xp+=8;
-      const answers=rec.answers.slice(); answers[rec.stepIdx]={picked:i,correct};
-      state.campaign[day]={stepIdx:rec.stepIdx,answers};
-      queueFx(correct?"correct":"incorrect",correct?".opts .opt.right":".opts .opt.wrong");
-      saveProgress(); render();
-    }},choice))));
-  }
-  const done=Object.keys(state.campaign).filter(d=>{const r=state.campaign[d];const m=RICH_CAMPAIGN[d];return m&&inProgram(m.track)&&r.stepIdx>=m.steps.length;}).length;
-  kids.push(h("p",{class:"muted",style:"font-size:13px;margin:0"},done+" of "+dd+" available mission"+(dd===1?"":"s")+" completed so far. A new mission unlocks with each new level."));
-  return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},kids);
+  // Self-paced: the Campaign destination is a door into the one campaign. The old per-day
+  // mission list was retired in 2.0 (it didn't shuffle choices and ran on different rules).
+  const g=G(), L=guidedLevels(), cleared=L.filter(x=>g.passed[x.d]).length;
+  const at=g.started?L.findIndex(x=>x.d===guidedDay().d)+1:0;
+  const status=!g.started?"Not started yet.":g.phase==="ending"?"Run "+g.run+" complete.":"Run "+g.run+": level "+at+" of "+L.length+", "+cleared+" cleared.";
+  return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:12px"},
+    h("h2",{style:"margin:0"},"Night Shift at Leon River Water"),
+    h("p",{style:"margin:0;max-width:62ch"},"The guided campaign: each level is a mission brief, the lesson as intel, a quiz you pass at "+GUIDED_PASS+"%, then decisions that shape which of nine endings you reach. It runs as its own page, and your self-paced progress carries over."),
+    h("p",{class:"muted",style:"margin:0"},status),
+    h("div",{class:"actions"},h("button",{class:"btn primary",onclick:()=>setStudyMode("campaign")},g.started?"Resume the campaign":"Enter campaign mode")));
 }
 // ---------- stats export / import ----------
 // Donations: Ko-fi. Free forever; this link is the only ask, and it tells students not to.
@@ -2120,6 +2113,82 @@ function buildExportPayload(){
     attempts:snap.A,
     state:{start:state.start, done:Object.assign({},state.done)}
   };
+}
+// ---------- full backup (schema 4) ----------
+// Everything needed to pick up exactly where you were: all learner state (levels, XP, bosses,
+// prestige, campaign run with decisions, option order and phase, custom questions), every
+// attempt, and view preferences. API keys live in a separate store and are never included.
+const BACKUP_SCHEMA=4;
+function buildBackup(){
+  let uiPrefs=null; try{ uiPrefs=JSON.parse(localStorage.getItem(LS+".ui")||"null"); }catch(e){}
+  let theme=null; try{ theme=localStorage.getItem(LS+".theme"); }catch(e){}
+  return { app:"ExamHelp", kind:"backup", schema:BACKUP_SCHEMA, exported:new Date().toISOString(),
+    contentVersion:(PATCHNOTES[0]&&PATCHNOTES[0].v)||null,
+    state:JSON.parse(JSON.stringify(state)), attempts:JSON.parse(JSON.stringify(attempts)), prefs:{ui:uiPrefs,theme} };
+}
+function downloadBackup(){
+  const blob=new Blob([JSON.stringify(buildBackup(),null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob), a=document.createElement("a");
+  a.href=url; a.download="examhelp-backup-"+todayISO()+".json"; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+// Checks every field a restore would write. Returns a list of problems; empty means safe.
+function validateBackup(p){
+  const errs=[], isObj=x=>x&&typeof x==="object"&&!Array.isArray(x), isNum=x=>typeof x==="number"&&isFinite(x);
+  if(!isObj(p)||p.app!=="ExamHelp"||p.kind!=="backup") return ["not an ExamHelp backup file"];
+  if(!isNum(p.schema)||p.schema>BACKUP_SCHEMA) errs.push("made by a newer version of ExamHelp (backup format "+p.schema+")");
+  const st=p.state;
+  if(!isObj(st)) return errs.concat("missing learner state");
+  if(!isObj(st.done)) errs.push("level progress is malformed");
+  else if(Object.entries(st.done).some(([k,v])=>!/^\d+$/.test(k)||!isNum(v))) errs.push("level progress has invalid entries");
+  if(st.bosses!=null&&!isObj(st.bosses)) errs.push("boss wins are malformed");
+  if(st.xp!=null&&!isNum(st.xp)) errs.push("XP is not a number");
+  if(st.prestige!=null&&!isNum(st.prestige)) errs.push("prestige is not a number");
+  if(st.program!=null&&!["sc","sec","both"].includes(st.program)) errs.push("unknown program");
+  if(st.studyMode!=null&&!["self","campaign"].includes(st.studyMode)) errs.push("unknown study mode");
+  if(st.customQuestions!=null&&!Array.isArray(st.customQuestions)) errs.push("custom questions are malformed");
+  if(st.start!=null&&!/^\d{4}-\d{2}-\d{2}$/.test(st.start)) errs.push("plan start date is malformed");
+  const g=st.guided;
+  if(g!=null){
+    if(!isObj(g)||!isObj(g.passed)||!isObj(g.missions)||!isObj(g.flags)) errs.push("campaign run is malformed");
+    else {
+      if(typeof g.phase!=="string") errs.push("campaign phase is missing");
+      Object.entries(g.missions).forEach(([mid,r])=>{
+        if(!isObj(r)||!isNum(r.i)||!Array.isArray(r.answers)) errs.push("campaign mission "+mid+" is malformed");
+        else r.answers.forEach(a=>{ if(a!=null&&(!isObj(a)||!isNum(a.picked))) errs.push("a decision in "+mid+" is malformed"); });
+      });
+      Object.keys(g.flags).forEach(k=>{ if(!CFLAGS.some(f=>f.k===k)) errs.push("unknown campaign flag "+k); });
+    }
+  }
+  if(!Array.isArray(p.attempts)) errs.push("attempt history is missing");
+  else if(p.attempts.some(a=>!isObj(a)||!isNum(a.ts)||!Array.isArray(a.items||[]))) errs.push("some attempts are malformed");
+  return [...new Set(errs)];
+}
+// Snapshot what's in this browser right now so an import can be undone.
+function snapshotBeforeImport(){
+  try{ const raw=localStorage.getItem(LS); localStorage.setItem(LS+".preimport",JSON.stringify({ts:Date.now(),raw,ui:localStorage.getItem(LS+".ui")})); return true; }
+  catch(e){ return false; }
+}
+function preImportSnapshot(){ try{ return JSON.parse(localStorage.getItem(LS+".preimport")||"null"); }catch(e){ return null; } }
+function undoLastImport(){
+  const snap=preImportSnapshot(); if(!snap) return;
+  try{
+    if(snap.raw==null) localStorage.removeItem(LS); else localStorage.setItem(LS,snap.raw);
+    if(snap.ui!=null) localStorage.setItem(LS+".ui",snap.ui);
+    localStorage.removeItem(LS+".preimport");
+  }catch(e){ statsIO.importError="Couldn't undo: this browser refused to save."; render(); return; }
+  location.reload();
+}
+function restoreBackup(p){
+  const problems=validateBackup(p);
+  if(problems.length){ statsIO.importError="Nothing was changed. This backup can't be restored: "+problems.join("; ")+"."; render(); return; }
+  if(!snapshotBeforeImport()){ statsIO.importError="Nothing was changed. This browser won't let ExamHelp save a safety copy first."; render(); return; }
+  try{
+    localStorage.setItem(LS,JSON.stringify({state:p.state,attempts:p.attempts}));
+    if(p.prefs&&p.prefs.ui) localStorage.setItem(LS+".ui",JSON.stringify(p.prefs.ui));
+    if(p.prefs&&p.prefs.theme) localStorage.setItem(LS+".theme",p.prefs.theme);
+  }catch(e){ undoLastImport(); statsIO.importError="Nothing was changed. The browser ran out of room while restoring."; render(); return; }
+  location.reload();   // re-run normal loading so every default and guard applies to the restored data
 }
 function buildSummaryText(){
   const snap=statsSnapshot();
@@ -2174,8 +2243,13 @@ function handleStatsImportFile(file){
     let parsed;
     try{ parsed=JSON.parse(reader.result); }
     catch(e){ statsIO.importError="That file isn't valid JSON."; render(); return; }
+    if(parsed&&parsed.app==="ExamHelp"&&parsed.kind==="backup"){
+      const problems=validateBackup(parsed);
+      if(problems.length){ statsIO.importError="Nothing was changed. This backup can't be restored: "+problems.join("; ")+"."; render(); return; }
+      statsIO.importPreview=parsed; render(); return;
+    }
     if(!(parsed&&parsed.app==="ExamHelp"&&typeof parsed.schema==="number"&&parsed.schema<=3&&Array.isArray(parsed.attempts))){
-      statsIO.importError="That doesn't look like an ExamHelp export (missing app/schema/attempts)."; render(); return;
+      statsIO.importError="That doesn't look like an ExamHelp file. Use a Full backup or an Instructor summary exported from ExamHelp."; render(); return;
     }
     statsIO.importPreview=parsed; render();
   };
@@ -2188,8 +2262,11 @@ function handleStatsImportFile(file){
 // attempts and only "replace" differs by also overwriting local plan state instead of merging it.
 async function applyStatsImport(mode){
   const p=statsIO.importPreview; if(!p) return;
-  const have=new Set(attempts.map(a=>a.ts));
-  const toAdd=(p.attempts||[]).filter(a=>a&&typeof a.ts==="number"&&!have.has(a.ts));
+  if(p.kind==="backup"){ restoreBackup(p); return; }
+  snapshotBeforeImport();
+  // Stable ids when both sides have them; older records fall back to the timestamp.
+  const haveId=new Set(attempts.map(a=>a.id).filter(Boolean)), haveTs=new Set(attempts.map(a=>a.ts));
+  const toAdd=(p.attempts||[]).filter(a=>a&&typeof a.ts==="number"&&!(a.id?haveId.has(a.id):haveTs.has(a.ts)));
   if(db){ for(const a of toAdd){ try{ await db.collection("attempts").add(a); }catch(e){} } }
   else if(mode==="replace"){ attempts=(p.attempts||[]).slice(); }
   else { attempts.push(...toAdd); }
@@ -2211,10 +2288,21 @@ async function applyStatsImport(mode){
   render();
 }
 function renderStatsIOPanel(hasAttempts){
-  const importBtn=h("label",{class:"btn"},"Import stats",h("input",{type:"file",accept:".json,application/json",style:"display:none",onchange:e=>{handleStatsImportFile(e.target.files[0]); e.target.value="";}}));
+  const importBtn=h("label",{class:"btn"},"Import a file",h("input",{type:"file",accept:".json,application/json",style:"display:none",onchange:e=>{handleStatsImportFile(e.target.files[0]); e.target.value="";}}));
   const preview=statsIO.importPreview;
   let previewBox=null;
-  if(preview){
+  if(preview&&preview.kind==="backup"){
+    const st=preview.state||{}, g=st.guided||{}, exportedDate=preview.exported?fmtDT(new Date(preview.exported).getTime()):"unknown date";
+    previewBox=h("div",{class:"panel",style:"background:var(--bg);margin-top:10px;display:flex;flex-direction:column;gap:8px"},
+      h("p",{style:"margin:0"},h("b",{},"Full backup from "+exportedDate+". "),
+        (preview.attempts||[]).length+" quizzes, "+Object.keys(st.done||{}).length+" levels cleared, "+(st.xp||0)+" XP, "+Object.keys(st.bosses||{}).length+" bosses defeated"+
+        (g.started?", campaign run "+g.run+" in progress":"")+"."),
+      h("p",{class:"muted",style:"margin:0;font-size:13px"},"Restoring replaces everything in this browser with the backup. A safety copy of what's here now is kept, so you can undo it."),
+      h("div",{class:"actions"},
+        h("button",{class:"btn primary",onclick:()=>applyStatsImport("replace")},"Restore this backup"),
+        h("button",{class:"btn",onclick:()=>{statsIO.importPreview=null;render();}},"Cancel")));
+  }
+  else if(preview){
     const exportedDate=preview.exported?fmtDT(new Date(preview.exported).getTime()):"unknown date";
     previewBox=h("div",{class:"panel",style:"background:var(--bg);margin-top:10px"},
       h("p",{style:"margin:0 0 8px"},"Found "+(preview.summary?preview.summary.tests:preview.attempts.length)+" tests, "+(preview.summary?preview.summary.answered:"?")+" answers, exported "+exportedDate+(preview.student&&preview.student.name?" by "+preview.student.name:"")+"."),
@@ -2224,16 +2312,19 @@ function renderStatsIOPanel(hasAttempts){
         h("button",{class:"btn",onclick:()=>{statsIO.importPreview=null;render();}},"Cancel")));
   }
   return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:10px"},
-    h("h3",{},"Save or move your stats"),
-    h("p",{class:"muted",style:"margin:0;font-size:13px"},"Everything above lives only in this browser. Export it to move to another device, back it up, or send it to an instructor. Import brings a file back in."),
+    h("h3",{},"Back up or share your progress"),
+    h("p",{class:"muted",style:"margin:0;font-size:13px;max-width:70ch"},"Everything lives only in this browser. A full backup restores all of it on another device: levels, XP, bosses, your campaign run and every quiz. An instructor summary is the smaller file your instructor's roster reads."),
     h("label",{class:"row",style:"gap:8px;flex-wrap:wrap"},"Name for the file/summary (optional):",
       h("input",{type:"text",placeholder:"Your name",value:statsIO.name,oninput:e=>statsIO.name=e.target.value,style:"max-width:220px"})),
     h("div",{class:"actions",style:"flex-wrap:wrap"},
-      h("button",{class:"btn primary",disabled:hasAttempts?null:true,onclick:downloadStatsExport},"Export stats"),
+      h("button",{class:"btn primary",onclick:downloadBackup},"Download full backup"),
+      h("button",{class:"btn",disabled:hasAttempts?null:true,onclick:downloadStatsExport},"Instructor summary"),
       h("button",{class:"btn",disabled:hasAttempts?null:true,onclick:copyStatsSummary},statsIO.copied?"Copied!":"Copy summary"),
       importBtn),
     statsIO.importError?h("p",{style:"color:var(--bad);margin:0;font-size:13px"},statsIO.importError):null,
-    previewBox);
+    previewBox,
+    (()=>{ const snap=preImportSnapshot(); return snap?h("p",{class:"muted",style:"margin:0;font-size:13px"},"Your last import was "+fmtDT(snap.ts)+". ",
+      h("button",{class:"linklike",style:"font-size:inherit",onclick:undoLastImport},"Undo it and restore what you had before")):null; })());
 }
 // ---------- stats ----------
 function renderStats(){

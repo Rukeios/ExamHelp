@@ -45,3 +45,36 @@ window.CAMPAIGN_ENDINGS = {
      "Double extortion is why \"we have backups\" was never a complete answer, and why every dark lamp is load-bearing."]}
   };
 window.CAMPAIGN_AXIS_LABELS = { prev:["Landed","Delayed","Prevented"], resp:["Failed","Partial","Clean"] };
+
+// Ending text must never claim something the learner didn't do. The ending is chosen by the
+// two aggregate bands, but several paragraphs name specific calls (backups, evidence, the
+// rehearsal, segmentation). Rules below keep a paragraph only when its claims match the
+// actual flags, swap in a neutral line otherwise, or build it sentence by sentence.
+//   { all:[flags that must be lit], none:[flags that must be dark], alt:"used when not true" }
+//   { alts:[{all,none,t}...] }  first matching variant wins
+//   { parts:[{t,all,none}...] } keep the sentences whose conditions hold
+// Checked across all 64 flag combinations by the release tests.
+window.CAMPAIGN_ENDING_RULES = {
+  "2,1": { 1:{ none:["backupsOffsite","irMatured"],
+    alt:"The gap you left was a real gap. The only reason it cost nothing is that it was never tested, and an untested gap looks exactly like a closed one right up until it isn't." } },
+  "2,0": { 1:{ none:["backupsOffsite","evidenceRetained","irMatured"],
+    alt:"You closed the door, and because the door was closed the rest was never exercised. Most of what you'd need after a breach wasn't ready." } },
+  "1,2": { 1:{ all:["segmented"],
+    alt:"The foothold works, but it doesn't travel far. When the encryption comes it lands on one file server and stops." } },
+  "1,0": { 1:{ none:["irMatured","backupsOffsite"],
+    alt:"The delay is real — nearly two weeks. Most of it goes unused, because too little was ready to spend it on." } },
+  "0,1": {
+    1:{ alts:[
+      { all:["backupsOffsite"], none:["evidenceRetained"], t:"The problem starts after. You can restore the plant and you cannot reconstruct the intrusion, so when the state asks what customer data was accessed the honest answer is that you don't know and can't find out." },
+      { none:["backupsOffsite"], t:"The problem is the restore. With no clean copy outside the building, the plant comes back from whatever survived, and it takes weeks, not days." },
+      { none:["irMatured"], t:"The problem is the first hours. Nothing had been rehearsed end to end, so decisions wait on people working out who is allowed to make them." } ] },
+    2:{ none:["evidenceRetained"],
+      alt:"Recovery is half the job; the other half is having the whole response ready before you need it." } },
+  "0,0": {
+    0:{ none:["backupsOffsite"],
+      alt:"Every historian and file server in the plant. The off-site copy survives, and it's close to the only thing that does." },
+    1:{ parts:[
+      { none:["backupsOffsite"], t:"There is no clean copy." },
+      { none:["irMatured"], t:"Nothing was rehearsed, so the first six hours go on working out who is allowed to decide anything." },
+      { none:["evidenceRetained"], t:"Nothing was preserved, so nobody can say what left." } ] } }
+};
