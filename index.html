@@ -457,6 +457,22 @@ nav.tabs{background:var(--navbg,color-mix(in srgb,var(--bg) 92%,transparent))}
 .seal small{font-size:12px;line-height:1.2}
 .seg-sm button{padding:4px 10px;font-size:13px}
 .report{display:flex;flex-direction:column;gap:8px;background:var(--sunk);padding:14px}
+
+/* ---------- 2.0: campaign facility map ---------- */
+.facility summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;gap:4px;align-items:baseline}
+.facility summary::-webkit-details-marker{display:none}
+.facility summary::after{content:"Show";margin-left:auto;font-size:13px;color:var(--muted);text-decoration:underline}
+.facility[open] summary::after{content:"Hide"}
+.fmap{display:grid;grid-template-columns:repeat(6,1fr);grid-template-areas:"office office identity identity cloud cloud" "plant plant plant recovery recovery recovery";gap:8px}
+.fzone{text-align:left;display:flex;flex-direction:column;gap:3px;min-height:92px;padding:12px;border-radius:8px;border:1px dashed var(--line);background:color-mix(in srgb,var(--surface) 70%,transparent);color:var(--muted)}
+.fzone b{color:var(--ink);font:700 18px var(--display)}
+.fzone small{font-size:12px}
+.fzone .fcount{margin-top:auto;font:500 12px var(--mono)}
+.fzone.lit{border-style:solid;border-color:color-mix(in srgb,var(--ok) 55%,var(--line));background:color-mix(in srgb,var(--ok) 12%,var(--surface));color:var(--ink)}
+.fzone.sel{outline:2px solid var(--ink);outline-offset:1px}
+.fz-office{grid-area:office}.fz-identity{grid-area:identity}.fz-cloud{grid-area:cloud}.fz-plant{grid-area:plant}.fz-recovery{grid-area:recovery}
+.fhistory{margin-top:12px}
+@media (max-width:560px){.fmap{grid-template-columns:1fr 1fr;grid-template-areas:"office identity" "cloud plant" "recovery recovery"}}
 </style>
 <script>
 // Theme choice (Light / Dark / System). Applied before the page draws to avoid a flash.
@@ -2073,8 +2089,39 @@ function guidedFooter(){
       h("button",{class:"btn primary",onclick:()=>{state.guided=freshGuided(g);guidedResetOpen=false;guidedAck=false;saveProgress();render();window.scrollTo(0,0);}},"Yes, start over"),
       h("button",{class:"btn",onclick:()=>{guidedResetOpen=false;render();}},"Cancel")));
 }
-function guidedPanel(kids){ return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},kids,guidedFooter()); }
+function guidedPanel(kids){ return h("div",{style:"display:flex;flex-direction:column;gap:14px"},
+  h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:14px"},kids,guidedFooter()),
+  G().started?renderFacility():null); }
 
+// ---------- facility map (fictional Leon River Water) ----------
+// Each mission happens somewhere. A zone fills in only when you've finished one of its
+// missions in this run; nothing about future missions or hidden flags is shown.
+const FACILITY_ZONES=[
+  {id:"office",name:"Office",what:"People, email, policy and budget",m:["m2","m9","m13","m15","m16","m17","m21","m28","m31","m32","m33"]},
+  {id:"identity",name:"Identity",what:"Accounts, sign-ins and access",m:["m1","m4","m5","m6","m18","m19","m29","m30"]},
+  {id:"cloud",name:"Cloud",what:"Microsoft 365, Azure and the web portal",m:["m3","m7","m8","m10","m11","m12","m14","m20","m23"]},
+  {id:"plant",name:"Plant",what:"Pumps, SCADA and the control network",m:["m22","m27"]},
+  {id:"recovery",name:"Response & Recovery",what:"Incidents, evidence and backups",m:["m24","m25","m26"]}];
+let facilityZone=null;
+function renderFacility(){
+  const g=G(), done=mid=>{ const r=g.missions[mid], m=RICH_CAMPAIGN[Number(mid.slice(1))]; return !!(r&&m&&r.i>=m.steps.length); };
+  const logged=FACILITY_ZONES.reduce((n,z)=>n+z.m.filter(done).length,0);
+  const zone=FACILITY_ZONES.find(z=>z.id===facilityZone);
+  const lvlOf=mid=>{ const L=guidedLevels(); const i=L.findIndex(d=>missionIdForDay(d.d)===mid); return i<0?null:i+1; };
+  return h("details",{class:"panel facility",open:facilityZone?true:null},
+    h("summary",{},h("b",{},"Facility map"),h("span",{class:"muted"}," · "+logged+" incident"+(logged===1?"":"s")+" logged this run")),
+    h("p",{class:"muted",style:"margin:10px 0;font-size:13px"},"Leon River Water is fictional. A zone lights up once you've finished a mission there. Select a zone to read its incident history."),
+    h("div",{class:"fmap",role:"group","aria-label":"Facility zones"},FACILITY_ZONES.map(z=>{
+      const n=z.m.filter(done).length;
+      return h("button",{class:"fzone fz-"+z.id+(n?" lit":"")+(facilityZone===z.id?" sel":""),"aria-pressed":String(facilityZone===z.id),
+        onclick:()=>{facilityZone=facilityZone===z.id?null:z.id;render();}},
+        h("b",{},z.name),h("small",{},z.what),h("span",{class:"fcount"},n?n+" incident"+(n===1?"":"s"):"quiet so far"));
+    })),
+    zone?h("div",{class:"fhistory"},h("h3",{style:"margin:0 0 6px"},zone.name+": incident history"),
+      zone.m.filter(done).length?h("ul",{class:"pts"},zone.m.filter(done).map(mid=>{ const m=RICH_CAMPAIGN[Number(mid.slice(1))], r=g.missions[mid], ok=r.answers.filter(a=>a&&a.correct).length;
+        return h("li",{},h("b",{},m.title),(lvlOf(mid)?"Level "+lvlOf(mid)+". ":"")+ok+" of "+m.steps.length+" calls were the recommended move."); }))
+        :h("p",{class:"muted",style:"margin:0"},"Nothing has happened here yet.")):null);
+}
 function renderGuided(){
   const g=G();
   if(g.phase==="warning"||!g.started) return renderGuidedWarning();
