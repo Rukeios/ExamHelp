@@ -3,6 +3,23 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.0.0", date:"2026-09-30", title:"ExamHelp 2.0: know what to do next, and remember it", tag:"feature", items:[
+  "New Home screen. It tells you the one thing to do next and why: finish a quiz you left, review what's due, or continue your plan. The domain map shows how much of each area you've covered.",
+  "Five places instead of eight tabs: Home, Study, Campaign, Arena and Progress. Lessons, Practice, Acronyms, PBQs, Mock exam and Question Lab all live under Study.",
+  "Review that sticks. Every question you answer gets a schedule: get it right and it comes back in 1, 3, 7, then 14 days; miss it and it's back tomorrow. Answering it again the same day doesn't count twice. Review sessions show why each question was picked.",
+  "Practice now actually favors your weak spots. Before, the picker ranked your weak questions and then shuffled the ranking away.",
+  "Practice any domain, even ones your plan hasn't reached yet. Level unlocks still decide your progress and mock exams.",
+  "Progress shows four honest numbers instead of one readiness score: coverage, recent accuracy, delayed recall and mock results, each with how many answers it's based on.",
+  "Full backups. Download everything (levels, XP, bosses, your campaign run, every quiz) and restore it on another device. A damaged file changes nothing, and you can undo an import. The instructor summary still works with the roster.",
+  "Leaving a quiz halfway now pauses it. Home offers to pick up where you stopped.",
+  "Campaign: answer choices stay in place after you pick, the debrief shows what you chose next to the recommended call, endings only describe things you actually did, and a new facility map lights up zones as you finish missions. The old per-level missions in self-paced were retired; there is one campaign now.",
+  "Bosses: 3 mistakes allowed, the fourth ends the fight, so 12 of 15 wins, matching the 80% on screen. Boss cards are now dossiers (what each tests, how to unlock it, your best score) and you earn a seal for each domain.",
+  "Choose Light, Dark or System under Plan settings.",
+  "Spot a bad question? 'Report a problem with this question' builds a report you can copy or open as a GitHub issue. Your answer is only included if you tick the box.",
+  "The program picker shows real counts: SC-900 is 9 lessons + 3 checkpoints, Security+ is 17 lessons + 4 checkpoints.",
+  "If your browser refuses to save, ExamHelp now tells you instead of failing silently."
+]},
+
 { v:"1.9.3", date:"2026-09-29", title:"Acronym drill: one direction only", tag:"balance", items:[
   "Reverse mode is gone from the acronym drill. Picking the acronym from its full name was too easy, since you could just match the first letters.",
   "Every acronym question now shows the acronym and asks what it stands for, with look-alike wrong answers that share its initials."
