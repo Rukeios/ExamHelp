@@ -3,7 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>SC-900 + Sec+ Sprint</title>
+<title>CertificationNation · SC-900 and Security+ study</title>
+<meta name="description" content="Free SC-900 and Security+ study: short notes, flashcards, workplace scenarios, practice quizzes and a campaign. Progress stays in your browser.">
+<meta property="og:title" content="CertificationNation">
+<meta property="og:description" content="Free SC-900 and Security+ study: learn a short note, recall it, apply it at work, review it later.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -478,6 +481,92 @@ nav.tabs{background:var(--navbg,color-mix(in srgb,var(--bg) 92%,transparent))}
 .early-banner span{font-size:14px;color:var(--muted)}
 .big.dim{opacity:.55}
 .home-topics{margin:-2px 0 0;font-size:14px;color:var(--muted);line-height:1.45;max-width:62ch}
+/* ---------- CertificationNation 2.1: notes, flashcards, comparisons, field guide, sprints ---------- */
+.cn{display:flex;flex-direction:column;gap:14px}
+.cn-seg button{position:relative}
+.cn-seg .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--sc);margin-left:6px;vertical-align:middle}
+.cn-msg{min-height:0;font-size:14px}
+.cn-msg:empty{display:none}
+.cn-msg.ok,.cn-msg.bad{padding:8px 12px;border-radius:6px;border:1px solid var(--line)}
+.cn-msg.ok{background:var(--okbg);color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,transparent)}
+.cn-msg.bad{background:var(--badbg);color:var(--bad);border-color:color-mix(in srgb,var(--bad) 40%,transparent)}
+.rename-note{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px;padding:12px 16px;border:1px solid var(--line);border-left:4px solid var(--sc);border-radius:8px;background:var(--surface)}
+.notes-panel{display:flex;flex-direction:column;gap:16px}
+.notes-panel select,.launch select{width:100%;min-width:0;max-width:100%;text-overflow:ellipsis;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font:inherit}
+.notes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:14px}
+.note{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--sc);border-radius:8px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;scroll-margin:90px}
+.note:focus{outline:2px solid var(--sc);outline-offset:2px}
+.note.focus{box-shadow:0 0 0 3px color-mix(in srgb,var(--sc) 35%,transparent)}
+.note-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.note-head h3{font-size:22px}
+.note-topic{background:var(--sunk);color:var(--muted);white-space:nowrap}
+.note-lines{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:16px;line-height:1.45}
+.note-clue{margin:0;padding:8px 10px;background:var(--scbg);border-radius:6px;font-size:15px;line-height:1.4}
+.note-except{margin:0;padding:8px 10px;background:var(--badbg);border-radius:6px;font-size:15px;line-height:1.4}
+.note-more summary,.note-ref summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--sc)}
+.note-more p{margin:6px 0 0;font-size:15px;line-height:1.5}
+.note-ref{font-size:13px;color:var(--muted)}
+.note-ref p{margin:6px 0 0;overflow-wrap:anywhere}
+.note-actions{display:flex;flex-wrap:wrap;gap:6px}
+.btn.saved{border-color:var(--sc);color:var(--sc)}
+.deck-foot{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:14px}
+.stamp{display:inline-block;padding:3px 10px;border:1.5px solid var(--ok);border-radius:999px;color:var(--ok);font:600 13px var(--mono)}
+.stamps,.titles{display:flex;flex-wrap:wrap;gap:8px}
+.title-chip{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 12px;max-width:240px}
+.title-chip b{font:700 17px var(--display)}
+.title-chip span{font-size:12px;color:var(--muted)}
+.title-chip.on{border-color:var(--sc);box-shadow:inset 0 0 0 1px var(--sc)}
+.title-chip[disabled]{opacity:.55}
+.flash-card{display:flex;flex-direction:column;gap:14px;max-width:760px}
+.flash-q{margin:0;font-size:clamp(19px,2.6vw,23px);line-height:1.4;font-weight:500}
+.flash-a{padding:14px 16px;border-radius:8px;background:var(--sunk);font-size:17px;line-height:1.5}
+kbd{font:500 11px var(--mono);border:1px solid var(--line);border-radius:3px;padding:0 4px;margin-left:4px;color:var(--muted)}
+.cmp-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,420px),1fr));gap:14px}
+.cmp{border-left-color:var(--sec)}
+.cmp-sides{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:8px}
+.cmp-side{display:flex;flex-direction:column;gap:2px;padding:8px 10px;background:var(--sunk);border-radius:6px;font-size:14px;line-height:1.35}
+.cmp-side b{font-size:15px}
+.cmp-apply{display:flex;flex-direction:column;gap:6px;font-size:15px;line-height:1.45}
+.cmp-apply .note-lines{font-size:15px}
+.guide{display:flex;flex-direction:column;gap:14px}
+.guide-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.guide-tools input[type=search]{flex:1 1 220px;min-width:0;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font:inherit}
+.guide-group{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.guide-group h3{font-size:19px;color:var(--muted)}
+.guide-row{display:flex;gap:10px;align-items:flex-start}
+.guide-check{padding-top:18px}
+.guide-check input{width:18px;height:18px}
+.guide-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.guide-body textarea{width:100%;font:inherit;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
+.my-note{margin:0;padding:8px 10px;border:1px dashed var(--line);border-radius:6px;font-size:15px}
+.print-only{display:none}
+.sprint{display:flex;flex-direction:column;gap:14px;max-width:820px}
+.sprint-dots{display:flex;gap:6px;list-style:none;margin:0;padding:0}
+.sprint-dots li{flex:1;height:6px;border-radius:3px;background:var(--sunk)}
+.sprint-dots li.done{background:var(--sc)}
+.sprint-dots li.now{background:color-mix(in srgb,var(--sc) 45%,var(--sunk))}
+.sprint-sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.qctx{margin:0;font-size:16px;line-height:1.5;padding:10px 12px;background:var(--sunk);border-radius:6px}
+.rw-explain{display:flex;flex-direction:column;gap:10px}
+.why-not{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:15px;line-height:1.4}
+.why-not li.picked{color:var(--bad)}
+.takeaway{padding:8px 10px;border-left:3px solid var(--sc);background:var(--scbg);border-radius:0 6px 6px 0;font-size:15px}
+@media (max-width:560px){
+  .cmp-sides{grid-template-columns:1fr}
+  .note{padding:14px}
+  .note-head{flex-direction:column;gap:4px}
+}
+@media print{
+  body.print-guide header,body.print-guide nav,body.print-guide footer,body.print-guide .subnav,body.print-guide .cn-seg,
+  body.print-guide .cn-msg,body.print-guide .guide-tools,body.print-guide .guide>.actions,body.print-guide .guide>.row,
+  body.print-guide .no-print,body.print-guide .rename-note,body.print-guide #campaignbar,body.print-guide #campaignexit{display:none!important}
+  body.print-guide{background:#fff;color:#000}
+  body.print-guide .panel{border:0;padding:0;background:#fff}
+  body.print-guide .note{break-inside:avoid;border:1px solid #999;border-left:3px solid #333;background:#fff}
+  body.print-guide .note-clue,body.print-guide .note-except,body.print-guide .cmp-side{background:#f2f2f2;color:#000}
+  body.print-guide .print-only{display:block;font-size:22px;margin:0 0 12px}
+}
+
 </style>
 <script>
 // Theme choice (Light / Dark / System). Applied before the page draws to avoid a flash.
@@ -489,10 +578,10 @@ nav.tabs{background:var(--navbg,color-mix(in srgb,var(--bg) 92%,transparent))}
 <div class="wrap">
   <header>
     <div class="appbar">
-      <div class="brand"><span class="brand-name">ExamHelp</span><span class="brand-sub">SC-900 and Security+ study camp</span></div>
+      <div class="brand"><span class="brand-name">CertificationNation</span><span class="brand-sub">SC-900 and Security+ study camp</span></div>
       <div class="appbar-meta">
         <span class="sync" id="sync">Loading saved progress…</span>
-        <button class="verbtn" id="supportbtn" aria-label="Support ExamHelp">Support</button>
+        <button class="verbtn" id="supportbtn" aria-label="Support CertificationNation">Support</button>
         <button class="verbtn" id="verbtn" aria-label="Patch notes"></button>
       </div>
     </div>
@@ -528,23 +617,26 @@ nav.tabs{background:var(--navbg,color-mix(in srgb,var(--bg) 92%,transparent))}
   </footer>
 </div>
 
-<script src="data.js?v=2.0.1"></script>
-<script src="data-extra.js?v=2.0.1"></script>
-<script src="data-pack2.js?v=2.0.1"></script>
-<script src="data-pack3.js?v=2.0.1"></script>
-<script src="data-pack4-sc.js?v=2.0.1"></script>
-<script src="data-pack5-net.js?v=2.0.1"></script>
-<script src="data-acronyms.js?v=2.0.1"></script>
-<script src="data-patchnotes.js?v=2.0.1"></script>
-<script src="data-bosses.js?v=2.0.1"></script>
+<script src="data.js?v=2.1.0"></script>
+<script src="data-extra.js?v=2.1.0"></script>
+<script src="data-pack2.js?v=2.1.0"></script>
+<script src="data-pack3.js?v=2.1.0"></script>
+<script src="data-pack4-sc.js?v=2.1.0"></script>
+<script src="data-pack5-net.js?v=2.1.0"></script>
+<script src="data-acronyms.js?v=2.1.0"></script>
+<script src="data-patchnotes.js?v=2.1.0"></script>
+<script src="data-bosses.js?v=2.1.0"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=2.0.1"></script>
-<script src="data-campaign-flags.js?v=2.0.1"></script>
-<script src="data-campaign-endings.js?v=2.0.1"></script>
-<script src="data-fixes-01.js?v=2.0.1"></script>
-<script src="data-fixes-02.js?v=2.0.1"></script>
-<script src="data-fixes-03.js?v=2.0.1"></script>
-<script src="examhelp-effects.js?v=2.0.1"></script>
+<script src="data-daymissions.js?v=2.1.0"></script>
+<script src="data-campaign-flags.js?v=2.1.0"></script>
+<script src="data-campaign-endings.js?v=2.1.0"></script>
+<script src="data-fixes-01.js?v=2.1.0"></script>
+<script src="data-fixes-02.js?v=2.1.0"></script>
+<script src="data-fixes-03.js?v=2.1.0"></script>
+<script src="data-cn-sc.js?v=2.1.0"></script>
+<script src="data-cn-compare.js?v=2.1.0"></script>
+<script src="data-cn-sc-scenarios.js?v=2.1.0"></script>
+<script src="examhelp-effects.js?v=2.1.0"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -583,9 +675,28 @@ DAYS.forEach(day=>{
   Object.keys(FIX||{}).forEach(k=>{ if(!Q[k]) return; const x=FIX[k];
     Q[k]=Object.assign({},Q[k],{q:x[0],o:x[1],a:x[2],why:x[3]}); });
 });
+// ---------- CertificationNation study content (v2.1) ----------
+// One model: concepts own their Pocket Note and recall cards; comparisons and scenarios link to
+// concepts by id. Ids are permanent, so bookmarks and review schedules follow corrections.
+const CN=(()=>{
+  const packs=window.CN_PACKS||[];
+  const concepts=packs.flatMap(p=>p.concepts||[]);
+  const comparisons=packs.flatMap(p=>p.comparisons||[]);
+  const scenarios=packs.flatMap(p=>(p.scenarios||[]).map(x=>Object.assign({cert:p.cert},x)));
+  const C={}, CARD={}, CMP={}, byDay={};
+  concepts.forEach(c=>{ C[c.id]=c; (byDay[c.day]=byDay[c.day]||[]).push(c); (c.cards||[]).forEach(k=>{ CARD[k.id]=Object.assign({concept:c.id},k); }); });
+  comparisons.forEach(k=>{ CMP[k.id]=k; });
+  return {concepts,comparisons,scenarios,C,CARD,CMP,byDay};
+})();
+// Real-World scenarios are scored questions (answer at index 0, shuffled at render). They are kept
+// out of level quizzes, bosses, mocks and the diagnostic, so v2.0 behavior is unchanged; they
+// appear in Real-World Practice, review, weak spots, deck finishers and sprints.
+CN.scenarios.forEach(x=>{ const day=DAYS.find(d=>d.d===x.day); if(!day||Q[x.id]) return;
+  Q[x.id]={k:x.id,d:x.day,track:x.cert||day.track,dom:x.dom||day.dom,q:x.q,ctx:x.s,o:x.o,a:0,why:x.why,rw:x}; });
+const coreQ=q=>!!q&&!q.rw;
 const ACRONYMS = window.ACRONYMS||[];
 const PATCHNOTES = window.PATCHNOTES||[];
-const keysFor = days => Object.values(Q).filter(x=>days.includes(x.d)).map(x=>x.k);
+const keysFor = days => Object.values(Q).filter(x=>days.includes(x.d)&&coreQ(x)).map(x=>x.k);
 const allTrackDays = t => DAYS.filter(d=>d.track===t && d.q).map(d=>d.d);
 // Level 3+ (Organized Crime): a day's quiz also draws from every earlier day already
 // completed in this run, weighted roughly 50/50 own-day vs. prior days.
@@ -598,7 +709,7 @@ function interleavedKeys(baseDays){
   return shuffle(own.concat(shuffle(prior).slice(0,own.length)));
 }
 const RANKS=[["Recruit",0],["Specialist",250],["Sergeant",600],["Lieutenant",1100],["Captain",1800],["Cyber All-Star",2800]];
-const ACHIEVEMENTS={clean:{name:"Clean Sweep",desc:"Score 100% on a 10+ question run"},night:{name:"Night Shift",desc:"Finish a quiz after midnight"},crypto:{name:"Crypto Sniper",desc:"Get five cryptography questions right"}};
+const ACHIEVEMENTS={clean:{name:"Clean Sweep",desc:"Score 100% on a 10+ question run"},night:{name:"Night Shift",desc:"Retired in 2.1: the app no longer rewards late-night studying",retired:true},crypto:{name:"Crypto Sniper",desc:"Get five cryptography questions right"}};
 // Prestige tiers: the across-run mastery axis (distinct from the in-run rank/XP ladder above).
 // Names come from the threat-actor sophistication ladder taught on Day 15.
 const PRESTIGE_TIERS=[
@@ -666,12 +777,18 @@ state.campaign=(state.campaign&&typeof state.campaign==="object"&&!("step" in st
 state.studyMode=(state.studyMode==="self"||state.studyMode==="campaign")?state.studyMode:null;
 state.review=(state.review&&typeof state.review==="object")?state.review:{};
 state.guided=(state.guided&&typeof state.guided==="object"&&state.guided.passed)?state.guided:{run:1,started:null,level:null,phase:"warning",passed:{},missions:{},flags:{},ended:null};
+const cnObj=x=>x&&typeof x==="object"&&!Array.isArray(x)?x:{};
+state.bookmarks=cnObj(state.bookmarks); state.cards=cnObj(state.cards); state.stamps=cnObj(state.stamps); state.titles=cnObj(state.titles);
+state.study=cnObj(state.study); state.milestones=cnObj(state.milestones);
+state.activeTitle=typeof state.activeTitle==="string"?state.activeTitle:null;
+const hadProfile=!!(saved&&saved.state);   // an existing ExamHelp learner, for the rename notice
 state.customQuestions.forEach(addCustomQuestion);
 let ui={tab:"home",studyTab:"plan",sel:null,quiz:{scope:"today",mode:rulesFor(state.prestige).defaultMode,n:10},pbq:"firewall",generated:[],teachesBoss:null,
         acr:{track:"both",dom:"All",n:20,timed:true},
-        mock:{track:"sc"}};
-try{const u=JSON.parse(localStorage.getItem(LS+".ui")||"null"); if(u){ui.tab=u.tab||ui.tab; Object.assign(ui.quiz,u.quiz||{}); if(u.acr) Object.assign(ui.acr,u.acr);}}catch(e){}
-function saveUI(){try{localStorage.setItem(LS+".ui",JSON.stringify({tab:ui.tab,quiz:ui.quiz,acr:ui.acr}));}catch(e){}}
+        mock:{track:"sc"},
+        cn:{view:"notes",deck:null,dir:"both",flashN:10,flashDeck:null,q:"",type:"all",sel:{},msg:null,focus:null,editNote:null,flashSetup:false}};
+try{const u=JSON.parse(localStorage.getItem(LS+".ui")||"null"); if(u){ui.tab=u.tab||ui.tab; Object.assign(ui.quiz,u.quiz||{}); if(u.acr) Object.assign(ui.acr,u.acr); if(u.cn) ["view","deck","dir","flashN"].forEach(k=>{ if(u.cn[k]!=null) ui.cn[k]=u.cn[k]; });}}catch(e){}
+function saveUI(){try{localStorage.setItem(LS+".ui",JSON.stringify({tab:ui.tab,quiz:ui.quiz,acr:ui.acr,cn:{view:ui.cn.view,deck:ui.cn.deck,dir:ui.cn.dir,flashN:ui.cn.flashN}}));}catch(e){}}
 
 let progWriting=Promise.resolve();
 function saveProgress(){
@@ -707,7 +824,6 @@ function recordGameProgress(rec){
   const bonus=rec.mode==="blitz"?correct*5:rec.mode==="written"?correct*8:0;
   state.xp+=(correct*10)+bonus;
   if(!rec.early&&rec.n>=10&&rec.pct===100) award("clean");
-  if(new Date(rec.ts).getHours()<5) award("night");
   const crypto=rec.items.filter(([k,ok])=>ok===1&&/crypt|public key|private key|hash/i.test(Q[k]&&Q[k].q)).length;
   if(crypto>=5) award("crypto");
   saveProgress();
@@ -784,7 +900,7 @@ function buildReviewSession(n){
   dueKeys().forEach(k=>add(k,"Due for review"));
   Object.keys(hist).filter(k=>Q[k]&&!/^acr-|^generated-/.test(k)&&inProgram(Q[k].track)&&hist[k].miss>0)
     .sort((a,b)=>(hist[b].miss/hist[b].seen)-(hist[a].miss/hist[a].seen)).forEach(k=>add(k,"Missed before"));
-  shuffle(Object.values(Q).filter(q=>inProgram(q.track)&&q.d<=t&&!hist[q.k]&&!/^generated-/.test(q.k)).map(q=>q.k)).forEach(k=>add(k,"New to you"));
+  shuffle(Object.values(Q).filter(q=>coreQ(q)&&inProgram(q.track)&&q.d<=t&&!hist[q.k]&&!/^generated-/.test(q.k)).map(q=>q.k)).forEach(k=>add(k,"New to you"));
   return {keys:shuffle(out),reasons};
 }
 // ---------- evidence, not a single "readiness" number ----------
@@ -799,8 +915,8 @@ function evidenceFor(filter){   // filter(q) picks track or domain
     const gap=lastSeen[k]!=null?a.ts-lastSeen[k]:null;
     rows.push({k,ok:ok>=1?1:0,delayed:gap!=null&&gap>=864e5,mock:a.mode==="mock",ts:a.ts}); lastSeen[k]=a.ts;
   }));
-  const total=Object.values(Q).filter(q=>filter(q)&&!/^generated-|^acr-/.test(q.k)).length;
-  const seen=new Set(rows.map(r=>r.k)).size;
+  const total=Object.values(Q).filter(q=>coreQ(q)&&filter(q)&&!/^generated-|^acr-/.test(q.k)).length;
+  const seen=new Set(rows.filter(r=>coreQ(Q[r.k])).map(r=>r.k)).size;   // coverage is of the core bank
   const rate=xs=>xs.length?{p:pct(xs.reduce((s,x)=>s+x.ok,0),xs.length),n:xs.length}:{p:null,n:0};
   return {coverage:{seen,total,p:total?pct(seen,total):0}, recent:rate(rows.slice(-60)), delayed:rate(rows.filter(r=>r.delayed).slice(-60)), n:rows.length};
 }
@@ -894,14 +1010,14 @@ function programCounts(track){
   return {
     days: DAYS.filter(d=>d.track===track&&d.q&&!d.kind).length,
     checks: DAYS.filter(d=>d.track===track&&d.kind).length,
-    q: Object.values(Q).filter(q=>q.track===track).length,
+    q: Object.values(Q).filter(q=>q.track===track&&coreQ(q)).length,
     dom: (DOMS[track]||[]).length,
     boss: BOSSES.filter(b=>b.track===track&&!b.final).length
   };
 }
 function renderProgramPicker(){
   const sc=programCounts("sc"), sec=programCounts("sec");
-  const bothQ=Object.keys(Q).length, bothDom=(DOMS.sc||[]).length+(DOMS.sec||[]).length, bothBoss=BOSSES.filter(b=>!b.final).length;
+  const bothQ=Object.values(Q).filter(coreQ).length, bothDom=(DOMS.sc||[]).length+(DOMS.sec||[]).length, bothBoss=BOSSES.filter(b=>!b.final).length;
   const card=(title,subtitle,lines,onPick)=>h("div",{class:"program-card"},
     h("b",{},title), h("p",{class:"muted",style:"margin:0;font-size:13px"},subtitle),
     h("ul",{class:"pts",style:"margin:0"},lines.map(l=>h("li",{},l))),
@@ -926,7 +1042,7 @@ function renderProgramPicker(){
 function renderHeader(){
   const t=todayN(), ex=document.getElementById("exams"); ex.replaceChildren();
   const [title]=rank(), nextRank=RANKS.find(([,xp])=>xp>state.xp);
-  document.getElementById("rank").textContent=title+" · "+state.xp+" XP"+(nextRank?" · "+(nextRank[1]-state.xp)+" to "+nextRank[0]:" · max rank");
+  document.getElementById("rank").textContent=(state.activeTitle&&state.titles[state.activeTitle]&&CN_TITLES[state.activeTitle]?CN_TITLES[state.activeTitle].name+" · ":"")+title+" · "+state.xp+" XP"+(nextRank?" · "+(nextRank[1]-state.xp)+" to "+nextRank[0]:" · max rank");
 
   const current=unlockedDay(), doneCount=Object.keys(state.done).length;
   const lifetimeQ=attempts.reduce((s,a)=>s+a.n,0), lifetimeCorrect=attempts.reduce((s,a)=>s+(a.score||0),0);
@@ -1016,12 +1132,12 @@ function renderSupportModal(){
   const mount=document.getElementById("supportModal"); if(!mount) return;
   if(supportOpen||patchOpen) document.body.style.overflow="hidden"; else document.body.style.overflow="";
   if(!supportOpen){ mount.replaceChildren(); return; }
-  const dialog=h("div",{class:"modal",role:"dialog","aria-modal":"true","aria-label":"Support ExamHelp",tabindex:"-1"},
+  const dialog=h("div",{class:"modal",role:"dialog","aria-modal":"true","aria-label":"Support CertificationNation",tabindex:"-1"},
     h("button",{class:"modal-x","aria-label":"Close",onclick:closeSupport},"×"),
     h("h2",{style:"margin:0"},"This is free"),
-    h("p",{style:"margin:0"},"ExamHelp is free and always will be. No account, no paywall, no ads, and none of your data leaves your browser."),
+    h("p",{style:"margin:0"},"CertificationNation is free and always will be. No account, no paywall, no ads, and none of your data leaves your browser."),
     h("p",{style:"margin:0"},"If it helped you pass, and you're in a position to, you can chip in toward the time it takes to keep the question bank current with the exam objectives. If you're a student, please don't — pass your exam and tell someone else about it instead. That helps more."),
-    h("p",{style:"margin:0"},h("a",{href:DONATION_URL,target:"_blank",rel:"noopener"},"Support ExamHelp on Ko-fi")),
+    h("p",{style:"margin:0"},h("a",{href:DONATION_URL,target:"_blank",rel:"noopener"},"Support CertificationNation on Ko-fi")),
     h("p",{class:"muted",style:"margin:0;font-size:13px"},"Teaching a class? ",h("a",{href:"https://github.com/Rukeios/ExamHelp",target:"_blank",rel:"noopener"},"roster.html"),
       " in the repo turns your students' exported stats into a class view."));
   const backdrop=h("div",{class:"modal-backdrop",onclick:e=>{ if(e.target===backdrop) closeSupport(); }},dialog);
@@ -1143,8 +1259,8 @@ function scopes(){
   const list=[
     {id:"today",label:"Today (Level "+displayDay(t)+")",keys:todayKeys},
     {id:"sofar",label:"Everything so far",keys:keysFor(upTo)}];
-  if(inProgram("sc")) list.push({id:"sc",label:"SC-900 unlocked",keys:Object.values(Q).filter(q=>q.track==="sc"&&q.d<=t).map(q=>q.k)});
-  if(inProgram("sec")) list.push({id:"sec",label:"Security+ unlocked",keys:Object.values(Q).filter(q=>q.track==="sec"&&q.d<=t).map(q=>q.k)});
+  if(inProgram("sc")) list.push({id:"sc",label:"SC-900 unlocked",keys:Object.values(Q).filter(q=>coreQ(q)&&q.track==="sc"&&q.d<=t).map(q=>q.k)});
+  if(inProgram("sec")) list.push({id:"sec",label:"Security+ unlocked",keys:Object.values(Q).filter(q=>coreQ(q)&&q.track==="sec"&&q.d<=t).map(q=>q.k)});
   const dueN=dueKeys().length;
   list.unshift({id:"review",label:dueN?"Review ("+dueN+" due)":"Review",keys:buildReviewSession(9999).keys});
   list.push({id:"weak",label:"Weak spots ("+weak.length+")",keys:weak});
@@ -1152,12 +1268,15 @@ function scopes(){
   // applies to progression and mock exams, not to practice.
   const doms=programDomains(), dm=doms.includes(ui.quiz.dom)?ui.quiz.dom:doms[0];
   if(dm){
-    const inDom=Object.values(Q).filter(q=>inProgram(q.track)&&q.dom===dm&&!/^generated-/.test(q.k)).map(q=>q.k);
+    const inDom=Object.values(Q).filter(q=>coreQ(q)&&inProgram(q.track)&&q.dom===dm&&!/^generated-/.test(q.k)).map(q=>q.k);
     const f=ui.quiz.filter||"all", R=state.review||{}, today=todayISO();
     const keys=f==="unseen"?inDom.filter(k=>!hist[k]):f==="missed"?inDom.filter(k=>hist[k]&&hist[k].miss>0):f==="due"?inDom.filter(k=>R[k]&&R[k].due&&R[k].due<=today):inDom;
     list.push({id:"domain",label:"Any domain",keys,dom:dm});
   }
-  list.push({id:"all",label:"Everything unlocked",keys:Object.values(Q).filter(q=>q.d<=t&&inProgram(q.track)).map(q=>q.k)});
+  list.push({id:"all",label:"Everything unlocked",keys:Object.values(Q).filter(q=>coreQ(q)&&q.d<=t&&inProgram(q.track)).map(q=>q.k)});
+  // Real-World Practice: workplace scenarios, all levels, filterable by scenario type.
+  const rwAll=Object.values(Q).filter(q=>q.rw&&inProgram(q.track)), rt=ui.quiz.rwType||"all";
+  list.splice(1,0,{id:"rw",label:"Real-World ("+rwAll.length+")",keys:rwAll.filter(q=>rt==="all"||q.rw.type===rt).map(q=>q.k)});
   return list;
 }
 function programDomains(){ return ["sc","sec"].filter(inProgram).flatMap(t=>(DOMS[t]||[]).map(d=>d)); }
@@ -1175,12 +1294,14 @@ function renderQuizTab(){
     h("h2",{},"Run a quiz"),
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"What"),seg(sc.map(s=>[s.id,s.label]),cur.id,v=>ui.quiz.scope=v)),
     cur.id==="review"?h("p",{class:"muted",style:"margin:-4px 0 0;font-size:13px;max-width:66ch"},"Questions due today come first, then ones you've missed, then new ones from your unlocked levels. Each shows why it was picked. A right answer brings a question back in 1, 3, 7, then 14 days; a miss brings it back tomorrow."):null,
+    cur.id==="rw"?h("div",{},h("p",{class:"muted",style:"margin:-4px 0 8px;font-size:13px;max-width:66ch"},"Workplace situations that make you apply a concept: spot what's happening, choose the first step, or pick what fits the constraints. Every answer explains why the other options don't fit. Security+ scenarios arrive with the Security+ content batches."),
+      h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Scenario type"),seg([["all","All"],["identify","Identify it"],["next","Next step"],["constraints","Constraints"]],ui.quiz.rwType||"all",v=>ui.quiz.rwType=v)):null,
     cur.id==="domain"?h("div",{style:"display:flex;flex-direction:column;gap:10px"},
       h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Domain (all levels, including locked ones)"),seg(programDomains().map(d=>[d,d]),cur.dom,v=>ui.quiz.dom=v)),
       h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Which questions"),seg([["all","All"],["unseen","Not seen yet"],["missed","Missed before"],["due","Due for review"]],ui.quiz.filter||"all",v=>ui.quiz.filter=v))):null,
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Mode"),seg(modeChoices,ui.quiz.mode,v=>ui.quiz.mode=v),h("p",{class:"muted",style:"margin:6px 0 0;font-size:13px"},MODES[ui.quiz.mode].desc)),
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"How many"),seg([[5,"5"],[10,"10"],[20,"20"],[40,"40"],[999,"All"]],ui.quiz.n,v=>ui.quiz.n=v)),
-    h("p",{class:"muted",style:"margin:0;font-size:13px"},avail+" questions in this pool"+(avail&&wantN>avail?" (questions repeat with fresh shuffles to reach "+wantN+")":"")+". Order and answer positions reshuffle every run, and questions you've missed or never seen come up more often."),
+    h("p",{class:"muted",style:"margin:0;font-size:13px"},avail+" questions in this pool"+(avail&&wantN>avail?" (so the session will be "+avail+"; nothing repeats)":"")+". Order and answer positions reshuffle every run, and questions you've missed or never seen come up more often."),
     h("div",{class:"actions"},h("button",{class:"btn primary",disabled:avail?null:true,onclick:()=>startQuiz(cur,ui.quiz.mode,ui.quiz.n)},avail?"Start "+MODES[ui.quiz.mode].name+" · "+wantN+" questions":"Nothing here yet")));
 }
 
@@ -1341,8 +1462,8 @@ function startQuiz(scope,mode,n){
 function startBoss(track,dom){
   const isFinal=track==="final";
   const keys=isFinal
-    ? Object.values(Q).filter(q=>q.d<=unlockedDay()&&inProgram(q.track)).map(q=>q.k)
-    : Object.values(Q).filter(q=>q.track===track&&q.dom===dom&&q.d<=unlockedDay()).map(q=>q.k);
+    ? Object.values(Q).filter(q=>coreQ(q)&&q.d<=unlockedDay()&&inProgram(q.track)).map(q=>q.k)
+    : Object.values(Q).filter(q=>coreQ(q)&&q.track===track&&q.dom===dom&&q.d<=unlockedDay()).map(q=>q.k);
   if(!keys.length) return;
   const boss=isFinal?FINAL_BOSS:bossFor(track,dom);
   startQuiz({id:"boss-"+track+"-"+dom,label:dom+" boss",keys,boss:true},"think",15);
@@ -1432,6 +1553,7 @@ function finish(){
   saveAttempt(run.rec);
   recordReview(run.res); saveProgress();
   recordGameProgress(run.rec);
+  if(run.res.some(r=>Q[r[0]]&&Q[r[0]].rw)){ [...new Set(run.res.filter(r=>Q[r[0]].rw).map(r=>Q[r[0]].d))].forEach(checkStamp); cnCheckTitles(); }
   const guidedMatch=/^guided-(\d+)$/.exec(run.rec.scopeId);
   const guidedComplete=run.res.length===run.list.length;   // "End & score" early can't pass a level
   if(guidedMatch&&guidedComplete&&run.rec.pct>=GUIDED_PASS){
@@ -1476,6 +1598,7 @@ function renderRun(){
     why?h("span",{class:"chip "+(why==="Due for review"?"good":why==="Missed before"?"weak":""),style:why==="New to you"?"background:var(--scbg);color:var(--sc)":""},why):null,
     /^generated-/.test(it.k)?h("span",{class:"chip",style:"background:var(--sunk);color:var(--muted)"},"Your own question"):null));
   if(run.timedMs) kids.push(h("div",{class:"row",style:"gap:8px"},h("div",{class:"timer",id:"twrap",style:"flex:1"},h("i",{id:"tbar"})),h("span",{class:"eyebrow tabnum",id:"tlab",style:"width:32px;text-align:right"},Math.ceil(run.timedMs/1000)+"s")));
+  if(q.ctx) kids.push(h("p",{class:"qctx"},q.ctx));
   kids.push(h("div",{class:"qtext"},q.q));
   if(run.mode==="written"){
     const w=run.written;
@@ -1502,7 +1625,10 @@ function renderRun(){
       return h("button",{class:cls,disabled:a?true:null,onclick:()=>answer(oi)},h("span",{class:"k"},pos+1),h("span",{},q.o[oi]));
     })));
     if(a&&run.mode==="think"){
-      if(rulesFor(state.prestige).explainTiming==="immediate") kids.push(h("div",{class:"why"+(a.ok?"":" bad")},h("b",{},a.ok?"Right. ":"Not quite. "),q.why));
+      const now=rulesFor(state.prestige).explainTiming==="immediate";
+      if(now&&q.rw) kids.push(rwExplain(q,a.pick,a.ok));
+      else if(now) kids.push(h("div",{class:"why"+(a.ok?"":" bad")},h("b",{},a.ok?"Right. ":"Not quite. "),q.why));
+      if(now&&!q.rw&&!a.ok&&CN.byDay[q.d]&&CN.byDay[q.d].length&&state.studyMode!=="campaign") kids.push(h("p",{style:"margin:0;font-size:14px"},h("button",{class:"linklike",style:"font-size:inherit",onclick:()=>{run.pauseAt=Date.now();ui.cn.view="notes";ui.cn.deck=q.d;goTab("cards");}},"Review the Pocket Notes for this level")," (your quiz stays paused)."));
       kids.push(h("div",{class:"actions"},h("button",{class:"btn primary",id:"nextbtn",onclick:next},run.i<run.list.length-1?"Next →":"See results")));
     }
     if(a&&run.mode==="acronym"){
@@ -1521,7 +1647,7 @@ function renderRun(){
 let reportOpen=null, reportIncludeAnswer=false, reportCopied=false;
 function reportText(q,pick){
   const v=(PATCHNOTES[0]&&PATCHNOTES[0].v)||"?";
-  const lines=["ExamHelp question report","Question ID: "+q.k,"Content version: "+v,"Exam: "+(TRACK[q.track]||q.track)+(q.dom?" · "+q.dom:""),"","Question: "+q.q,"Listed answer: "+q.o[q.a]];
+  const lines=["CertificationNation question report","Question ID: "+q.k,"Content version: "+v,"Exam: "+(TRACK[q.track]||q.track)+(q.dom?" · "+q.dom:""),"","Question: "+(q.ctx?q.ctx+" ":"")+q.q,"Listed answer: "+q.o[q.a]];
   if(reportIncludeAnswer&&pick!=null&&pick>=0) lines.push("My answer: "+q.o[pick]);
   lines.push("","What's wrong or unclear:","");
   return lines.join("\n");
@@ -1664,7 +1790,7 @@ function renderResult(){
       misses.length?h("button",{class:"btn",onclick:()=>startQuiz({id:"retry",label:"Retry misses",keys:misses.map(x=>x.k)},(run.mode==="blitz"||run.mode==="acronym"||run.mode==="mock")?"think":run.mode,misses.length)},"Retry my "+misses.length+" miss"+(misses.length>1?"es":"")):null,
       h("button",{class:"btn",onclick:()=>{run=null;ui.tab="stats";render();}},"See stats"),
       h("button",{class:"btn",onclick:()=>{run=null;render();}},"New quiz"))];
-  if(misses.length) kids.push(h("h3",{},"Review what you missed"),h("div",{class:"misslist"},misses.map(q=>h("div",{class:"miss"},h("div",{class:"eyebrow"},"Level "+q.d+" · "+q.dom),h("div",{},q.q),h("div",{class:"ans"},h("b",{style:"color:var(--ok)"},"Answer: "),q.o[q.a]),h("div",{class:"muted",style:"font-size:14px"},q.why)))));
+  if(misses.length) kids.push(h("h3",{},"Review what you missed"),h("div",{class:"misslist"},misses.map(q=>h("div",{class:"miss"},h("div",{class:"eyebrow"},"Level "+q.d+" · "+q.dom+(q.rw?" · Real-World":"")),q.ctx?h("div",{class:"muted",style:"font-size:14px"},q.ctx):null,h("div",{},q.q),h("div",{class:"ans"},h("b",{style:"color:var(--ok)"},"Answer: "),q.o[q.a]),h("div",{class:"muted",style:"font-size:14px"},q.why),q.rw&&state.studyMode!=="campaign"?h("div",{class:"note-actions"},h("button",{class:"btn small",onclick:()=>openConcept(q.rw.concept)},"Study this concept"),h("button",{class:"btn small",onclick:()=>{ if(!isSaved(q.rw.concept)) toggleSave(q.rw.concept); }},isSaved(q.rw.concept)?"★ Clue saved":"Save the clue")):null))));
   else kids.push(h("p",{style:"margin:0"},early?"No misses in the questions you answered.":"Clean sweep. Nothing to review."));
   const out=[h("section",{class:"panel runner"},kids)];
   if(bm) out.push(teachesPanel(bm));
@@ -1763,7 +1889,7 @@ function renderGame(){
     h("section",{class:"panel"},h("div",{class:"game-grid"},
       h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Current rank"),h("b",{},title),h("div",{class:"tabnum"},state.xp+" XP"+(next?" · "+(next[1]-state.xp)+" to "+next[0]:" · top rank"))),
       h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Daily missions "+(allDone?"🔥":"")),missions.map(m=>h("div",{class:"mission"},h("i",{},m.now>=m.goal?"✓":"○"),h("span",{},m.text,h("span",{class:"muted"}," · "+Math.min(m.now,m.goal)+"/"+m.goal))))),
-      h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Achievements"),Object.entries(ACHIEVEMENTS).map(([key,a])=>h("div",{class:"mission"},h("i",{},state.achievements[key]?"★":"○"),h("span",{},a.name,h("span",{class:"muted"}," · "+a.desc))))))),
+      h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Achievements"),Object.entries(ACHIEVEMENTS).filter(([key,a])=>!a.retired||state.achievements[key]).map(([key,a])=>h("div",{class:"mission"},h("i",{},state.achievements[key]?"★":"○"),h("span",{},a.name,h("span",{class:"muted"}," · "+a.desc))))))),
     seals,
     h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Domain boss fights"),h("p",{class:"muted",style:"margin-top:0"},"Up to 15 questions (fewer if the domain's pool is small), 3 mistakes allowed. The fourth mistake ends the fight. Finish every question at 80% or better to win, and you can always try again."),h("div",{class:"game-grid"},domainBosses.map(bossCard))),
     finalBoss?h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Final boss"),h("div",{class:"boss-final-row"},
@@ -1998,7 +2124,7 @@ function renderCampaignChrome(on){
   const g=G(), L=guidedLevels(), cleared=L.filter(x=>g.passed[x.d]).length;
   const at=g.started?L.findIndex(x=>x.d===guidedDay().d)+1:0;
   bar.replaceChildren(h("div",{class:"cbar"},
-    h("div",{class:"eyebrow"},"ExamHelp · Campaign · "+PROGRAM_LABEL[state.program]),
+    h("div",{class:"eyebrow"},"CertificationNation · Campaign · "+PROGRAM_LABEL[state.program]),
     h("h1",{},"Night Shift at Leon River Water"),
     h("div",{class:"muted",style:"font:500 13px var(--mono)"},"Run "+g.run+(at?" · Level "+at+" of "+L.length:"")+" · "+cleared+" cleared"),
     h("div",{class:"meter","aria-hidden":"true"},h("i",{style:"width:"+Math.round(100*cleared/L.length)+"%"}))));
@@ -2292,8 +2418,8 @@ function guidedResultBlock(){
   return null;
 }
 // ---------- navigation: Home / Study / Campaign / Arena / Progress ----------
-const STUDY_TABS=["plan","quiz","acr","pbq","mock","lab"];
-const STUDY_VIEWS=[["plan","Lessons"],["quiz","Practice"],["acr","Acronyms"],["pbq","PBQs"],["mock","Mock exam"],["lab","Question Lab"]];
+const STUDY_TABS=["plan","cards","quiz","acr","pbq","mock","lab"];
+const STUDY_VIEWS=[["plan","Lessons"],["cards","Notes & cards"],["quiz","Practice"],["acr","Acronyms"],["pbq","PBQs"],["mock","Mock exam"],["lab","Question Lab"]];
 function topTab(){ return STUDY_TABS.includes(ui.tab)?"study":ui.tab; }
 // Leaving a quiz pauses it rather than throwing it away; coming back resumes it.
 function goTab(t){
@@ -2325,7 +2451,7 @@ function renderHome(){
     detail:"Due items first, then ones you've missed",btn:"Start review",go:()=>startQuiz({id:"review",label:"Review",keys:[]},"think",Math.min(due,20))};
   else if(!A.length) action={why:"You haven't answered anything yet.",title:"Start: "+shortTitle(BYDAY[programDays()[0].d].title),sub:topicsOf(BYDAY[programDays()[0].d].title),
     detail:"Level 1 · read the lesson, then take its quiz",btn:"Open Level 1",go:()=>{ui.sel=programDays()[0].d;goTab("plan");},
-    alt:["Or take a 10-question check across everything",()=>startQuiz({id:"diagnostic",label:"Diagnostic",keys:Object.values(Q).filter(q=>inProgram(q.track)&&!/^generated-|^acr-/.test(q.k)).map(q=>q.k)},"think",10)]};
+    alt:["Or take a 10-question check across everything",()=>startQuiz({id:"diagnostic",label:"Diagnostic",keys:Object.values(Q).filter(q=>coreQ(q)&&inProgram(q.track)&&!/^generated-|^acr-/.test(q.k)).map(q=>q.k)},"think",10)]};
   else action={why:"Nothing is due. Pick up where your plan left off.",title:"Continue: "+shortTitle(day.title),sub:topicsOf(day.title),
     detail:"Level "+displayDay(t)+" · "+(day.dom||(day.kind==="review"?"Review checkpoint":"Exam checkpoint"))+(day.min?" · about "+day.min+" min":""),btn:"Open Level "+displayDay(t),go:()=>{ui.sel=t;goTab("plan");}};
   const next=h("section",{class:"panel home-next"},
@@ -2340,7 +2466,12 @@ function renderHome(){
   const side=h("div",{class:"home-side"},
     h("section",{class:"panel"},h("h3",{style:"margin:0 0 6px"},"Review queue"),
       h("p",{style:"margin:0"},due?h("b",{},due+" due now"):"Nothing due today"),
-      h("p",{class:"muted",style:"margin:4px 0 0;font-size:13px"},Object.keys(state.review||{}).length+" questions on your schedule")),
+      h("p",{class:"muted",style:"margin:4px 0 0;font-size:13px"},Object.keys(state.review||{}).length+" questions on your schedule"),
+      cardsDue()?h("p",{style:"margin:8px 0 0"},h("button",{class:"linklike",onclick:()=>{ui.cn.flashSetup=false;startFlash("due",999);}},cardsDue()+" flashcard"+(cardsDue()===1?"":"s")+" due")," (self-rated)"):null),
+    CN.concepts.some(cnInProgram)?h("section",{class:"panel"},h("h3",{style:"margin:0 0 6px"},"Short on time?"),
+      state.study.sprint&&!state.study.sprint.finished
+        ?[h("p",{style:"margin:0"},"Your sprint is waiting at step "+(state.study.sprint.i+1)+" of "+state.study.sprint.steps.length+"."),h("button",{class:"btn small primary",style:"margin-top:8px",onclick:()=>{ui.cn.view="sprint";goTab("cards");}},"Resume sprint")]
+        :[h("p",{style:"margin:0"},"A 5-minute sprint: three notes, three recall cards, one workplace scenario."),h("button",{class:"btn small",style:"margin-top:8px",onclick:startSprint},"Start a sprint")]):null,
     h("section",{class:"panel"},h("h3",{style:"margin:0 0 6px"},"Recent activity"),
       A.length?h("ul",{class:"home-list"},A.slice(0,4).map(a=>h("li",{},h("span",{},a.scope||a.scopeId),h("span",{class:"muted tabnum"},a.pct+"% · "+fmtDT(a.ts))))):h("p",{class:"muted",style:"margin:0"},"Your quizzes will show up here.")),
     nb?h("section",{class:"panel"},h("h3",{style:"margin:0 0 6px"},"Next boss"),
@@ -2409,7 +2540,7 @@ function statsSnapshot(){
 function buildExportPayload(){
   const snap=statsSnapshot();
   return {
-    app:"ExamHelp", schema:3, exported:new Date().toISOString(),
+    app:"ExamHelp", brand:"CertificationNation", schema:3, exported:new Date().toISOString(),
     program:programOf(),
     student:{name:statsIO.name||""},
     plan:{start:state.start, daysDone:Object.keys(state.done).length},
@@ -2426,25 +2557,26 @@ function buildExportPayload(){
 // Everything needed to pick up exactly where you were: all learner state (levels, XP, bosses,
 // prestige, campaign run with decisions, option order and phase, custom questions), every
 // attempt, and view preferences. API keys live in a separate store and are never included.
-const BACKUP_SCHEMA=4;
+const BACKUP_SCHEMA=5;   // 5 (v2.1): adds bookmarks, flashcard state, stamps, titles and saved study sessions inside state
+const APP_IDS=["ExamHelp","CertificationNation"];   // files from before and after the rename
 function buildBackup(){
   let uiPrefs=null; try{ uiPrefs=JSON.parse(localStorage.getItem(LS+".ui")||"null"); }catch(e){}
   let theme=null; try{ theme=localStorage.getItem(LS+".theme"); }catch(e){}
-  return { app:"ExamHelp", kind:"backup", schema:BACKUP_SCHEMA, exported:new Date().toISOString(),
+  return { app:"ExamHelp", brand:"CertificationNation", kind:"backup", schema:BACKUP_SCHEMA, exported:new Date().toISOString(),
     contentVersion:(PATCHNOTES[0]&&PATCHNOTES[0].v)||null,
     state:JSON.parse(JSON.stringify(state)), attempts:JSON.parse(JSON.stringify(attempts)), prefs:{ui:uiPrefs,theme} };
 }
 function downloadBackup(){
   const blob=new Blob([JSON.stringify(buildBackup(),null,2)],{type:"application/json"});
   const url=URL.createObjectURL(blob), a=document.createElement("a");
-  a.href=url; a.download="examhelp-backup-"+todayISO()+".json"; document.body.appendChild(a); a.click(); a.remove();
+  a.href=url; a.download="certificationnation-backup-"+todayISO()+".json"; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 // Checks every field a restore would write. Returns a list of problems; empty means safe.
 function validateBackup(p){
   const errs=[], isObj=x=>x&&typeof x==="object"&&!Array.isArray(x), isNum=x=>typeof x==="number"&&isFinite(x);
-  if(!isObj(p)||p.app!=="ExamHelp"||p.kind!=="backup") return ["not an ExamHelp backup file"];
-  if(!isNum(p.schema)||p.schema>BACKUP_SCHEMA) errs.push("made by a newer version of ExamHelp (backup format "+p.schema+")");
+  if(!isObj(p)||!APP_IDS.includes(p.app)||p.kind!=="backup") return ["not an ExamHelp or CertificationNation backup file"];
+  if(!isNum(p.schema)||p.schema>BACKUP_SCHEMA) errs.push("made by a newer version of CertificationNation (backup format "+p.schema+")");
   const st=p.state;
   if(!isObj(st)) return errs.concat("missing learner state");
   if(!isObj(st.done)) errs.push("level progress is malformed");
@@ -2456,6 +2588,9 @@ function validateBackup(p){
   if(st.studyMode!=null&&!["self","campaign"].includes(st.studyMode)) errs.push("unknown study mode");
   if(st.customQuestions!=null&&!Array.isArray(st.customQuestions)) errs.push("custom questions are malformed");
   if(st.start!=null&&!/^\d{4}-\d{2}-\d{2}$/.test(st.start)) errs.push("plan start date is malformed");
+  ["bookmarks","cards","stamps","titles","study","milestones"].forEach(f=>{ if(st[f]!=null&&!isObj(st[f])) errs.push("saved "+f+" are malformed"); });
+  if(isObj(st.bookmarks)&&Object.values(st.bookmarks).some(b=>!isObj(b)||(b.note!=null&&typeof b.note!=="string"))) errs.push("saved Field Guide items are malformed");
+  if(isObj(st.cards)&&Object.values(st.cards).some(c=>!isObj(c)||!isNum(c.stage||0))) errs.push("flashcard progress is malformed");
   const g=st.guided;
   if(g!=null){
     if(!isObj(g)||!isObj(g.passed)||!isObj(g.missions)||!isObj(g.flags)) errs.push("campaign run is malformed");
@@ -2490,7 +2625,7 @@ function undoLastImport(){
 function restoreBackup(p){
   const problems=validateBackup(p);
   if(problems.length){ statsIO.importError="Nothing was changed. This backup can't be restored: "+problems.join("; ")+"."; render(); return; }
-  if(!snapshotBeforeImport()){ statsIO.importError="Nothing was changed. This browser won't let ExamHelp save a safety copy first."; render(); return; }
+  if(!snapshotBeforeImport()){ statsIO.importError="Nothing was changed. This browser won't let CertificationNation save a safety copy first."; render(); return; }
   try{
     localStorage.setItem(LS,JSON.stringify({state:p.state,attempts:p.attempts}));
     if(p.prefs&&p.prefs.ui) localStorage.setItem(LS+".ui",JSON.stringify(p.prefs.ui));
@@ -2503,7 +2638,7 @@ function buildSummaryText(){
   const readiness={sc:snap.recent("sc"),sec:snap.recent("sec")};
   const dateStr=new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
   const lines=[];
-  lines.push("ExamHelp — "+(statsIO.name||"Study stats")+" — "+dateStr);
+  lines.push("CertificationNation — "+(statsIO.name||"Study stats")+" — "+dateStr);
   lines.push(snap.A.length+" tests · "+snap.items.length+" questions · "+snap.streak+(snap.streak===1?" day":" days")+" streak");
   lines.push("");
   lines.push("SC-900 recent accuracy: "+(readiness.sc?readiness.sc.pct+"% (last "+readiness.sc.n+" answers)":"no answers yet"));
@@ -2524,7 +2659,7 @@ function downloadStatsExport(){
   const payload=buildExportPayload();
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
   const url=URL.createObjectURL(blob);
-  const a=document.createElement("a"); a.href=url; a.download="examhelp-"+slugify(statsIO.name)+"-"+todayISO()+".json";
+  const a=document.createElement("a"); a.href=url; a.download="certificationnation-"+slugify(statsIO.name)+"-"+todayISO()+".json";
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
@@ -2551,13 +2686,13 @@ function handleStatsImportFile(file){
     let parsed;
     try{ parsed=JSON.parse(reader.result); }
     catch(e){ statsIO.importError="That file isn't valid JSON."; render(); return; }
-    if(parsed&&parsed.app==="ExamHelp"&&parsed.kind==="backup"){
+    if(parsed&&APP_IDS.includes(parsed.app)&&parsed.kind==="backup"){
       const problems=validateBackup(parsed);
       if(problems.length){ statsIO.importError="Nothing was changed. This backup can't be restored: "+problems.join("; ")+"."; render(); return; }
       statsIO.importPreview=parsed; render(); return;
     }
-    if(!(parsed&&parsed.app==="ExamHelp"&&typeof parsed.schema==="number"&&parsed.schema<=3&&Array.isArray(parsed.attempts))){
-      statsIO.importError="That doesn't look like an ExamHelp file. Use a Full backup or an Instructor summary exported from ExamHelp."; render(); return;
+    if(!(parsed&&APP_IDS.includes(parsed.app)&&typeof parsed.schema==="number"&&parsed.schema<=3&&Array.isArray(parsed.attempts))){
+      statsIO.importError="That doesn't look like a CertificationNation (or ExamHelp) file. Use a Full backup or an Instructor summary."; render(); return;
     }
     statsIO.importPreview=parsed; render();
   };
@@ -2725,6 +2860,7 @@ function renderStats(){
 
   return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
     tiles,
+    renderTitlesPanel(),
     h("section",{class:"panel"},h("div",{class:"row",style:"justify-content:space-between;margin-bottom:10px"},h("h3",{},"Score trend · last "+last.length+" tests"),chartLegend),h("div",{class:"chartbox"},svg)),
     h("section",{class:"panel"},h("h3",{style:"margin-bottom:10px"},"Runs"),h("p",{class:"muted",style:"margin:0 0 10px;font-size:13px"},"Every completed 33-level run, at the prestige tier it was earned at."),runsBox),
     h("section",{class:"panel"},h("h3",{style:"margin-bottom:12px"},"Accuracy by exam domain"),h("div",{class:"cols"},domBars),h("p",{class:"muted",style:"font-size:12px;margin:10px 0 0"},"Dashed line = 80% practice target.")),
@@ -2765,7 +2901,7 @@ function mockUnlockStatus(track){
   const have=need.filter(d=>state.done[d]).length;
   return {unlocked:have===need.length,have,need:need.length};
 }
-function mockPoolFor(track,dom){ return Object.values(Q).filter(q=>q.track===track&&q.dom===dom).map(q=>q.k); }
+function mockPoolFor(track,dom){ return Object.values(Q).filter(q=>coreQ(q)&&q.track===track&&q.dom===dom).map(q=>q.k); }
 function buildMockList(track){
   const spec=MOCK_SPEC[track]; const shortfalls=[]; let keys=[];
   Object.entries(spec.mix).forEach(([dom,n])=>{
@@ -2924,6 +3060,488 @@ function renderMock(){
 }
 
 // ---------- render ----------
+// ---------- rename notice ----------
+// Shown once to people who already had an ExamHelp profile in this browser. Storage keys didn't
+// change, so their progress is exactly where it was.
+function renameNotice(){
+  if(!hadProfile) return null;
+  try{ if(localStorage.getItem(LS+".renamed")) return null; }catch(e){ return null; }
+  return h("div",{class:"rename-note",role:"status"},
+    h("p",{style:"margin:0"},h("b",{},"ExamHelp is now CertificationNation. "),"Your progress is still here: levels, scores, campaign decisions, rewards and backups all carried over."),
+    h("button",{class:"btn small",onclick:()=>{ try{ localStorage.setItem(LS+".renamed","1"); }catch(e){} render(); }},"Got it"));
+}
+// ---------- CertificationNation 2.1: notes, flashcards, comparisons, field guide, sprints ----------
+// Content comes from the CN_PACKS data modules (see CN above). Nothing here edits content; learner
+// state lives in state.bookmarks / state.cards / state.stamps / state.titles / state.study, all of
+// which ride along in full backups because they are part of state.
+const CN_VIEWS=[["notes","Pocket Notes"],["flash","Flashcards"],["compare","Don't Mix These Up"],["guide","My Field Guide"],["sprint","5-Minute Sprint"]];
+const CN_TITLES={
+  notetaker:{name:"Note Taker",desc:"Save 5 notes or comparisons to your Field Guide"},
+  stamps:{name:"Stamp Collector",desc:"Earn 3 deck stamps"},
+  longmem:{name:"Long Memory",desc:"Recall 10 cards on a later day than you first got them"},
+  sprinter:{name:"Sprinter",desc:"Finish 3 five-minute sprints"},
+  fieldwork:{name:"Field Worker",desc:"Answer 10 Real-World scenarios correctly"}
+};
+const cnInProgram=c=>inProgram(c.cert);
+const cmpInProgram=k=>(k.certs||[]).some(inProgram);
+function cnDecks(){ return programDays().filter(d=>CN.byDay[d.d]&&CN.byDay[d.d].some(cnInProgram)).map(d=>d.d); }
+function cnDeckDay(){
+  const decks=cnDecks(); if(!decks.length) return null;
+  if(decks.includes(ui.cn.deck)) return ui.cn.deck;
+  const t=unlockedDay(); const pick=decks.find(d=>d>=t)||decks[decks.length-1];
+  ui.cn.deck=pick; return pick;
+}
+const deckScenarios=day=>CN.scenarios.filter(x=>x.day===day&&Q[x.id]&&inProgram(Q[x.id].track));
+const conceptScenarios=id=>CN.scenarios.filter(x=>(x.concepts||[x.concept]).includes(id)&&Q[x.id]);
+const deckLabel=d=>"Level "+displayDay(d)+" · "+shortTitle(BYDAY[d].title);
+
+// ---- status messages (copy results, saves, rewards) ----
+let cnMsgTimer=null;
+function cnSay(text,ok){ ui.cn.msg={text,ok:ok!==false,tab:ui.tab}; clearTimeout(cnMsgTimer); cnMsgTimer=setTimeout(()=>{ ui.cn.msg=null; const el=document.getElementById("cnmsg"); if(el){ el.textContent=""; el.className="cn-msg"; } },4000); render(); }
+function cnStatus(){ const m=ui.cn.msg&&ui.cn.msg.tab===ui.tab?ui.cn.msg:null; return h("div",{id:"cnmsg",class:"cn-msg"+(m?(m.ok?" ok":" bad"):""),role:"status","aria-live":"polite"},m?m.text:""); }
+async function copyText(text){
+  try{ if(navigator.clipboard&&window.isSecureContext){ await navigator.clipboard.writeText(text); return true; } }catch(e){}
+  try{ const ta=document.createElement("textarea"); ta.value=text; ta.setAttribute("readonly",""); ta.style.cssText="position:fixed;top:-1000px;opacity:0";
+    document.body.appendChild(ta); ta.select(); const ok=document.execCommand("copy"); ta.remove(); return ok; }catch(e){ return false; }
+}
+function noteText(c){
+  const L=[c.title].concat(c.lines.map(l=>"- "+l));
+  if(c.clue) L.push("Exam clue: "+c.clue);
+  if(c.except) L.push("Watch out: "+c.except);
+  return L.join("\n");
+}
+function cmpText(k){
+  const L=[k.title].concat(k.sides.map(s=>"- "+s.name+": "+s.is));
+  L.push("Difference: "+k.distinction,"Exam clue: "+k.clue,"At work: "+k.apply);
+  k.notIt.forEach(n=>L.push("- "+n));
+  return L.join("\n");
+}
+const itemText=id=>CN.C[id]?noteText(CN.C[id]):CN.CMP[id]?cmpText(CN.CMP[id]):"";
+async function copyItems(ids,label){
+  const text=ids.map(itemText).filter(Boolean).join("\n\n");
+  if(!text){ cnSay("Nothing to copy.",false); return; }
+  const ok=await copyText(text);
+  cnSay(ok?(label||"Copied")+" to your clipboard.":"Couldn't copy. Your browser blocked the clipboard; select the text and copy it yourself.",ok);
+}
+
+// ---- bookmarks (Field Guide) ----
+const isSaved=id=>!!state.bookmarks[id];
+function toggleSave(id){
+  if(isSaved(id)){ const note=state.bookmarks[id].note; delete state.bookmarks[id]; saveProgress(); cnSay(note?"Removed from your Field Guide (and your note on it).":"Removed from your Field Guide."); return; }
+  state.bookmarks[id]={t:Date.now(),note:""}; saveProgress(); cnCheckTitles(); cnSay("Saved to your Field Guide.");
+}
+const saveBtn=id=>h("button",{class:"btn small"+(isSaved(id)?" saved":""),"aria-pressed":String(isSaved(id)),onclick:()=>toggleSave(id)},isSaved(id)?"★ Saved":"☆ Save");
+
+// ---- rendering: shared bits ----
+function refDetails(item){
+  const c=CN.C[item.id], obj=c?(TRACK[c.cert]+" skills outline "+c.obj+": "+c.objTitle):null;
+  return h("details",{class:"note-ref"},h("summary",{},"Reference"),
+    obj?h("p",{},obj):null,
+    h("p",{},"Sources: ",(item.src||[]).map((u,i)=>[i?", ":"",h("a",{href:u,target:"_blank",rel:"noopener"},u.replace(/^https:\/\/(www\.)?/,"").split("/").slice(0,3).join("/")+"…")])),
+    h("p",{},"Checked against these sources on "+item.reviewed+" by an automated review. Not yet reviewed by a human expert. Content version "+(item.v||1)+". ID "+item.id));
+}
+function noteCard(c,opts){
+  opts=opts||{};
+  return h("article",{class:"note"+(ui.cn.focus===c.id?" focus":""),id:"note-"+c.id,tabindex:"-1"},
+    h("div",{class:"note-head"},h("h3",{},c.title)),
+    h("ul",{class:"note-lines"},c.lines.map(l=>h("li",{},l))),
+    c.clue?h("p",{class:"note-clue"},h("b",{},"Exam clue: "),c.clue):null,
+    c.except?h("p",{class:"note-except"},h("b",{},"Watch out: "),c.except):null,
+    c.more?h("details",{class:"note-more"},h("summary",{},"Explain more"),h("p",{},c.more)):null,
+    opts.compact?null:h("div",{class:"note-actions"},
+      h("button",{class:"btn small",onclick:()=>copyItems([c.id],"Note copied")},"Copy note"),
+      saveBtn(c.id),
+      h("button",{class:"btn small",onclick:()=>practiceConcept(c.id)},"Practice this concept")),
+    opts.compact?null:refDetails(c));
+}
+function focusSoon(){ const id=ui.cn.focus; if(!id) return; setTimeout(()=>{ const el=document.getElementById("note-"+id)||document.getElementById("cmp-"+id); if(el){ el.scrollIntoView({block:"center",behavior:reducedMotion()?"auto":"smooth"}); el.focus({preventScroll:true}); } ui.cn.focus=null; },30); }
+function openConcept(id){
+  const c=CN.C[id]; if(!c) return;
+  if(run&&run.finished) run=null; ui.cn.view="notes"; ui.cn.deck=c.day; ui.cn.focus=id; saveUI(); goTab("cards"); focusSoon();
+}
+function openComparison(id){ if(run&&run.finished) run=null; ui.cn.view="compare"; ui.cn.focus=id; saveUI(); goTab("cards"); focusSoon(); }
+function practiceConcept(id){
+  const keys=conceptScenarios(id).map(x=>x.id);
+  if(keys.length){ startQuiz({id:"concept-"+id,label:CN.C[id].title,keys},"think",keys.length); return; }
+  startFlash("concept:"+id,999);
+}
+function cnEmpty(){
+  return h("section",{class:"panel"},h("h2",{style:"margin:0"},"Security+ notes are on the way"),
+    h("p",{style:"margin:0;max-width:62ch"},"Pocket Notes, flashcards and Real-World scenarios cover SC-900 so far. Security+ arrives in the next content batches. Don't Mix These Up already has a few Security+ comparisons, and Practice, Acronyms and PBQs cover Security+ as before."),
+    h("div",{class:"actions"},h("button",{class:"btn",onclick:()=>{ui.cn.view="compare";render();}},"Open Don't Mix These Up")));
+}
+function renderCN(){
+  const v=CN_VIEWS.some(([k])=>k===ui.cn.view)?ui.cn.view:"notes";
+  const nav=h("div",{class:"seg cn-seg","aria-label":"Notes and cards"},CN_VIEWS.map(([k,l])=>h("button",{"aria-pressed":String(k===v),onclick:()=>{ui.cn.view=k;saveUI();render();}},l,
+    k==="sprint"&&state.study.sprint&&!state.study.sprint.finished?h("span",{class:"dot","aria-label":"in progress"}):null,
+    k==="flash"&&state.study.flash&&!state.study.flash.done?h("span",{class:"dot","aria-label":"in progress"}):null)));
+  const body=v==="flash"?renderFlash():v==="compare"?renderCompare():v==="guide"?renderGuide():v==="sprint"?renderSprint():renderNotes();
+  if(ui.cn.focus) focusSoon();
+  return h("div",{class:"cn"},nav,cnStatus(),body);
+}
+
+// ---- Pocket Notes ----
+function renderNotes(){
+  const day=cnDeckDay(); if(day==null) return cnEmpty();
+  const cs=CN.byDay[day].filter(cnInProgram), scen=deckScenarios(day), st=state.stamps[day];
+  const picker=h("select",{"aria-label":"Choose a deck",onchange:e=>{ui.cn.deck=+e.target.value;saveUI();render();}},
+    cnDecks().map(d=>h("option",{value:d,selected:d===day?true:null},deckLabel(d)+(state.stamps[d]?" ✓":""))));
+  return h("section",{class:"panel notes-panel"},
+    h("div",{class:"row",style:"justify-content:space-between;flex-wrap:wrap;gap:10px"},
+      h("div",{},h("h2",{style:"margin:0"},shortTitle(BYDAY[day].title)),h("p",{class:"muted",style:"margin:2px 0 0;font-size:14px"},TRACK[BYDAY[day].track]+" · Level "+displayDay(day)+" · "+cs.length+" notes")),
+      picker),
+    h("div",{class:"notes-grid"},cs.map(c=>noteCard(c))),
+    h("div",{class:"deck-foot"},
+      h("p",{style:"margin:0"},st?h("span",{class:"stamp"},"✓ Deck stamp earned "+fmtD(new Date(st))):"Earn this deck's stamp: rate every card in Flashcards, then get one of its scenarios right."),
+      h("div",{class:"actions",style:"flex-wrap:wrap"},
+        h("button",{class:"btn",onclick:()=>{ui.cn.view="flash";startFlash("d"+day,999);}},"Flashcards for this deck"),
+        scen.length?h("button",{class:"btn primary",onclick:()=>finishDeckScenario(day)},"Finish with a scenario"):null)));
+}
+function finishDeckScenario(day){
+  const hist=qHistory(), pool=deckScenarios(day);
+  const fresh=pool.filter(x=>!hist[x.id]), pickFrom=fresh.length?fresh:pool;
+  const x=pickFrom[Math.floor(Math.random()*pickFrom.length)];
+  startQuiz({id:"deck-"+day,label:shortTitle(BYDAY[day].title)+" scenario",keys:[x.id]},"think",1);
+}
+
+// ---- Flashcards (self-rated; separate from scored accuracy) ----
+function cardPool(deck,dir){
+  let ids;
+  if(deck==="due") ids=Object.keys(state.cards).filter(id=>CN.CARD[id]&&cnInProgram(CN.C[CN.CARD[id].concept])&&state.cards[id].due&&state.cards[id].due<=todayISO());
+  else if(deck==="all") ids=Object.keys(CN.CARD).filter(id=>cnInProgram(CN.C[CN.CARD[id].concept]));
+  else if(/^concept:/.test(deck)) ids=((CN.C[deck.slice(8)]||{}).cards||[]).map(k=>k.id);
+  else { const d=+deck.slice(1); ids=(CN.byDay[d]||[]).filter(cnInProgram).flatMap(c=>c.cards.map(k=>k.id)); }
+  if(dir&&dir!=="both") ids=ids.filter(id=>CN.CARD[id].kind===dir);
+  return ids;
+}
+const cardsDue=()=>cardPool("due","both").length;
+function startFlash(deck,n){
+  const today=todayISO(), S=state.cards;
+  const ids=cardPool(deck,/^concept:/.test(deck)?"both":ui.cn.dir);
+  const due=ids.filter(id=>S[id]&&S[id].due&&S[id].due<=today), fresh=shuffle(ids.filter(id=>!S[id])), rest=shuffle(ids.filter(id=>S[id]&&!(S[id].due&&S[id].due<=today)));
+  const order=shuffle(due).concat(fresh,rest);
+  const list=n>=999?order:order.slice(0,n);   // never repeats a card within a session
+  state.study.flash={deck,ids:list,i:0,revealed:false,ratings:{},n:n>=999?"open":n,started:Date.now(),done:false};
+  saveProgress(); ui.cn.view="flash"; saveUI();
+  if(ui.tab!=="cards") goTab("cards"); else render();
+}
+function scheduleCard(id,r){
+  const t=todayISO(), s=state.cards[id]||(state.cards[id]={stage:0,due:null,last:null,lapses:0,n:0,lastGot:null});
+  let later=false; s.n=(s.n||0)+1;
+  if(r==="again"){ if(s.stage>0&&s.last!==t) s.lapses=(s.lapses||0)+1; s.stage=1; s.due=addDaysISO(t,1); }
+  else if(r==="almost"){ s.stage=Math.max(1,s.stage||0); s.due=addDaysISO(t,1); }
+  else {
+    if(s.lastGot&&s.lastGot<t) later=true;
+    if(s.last!==t||!s.stage) s.stage=Math.min((s.stage||0)+1,REVIEW_DAYS.length);   // one step per day at most
+    s.due=addDaysISO(t,REVIEW_DAYS[s.stage-1]); s.lastGot=t;
+  }
+  s.last=t; return later;
+}
+function rateFlash(r){
+  const f=state.study.flash; if(!f||f.done||!f.revealed) return;
+  const id=f.ids[f.i]; f.ratings[id]=r;
+  if(scheduleCard(id,r)) laterRecall();
+  f.i++; f.revealed=false;
+  if(f.i>=f.ids.length){ f.done=true; flashFinished(f); }
+  saveProgress(); render();
+  setTimeout(()=>{ const b=document.getElementById("revealbtn"); if(b) b.focus(); },0);
+}
+function laterRecall(){
+  state.milestones.later=(state.milestones.later||0)+1;
+  if(state.milestones.later===1){ cnSay("Milestone: you remembered a card on a later day. That's the kind of recall that holds up on exam day."); queueFx("victory","#view .flash-card"); }
+  cnCheckTitles();
+}
+function flashFinished(f){
+  const days=new Set(Object.keys(f.ratings).map(id=>CN.C[CN.CARD[id].concept].day));
+  days.forEach(checkStamp);
+}
+function renderFlash(){
+  const f=state.study.flash;
+  if(f&&!f.done) return renderFlashCard(f);
+  if(f&&f.done&&!ui.cn.flashSetup) return renderFlashSummary(f);
+  const decks=cnDecks(); const due=cardsDue();
+  if(!decks.length) return cnEmpty();
+  const day=cnDeckDay();
+  const deckVal=ui.cn.flashDeck||("d"+day);
+  const sel=h("select",{"aria-label":"Deck",onchange:e=>{ui.cn.flashDeck=e.target.value;render();}},
+    [h("option",{value:"due",selected:deckVal==="due"?true:null,disabled:due?null:true},"Due for review ("+due+")"),
+     h("option",{value:"all",selected:deckVal==="all"?true:null},"Everything in my program")]
+      .concat(decks.map(d=>h("option",{value:"d"+d,selected:deckVal==="d"+d?true:null},deckLabel(d)))));
+  const known=Object.keys(state.cards).filter(id=>CN.CARD[id]&&state.cards[id].stage>=2).length, total=cardPool("all","both").length;
+  const seg=(items,val,set)=>h("div",{class:"seg"},items.map(([v,l])=>h("button",{"aria-pressed":String(v===val),onclick:()=>{set(v);saveUI();render();}},l)));
+  const avail=cardPool(deckVal,ui.cn.dir).length;
+  return h("section",{class:"panel launch"},
+    h("h2",{},"Flashcards"),
+    h("p",{class:"muted",style:"margin:-6px 0 0;max-width:64ch"},"See the prompt, recall the answer in your head, then reveal and rate yourself honestly. Your ratings decide when a card comes back. They're kept apart from quiz scores, so they never change your accuracy."),
+    h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Deck"),sel),
+    h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Card type"),seg([["both","Both"],["term","Term → meaning"],["use","Situation → concept"]],ui.cn.dir,v=>ui.cn.dir=v)),
+    h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"How many"),seg([[5,"5"],[10,"10"],[999,"Open-ended"]],ui.cn.flashN,v=>ui.cn.flashN=v)),
+    h("p",{class:"muted",style:"margin:0;font-size:13px"},avail+" cards in this deck"+(ui.cn.flashN<999&&avail<ui.cn.flashN?", so the session will be "+avail+". Cards never repeat within a session":"")+"."),
+    h("div",{class:"actions"},h("button",{class:"btn primary",disabled:avail?null:true,onclick:()=>{ui.cn.flashSetup=false;startFlash(deckVal,ui.cn.flashN);}},avail?"Start":"No cards here")),
+    h("p",{class:"muted",style:"margin:0;font-size:13px"},"Self-rated familiarity: "+known+" of "+total+" cards rated \"Got it\" on at least two different days. "+(due?due+" due today.":"Nothing due today.")));
+}
+function renderFlashCard(f){
+  const id=f.ids[f.i], k=CN.CARD[id], c=CN.C[k.concept];
+  const total=f.n==="open"?null:f.ids.length;
+  return h("section",{class:"panel flash-card"},
+    h("div",{class:"row",style:"justify-content:space-between;flex-wrap:wrap;gap:8px"},
+      h("span",{class:"eyebrow tabnum"},"Card "+(f.i+1)+(total?" of "+total:" · open session")+" · "+(k.kind==="term"?"Term → meaning":"Situation → concept")),
+      h("div",{class:"row",style:"gap:6px"},
+        h("button",{class:"btn small",onclick:()=>{ ui.cn.view="notes"; saveUI(); cnSay("Paused. Your flashcard session is saved; pick it up from Flashcards."); }},"Stop for now"),
+        h("button",{class:"btn small",onclick:()=>{ f.done=true; flashFinished(f); saveProgress(); render(); }},"End session"))),
+    h("p",{class:"flash-q"},k.q),
+    f.revealed
+      ? h("div",{class:"flash-a"},h("p",{style:"margin:0"},k.a),h("p",{class:"muted",style:"margin:6px 0 0;font-size:13px"},"From: ",h("button",{class:"linklike",style:"font-size:inherit",onclick:()=>openConcept(c.id)},c.title)))
+      : h("div",{class:"actions"},h("button",{class:"btn primary",id:"revealbtn",onclick:()=>{f.revealed=true;saveProgress();render();setTimeout(()=>{const b=document.getElementById("rate-got");if(b)b.focus();},0);}},"Reveal answer"),h("span",{class:"muted",style:"font-size:13px;align-self:center"},"or press Space")),
+    f.revealed?h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"How well did you recall it?"),
+      h("div",{class:"grade"},
+        h("button",{class:"btn",onclick:()=>rateFlash("again")},"Again ",h("kbd",{},"1")),
+        h("button",{class:"btn",onclick:()=>rateFlash("almost")},"Almost ",h("kbd",{},"2")),
+        h("button",{class:"btn primary",id:"rate-got",onclick:()=>rateFlash("got")},"Got it ",h("kbd",{},"3")))):null);
+}
+function renderFlashSummary(f){
+  const R=f.ratings, ids=Object.keys(R), cnt=r=>ids.filter(id=>R[id]===r).length;
+  const again=ids.filter(id=>R[id]!=="got"), dues=ids.map(id=>state.cards[id]&&state.cards[id].due).filter(Boolean).sort();
+  const days=[...new Set(ids.map(id=>CN.C[CN.CARD[id].concept].day))], scen=days.flatMap(deckScenarios);
+  return h("section",{class:"panel flash-card"},
+    h("h2",{style:"margin:0"},ids.length<f.ids.length?"Session ended early: "+ids.length+" of "+f.ids.length+" cards rated":"Session complete"),
+    h("div",{class:"result-top"},
+      h("div",{},h("div",{class:"eyebrow"},"Got it"),h("div",{class:"tabnum",style:"font:700 26px var(--display)"},cnt("got"))),
+      h("div",{},h("div",{class:"eyebrow"},"Almost"),h("div",{class:"tabnum",style:"font:700 26px var(--display)"},cnt("almost"))),
+      h("div",{},h("div",{class:"eyebrow"},"Again"),h("div",{class:"tabnum",style:"font:700 26px var(--display)"},cnt("again"))),
+      h("div",{},h("div",{class:"eyebrow"},"Next due"),h("div",{class:"tabnum",style:"font:700 20px var(--display)"},dues.length?fmtD(parseDate(dues[0])):"—"))),
+    h("p",{class:"muted",style:"margin:0;font-size:14px"},"These are your own ratings. They set when each card comes back; they don't count as quiz answers or change your accuracy."),
+    again.length?h("div",{},h("h3",{style:"margin:0 0 6px"},"Needs another look"),h("ul",{class:"home-list"},[...new Set(again.map(id=>CN.CARD[id].concept))].map(cid=>h("li",{},h("button",{class:"linklike",onclick:()=>openConcept(cid)},CN.C[cid].title))))):null,
+    h("div",{class:"actions",style:"flex-wrap:wrap"},
+      scen.length?h("button",{class:"btn primary",onclick:()=>{const d=days[0]; finishDeckScenario(d);}},"Finish with a scenario"):null,
+      h("button",{class:"btn",onclick:()=>{ui.cn.flashSetup=true;state.study.flash=null;saveProgress();render();}},"New session")));
+}
+
+// ---- Don't Mix These Up ----
+function renderCompare(){
+  const list=CN.comparisons.filter(cmpInProgram);
+  return h("section",{class:"panel"},
+    h("h2",{style:"margin:0"},"Don't Mix These Up"),
+    h("p",{class:"muted",style:"margin:0;max-width:64ch"},"Concepts that are easy to confuse, side by side: the real difference, an exam clue, a small workplace example, and why the other option doesn't fit."),
+    h("div",{class:"cmp-list"},list.map(cmpCard)));
+}
+function cmpCard(k){
+  const scen=CN.scenarios.filter(x=>Q[x.id]&&(x.cmp===k.id||(k.concepts||[]).includes(x.concept))&&inProgram(Q[x.id].track));
+  return h("article",{class:"note cmp"+(ui.cn.focus===k.id?" focus":""),id:"cmp-"+k.id,tabindex:"-1"},
+    h("div",{class:"note-head"},h("h3",{},k.title),h("span",{class:"chip note-topic"},k.certs.map(t=>TRACK[t]).join(" · "))),
+    h("div",{class:"cmp-sides",style:"--n:"+k.sides.length},k.sides.map(s=>h("div",{class:"cmp-side"},h("b",{},s.name),h("span",{},s.is)))),
+    h("p",{style:"margin:0"},k.distinction),
+    h("p",{class:"note-clue"},h("b",{},"Exam clue: "),k.clue),
+    h("div",{class:"cmp-apply"},h("p",{style:"margin:0"},h("b",{},"At work: "),k.apply),h("ul",{class:"note-lines"},k.notIt.map(n=>h("li",{},n)))),
+    h("div",{class:"note-actions"},
+      h("button",{class:"btn small",onclick:()=>copyItems([k.id],"Comparison copied")},"Copy"),
+      saveBtn(k.id),
+      scen.length?h("button",{class:"btn small",onclick:()=>startQuiz({id:"cmp-"+k.id,label:k.title,keys:scen.map(x=>x.id)},"think",scen.length)},"Practice ("+scen.length+")"):h("span",{class:"muted",style:"font-size:13px;align-self:center"},"Scenarios for this one arrive with the Security+ batch")),
+    refDetails(k));
+}
+
+// ---- My Field Guide ----
+function guideItems(){
+  return Object.keys(state.bookmarks).map(id=>{
+    const c=CN.C[id], k=CN.CMP[id];
+    if(c) return {id,kind:"note",cert:c.cert,group:c.topic,title:c.title,text:noteText(c),item:c};
+    if(k) return {id,kind:"cmp",cert:k.certs[0],group:"Comparisons",title:k.title,text:cmpText(k),item:k};
+    return {id,kind:"gone",cert:"",group:"No longer available",title:id,text:"",item:null};
+  }).filter(x=>x.kind==="gone"||inProgram(x.cert)||(x.kind==="cmp"&&cmpInProgram(x.item)));
+}
+function renderGuide(){
+  const all=guideItems(), q=(ui.cn.q||"").trim().toLowerCase(), type=ui.cn.type||"all";
+  const shown=all.filter(x=>(type==="all"||x.kind===type)&&(!q||(x.text+" "+x.group+" "+((state.bookmarks[x.id]||{}).note||"")).toLowerCase().includes(q)));
+  const sel=Object.keys(ui.cn.sel).filter(id=>ui.cn.sel[id]&&shown.some(x=>x.id===id));
+  if(!all.length) return h("section",{class:"panel"},h("h2",{style:"margin:0"},"My Field Guide"),
+    h("p",{style:"margin:0;max-width:62ch"},"Nothing saved yet. Use ☆ Save on any Pocket Note, comparison, or scenario takeaway, and it lands here, ready to search, copy or print."),
+    h("div",{class:"actions"},h("button",{class:"btn primary",onclick:()=>{ui.cn.view="notes";render();}},"Browse Pocket Notes")));
+  const groups={};
+  shown.forEach(x=>{ const key=(x.cert?TRACK[x.cert]+" · ":"")+x.group; (groups[key]=groups[key]||[]).push(x); });
+  const seg=h("div",{class:"seg"},[["all","All"],["note","Notes"],["cmp","Comparisons"]].map(([v,l])=>h("button",{"aria-pressed":String(v===type),onclick:()=>{ui.cn.type=v;render();}},l)));
+  const search=h("input",{type:"search",placeholder:"Search your Field Guide","aria-label":"Search your Field Guide",value:ui.cn.q||"",oninput:e=>{ui.cn.q=e.target.value;const pos=e.target.selectionStart;render();const s=document.querySelector(".guide-tools input[type=search]");if(s){s.focus();s.setSelectionRange(pos,pos);}}});
+  return h("section",{class:"panel guide"},
+    h("div",{class:"row",style:"justify-content:space-between;flex-wrap:wrap;gap:8px"},h("h2",{style:"margin:0"},"My Field Guide"),h("span",{class:"muted"},all.length+" saved")),
+    h("div",{class:"guide-tools"},search,seg),
+    h("div",{class:"actions",style:"flex-wrap:wrap"},
+      h("button",{class:"btn",disabled:sel.length?null:true,onclick:()=>copyItems(sel,"Copied "+sel.length+" item"+(sel.length===1?"":"s"))},"Copy selected ("+sel.length+")"),
+      h("button",{class:"btn",disabled:shown.length?null:true,onclick:()=>copyItems(shown.map(x=>x.id),"Copied "+shown.length+" item"+(shown.length===1?"":"s"))},"Copy all shown"),
+      h("button",{class:"btn",disabled:shown.length?null:true,onclick:printGuide},"Print")),
+    shown.length?null:h("p",{class:"muted",style:"margin:0"},"No saved items match."),
+    h("div",{class:"guide-print"},
+      h("h1",{class:"print-only"},"My Field Guide · CertificationNation"),
+      Object.entries(groups).map(([g,xs])=>h("div",{class:"guide-group"},h("h3",{},g),xs.map(guideRow)))));
+}
+function guideRow(x){
+  const b=state.bookmarks[x.id]||{}, open=ui.cn.editNote===x.id;
+  const body=x.kind==="note"?noteCard(x.item,{compact:true}):x.kind==="cmp"?h("div",{class:"note cmp compact"},h("div",{class:"note-head"},h("h3",{},x.title)),h("div",{class:"cmp-sides",style:"--n:"+x.item.sides.length},x.item.sides.map(s=>h("div",{class:"cmp-side"},h("b",{},s.name),h("span",{},s.is)))),h("p",{class:"note-clue"},h("b",{},"Exam clue: "),x.item.clue))
+    :h("p",{class:"muted",style:"margin:0"},"This item was removed or renamed in an update. Remove it from your guide.");
+  return h("div",{class:"guide-row"},
+    h("label",{class:"guide-check no-print"},h("input",{type:"checkbox",checked:ui.cn.sel[x.id]?true:null,onchange:e=>{ui.cn.sel[x.id]=e.target.checked;render();},"aria-label":"Select "+x.title})),
+    h("div",{class:"guide-body"},body,
+      b.note&&!open?h("p",{class:"my-note"},h("b",{},"Your note: "),b.note):null,
+      open?h("div",{class:"no-print"},h("textarea",{id:"mynote",rows:"3","aria-label":"Your note on "+x.title,placeholder:"Your own words, a memory trick, a work example…"},b.note||""),
+        h("div",{class:"actions"},h("button",{class:"btn small primary",onclick:()=>{const t=document.getElementById("mynote");state.bookmarks[x.id].note=t.value.trim().slice(0,600);ui.cn.editNote=null;saveProgress();cnSay("Your note is saved. It's kept separate from the study content.");}},"Save my note"),h("button",{class:"btn small",onclick:()=>{ui.cn.editNote=null;render();}},"Cancel"))):null,
+      h("div",{class:"note-actions no-print"},
+        x.kind!=="gone"?h("button",{class:"btn small",onclick:()=>copyItems([x.id])},"Copy"):null,
+        x.kind==="note"?h("button",{class:"btn small",onclick:()=>openConcept(x.id)},"Open"):x.kind==="cmp"?h("button",{class:"btn small",onclick:()=>openComparison(x.id)},"Open"):null,
+        x.kind!=="gone"&&!open?h("button",{class:"btn small",onclick:()=>{ui.cn.editNote=x.id;render();setTimeout(()=>{const t=document.getElementById("mynote");if(t)t.focus();},0);}},b.note?"Edit my note":"Add my note"):null,
+        h("button",{class:"btn small",onclick:()=>toggleSave(x.id)},"Remove"))));
+}
+function printGuide(){
+  document.body.classList.add("print-guide");
+  const done=()=>{ document.body.classList.remove("print-guide"); window.removeEventListener("afterprint",done); };
+  window.addEventListener("afterprint",done);
+  setTimeout(()=>{ try{ window.print(); }catch(e){} setTimeout(done,1000); },50);
+}
+
+// ---- Five-Minute Sprint ----
+function buildSprint(){
+  const today=todayISO(), S=state.cards, hist=qHistory();
+  const pool=CN.concepts.filter(cnInProgram); if(!pool.length) return null;
+  const dueC=[...new Set(Object.keys(S).filter(id=>CN.CARD[id]&&S[id].due&&S[id].due<=today).map(id=>CN.CARD[id].concept))].filter(id=>CN.C[id]&&cnInProgram(CN.C[id]));
+  const t=unlockedDay(), unseen=pool.filter(c=>!c.cards.some(k=>S[k.id]));
+  const near=unseen.filter(c=>c.day<=t).concat(unseen.filter(c=>c.day>t));
+  const picked=[...new Set(shuffle(dueC).concat(near.map(c=>c.id),shuffle(pool.map(c=>c.id))))].slice(0,3);
+  const cards=picked.map(cid=>{ const cs=CN.C[cid].cards.map(k=>k.id); return cs.find(id=>S[id]&&S[id].due&&S[id].due<=today)||shuffle(cs)[0]; });
+  const scen=shuffle(picked.flatMap(conceptScenarios)).sort((a,b)=>(hist[a.id]?1:0)-(hist[b.id]?1:0))[0]
+    ||shuffle(CN.scenarios.filter(x=>Q[x.id]&&inProgram(Q[x.id].track)&&picked.some(cid=>CN.C[cid].day===x.day)))[0]||null;
+  const steps=picked.map(id=>({t:"note",id})).concat(cards.map(id=>({t:"card",id})));
+  if(scen) steps.push({t:"scen",id:scen.id,order:shuffle([0,1,2,3])});
+  return {steps,i:0,revealed:false,ratings:{},scen:null,started:Date.now(),finished:false};
+}
+function startSprint(){ const s=buildSprint(); if(!s){ cnSay("Sprints need Pocket Notes for your program. Security+ notes arrive in the next content batch.",false); return; } state.study.sprint=s; saveProgress(); ui.cn.view="sprint"; saveUI(); if(ui.tab!=="cards") goTab("cards"); else render(); }
+function sprintNext(){ const s=state.study.sprint; s.i++; s.revealed=false; if(s.i>=s.steps.length) sprintDone(s); saveProgress(); render(); window.scrollTo(0,0); }
+function sprintDone(s){
+  s.finished=true; s.finishedAt=Date.now();
+  state.milestones.sprints=(state.milestones.sprints||0)+1;
+  s.steps.filter(x=>x.t==="card").forEach(x=>checkStamp(CN.C[CN.CARD[x.id].concept].day));
+  cnCheckTitles(); queueFx("victory","#view .sprint");
+}
+function sprintAnswer(step,oi){
+  const s=state.study.sprint; if(s.scen) return;
+  const q=Q[step.id], ok=oi===q.a?1:0;
+  s.scen={pick:oi,ok};
+  const rec={ts:Date.now(),mode:"think",scopeId:"sprint",scope:"5-minute sprint",track:q.track,n:1,score:ok,pct:ok?100:0,ms:0,best:ok,items:[[q.k,ok,0]],prestige:state.prestige,planned:1,early:false};
+  saveAttempt(rec); recordReview(rec.items); recordGameProgress(rec); saveProgress();
+  queueFx(ok?"correct":"incorrect",".sprint .opts .opt."+(ok?"right":"wrong"));
+  cnCheckTitles(); checkStamp(q.d); render();
+}
+function renderSprint(){
+  const s=state.study.sprint;
+  if(!s) return h("section",{class:"panel sprint"},
+    h("h2",{style:"margin:0"},"5-Minute Sprint"),
+    h("p",{style:"margin:0;max-width:62ch"},"About five minutes: three short notes, three recall cards, and one workplace scenario. There's no countdown. Stop whenever you like and pick up where you left off."),
+    h("div",{class:"actions"},h("button",{class:"btn primary",onclick:startSprint},"Start a sprint")));
+  if(s.finished) return renderSprintSummary(s);
+  const step=s.steps[s.i], dots=h("ol",{class:"sprint-dots","aria-label":"Step "+(s.i+1)+" of "+s.steps.length},s.steps.map((x,i)=>h("li",{class:(i<s.i?"done":i===s.i?"now":"")+" "+x.t,"aria-hidden":"true"})));
+  const top=h("div",{class:"row",style:"justify-content:space-between;flex-wrap:wrap;gap:8px"},
+    h("span",{class:"eyebrow tabnum"},"Step "+(s.i+1)+" of "+s.steps.length+" · "+({note:"Read a note",card:"Recall it",scen:"Apply it"})[step.t]),
+    h("button",{class:"btn small",onclick:()=>{ui.tab="home";saveUI();cnSay("Sprint paused. Resume it from Home or Notes & cards.");}},"Stop for now"));
+  let body;
+  if(step.t==="note"){ body=[noteCard(CN.C[step.id],{compact:true}),h("div",{class:"actions"},h("button",{class:"btn primary",onclick:sprintNext},"Next"),saveBtn(step.id))]; }
+  else if(step.t==="card"){
+    const k=CN.CARD[step.id];
+    body=[h("p",{class:"flash-q"},k.q),
+      s.revealed?h("div",{class:"flash-a"},h("p",{style:"margin:0"},k.a)):h("div",{class:"actions"},h("button",{class:"btn primary",id:"revealbtn",onclick:()=>{s.revealed=true;saveProgress();render();}},"Reveal answer")),
+      s.revealed?h("div",{class:"grade"},[["again","Again"],["almost","Almost"],["got","Got it"]].map(([r,l])=>h("button",{class:"btn"+(r==="got"?" primary":""),onclick:()=>{ s.ratings[step.id]=r; if(scheduleCard(step.id,r)) laterRecall(); sprintNext(); }},l))):null];
+  } else {
+    const q=Q[step.id], a=s.scen;
+    body=[q.ctx?h("p",{class:"qctx"},q.ctx):null,h("div",{class:"qtext"},q.q),
+      h("div",{class:"opts"},step.order.map((oi,pos)=>{ let cls="opt"; if(a){ if(oi===q.a) cls+=" right"; else if(oi===a.pick) cls+=" wrong"; }
+        return h("button",{class:cls,disabled:a?true:null,onclick:()=>sprintAnswer(step,oi)},h("span",{class:"k"},pos+1),h("span",{},q.o[oi])); })),
+      a?rwExplain(q,a.pick,a.ok):null,
+      a?h("div",{class:"actions"},h("button",{class:"btn primary",onclick:sprintNext},"See summary")):null];
+  }
+  return h("section",{class:"panel sprint"},dots,top,body);
+}
+function renderSprintSummary(s){
+  const notes=s.steps.filter(x=>x.t==="note").map(x=>CN.C[x.id]), cards=s.steps.filter(x=>x.t==="card"), sc=s.steps.find(x=>x.t==="scen");
+  const look=[...new Set(cards.filter(x=>s.ratings[x.id]&&s.ratings[x.id]!=="got").map(x=>CN.CARD[x.id].concept).concat(sc&&s.scen&&!s.scen.ok?[Q[sc.id].rw.concept]:[]))];
+  const dues=cards.map(x=>state.cards[x.id]&&state.cards[x.id].due).filter(Boolean).sort();
+  const sd=sc&&state.review[sc.id]&&state.review[sc.id].due;
+  const cnt=r=>cards.filter(x=>s.ratings[x.id]===r).length;
+  return h("section",{class:"panel sprint"},
+    h("h2",{style:"margin:0"},"Sprint complete"),
+    h("div",{class:"sprint-sum"},
+      h("div",{},h("div",{class:"eyebrow"},"Studied"),h("ul",{class:"home-list"},notes.map(c=>h("li",{},c.title)))),
+      h("div",{},h("div",{class:"eyebrow"},"Recall · your own ratings"),h("p",{style:"margin:0"},cnt("got")+" got it · "+cnt("almost")+" almost · "+cnt("again")+" again")),
+      sc?h("div",{},h("div",{class:"eyebrow"},"Scenario · graded"),h("p",{style:"margin:0"},s.scen?(s.scen.ok?"Correct":"Not this time"):"Not answered")):null,
+      h("div",{},h("div",{class:"eyebrow"},"Review due"),h("p",{style:"margin:0"},(dues.length?"Cards from "+fmtD(parseDate(dues[0])):"")+(sd?(dues.length?" · ":"")+"scenario "+fmtD(parseDate(sd)):"")||"—"))),
+    look.length?h("div",{},h("h3",{style:"margin:0 0 6px"},"Needs another look"),h("ul",{class:"home-list"},look.map(id=>h("li",{},h("button",{class:"linklike",onclick:()=>openConcept(id)},CN.C[id].title))))):h("p",{style:"margin:0"},"Nothing flagged for another look."),
+    h("div",{class:"actions"},h("button",{class:"btn primary",onclick:()=>{state.study.sprint=null;saveProgress();startSprint();}},"Another sprint"),h("button",{class:"btn",onclick:()=>{state.study.sprint=null;saveProgress();ui.tab="home";render();}},"Done")));
+}
+
+// ---- Real-World scenario explanation (used by quizzes and sprints) ----
+function rwExplain(q,pick,ok){
+  const x=q.rw; if(!x) return null;
+  const c=CN.C[x.concept], k=x.cmp&&CN.CMP[x.cmp];
+  return h("div",{class:"rw-explain"},
+    h("div",{class:"why"+(ok?"":" bad")},h("b",{},ok?"Right. ":"Not quite. "),x.why),
+    h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:4px"},"Why the others don't fit"),
+      h("ul",{class:"why-not"},[1,2,3].map(i=>{ const r=x.no[i-1], echo=r.toLowerCase().startsWith(x.o[i].toLowerCase().slice(0,14)); return h("li",{class:i===pick?"picked":""},echo?null:h("b",{},x.o[i]+": "),r); }))),
+    h("div",{class:"takeaway"},h("b",{},"Takeaway: "),x.take),
+    h("div",{class:"note-actions"},
+      h("button",{class:"btn small",onclick:async()=>{ const ok2=await copyText(x.take); cnSay(ok2?"Takeaway copied.":"Couldn't copy. Select the text and copy it yourself.",ok2); }},"Copy takeaway"),
+      c?h("button",{class:"btn small"+(ok?"":" primary"),onclick:()=>openConcept(c.id)},"Study this concept"):null,
+      c?h("button",{class:"btn small",onclick:()=>{ if(!isSaved(c.id)) toggleSave(c.id); else cnSay("That clue is already in your Field Guide."); }},isSaved(c.id)?"★ Clue saved":"Save the clue"):null,
+      k?h("button",{class:"btn small",onclick:()=>openComparison(k.id)},"Compare: "+k.title):null),
+    ui.tab!=="cards"?cnStatus():null);
+}
+
+// ---- stamps, titles, milestones ----
+function checkStamp(day){
+  if(state.stamps[day]||!CN.byDay[day]) return;
+  const cards=CN.byDay[day].flatMap(c=>c.cards.map(k=>k.id));
+  if(!cards.length||!cards.every(id=>state.cards[id]&&state.cards[id].n>0)) return;
+  const hist=qHistory();
+  if(!deckScenarios(day).some(x=>hist[x.id]&&hist[x.id].ok>0)) return;
+  state.stamps[day]=Date.now(); saveProgress();
+  cnSay("Deck stamp earned: "+shortTitle(BYDAY[day].title)+".");
+  queueFx("victory","#view .panel");
+  cnCheckTitles();
+}
+function cnCheckTitles(){
+  const hist=qHistory(), got=(id,cond)=>{ if(cond&&!state.titles[id]){ state.titles[id]=Date.now(); cnSay("New title unlocked: "+CN_TITLES[id].name+". Pick it in Progress."); } };
+  got("notetaker",Object.keys(state.bookmarks).length>=5);
+  got("stamps",Object.keys(state.stamps).length>=3);
+  got("longmem",(state.milestones.later||0)>=10);
+  got("sprinter",(state.milestones.sprints||0)>=3);
+  got("fieldwork",CN.scenarios.filter(x=>hist[x.id]&&hist[x.id].ok>0).length>=10);
+  saveProgress();
+}
+function renderTitlesPanel(){
+  const owned=Object.keys(CN_TITLES).filter(id=>state.titles[id]);
+  const stamps=Object.keys(state.stamps).map(Number).sort((a,b)=>a-b);
+  return h("section",{class:"panel"},
+    h("h2",{style:"margin:0 0 4px"},"Stamps and titles"),
+    h("p",{class:"muted",style:"margin:0 0 10px;font-size:14px"},"Cosmetic rewards for studying. They don't add XP or change any score."),
+    h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Deck stamps ("+stamps.length+")"),
+    stamps.length?h("div",{class:"stamps"},stamps.map(d=>h("span",{class:"stamp"},"✓ "+shortTitle(BYDAY[d].title)))):h("p",{class:"muted",style:"margin:0 0 8px"},"None yet. Rate every card in a deck, then get one of its scenarios right."),
+    h("div",{class:"eyebrow",style:"margin:12px 0 6px"},"Titles"),
+    h("div",{class:"titles"},Object.entries(CN_TITLES).map(([id,t])=>h("button",{class:"title-chip"+(state.activeTitle===id?" on":""),disabled:state.titles[id]?null:true,"aria-pressed":String(state.activeTitle===id),
+      onclick:()=>{ state.activeTitle=state.activeTitle===id?null:id; saveProgress(); render(); }},h("b",{},t.name),h("span",{},state.titles[id]?(state.activeTitle===id?"Showing in your header":"Tap to show"):t.desc)))),
+    owned.length?null:h("p",{class:"muted",style:"margin:8px 0 0;font-size:13px"},"Titles unlock from saving notes, sprints, deck stamps, and later-day recall."));
+}
+
+// ---- keyboard: Space reveals, 1/2/3 rate (flashcards and sprint cards) ----
+document.addEventListener("keydown",e=>{
+  if(ui.tab!=="cards") return;
+  const tag=e.target&&e.target.tagName;
+  if(["INPUT","TEXTAREA","SELECT"].includes(tag)) return;
+  const f=state.study.flash, s=state.study.sprint;
+  if(ui.cn.view==="flash"&&f&&!f.done){
+    if(!f.revealed&&(e.key===" "||e.key==="Enter")&&tag!=="BUTTON"){ e.preventDefault(); f.revealed=true; saveProgress(); render(); }
+    else if(!f.revealed&&e.key===" "&&tag==="BUTTON"&&e.target.id==="revealbtn"){ /* native click handles it */ }
+    else if(f.revealed&&/^[123]$/.test(e.key)){ e.preventDefault(); rateFlash(["again","almost","got"][+e.key-1]); }
+  } else if(ui.cn.view==="sprint"&&s&&!s.finished){
+    const step=s.steps[s.i];
+    if(step.t==="card"&&!s.revealed&&e.key===" "&&tag!=="BUTTON"){ e.preventDefault(); s.revealed=true; saveProgress(); render(); }
+    else if(step.t==="card"&&s.revealed&&/^[123]$/.test(e.key)){ e.preventDefault(); const r=["again","almost","got"][+e.key-1]; s.ratings[step.id]=r; if(scheduleCard(step.id,r)) laterRecall(); sprintNext(); }
+    else if(step.t==="scen"&&!s.scen&&/^[1-4]$/.test(e.key)){ e.preventDefault(); sprintAnswer(step,step.order[+e.key-1]); }
+  }
+});
+
 function softRender(){ if(run&&!run.finished&&ui.tab==="quiz"){ renderHeader(); return; } render(); }
 // ---------- motion effects ----------
 // Effects are queued by handlers and played after the next render, on the freshly
@@ -2971,18 +3589,18 @@ function renderCore(){
   if(inCampaign){
     // Self-contained: no tabs, no plan or quiz pages. Quizzes and boss fights run here.
     document.body.classList.toggle("scene-arena",!!(run&&run.boss)||["boss","final"].includes(G().phase));
-    v.replaceChildren(run?renderRun():renderGuided());
+    v.replaceChildren(renameNotice()||"",run?renderRun():renderGuided());
     if(run&&!run.finished&&run.timedMs&&!run.answered&&!tick) startTimer();
     return;
   }
   if(tabs) tabs.style.display="";
   if(STUDY_TABS.includes(ui.tab)) ui.studyTab=ui.tab==="quiz"&&ui.quiz.mode==="acronym"?"acr":ui.tab;
   if(ui.tab==="acr"){ ui.tab="quiz"; if(ui.quiz.mode!=="acronym"){ ui.lastMode=ui.quiz.mode; ui.quiz.mode="acronym"; } }
-  const main=ui.tab==="home"?renderHome():ui.tab==="plan"?renderPlan():ui.tab==="quiz"?renderQuizTab():ui.tab==="stats"?renderStats():ui.tab==="game"?renderGame():ui.tab==="pbq"?renderPBQ():ui.tab==="lab"?renderLab():ui.tab==="mock"?renderMock():renderCampaign();
-  v.replaceChildren(STUDY_TABS.includes(ui.tab)?h("div",{style:"display:flex;flex-direction:column;gap:16px"},renderStudyNav(),main):main);
+  const main=ui.tab==="home"?renderHome():ui.tab==="plan"?renderPlan():ui.tab==="cards"?renderCN():ui.tab==="quiz"?renderQuizTab():ui.tab==="stats"?renderStats():ui.tab==="game"?renderGame():ui.tab==="pbq"?renderPBQ():ui.tab==="lab"?renderLab():ui.tab==="mock"?renderMock():renderCampaign();
+  v.replaceChildren(renameNotice()||"",STUDY_TABS.includes(ui.tab)?h("div",{style:"display:flex;flex-direction:column;gap:16px"},renderStudyNav(),main):main);
   if(run&&!run.finished&&run.timedMs&&!run.answered&&!tick&&ui.tab==="quiz") startTimer();
 }
-if(["#home","#quiz","#stats","#plan"].includes(location.hash)) ui.tab=location.hash.slice(1);
+if(["#home","#quiz","#stats","#plan","#cards"].includes(location.hash)) ui.tab=location.hash.slice(1);
 render();
 })();
 </script>

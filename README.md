@@ -1,4 +1,6 @@
-# ExamHelp
+# CertificationNation
+
+*Formerly ExamHelp. The repository and live URL keep the old name for now.*
 
 A free, offline study app for Microsoft SC-900 and CompTIA Security+ SY0-701, with 801
 practice questions.
@@ -9,7 +11,7 @@ practice questions.
 
 If you're teaching a class through this, or study-group leading one:
 
-- Students export their stats to a file from the app's Stats tab (Export stats / Copy
+- Students export their stats to a file from the app's Progress tab (Export stats / Copy
   summary).
 - You open [`roster.html`](roster.html) and drop those files on it.
 - You get a class table showing who's behind and, more usefully, **which domains a
@@ -23,15 +25,21 @@ If you're teaching a class through this, or study-group leading one:
 
 ## What's in it
 
-- **732 practice questions** across both exams, covering every SC-900 and Security+
+- **801 practice questions** across both exams, covering every SC-900 and Security+
   SY0-701 domain, weighted toward each exam's real domain percentages.
+- **Notes & cards** (new in 2.1): short Pocket Notes, flashcards, "Don't Mix These Up"
+  comparisons, a personal Field Guide, and 5-minute sprints. SC-900 is fully covered;
+  Security+ is arriving in batches. [`COVERAGE.md`](COVERAGE.md) shows exactly what exists.
+- **Real-World Practice**: workplace scenarios that ask you to identify a concept, pick
+  the next step, or choose what fits the constraints, with reasons the other options
+  don't fit.
 - **209 acronyms** in a dedicated drill mode.
 - Three answer modes: **Think** (untimed, explains as you go), **Blitz** (20s/question,
   timed pressure), and **Written** (type the answer, no multiple choice).
 - **Full-length mock exams** for SC-900 (50Q / 65 min) and Security+ (90Q / 90 min),
   built to the real domain mix.
-- A **33-day study plan**, a **33-mission scenario campaign**, and PBQ simulators
-  (firewall rule ordering, port matching, log hunting) that mirror the exam's
+- A **33-level study plan**, the **Night Shift at Leon River Water** campaign, and PBQ
+  simulators (firewall rule ordering, port matching, log hunting) that mirror the exam's
   performance-based question style.
 - A **rank ladder, boss fights, daily missions, and achievements** for anyone who wants
   the game layer; a **prestige** system to reset and go again with tougher pacing once
@@ -67,6 +75,6 @@ In the repository settings, select **Pages**, choose **Deploy from a branch**, a
 
 ## Support
 
-ExamHelp is free and always will be. If it helped you pass and you're in a position to,
+CertificationNation is free and always will be. If it helped you pass and you're in a position to,
 you can chip in at [ko-fi.com/rukeios](https://ko-fi.com/rukeios). If you're a student, please don't —
 pass your exam and tell someone else about it instead.
