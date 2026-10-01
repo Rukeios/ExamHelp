@@ -3,6 +3,15 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.2.5", date:"2026-10-01", title:"Move your progress to another device", tag:"feature", items:[
+  "New: Move to another device, in Progress and in Plan settings. Your computer shows a short loop of codes, and your phone scans them with its camera. Everything comes across: levels, XP, bosses, your campaign run, quiz history, notes and settings.",
+  "No account and no upload. The codes are made and read on your own devices. Only show them to your own phone, since they contain your study history.",
+  "The first code opens the site on your phone straight to Receive. New on a phone? The first screen also has \"Move your progress here\".",
+  "Codes change slower than three times a second (slower still with Calm mode or reduce motion), and you can pause and step through them one at a time.",
+  "Prefer a file? Share backup file sends it with AirDrop, Messages, email or a drive, and the phone opens it from Receive.",
+  "Moving replaces what's on the receiving device, after showing you what's coming. A safety copy is kept, so you can undo it from Progress."
+]},
+
 { v:"2.2.4", date:"2026-10-01", title:"Accessibility and focus", tag:"feature", items:[
   "New Accessibility button at the top of every page. Settings apply right away, save on this device, and are included in your backup.",
   "Time limits: Standard, 1.5×, 2× or No timer. This covers Blitz (including Blitz level quizzes from Prestige 1), timed acronym drills and the mock exam. With No timer, nothing runs out and the mock exam shows time used instead.",
