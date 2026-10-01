@@ -1190,6 +1190,41 @@ body.focus-mode .lvl-nav{position:static;max-height:none;display:none;background
 body.focus-mode .lvl-nav.open{display:flex}
 @media (max-width:520px){.lvl-path .lp-t small{display:none}.lp-n{width:36px;height:36px}.lvl-path li+li::before{top:18px}}
 
+/* ---------- 2.2.5: move to another device ---------- */
+.move-modal{max-width:620px;max-height:92vh}
+.mv-tabs{gap:6px}
+.mv-tabs button{min-height:40px;padding:8px 14px}
+.mv-tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.mv-panel{display:flex;flex-direction:column;gap:14px}
+.mv-step{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;align-items:start;border-top:1px solid var(--line);padding-top:12px}
+.mv-step h3{margin:0 0 4px;font-size:calc(17px*var(--ts,1))}
+.mv-step p{margin:0 0 10px;font-size:calc(14px*var(--ts,1));max-width:58ch}
+.mv-n{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--on-accent);font:700 calc(14px*var(--ts,1)) var(--body)}
+.mv-alt .mv-n{background:var(--sunk,var(--line));color:var(--ink);font-size:calc(12px*var(--ts,1))}
+.mv-url{overflow-wrap:anywhere}
+.mv-link-qr{display:block;width:150px;height:150px;border-radius:8px;border:1px solid var(--line)}
+.mv-qr-wrap{display:flex;justify-content:center;background:#fff;border-radius:12px;padding:6px;border:1px solid var(--line)}
+#mv-qr{display:block;width:min(440px,100%);height:auto;image-rendering:pixelated}
+.mv-count{margin:8px 0;font:600 calc(15px*var(--ts,1)) var(--body);text-align:center;max-width:none!important}
+.mv-ctl{justify-content:center}
+.mv-err{color:var(--bad);font-weight:600}
+.mv-cam{position:relative;border-radius:12px;overflow:hidden;background:#000;aspect-ratio:4/3;max-height:52vh}
+.mv-cam video{width:100%;height:100%;object-fit:cover;display:block}
+.mv-cam::after{content:"";position:absolute;inset:12%;border:3px solid rgba(255,255,255,.85);border-radius:14px;box-shadow:0 0 0 999px rgba(0,0,0,.25);pointer-events:none}
+.mv-prog{height:10px;border-radius:999px;background:var(--line);overflow:hidden;margin-top:10px}
+.mv-prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
+.mv-dots{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-bottom:8px}
+.mv-dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.mv-dots i.on{background:var(--accent)}
+.mv-preview{display:flex;flex-direction:column;gap:6px}
+.mv-preview h3{margin:0;font-size:calc(19px*var(--ts,1))}
+.mv-preview p{margin:0}
+label.btn:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.moved-note{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 12px;padding:10px 14px;border-radius:var(--r-sm,8px);background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+.moved-note svg{width:18px;height:18px}
+.move-entry{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+@media (max-width:520px){.mv-step{grid-template-columns:minmax(0,1fr)}.mv-n{display:none}}
+
 </style>
 <script>
 // Theme choice (Light / Dark / System). Applied before the page draws to avoid a flash.
@@ -1238,6 +1273,7 @@ body.focus-mode .lvl-nav.open{display:flex}
   <div id="patchModal"></div>
   <div id="supportModal"></div>
   <div id="a11yModal"></div>
+  <div id="moveModal"></div>
   <footer>
     <div>Study pairing: <a href="https://learn.microsoft.com/en-us/training/courses/sc-900t00" target="_blank" rel="noopener">Microsoft Learn SC-900 course</a> · <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900" target="_blank" rel="noopener">SC-900 skills measured</a> · <a href="https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/" target="_blank" rel="noopener">Professor Messer SY0-701 (free videos)</a> · <a href="https://www.comptia.org/certifications/security" target="_blank" rel="noopener">CompTIA Security+</a></div>
     <div>Keyboard in quizzes: 1–4 pick an answer, Enter goes to the next question.</div>
@@ -1245,29 +1281,29 @@ body.focus-mode .lvl-nav.open{display:flex}
   </footer>
 </div>
 
-<script src="data.js?v=2.2.4"></script>
-<script src="data-extra.js?v=2.2.4"></script>
-<script src="data-pack2.js?v=2.2.4"></script>
-<script src="data-pack3.js?v=2.2.4"></script>
-<script src="data-pack4-sc.js?v=2.2.4"></script>
-<script src="data-pack5-net.js?v=2.2.4"></script>
-<script src="data-acronyms.js?v=2.2.4"></script>
-<script src="data-patchnotes.js?v=2.2.4"></script>
-<script src="data-bosses.js?v=2.2.4"></script>
+<script src="data.js?v=2.2.5"></script>
+<script src="data-extra.js?v=2.2.5"></script>
+<script src="data-pack2.js?v=2.2.5"></script>
+<script src="data-pack3.js?v=2.2.5"></script>
+<script src="data-pack4-sc.js?v=2.2.5"></script>
+<script src="data-pack5-net.js?v=2.2.5"></script>
+<script src="data-acronyms.js?v=2.2.5"></script>
+<script src="data-patchnotes.js?v=2.2.5"></script>
+<script src="data-bosses.js?v=2.2.5"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=2.2.4"></script>
-<script src="data-campaign-flags.js?v=2.2.4"></script>
-<script src="data-campaign-endings.js?v=2.2.4"></script>
-<script src="data-fixes-01.js?v=2.2.4"></script>
-<script src="data-fixes-02.js?v=2.2.4"></script>
-<script src="data-fixes-03.js?v=2.2.4"></script>
-<script src="data-lessons.js?v=2.2.4"></script>
-<script src="data-lessons-2.js?v=2.2.4"></script>
-<script src="data-cn-sc.js?v=2.2.4"></script>
-<script src="data-cn-compare.js?v=2.2.4"></script>
-<script src="data-cn-sc-scenarios.js?v=2.2.4"></script>
-<script src="data-cn-sc-checks.js?v=2.2.4"></script>
-<script src="examhelp-effects.js?v=2.2.4"></script>
+<script src="data-daymissions.js?v=2.2.5"></script>
+<script src="data-campaign-flags.js?v=2.2.5"></script>
+<script src="data-campaign-endings.js?v=2.2.5"></script>
+<script src="data-fixes-01.js?v=2.2.5"></script>
+<script src="data-fixes-02.js?v=2.2.5"></script>
+<script src="data-fixes-03.js?v=2.2.5"></script>
+<script src="data-lessons.js?v=2.2.5"></script>
+<script src="data-lessons-2.js?v=2.2.5"></script>
+<script src="data-cn-sc.js?v=2.2.5"></script>
+<script src="data-cn-compare.js?v=2.2.5"></script>
+<script src="data-cn-sc-scenarios.js?v=2.2.5"></script>
+<script src="data-cn-sc-checks.js?v=2.2.5"></script>
+<script src="examhelp-effects.js?v=2.2.5"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -1591,6 +1627,236 @@ document.addEventListener("keydown",e=>{
   else if(!e.shiftKey&&document.activeElement===last){ e.preventDefault(); first.focus(); }
 },true);
 
+// ---------- 2.2.5: move to another device ----------
+// No account and no server. The sending device turns a full backup into a short loop of QR
+// codes (compressed, base45, alphanumeric mode); the receiving device scans them with its
+// camera, checks the checksum, and restores through the normal backup path (validated, with a
+// safety copy for undo). A shared backup file is the fallback. Libraries load only when used.
+const MOVE_CHUNK=520;   // bytes per code before base45; keeps codes around version 17-18 at level L
+const B45="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:";
+function b45enc(u8){ let o=""; for(let i=0;i<u8.length;i+=2){ if(i+1<u8.length){ let x=u8[i]*256+u8[i+1]; const c=x%45; x=(x-c)/45; const d=x%45; const e=(x-d)/45; o+=B45[c]+B45[d]+B45[e]; } else { const x=u8[i], c=x%45, d=(x-c)/45; o+=B45[c]+B45[d]; } } return o; }
+function b45dec(s){ const out=[]; for(let i=0;i<s.length;i+=3){ const c=B45.indexOf(s[i]), d=B45.indexOf(s[i+1]); if(c<0||d<0) throw new Error("bad code");
+  if(i+2<s.length){ const e=B45.indexOf(s[i+2]); if(e<0) throw new Error("bad code"); const x=c+d*45+e*2025; if(x>65535) throw new Error("bad code"); out.push(x>>8,x&255); } else { const x=c+d*45; if(x>255) throw new Error("bad code"); out.push(x); } } return new Uint8Array(out); }
+function fnv32(u8){ let h=0x811c9dc5; for(let i=0;i<u8.length;i++){ h^=u8[i]; h=Math.imul(h,0x01000193)>>>0; } return h.toString(16).toUpperCase().padStart(8,"0"); }
+async function zip(u8){ if(!window.CompressionStream) return [u8,0]; try{ return [new Uint8Array(await new Response(new Blob([u8]).stream().pipeThrough(new CompressionStream("deflate-raw"))).arrayBuffer()),1]; }catch(e){ return [u8,0]; } }
+async function unzip(u8,z){ if(!z) return u8; if(!window.DecompressionStream) throw new Error("This browser can't unpack the codes. Use a backup file instead."); return new Uint8Array(await new Response(new Blob([u8]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).arrayBuffer()); }
+// Frame: RS1:<id>:<z>:<i>:<n>:<checksum>:<base45 data>
+async function moveFrames(){
+  const [bytes,z]=await zip(new TextEncoder().encode(JSON.stringify(buildBackup())));
+  const id=Math.random().toString(36).slice(2,6).toUpperCase().replace(/[^0-9A-Z]/g,"X"), sum=fnv32(bytes), n=Math.max(1,Math.ceil(bytes.length/MOVE_CHUNK)), out=[];
+  for(let i=0;i<n;i++) out.push("RS1:"+id+":"+z+":"+(i+1)+":"+n+":"+sum+":"+b45enc(bytes.subarray(i*MOVE_CHUNK,(i+1)*MOVE_CHUNK)));
+  return out;
+}
+const vendorLoads={};
+function loadVendor(name){ return vendorLoads[name]||(vendorLoads[name]=new Promise((res,rej)=>{ const s=document.createElement("script"); s.src="assets/vendor/"+name+"?v="+(PATCHNOTES[0]&&PATCHNOTES[0].v); s.onload=res; s.onerror=()=>{ delete vendorLoads[name]; rej(new Error("Couldn't load "+name)); }; document.head.appendChild(s); })); }
+function drawQR(canvas,text,mode,px){
+  const q=window.qrcode(0,"L"); q.addData(text,mode||"Byte"); q.make();
+  const n=q.getModuleCount(), quiet=4, size=n+quiet*2, scale=Math.max(2,Math.floor(px/size)), W=size*scale;
+  canvas.width=W; canvas.height=W; const c=canvas.getContext("2d");
+  c.fillStyle="#fff"; c.fillRect(0,0,W,W); c.fillStyle="#000";
+  for(let r=0;r<n;r++) for(let k=0;k<n;k++) if(q.isDark(r,k)) c.fillRect((k+quiet)*scale,(r+quiet)*scale,scale,scale);
+}
+function onPhone(){ try{ return matchMedia("(pointer:coarse)").matches&&Math.min(screen.width,screen.height)<700; }catch(e){ return false; } }
+const otherDev=()=>onPhone()?"computer":"phone";
+function siteLink(){ return location.origin+location.pathname+"#receive"; }
+
+let mv={open:false,tab:"send",frames:null,i:0,playing:true,timer:null,busy:false,err:null,
+        scan:false,stream:null,raf:0,parts:null,meta:null,last:0,detector:null,preview:null,fileErr:null};
+function openMove(tab){ mv.open=true; mv.tab=tab||mv.tab; mv.err=null; mv.fileErr=null; render(); const d=document.querySelector("#moveModal .modal"); if(d) d.focus(); }
+function closeMove(){ stopFrames(); stopScan(); mv.open=false; mv.frames=null; mv.preview=null; mv.parts=null; mv.meta=null; render(); }
+function moveTab(t){ if(t===mv.tab) return; stopFrames(); stopScan(); mv.tab=t; mv.err=null; render(); const b=document.getElementById("mv-tab-"+t); if(b) b.focus(); }
+// --- sending ---
+function frameMs(){ return reducedMotion()?900:420; }   // under 3 changes a second
+function stopFrames(){ clearInterval(mv.timer); mv.timer=null; }
+function paintFrame(){
+  const cv=document.getElementById("mv-qr"), lab=document.getElementById("mv-count"); if(!cv||!mv.frames) return;
+  drawQR(cv,mv.frames[mv.i],"Alphanumeric",Math.min(440,Math.floor(Math.min(window.innerWidth-80,window.innerHeight*0.55))));
+  if(lab) lab.textContent="Code "+(mv.i+1)+" of "+mv.frames.length;
+}
+function playFrames(){ stopFrames(); if(!mv.frames||mv.frames.length<2||!mv.playing) return; mv.timer=setInterval(()=>{ mv.i=(mv.i+1)%mv.frames.length; paintFrame(); },frameMs()); }
+async function startSend(){
+  mv.busy=true; mv.err=null; render();
+  try{ await loadVendor("qrcode-generator.js"); mv.frames=await moveFrames(); mv.i=0; mv.playing=true; }
+  catch(e){ mv.err="Couldn't make the codes: "+e.message+". Use Share backup file instead."; }
+  mv.busy=false; render(); paintFrame(); playFrames();
+  const c=document.getElementById("mv-count"); if(c) c.scrollIntoView({block:"end",behavior:reducedMotion()?"auto":"smooth"});
+}
+function stepFrame(d){ mv.playing=false; stopFrames(); mv.i=(mv.i+d+mv.frames.length)%mv.frames.length; render(); paintFrame(); }
+async function shareBackup(){
+  const name=BRAND.name.toLowerCase().replace(/\s+/g,"-")+"-backup-"+todayISO()+".json";
+  const file=new File([JSON.stringify(buildBackup())],name,{type:"application/json"});
+  try{ if(navigator.canShare&&navigator.canShare({files:[file]})){ await navigator.share({files:[file],title:BRAND.name+" backup"}); return; } }
+  catch(e){ if(e&&e.name==="AbortError") return; }
+  downloadBackup();
+}
+// --- receiving ---
+function stopScan(){
+  cancelAnimationFrame(mv.raf); mv.raf=0; mv.scan=false;
+  if(mv.stream){ mv.stream.getTracks().forEach(t=>t.stop()); mv.stream=null; }
+}
+async function startScan(){
+  mv.err=null; mv.parts=new Map(); mv.meta=null;
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){ mv.err="This browser can't use the camera here. Use Open a backup file instead."; render(); return; }
+  try{
+    mv.stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:1280},height:{ideal:720}},audio:false});
+  }catch(e){ mv.err=e&&e.name==="NotAllowedError"?"Camera access was blocked. Allow the camera for this site in your browser settings, or use Open a backup file.":"Couldn't start the camera. Use Open a backup file instead."; render(); return; }
+  mv.detector=null;
+  try{ if("BarcodeDetector" in window&&(await BarcodeDetector.getSupportedFormats()).includes("qr_code")) mv.detector=new BarcodeDetector({formats:["qr_code"]}); }catch(e){}
+  if(!mv.detector){ try{ await loadVendor("jsQR.js"); }catch(e){ stopScan(); mv.err="Couldn't load the code reader. Use Open a backup file instead."; render(); return; } }
+  mv.scan=true; render();
+  const v0=document.getElementById("mv-video"); if(!v0){ stopScan(); return; }
+  v0.muted=true; v0.srcObject=mv.stream; try{ await v0.play(); }catch(e){}
+  const cv=document.createElement("canvas"), cx=cv.getContext("2d",{willReadFrequently:true});
+  let busy=false;
+  const loop=async t=>{
+    if(!mv.scan) return;
+    mv.raf=requestAnimationFrame(loop);
+    const v=document.getElementById("mv-video");   // render() may have replaced the element
+    if(!v||busy||t-mv.last<110||v.readyState<2) return;
+    busy=true; mv.last=t;
+    try{
+      let text=null;
+      if(mv.detector){ const r=await mv.detector.detect(v); if(r&&r[0]) text=r[0].rawValue; }
+      else { const s=Math.min(1,720/Math.max(v.videoWidth,v.videoHeight)); cv.width=Math.round(v.videoWidth*s); cv.height=Math.round(v.videoHeight*s);
+        cx.drawImage(v,0,0,cv.width,cv.height); const r=window.jsQR(cx.getImageData(0,0,cv.width,cv.height).data,cv.width,cv.height,{inversionAttempts:"dontInvert"}); if(r) text=r.data; }
+      if(text) await takeFrame(text);
+    }catch(e){}
+    busy=false;
+  };
+  mv.raf=requestAnimationFrame(loop);
+}
+async function takeFrame(text){
+  const m=/^RS1:([0-9A-Z]{4}):([01]):(\d+):(\d+):([0-9A-F]{8}):(.*)$/s.exec(text); if(!m) return;
+  const [,id,z,iS,nS,sum,data]=m, i=+iS, n=+nS; if(!n||i<1||i>n||n>2000) return;
+  if(!mv.meta) mv.meta={id,z:+z,n,sum};
+  if(mv.meta.id!==id) return;   // codes from a different transfer
+  if(!mv.parts.has(i)){ try{ mv.parts.set(i,b45dec(data)); }catch(e){ return; } paintScanProgress(); }
+  if(mv.parts.size===mv.meta.n) await finishScan();
+}
+function paintScanProgress(){
+  const n=mv.meta?mv.meta.n:0, got=mv.parts?mv.parts.size:0;
+  const lab=document.getElementById("mv-got"), bar=document.getElementById("mv-bar"), dots=document.getElementById("mv-dots");
+  if(lab) lab.textContent=n?got+" of "+n+" codes received":"Point the camera at the codes";
+  if(bar){ bar.style.width=(n?100*got/n:0)+"%"; bar.parentElement.setAttribute("aria-valuenow",String(n?Math.round(100*got/n):0)); }
+  if(dots&&n&&n<=120&&dots.childElementCount!==n){ dots.replaceChildren(...Array.from({length:n},(_,k)=>h("i",{"data-k":k+1}))); }
+  if(dots&&mv.parts) mv.parts.forEach((_,k)=>{ const d=dots.querySelector('[data-k="'+k+'"]'); if(d) d.className="on"; });
+}
+async function finishScan(){
+  stopScan();
+  try{
+    const total=[...mv.parts.keys()].sort((a,b)=>a-b).reduce((s,k)=>s+mv.parts.get(k).length,0), all=new Uint8Array(total); let o=0;
+    for(let k=1;k<=mv.meta.n;k++){ const p=mv.parts.get(k); all.set(p,o); o+=p.length; }
+    if(fnv32(all)!==mv.meta.sum) throw new Error("The codes didn't add up. Start the scan again.");
+    const parsed=JSON.parse(new TextDecoder().decode(await unzip(all,mv.meta.z)));
+    acceptMoved(parsed,"err");
+  }catch(e){ mv.err=e.message||"Couldn't read the codes. Start the scan again."; }
+  render(); const f=document.querySelector("#moveModal .mv-preview h3,#moveModal .mv-err"); if(f){ f.setAttribute("tabindex","-1"); f.focus(); }
+}
+function acceptMoved(parsed,errKey){
+  if(!(parsed&&APP_IDS.includes(parsed.app)&&parsed.kind==="backup")){ mv[errKey]="That isn't a "+BRAND.name+" full backup."; return false; }
+  const problems=validateBackup(parsed);
+  if(problems.length){ mv[errKey]="This backup can't be restored: "+problems.join("; ")+"."; return false; }
+  mv.preview=parsed; mv[errKey]=null; return true;
+}
+function moveFile(file){
+  mv.fileErr=null; if(!file) return;
+  const r=new FileReader();
+  r.onload=()=>{ let p; try{ p=JSON.parse(r.result); }catch(e){ mv.fileErr="That file isn't a backup (it isn't valid JSON)."; render(); return; }
+    acceptMoved(p,"fileErr"); render(); const f=document.querySelector("#moveModal .mv-preview h3,#moveModal .mv-err"); if(f){ f.setAttribute("tabindex","-1"); f.focus(); } };
+  r.onerror=()=>{ mv.fileErr="Couldn't read that file."; render(); };
+  r.readAsText(file);
+}
+function backupLine(p){
+  const st=p.state||{}, g=st.guided||{};
+  return (p.attempts||[]).length+" quizzes, "+Object.keys(st.done||{}).length+" levels cleared, "+(st.xp||0)+" XP, "+Object.keys(st.bosses||{}).length+" bosses defeated"+(g.started?", campaign run "+g.run+" in progress":"")+".";
+}
+function restoreMoved(){ try{ sessionStorage.setItem(LS+".moved",mv.preview.exported||"1"); }catch(e){} restoreBackup(mv.preview); }
+function renderMoveModal(){
+  const mount=document.getElementById("moveModal"); if(!mount) return;
+  if(!mv.open){ mount.replaceChildren(); return; }
+  document.body.style.overflow="hidden";
+  const tab=(id,label)=>h("button",{role:"tab",id:"mv-tab-"+id,"aria-selected":String(mv.tab===id),"aria-controls":"mv-panel",tabindex:mv.tab===id?"0":"-1",onclick:()=>moveTab(id),
+    onkeydown:e=>{ if(e.key==="ArrowRight"||e.key==="ArrowLeft"){ e.preventDefault(); moveTab(mv.tab==="send"?"receive":"send"); } }},label);
+  let body;
+  if(mv.tab==="send"){
+    const linkCv=h("canvas",{class:"mv-link-qr","aria-hidden":"true"});
+    body=[
+      h("section",{class:"mv-step"},h("span",{class:"mv-n","aria-hidden":"true"},"1"),h("div",{},
+        h("h3",{},"Open "+BRAND.name+" on your "+otherDev()),
+        mv.frames||onPhone()?h("p",{class:"muted"},"On your "+otherDev()+": open ",h("b",{class:"mv-url"},siteLink().replace(/^https?:\/\//,"").replace(/#receive$/,""))," → Progress → Move to another device → Receive on this device → Start camera."+(onPhone()?" Your computer needs a webcam. No webcam? Use the file option below.":""))
+          :[h("p",{class:"muted"},"Scan this with your phone's camera. It opens the site straight to Receive. Or go to ",h("b",{class:"mv-url"},siteLink().replace(/^https?:\/\//,"").replace(/#receive$/,"")),"."),linkCv])),
+      h("section",{class:"mv-step"},h("span",{class:"mv-n","aria-hidden":"true"},"2"),h("div",{},
+        h("h3",{},"Show the transfer codes"),
+        !mv.frames?[h("p",{class:"muted"},"Your progress becomes a short loop of codes on this screen. Your phone scans them with its camera. Nothing is uploaded anywhere."),
+          h("button",{class:"btn primary",disabled:mv.busy?true:null,onclick:startSend},mv.busy?"Making codes…":"Show transfer codes")]
+        :[h("div",{class:"mv-qr-wrap"},h("canvas",{id:"mv-qr",role:"img","aria-label":"Transfer code. Scan it with "+BRAND.name+" on your other device."})),
+          h("p",{class:"mv-count",id:"mv-count"},"Code "+(mv.i+1)+" of "+mv.frames.length),
+          mv.frames.length>1?h("div",{class:"actions mv-ctl"},
+            h("button",{class:"btn small",onclick:()=>stepFrame(-1),"aria-label":"Previous code"},"Previous"),
+            h("button",{class:"btn small",onclick:()=>{ mv.playing=!mv.playing; render(); paintFrame(); playFrames(); }},mv.playing?"Pause":"Play"),
+            h("button",{class:"btn small",onclick:()=>stepFrame(1),"aria-label":"Next code"},"Next")):null,
+          h("p",{class:"muted"},"Hold your phone so the whole code fits in the camera. It keeps cycling until every code is caught. ",h("b",{},"Only show these to your own device:")," they contain your study history.")],
+        mv.err?h("p",{class:"mv-err",role:"alert"},mv.err):null)),
+      h("section",{class:"mv-step mv-alt"},h("span",{class:"mv-n","aria-hidden":"true"},"or"),h("div",{},
+        h("h3",{},"Send a backup file instead"),
+        h("p",{class:"muted"},"Share it to your "+otherDev()+" with AirDrop, Messages, email or a drive, then on the "+otherDev()+" choose Receive → Open a backup file."),
+        h("button",{class:"btn",onclick:shareBackup},navigator.canShare?"Share backup file":"Download backup file")))];
+    setTimeout(()=>{ if(window.qrcode&&linkCv.isConnected) drawQR(linkCv,siteLink(),"Byte",150); else loadVendor("qrcode-generator.js").then(()=>{ if(linkCv.isConnected) drawQR(linkCv,siteLink(),"Byte",150); }).catch(()=>{ linkCv.remove(); }); },0);
+  } else if(mv.preview){
+    const here=attempts.length||Object.keys(state.done||{}).length;
+    body=[h("section",{class:"mv-preview"},
+      h("h3",{},"Ready to move your progress here"),
+      h("p",{},h("b",{},"From "+(mv.preview.exported?fmtDT(new Date(mv.preview.exported).getTime()):"your other device")+": "),backupLine(mv.preview)),
+      h("p",{class:"muted"},here?"This replaces what's on this device now ("+attempts.length+" quizzes, "+Object.keys(state.done||{}).length+" levels). A safety copy is kept, so you can undo it from Progress.":"This device has no progress yet, so nothing is lost."),
+      h("div",{class:"actions"},h("button",{class:"btn primary lg",onclick:restoreMoved},"Move it to this device"),h("button",{class:"btn",onclick:()=>{ mv.preview=null; render(); }},"Cancel")))];
+  } else {
+    body=[
+      h("section",{class:"mv-step"},h("span",{class:"mv-n","aria-hidden":"true"},"1"),h("div",{},
+        h("h3",{},"Scan the codes from your other device"),
+        h("p",{class:"muted"},"On the device that has your progress, open Progress (or Plan settings) → Move to another device → Show transfer codes."+(onPhone()?"":" Using a webcam? Turn the phone's brightness up and hold it steady, about a foot from the camera.")),
+        mv.scan?[h("div",{class:"mv-cam"},h("video",{id:"mv-video",muted:true,playsinline:true,autoplay:true,"aria-label":"Camera view"})),
+            h("div",{class:"mv-prog",role:"progressbar","aria-label":"Codes received","aria-valuemin":"0","aria-valuemax":"100","aria-valuenow":"0"},h("i",{id:"mv-bar"})),
+            h("p",{class:"mv-count",id:"mv-got"},"Point the camera at the codes"),
+            h("div",{class:"mv-dots",id:"mv-dots","aria-hidden":"true"}),
+            h("div",{class:"actions"},h("button",{class:"btn small",onclick:()=>{ stopScan(); render(); }},"Stop camera"))]
+          :h("button",{class:"btn primary",onclick:startScan},mv.parts&&mv.parts.size?"Start the scan again":"Start camera"),
+        mv.err?h("p",{class:"mv-err",role:"alert"},mv.err):null)),
+      h("section",{class:"mv-step mv-alt"},h("span",{class:"mv-n","aria-hidden":"true"},"or"),h("div",{},
+        h("h3",{},"Open a backup file"),
+        h("p",{class:"muted"},onPhone()?"If you sent yourself a backup file, pick it here.":"No webcam? On your phone choose Send from this device → Share backup file, send it to this computer, then pick it here."),
+        h("label",{class:"btn"},"Open a backup file",h("input",{type:"file",accept:".json,application/json",class:"sr-only",onchange:e=>{ moveFile(e.target.files[0]); e.target.value=""; }})),
+        mv.fileErr?h("p",{class:"mv-err",role:"alert"},mv.fileErr):null))];
+  }
+  const dialog=h("div",{class:"modal move-modal",role:"dialog","aria-modal":"true","aria-labelledby":"mv-h",tabindex:"-1"},
+    h("button",{class:"modal-x","aria-label":"Close",onclick:closeMove},"×"),
+    h("div",{},h("h2",{id:"mv-h",style:"margin:0 0 4px"},"Move to another device"),
+      h("p",{class:"muted",style:"margin:0"},"Copy everything (levels, XP, bosses, campaign, quiz history, notes and settings) from one device to another. No account needed.")),
+    h("div",{class:"seg mv-tabs",role:"tablist","aria-label":"Direction"},tab("send","Send from this device"),tab("receive","Receive on this device")),
+    h("div",{id:"mv-panel",role:"tabpanel","aria-labelledby":"mv-tab-"+mv.tab,class:"mv-panel"},body));
+  const backdrop=h("div",{class:"modal-backdrop",onclick:e=>{ if(e.target===backdrop) closeMove(); }},dialog);
+  const had=mount.querySelector(".modal"), top=had?had.scrollTop:0, fid=document.activeElement&&document.activeElement.id;
+  mount.replaceChildren(backdrop); dialog.scrollTop=top;
+  const f=fid&&document.getElementById(fid); if(f&&dialog.contains(f)) f.focus({preventScroll:true}); else if(!had) dialog.focus();
+  if(mv.scan){ const v=document.getElementById("mv-video"); if(v){ v.muted=true; if(mv.stream&&v.srcObject!==mv.stream){ v.srcObject=mv.stream; v.play().catch(()=>{}); } } paintScanProgress(); }
+  if(mv.tab==="send"&&mv.frames&&window.qrcode) paintFrame();
+}
+document.addEventListener("keydown",e=>{
+  if(!mv.open) return;
+  if(e.key==="Escape"){ e.preventDefault(); closeMove(); return; }
+  if(e.key!=="Tab") return;
+  const d=document.querySelector("#moveModal .modal"); if(!d) return;
+  const f=[...d.querySelectorAll("button,a[href],label.btn,[tabindex='0']")].filter(x=>!x.disabled&&x.offsetParent);
+  if(!f.length) return; const first=f[0], last=f[f.length-1];
+  if(e.shiftKey&&(document.activeElement===first||document.activeElement===d)){ e.preventDefault(); last.focus(); }
+  else if(!e.shiftKey&&document.activeElement===last){ e.preventDefault(); first.focus(); }
+},true);
+function movedNote(){
+  let v=null; try{ v=sessionStorage.getItem(LS+".moved"); }catch(e){}
+  if(!v) return null;
+  return h("p",{class:"moved-note",role:"status"},svgIcon("check"),h("span",{},"Your progress is on this device now."),
+    h("button",{class:"linklike",onclick:()=>{ try{ sessionStorage.removeItem(LS+".moved"); }catch(e){} render(); }},"Dismiss"));
+}
+
 // ---- "Start here": where you are in a level ----
 // Learn → Check yourself → Level quiz. Guidance only: unlocks still depend on the level quiz alone.
 function levelSteps(d){
@@ -1840,6 +2106,7 @@ function renderProgramToggle(){
   if(!programFormOpen){
     mount.append(h("div",{class:"setrow"},h("span",{class:"setlabel"},"Theme"),
         h("div",{class:"seg seg-sm",role:"group","aria-label":"Theme"},[["light","Light"],["dark","Dark"],["system","System"]].map(([k,l])=>h("button",{"aria-pressed":String(themeChoice()===k),onclick:()=>setTheme(k)},l))),null),
+      h("div",{class:"setrow"},h("span",{class:"setlabel"},"Devices"),h("button",{class:"linklike",onclick:()=>{ const d=document.getElementById("settings"); if(d) d.open=false; openMove("send"); }},"Move to another device")),
       h("div",{class:"setrow"},h("span",{class:"setlabel"},"Program"),h("span",{},PROGRAM_LABEL[state.program]),
         h("button",{class:"linklike",onclick:()=>{programFormOpen=true;render();}},"Change")),
       state.studyMode?h("div",{class:"setrow"},h("span",{class:"setlabel"},"Study mode"),h("span",{},STUDY_MODE_LABEL[state.studyMode]),
@@ -1874,6 +2141,7 @@ function renderProgramPicker(){
   return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:16px"},
     h("h2",{style:"margin:0"},"What are you studying for?"),
     h("p",{class:"muted",style:"margin:0"},"Pick one now — you can change it later, and it never deletes your history."),
+    h("p",{class:"focus-note"},"Already studying on another device?",h("button",{class:"btn small primary",onclick:()=>openMove("receive")},"Move your progress here")),
     h("p",{class:"focus-note"},"Need more time, bigger text or fewer distractions?",h("button",{class:"btn small",onclick:openA11y},"Accessibility settings")),
     h("div",{class:"row",style:"gap:16px;flex-wrap:wrap;align-items:stretch"},
       card("SC-900","Microsoft Security, Compliance & Identity Fundamentals",
@@ -1928,6 +2196,7 @@ function renderHeader(){
   renderSupportModal();
   renderA11yButton();
   renderA11yModal();
+  renderMoveModal();
 }
 // Capture phase: decide "inside or outside" before a button inside the panel re-renders and detaches itself.
 document.addEventListener("click",e=>{ const d=document.getElementById("settings"); if(d&&d.open&&!d.contains(e.target)) d.open=false; },true);
@@ -2536,7 +2805,7 @@ function renderBossStage(){
     h("div",{class:"bf-fight"}, curtain, flash, vig, art, introPlate, hud, qbox));
 }
 document.addEventListener("keydown",e=>{
-  if(a11yOpen) return;
+  if(a11yOpen||mv.open) return;
   if(supportOpen){ if(e.key==="Escape"){ e.preventDefault(); closeSupport(); } return; }
   if(patchOpen){ if(e.key==="Escape"){ e.preventDefault(); closePatchNotes(); } return; }
   if(run&&run.boss&&!run.boss.started){ if(e.key==="Escape"){ e.preventDefault(); skipBossIntro(); } return; }
@@ -3276,10 +3545,10 @@ function renderHome(){
     }))));
   const progress=h("section",{},h("div",{class:"section-head"},h("h2",{},"Progress by domain"),h("p",{class:"meta"},"Coverage is how much of a domain you've seen. Accuracy appears after "+MIN_EVIDENCE+" answers.")),
       h("div",{class:"overview"},overview));
-  if(a11y.focus) return h("div",{class:"home home-focus"},hero,
+  if(a11y.focus) return h("div",{class:"home home-focus"},movedNote(),hero,
     h("p",{class:"focus-note"},"Focus mode is on, so Home shows only your next step.",h("button",{class:"linklike",onclick:openA11y},"Change in Accessibility")),
     h("details",{class:"home-more"},h("summary",{},"More on Home: review, flashcards, bosses and progress"),h("div",{style:"display:flex;flex-direction:column;gap:18px"},aside,progress)));
-  return h("div",{class:"home"},
+  return h("div",{class:"home"},movedNote(),
     h("div",{class:"home-grid"},hero,aside),progress);
 }
 
@@ -4020,12 +4289,14 @@ function renderStatsIOPanel(hasAttempts){
         h("button",{class:"btn",onclick:()=>{statsIO.importPreview=null;render();}},"Cancel")));
   }
   return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:10px"},
+    h("div",{class:"move-entry"},h("button",{class:"btn primary",onclick:()=>openMove("send")},"Move to another device"),
+      h("span",{class:"muted",style:"font-size:calc(14px*var(--ts,1))"},"Show codes here and scan them with your phone. No account needed.")),
     h("h3",{},"Back up or share your progress"),
     h("p",{class:"muted",style:"margin:0;font-size:calc(13px*var(--ts,1));max-width:70ch"},"Everything lives only in this browser. A full backup restores all of it on another device: levels, XP, bosses, your campaign run and every quiz. An instructor summary is the smaller file your instructor's roster reads."),
     h("label",{class:"row",style:"gap:8px;flex-wrap:wrap"},"Name for the file/summary (optional):",
       h("input",{type:"text",placeholder:"Your name",value:statsIO.name,oninput:e=>statsIO.name=e.target.value,style:"max-width:220px"})),
     h("div",{class:"actions",style:"flex-wrap:wrap"},
-      h("button",{class:"btn primary",onclick:downloadBackup},"Download full backup"),
+      h("button",{class:"btn",onclick:downloadBackup},"Download full backup"),
       h("button",{class:"btn",disabled:hasAttempts?null:true,onclick:downloadStatsExport},"Instructor summary"),
       h("button",{class:"btn",disabled:hasAttempts?null:true,onclick:copyStatsSummary},statsIO.copied?"Copied!":"Copy summary"),
       importBtn),
@@ -4877,6 +5148,8 @@ try{ catchUpLevels(); }catch(e){}
 applyA11y();
 if(["#home","#quiz","#stats","#plan","#cards"].includes(location.hash)) ui.tab=location.hash.slice(1);
 render();
+try{ if(sessionStorage.getItem(LS+".moved")&&ui.tab!=="home"){ ui.tab="home"; render(); } }catch(e){}
+if(location.hash==="#receive"){ try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){} openMove("receive"); }
 })();
 </script>
 </body>
