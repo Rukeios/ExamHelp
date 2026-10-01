@@ -3,6 +3,18 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.2.3", date:"2026-10-01", title:"Interactive lessons for Levels 2 to 6", tag:"feature", items:[
+  "Levels 2 to 6 now use the interactive lesson layout from the Security basics pilot: short sections you can explore, guided practice beside each one, the matching Pocket Note, and an independent check at the end.",
+  "Level 2 compares encryption, hashing and encoding side by side, and separates authentication, authorization and auditing with workplace examples.",
+  "Level 3 explores identities at a fictional clinic on a simple map: members, guests, groups, devices and workload identities, with hybrid and external identities explained.",
+  "Level 4 compares sign-in methods by factor type and phishing resistance, walks through a self-service password reset, and shows why more steps don't mean more factors.",
+  "Level 5 evaluates sample access requests against a stated policy (a simplified exercise, not the full Entra policy engine) and separates roles from Conditional Access, risk and governance.",
+  "Level 6 is a review checkpoint: six guided cases with links back to the right lesson and note, then an independent check drawn from Levels 1 to 5.",
+  "11 new scored scenarios fill gaps so each check covers the lesson's main objectives without repeating questions. Guided practice still never counts toward your score, and unlocking still needs just the one level quiz.",
+  "Content was checked against Microsoft Learn by an independent automated review. It hasn't had a human expert review yet."
+]},
+
+
 { v:"2.2.2", date:"2026-10-01", title:"Interactive lesson pilot: Security basics", tag:"feature", items:[
   "Level 1, Security basics, is now an interactive lesson in five steps: the CIA triad, shared responsibility, defense in depth, Zero Trust, and a final check.",
   "Each step lets you pick what to look at (Confidentiality, Integrity or Availability; on-premises, IaaS, PaaS or SaaS; a defense layer; a Zero Trust principle) and shows a short explanation and a workplace example. Arrow keys move between the options.",

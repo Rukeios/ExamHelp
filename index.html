@@ -1060,6 +1060,60 @@ body.wide-lesson .study-lessons{grid-template-columns:232px minmax(0,1fr);gap:32
 }
 @media (prefers-reduced-motion:reduce){.pilot-card,.pilot-panel{animation:none}}
 
+/* ---------- 2.2.3: lesson section types ---------- */
+.pilot-grid.no-practice{grid-template-columns:minmax(0,1fr);grid-template-areas:"card" "note" "nav"}
+.pilot-grid.no-practice .pilot-card,.pilot-grid.no-practice .casebook{max-width:860px}
+.facet-tabs.text{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.facet-tabs.text button{min-height:64px;padding:12px;font-size:16px}
+.model-tabs.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.model-tabs.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cmp-table td{color:var(--ink2)}
+.cmp-table td.cur{font-weight:600;color:var(--ink)}
+.cmp-table thead th:first-child{width:28%}
+.pilot-caution{margin:0;padding:10px 14px;border-left:4px solid var(--bad);background:var(--badbg);border-radius:0 var(--r-sm) var(--r-sm) 0;font-size:15px;line-height:1.5;max-width:68ch}
+/* identity map */
+.idmap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"tenant tenant" "onprem outside";gap:10px;align-items:stretch}
+.zone-tenant{grid-area:tenant}.zone-onprem{grid-area:onprem}.zone-outside{grid-area:outside}
+.zone-tenant .zone-items{grid-template-columns:repeat(auto-fill,minmax(128px,1fr))!important}
+.zone{border:1.5px dashed var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.zone h3{margin:0;font-size:15px}
+.zone .meta{font-size:12.5px}
+.zone-tenant{border-style:solid;border-color:var(--accent);background:color-mix(in srgb,var(--accent-soft) 45%,transparent)}
+.zone-items{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.zone-tenant .zone-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.map-item{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:9px 11px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);min-width:0}
+.map-item:hover{border-color:var(--ink)}
+.map-item.on{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}
+.mi-kind{font:600 12px var(--body);color:var(--muted)}
+.mi-name{font:700 15px/1.2 var(--display)}
+.map-links-h{margin:0 0 4px;font-size:15px}
+.map-links{margin:2px 0 0;padding-left:18px;font-size:14px;color:var(--ink2);display:flex;flex-direction:column;gap:2px}
+@media (max-width:520px){.idmap{grid-template-columns:minmax(0,1fr);grid-template-areas:"tenant" "onprem" "outside"}}
+/* steps */
+.step-tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px;counter-reset:s}
+.step-tabs button{display:flex;align-items:center;gap:8px;padding:10px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);font:600 15px/1.2 var(--body);color:var(--ink);text-align:left}
+.step-tabs .ln{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--surface);font-size:12px;color:var(--muted);flex:0 0 auto}
+.step-tabs button.past .ln{background:var(--accent-soft);color:var(--accent-ink)}
+.step-tabs button[aria-selected="true"]{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}
+.step-tabs button[aria-selected="true"] .ln{background:var(--accent);color:var(--on-accent)}
+.pilot-panel .btn.small{align-self:flex-start;margin-top:4px}
+/* casebook (review checkpoint) */
+.casebook{grid-area:card}
+.cb-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.cb-dots{display:flex;gap:6px;list-style:none;margin:0;padding:0}
+.cb-dots li{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.18)}
+.cb-dots li.done{background:#2FB3AA}
+.cb-dots li.now{box-shadow:0 0 0 2px #fff}
+.cb-task{margin:0;align-self:flex-start;padding:4px 12px;border-radius:999px;background:rgba(47,179,170,.18);color:#7FE0D8;font:600 14px var(--body)}
+.casebook h3:focus{outline:none}
+.cb-links{display:flex;flex-wrap:wrap;gap:8px}
+.casebook .btn{background:transparent;color:#EEF2F7;border-color:rgba(255,255,255,.35)}
+.casebook .btn:hover{border-color:#fff}
+.casebook .btn.primary{background:#2FB3AA;border-color:#2FB3AA;color:#06201F}
+.casebook .btn[disabled]{opacity:.4}
+.cb-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid rgba(255,255,255,.12);padding-top:12px}
+@media (max-width:620px){.model-tabs.two,.model-tabs.three{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 </style>
 <script>
 // Theme choice (Light / Dark / System). Applied before the page draws to avoid a flash.
@@ -1110,27 +1164,29 @@ body.wide-lesson .study-lessons{grid-template-columns:232px minmax(0,1fr);gap:32
   </footer>
 </div>
 
-<script src="data.js?v=2.2.2"></script>
-<script src="data-extra.js?v=2.2.2"></script>
-<script src="data-pack2.js?v=2.2.2"></script>
-<script src="data-pack3.js?v=2.2.2"></script>
-<script src="data-pack4-sc.js?v=2.2.2"></script>
-<script src="data-pack5-net.js?v=2.2.2"></script>
-<script src="data-acronyms.js?v=2.2.2"></script>
-<script src="data-patchnotes.js?v=2.2.2"></script>
-<script src="data-bosses.js?v=2.2.2"></script>
+<script src="data.js?v=2.2.3"></script>
+<script src="data-extra.js?v=2.2.3"></script>
+<script src="data-pack2.js?v=2.2.3"></script>
+<script src="data-pack3.js?v=2.2.3"></script>
+<script src="data-pack4-sc.js?v=2.2.3"></script>
+<script src="data-pack5-net.js?v=2.2.3"></script>
+<script src="data-acronyms.js?v=2.2.3"></script>
+<script src="data-patchnotes.js?v=2.2.3"></script>
+<script src="data-bosses.js?v=2.2.3"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=2.2.2"></script>
-<script src="data-campaign-flags.js?v=2.2.2"></script>
-<script src="data-campaign-endings.js?v=2.2.2"></script>
-<script src="data-fixes-01.js?v=2.2.2"></script>
-<script src="data-fixes-02.js?v=2.2.2"></script>
-<script src="data-fixes-03.js?v=2.2.2"></script>
-<script src="data-lessons.js?v=2.2.2"></script>
-<script src="data-cn-sc.js?v=2.2.2"></script>
-<script src="data-cn-compare.js?v=2.2.2"></script>
-<script src="data-cn-sc-scenarios.js?v=2.2.2"></script>
-<script src="examhelp-effects.js?v=2.2.2"></script>
+<script src="data-daymissions.js?v=2.2.3"></script>
+<script src="data-campaign-flags.js?v=2.2.3"></script>
+<script src="data-campaign-endings.js?v=2.2.3"></script>
+<script src="data-fixes-01.js?v=2.2.3"></script>
+<script src="data-fixes-02.js?v=2.2.3"></script>
+<script src="data-fixes-03.js?v=2.2.3"></script>
+<script src="data-lessons.js?v=2.2.3"></script>
+<script src="data-lessons-2.js?v=2.2.3"></script>
+<script src="data-cn-sc.js?v=2.2.3"></script>
+<script src="data-cn-compare.js?v=2.2.3"></script>
+<script src="data-cn-sc-scenarios.js?v=2.2.3"></script>
+<script src="data-cn-sc-checks.js?v=2.2.3"></script>
+<script src="examhelp-effects.js?v=2.2.3"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -3173,22 +3229,22 @@ function pilotPick(day,secId,key){ const st=pilotState(day); st.pick[secId]=key;
 function renderLessonPilot(d,L){
   const st=pilotState(d.d), secs=L.sections, i=Math.min(Math.max(0,st.sec|0),secs.length-1), sec=secs[i], next=secs[i+1], prev=secs[i-1];
   const head=h("div",{class:"pilot-head"},
-    h("p",{class:"meta crumbs"},TRACK[d.track]," / ",d.dom||""," · Level "+displayDay(d.d)),
-    h("h1",{tabindex:"-1"},shortTitle(d.title)),
+    h("p",{class:"meta crumbs"},TRACK[d.track]," / ",d.dom||(d.kind==="review"?"Review checkpoint":"Checkpoint")," · Level "+displayDay(d.d)),
+    h("h1",{tabindex:"-1"},L.title||shortTitle(d.title)),
     h("p",{class:"hero-sub"},L.subtitle),
     h("nav",{class:"pilot-steps","aria-label":"Lesson sections"},h("ol",{},secs.map((s,j)=>h("li",{},
       h("button",{class:(j===i?"on":"")+(j<i?" past":""),"aria-current":j===i?"step":null,onclick:()=>pilotGo(d.d,j)},h("span",{class:"n"},j+1),h("span",{class:"t"},s.title)))))));
   let body;
   if(sec.type==="check") body=pilotCheck(d,L,sec);
-  else body=h("div",{class:"pilot-grid"},
-    pilotCard(d,sec),
+  else body=h("div",{class:"pilot-grid"+(sec.practice?"":" no-practice")},
+    sec.type==="casebook"?pilotCasebook(d,sec):pilotCard(d,sec),
     pilotPractice(d,sec),
     pilotNote(sec),
     h("div",{class:"pilot-nav"},
       prev?h("button",{class:"btn ghost",onclick:()=>pilotGo(d.d,i-1)},lessonIcon("back"),"Back"):h("span"),
       next?h("button",{class:"btn primary lg",onclick:()=>pilotGo(d.d,i+1)},"Next: "+next.title,lessonIcon("arrow")):null));
-  return h("article",{class:"pilot","aria-label":shortTitle(d.title)+" lesson"},head,body,
-    h("p",{class:"meta pilot-foot"},"Content checked against ",h("a",{href:L.src[0],target:"_blank",rel:"noopener"},"Microsoft Learn")," on "+L.reviewed+". ",
+  return h("article",{class:"pilot","aria-label":(L.title||shortTitle(d.title))+" lesson"},head,body,
+    h("p",{class:"meta pilot-foot"},L.reviewed&&L.src&&L.src.length?["Content checked against ",h("a",{href:L.src[0],target:"_blank",rel:"noopener"},"Microsoft Learn")," ("+L.src.length+" page"+(L.src.length===1?"":"s")+") on "+L.reviewed+". "]:null,
       h("button",{class:"linklike",onclick:()=>{ui.classicLesson=true;render();}},"Switch to the classic lesson view")));
 }
 function pilotTabs(day,secId,items,cur,cls){
@@ -3200,10 +3256,10 @@ function pilotCard(d,sec){
   const kids=[h("h2",{},sec.title),h("p",{class:"pilot-lead"},sec.lead)];
   if(sec.type==="facets"){
     const cur=(sec.facets.find(f=>f.id===st.pick[sec.id])||sec.facets[0]);
-    kids.push(pilotTabs(d.d,sec.id,sec.facets,cur.id,"facet-tabs"),
+    kids.push(pilotTabs(d.d,sec.id,sec.facets,cur.id,"facet-tabs"+(sec.facets.some(f=>f.icon)?"":" text")),
       h("div",{class:"pilot-panel",role:"tabpanel",id:"pp-"+sec.id,"aria-labelledby":"pt-"+sec.id+"-"+cur.id},
         h("p",{class:"say"},cur.say),
-        h("h3",{},"Example in the workplace"),h("p",{class:"ex"},cur.example),
+        h("h3",{},sec.exampleLabel||"Example in the workplace"),h("p",{class:"ex"},cur.example),
         cur.tags&&cur.tags.length?h("ul",{class:"tagrow","aria-label":"Related controls"},cur.tags.map(t=>h("li",{},t))):null));
   } else if(sec.type==="models"){
     const cur=(sec.models.find(m=>m.id===st.pick[sec.id])||sec.models[1]), ci=sec.models.indexOf(cur);
@@ -3225,6 +3281,10 @@ function pilotCard(d,sec){
         h("p",{class:"say"},h("b",{},cur.name+". "),cur.say),
         h("h3",{},"Example in the workplace"),h("p",{class:"ex"},cur.example))));
   }
+  else if(sec.type==="compare") kids.push(...pilotCompare(d,sec));
+  else if(sec.type==="map") kids.push(...pilotMap(d,sec));
+  else if(sec.type==="steps") kids.push(...pilotSteps(d,sec));
+  if(sec.caution) kids.push(pilotCaution(sec));
   if(sec.careers&&sec.careers.length) kids.push(h("details",{class:"careers"},h("summary",{},"Where this skill is used"),
     h("ul",{},sec.careers.map(c=>h("li",{},c.text," ",h("a",{href:c.src,target:"_blank",rel:"noopener"},"Source"))))));
   return h("section",{class:"pilot-card","aria-labelledby":"ph-"+sec.id},Object.assign(kids[0],{id:"ph-"+sec.id}),...kids.slice(1));
@@ -3248,7 +3308,15 @@ function pilotPractice(d,sec){
     h("p",{class:"pp-note"},"Practice with the lesson in view. It doesn't count toward your score or readiness."));
 }
 function pilotNote(sec){
-  const c=CN.C[sec.concept]; if(!c) return null;
+  const nid=sec.note||sec.concept, k=CN.CMP[nid];
+  if(k) return h("section",{class:"pilot-note","aria-label":"Pocket Note"},
+    h("span",{class:"pn-icon"},lessonIcon("note")),
+    h("div",{class:"pn-body"},h("h3",{},"Pocket Note: ",k.title),h("ul",{},k.sides.map(x=>h("li",{},h("b",{},x.name+": "),x.is))),h("p",{class:"meta"},h("b",{},"Exam clue: "),k.clue)),
+    h("div",{class:"pn-actions"},
+      h("button",{class:"btn"+(isSaved(k.id)?" saved":""),"aria-pressed":String(isSaved(k.id)),onclick:()=>{ toggleSave(k.id); if(ui.cn.msg){ ui.cn.msg.id=k.id; render(); } }},isSaved(k.id)?"★ Saved":"Save note"),
+      h("button",{class:"btn ghost small",onclick:()=>openComparison(k.id)},"Open in Notes & cards")),
+    h("p",{class:"pn-msg",role:"status","aria-live":"polite"},ui.cn.msg&&ui.cn.msg.tab===ui.tab&&ui.cn.msg.id===k.id?ui.cn.msg.text:""));
+  const c=CN.C[nid]; if(!c) return null;
   return h("section",{class:"pilot-note","aria-label":"Pocket Note"},
     h("span",{class:"pn-icon"},lessonIcon("note")),
     h("div",{class:"pn-body"},h("h3",{},"Pocket Note: ",c.title),h("ul",{},c.lines.map(l=>h("li",{},l))),c.clue?h("p",{class:"meta"},h("b",{},"Exam clue: "),c.clue):null),
@@ -3257,23 +3325,89 @@ function pilotNote(sec){
       h("button",{class:"btn ghost small",onclick:()=>openConcept(c.id)},"Open in Notes & cards")),
     h("p",{class:"pn-msg",role:"status","aria-live":"polite"},ui.cn.msg&&ui.cn.msg.tab===ui.tab&&ui.cn.msg.id===c.id?ui.cn.msg.text:""));
 }
-function pilotCheckKeys(day){
-  const hist=qHistory(), pool=CN.scenarios.filter(x=>x.day===day&&Q[x.id]);
-  const groups={}; pool.forEach(x=>{ const g=x.id.split(".").slice(0,3).join("."); (groups[g]=groups[g]||[]).push(x.id); });
-  const fresh=ids=>shuffle(ids).sort((a,b)=>(hist[a]?1:0)-(hist[b]?1:0));
-  const picked=Object.values(groups).map(ids=>fresh(ids)[0]);
-  const rest=fresh(pool.map(x=>x.id).filter(id=>!picked.includes(id)));
-  return shuffle(picked.concat(rest.slice(0,Math.max(0,4-picked.length))));
+// ---------- 2.2.3: more lesson section types ----------
+function pilotCaution(sec){ return sec.caution?h("p",{class:"pilot-caution"},h("b",{},"Watch out: "),sec.caution):null; }
+function pilotCompare(d,sec){
+  const st=pilotState(d.d), cur=(sec.cols.find(c=>c.id===st.pick[sec.id])||sec.cols[0]), ci=sec.cols.indexOf(cur);
+  return [pilotTabs(d.d,sec.id,sec.cols,cur.id,"model-tabs"+(sec.cols.length===2?" two":sec.cols.length===3?" three":"")),
+    h("div",{class:"pilot-panel",role:"tabpanel",id:"pp-"+sec.id,"aria-labelledby":"pt-"+sec.id+"-"+cur.id},
+      h("p",{class:"say"},cur.say),
+      cur.example?[h("h3",{},"Example in the workplace"),h("p",{class:"ex"},cur.example)]:null,
+      h("div",{class:"tablebox"},h("table",{class:"sr-table pilot-sr cmp-table"},
+        h("caption",{class:"sr-only"},sec.title+": comparison"),
+        h("thead",{},h("tr",{},h("th",{scope:"col"},""),sec.cols.map((c,j)=>h("th",{scope:"col",class:j===ci?"cur":"other"},c.name)))),
+        h("tbody",{},sec.rows.map(([name,...v])=>h("tr",{},h("th",{scope:"row"},name),v.map((x,j)=>h("td",{class:j===ci?"cur":"other"},x))))))),
+      sec.rowsNote?h("p",{class:"meta"},sec.rowsNote):null)];
+}
+function pilotMap(d,sec){
+  const st=pilotState(d.d), cur=(sec.items.find(x=>x.id===st.pick[sec.id])||sec.items.find(x=>x.zone==="tenant")||sec.items[0]);
+  const btn=x=>h("button",{class:"map-item"+(x.id===cur.id?" on":""),"aria-pressed":String(x.id===cur.id),"data-pday":d.d,"data-psec":sec.id,"data-pkey":x.id,
+    onclick:()=>pilotPick(d.d,sec.id,x.id)},h("span",{class:"mi-kind"},x.kind),h("span",{class:"mi-name"},x.name));
+  return [h("div",{class:"idmap"},sec.zones.map(z=>h("section",{class:"zone zone-"+z.id,"aria-label":z.name},
+      h("h3",{},z.name),h("p",{class:"meta"},z.desc),
+      h("div",{class:"zone-items"},sec.items.filter(x=>x.zone===z.id).map(btn))))),
+    h("div",{class:"pilot-panel",role:"region","aria-live":"polite","aria-label":"Selected identity"},
+      h("p",{class:"say"},h("b",{},cur.name+". "),cur.say),
+      h("h3",{},"Example at Larkspur"),h("p",{class:"ex"},cur.example)),
+    sec.links&&sec.links.length?h("div",{},h("h3",{class:"map-links-h"},"How they relate"),h("ul",{class:"map-links"},sec.links.map(t=>h("li",{},t)))):null];
+}
+function pilotSteps(d,sec){
+  const st=pilotState(d.d), cur=(sec.steps.find(x=>x.id===st.pick[sec.id])||sec.steps[0]), ci=sec.steps.indexOf(cur);
+  return [h("div",{class:"step-tabs",role:"tablist","aria-label":"Steps in order"},sec.steps.map((x,j)=>h("button",{role:"tab",id:"pt-"+sec.id+"-"+x.id,"aria-selected":String(x.id===cur.id),"aria-controls":"pp-"+sec.id,tabindex:x.id===cur.id?"0":"-1",
+      class:j<ci?"past":"","data-psec":sec.id,"data-pkey":x.id,"data-pday":d.d,onclick:()=>pilotPick(d.d,sec.id,x.id)},h("span",{class:"ln"},j+1),h("span",{},x.name)))),
+    h("div",{class:"pilot-panel",role:"tabpanel",id:"pp-"+sec.id,"aria-labelledby":"pt-"+sec.id+"-"+cur.id},
+      h("p",{class:"say"},h("b",{},"Step "+(ci+1)+": "+cur.name+". "),cur.say),
+      h("h3",{},"Example in the workplace"),h("p",{class:"ex"},cur.example),
+      ci<sec.steps.length-1?h("button",{class:"btn small",onclick:()=>pilotPick(d.d,sec.id,sec.steps[ci+1].id)},"Next step: "+sec.steps[ci+1].name):null)];
+}
+function pilotLinkTo(day,secId){
+  const L=LESSON_PILOTS[day]; if(!L) return;
+  const st=pilotState(day), k=L.sections.findIndex(s=>s.id===secId); st.sec=k<0?0:k;
+  ui.sel=day; ui.classicLesson=false; saveUI(); goTab("plan");
+}
+function pilotCasebook(d,sec){
+  const st=pilotState(d.d), n=sec.cases.length, ci=Math.min(Math.max(0,st.caseI|0),n-1), c=sec.cases[ci];
+  const key=d.d+"|case|"+c.id, ord=pilotOrder[key]||(pilotOrder[key]=shuffle(c.o.map((_,j)=>j)));
+  const ans=((pilotAns[d.d]||{})["case-"+c.id]), fb=ans!=null?c.o[ans]:null;
+  const go=j=>{ st.caseI=j; saveUI(); render(); const el=document.querySelector(".casebook h3"); if(el){ el.setAttribute("tabindex","-1"); el.focus({preventScroll:true}); } };
+  const done=sec.cases.filter(x=>((pilotAns[d.d]||{})["case-"+x.id])!=null).length;
+  return h("section",{class:"pilot-practice casebook","aria-labelledby":"cb-q"},
+    h("div",{class:"cb-top"},h("p",{class:"pp-kicker"},"Guided review · case "+(ci+1)+" of "+n),
+      h("ol",{class:"cb-dots","aria-label":done+" of "+n+" cases answered"},sec.cases.map((x,j)=>h("li",{class:(j===ci?"now":"")+(((pilotAns[d.d]||{})["case-"+x.id])!=null?" done":""),"aria-hidden":"true"})))),
+    h("p",{class:"cb-task"},c.task),
+    h("p",{class:"pp-s"},c.s),
+    h("h3",{id:"cb-q"},c.q),
+    h("div",{class:"pp-opts",role:"group","aria-labelledby":"cb-q"},ord.map(j=>{ const o=c.o[j], picked=ans===j;
+      return h("button",{class:"pp-opt"+(picked?(o[1]?" right":" wrong"):""),"aria-pressed":String(picked),onclick:()=>{ (pilotAns[d.d]=pilotAns[d.d]||{})["case-"+c.id]=j; render(); const f=document.querySelector(".pp-fb"); if(f) f.focus({preventScroll:true}); }},
+        h("span",{},o[0]),picked?h("span",{class:"pp-mark"},o[1]?svgIcon("check"):svgIcon("x"),h("span",{class:"sr-only"},o[1]?"correct":"not correct")):null); })),
+    h("div",{class:"pp-fb"+(fb?(fb[1]?" right":" wrong"):""),role:"status","aria-live":"polite",tabindex:"-1"},fb?[h("b",{},fb[1]?"Correct. ":"Not quite. "),fb[2]]:""),
+    fb?h("div",{class:"cb-links"},(c.links||[]).map(l=>l.day?h("button",{class:"btn small",onclick:()=>pilotLinkTo(l.day,l.sec)},"Revisit "+l.label)
+        :l.concept&&CN.C[l.concept]?h("button",{class:"btn small",onclick:()=>openConcept(l.concept)},"Pocket Note: "+CN.C[l.concept].title):null)):null,
+    h("div",{class:"cb-nav"},
+      h("button",{class:"btn small",disabled:ci===0?true:null,onclick:()=>go(ci-1)},"Previous case"),
+      ci<n-1?h("button",{class:"btn small primary",onclick:()=>go(ci+1)},"Next case"):h("span",{class:"pp-note"},"That's every case.")),
+    h("p",{class:"pp-note"},"Guided review. It doesn't count toward your score or readiness."));
+}
+
+function pilotCheckKeys(days,max){
+  const hist=qHistory(), pool=shuffle(CN.scenarios.filter(x=>days.includes(x.day)&&Q[x.id])).sort((a,b)=>(hist[a.id]?1:0)-(hist[b.id]?1:0));
+  const picked=[], covered=new Set(), perDay={};
+  const take=x=>{ picked.push(x.id); (x.concepts||[x.concept]).forEach(c=>covered.add(c)); perDay[x.day]=(perDay[x.day]||0)+1; };
+  // one per level first (matters for the review checkpoint), then cover unseen concepts, then fill
+  days.forEach(dd=>{ const x=pool.find(y=>y.day===dd&&!picked.includes(y.id)); if(x&&picked.length<max) take(x); });
+  pool.forEach(x=>{ if(picked.length<max&&!picked.includes(x.id)&&!covered.has(x.concept)) take(x); });
+  pool.forEach(x=>{ if(picked.length<max&&!picked.includes(x.id)) take(x); });
+  return shuffle(picked);
 }
 function pilotCheck(d,L,sec){
   const scope="lesson-check-"+d.d, prior=attempts.filter(a=>a.scopeId===scope&&!a.early).sort((a,b)=>b.ts-a.ts)[0];
-  const n=Math.min(4,CN.scenarios.filter(x=>x.day===d.d&&Q[x.id]).length);
+  const days=sec.from||[d.d], max=sec.max||4, n=Math.min(max,CN.scenarios.filter(x=>days.includes(x.day)&&Q[x.id]).length);
   return h("div",{class:"pilot-check"},
     h("section",{class:"pilot-card"},
       h("h2",{},sec.title),h("p",{class:"pilot-lead"},sec.lead),
       h("p",{},"The lesson text and Pocket Notes stay hidden while you answer. You'll get the explanations afterward."),
       prior?h("p",{class:"meta"},"Last check: "+prior.score+" of "+prior.n+" on "+fmtD(new Date(prior.ts))+"."):null,
-      h("div",{class:"actions"},n?h("button",{class:"btn primary lg",onclick:()=>startQuiz({id:scope,label:shortTitle(d.title)+" check",keys:pilotCheckKeys(d.d)},"think",n)},"Start the check ("+n+" scenarios)"):null,
+      h("div",{class:"actions"},n?h("button",{class:"btn primary lg",onclick:()=>startQuiz({id:scope,label:(L.title||shortTitle(d.title))+" check",keys:pilotCheckKeys(days,max)},"think",n)},"Start the check ("+n+" scenarios)"):null,
         h("button",{class:"btn ghost",onclick:()=>pilotGo(d.d,0)},"Review the lesson first"))),
     levelQuizSection(d,"Level quizzes"),
     (d.terms||d.trap)?h("details",{class:"pilot-summary"},h("summary",{},"Lesson summary: terms and exam trap"),
@@ -3283,8 +3417,9 @@ function pilotCheck(d,L,sec){
 // Arrow keys move between options in a tablist (facets, models, layers).
 document.addEventListener("keydown",e=>{
   const t=e.target; if(!t||!t.dataset||!t.dataset.psec) return;
-  const list=[...t.parentElement.querySelectorAll("[data-psec]")], i=list.indexOf(t); if(i<0) return;
-  const vert=t.parentElement.getAttribute("aria-orientation")==="vertical";
+  const tl=t.closest('[role="tablist"]'); if(!tl) return;
+  const list=[...tl.querySelectorAll("[data-psec]")], i=list.indexOf(t); if(i<0) return;
+  const vert=tl.getAttribute("aria-orientation")==="vertical";
   const nextK=vert?"ArrowDown":"ArrowRight", prevK=vert?"ArrowUp":"ArrowLeft";
   let j=null;
   if(e.key===nextK||(!vert&&e.key==="ArrowDown")) j=(i+1)%list.length;
