@@ -3,6 +3,17 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.2.4", date:"2026-10-01", title:"Accessibility and focus", tag:"feature", items:[
+  "New Accessibility button at the top of every page. Settings apply right away, save on this device, and are included in your backup.",
+  "Time limits: Standard, 1.5×, 2× or No timer. This covers Blitz (including Blitz level quizzes from Prestige 1), timed acronym drills and the mock exam. With No timer, nothing runs out and the mock exam shows time used instead.",
+  "Focus mode hides the level list, rewards, streaks and extras while you study. Home shows just your next step, with everything else folded under \"More on Home\".",
+  "Calm mode turns off animations, effects and celebrations on any device, the same way your device's reduce-motion setting does.",
+  "Reading: three text sizes, roomier line spacing, and an optional easy-to-read font (Atkinson Hyperlegible). The smallest text in the app is now larger.",
+  "Read aloud adds a button to lessons, guided practice, cases and quiz questions. It uses your device's built-in voice, so nothing is sent anywhere. Reading stops when you move on.",
+  "Start here: each level now shows its steps, Learn → Check yourself → Level quiz, with where you are highlighted. Tap a step to jump to it. Only the level quiz unlocks the next level, as before.",
+  "Home picks up where you left off in an interactive lesson, naming the next section."
+]},
+
 { v:"2.2.3", date:"2026-10-01", title:"Interactive lessons for Levels 2 to 6", tag:"feature", items:[
   "Levels 2 to 6 now use the interactive lesson layout from the Security basics pilot: short sections you can explore, guided practice beside each one, the matching Pocket Note, and an independent check at the end.",
   "Level 2 compares encryption, hashing and encoding side by side, and separates authentication, authorization and auditing with workplace examples.",
