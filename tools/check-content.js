@@ -6,7 +6,7 @@
 const fs=require("fs"), path=require("path");
 const ROOT=path.resolve(__dirname,"..");
 global.window=global;
-["data.js","data-cn-sc.js","data-cn-compare.js","data-cn-sc-scenarios.js"].forEach(f=>{
+["data.js","data-cn-sc.js","data-cn-compare.js","data-cn-sc-scenarios.js","data-cn-sc-checks.js"].forEach(f=>{
   const p=path.join(ROOT,f); if(fs.existsSync(p)) eval(fs.readFileSync(p,"utf8"));
 });
 const packs=window.CN_PACKS||[], fail=[], warn=[];
