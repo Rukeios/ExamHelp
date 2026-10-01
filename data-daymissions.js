@@ -1,6 +1,6 @@
 // Day -> mission map for DIRECTED mode. window.DAY_MISSIONS = { "<day>": "<mission id>" }
 //
-// In directed mode, a level is: the day's lesson, then all three quiz modes, then that
+// In directed mode, a level is: the day's lesson, then the level quiz, then that
 // day's campaign mission. The mission is the narrative beat and the flag check. It is
 // NOT a pass/fail gate — you always advance. What it scores is permanent.
 //
@@ -64,7 +64,7 @@ window.DAY_MISSIONS = {
 // Directed-mode rules. Free mode ignores all of this.
 window.DIRECTED_RULES = {
 
-  // A level is complete when all three quiz modes are done for that day AND the day's
+  // A level is complete when the level quiz is done for that day AND the day's
   // mission has been played. Mission SCORE does not gate advancement.
   levelComplete:["think","blitz","written","mission"],
 

@@ -9,7 +9,7 @@ window.PATCHNOTES = [
   "Guided practice sits beside each step: a workplace situation with feedback on every answer. Because the lesson is on screen, these answers are practice only. They aren't saved as scores and don't count toward readiness or unlocking the next level.",
   "The final step is an independent check: the lesson is hidden and you answer different scenarios, which count as normal scored practice.",
   "Each step has its Pocket Note with a Save button. Saved notes go to your Field Guide as before. Your place in the lesson is remembered.",
-  "Unlocking the next level works exactly as before: all three quiz modes for the level.",
+  "One quiz completes a level now, instead of three. Its mode depends on your prestige: Think on your first run, Blitz from Prestige 1, and Written from Prestige 4 (review levels are still Written from the Shadow IT tier). If you already finished the right quiz for your current level, it counts and the level is marked complete. Think, Blitz and Written all stay available in Practice.",
   "Prefer the old layout? Use \"Switch to the classic lesson view\" at the bottom of the lesson. Other lessons keep the current layout while this pilot is reviewed."
 ]},
 
