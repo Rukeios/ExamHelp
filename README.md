@@ -1,6 +1,6 @@
-# CertificationNation
+# Rukeios Study
 
-*Formerly ExamHelp. The repository and live URL keep the old name for now.*
+*Your certification field guide. Formerly ExamHelp and CertificationNation; the repository and live URL keep the old name for now.*
 
 A free, offline study app for Microsoft SC-900 and CompTIA Security+ SY0-701, with 801
 practice questions.
@@ -75,6 +75,6 @@ In the repository settings, select **Pages**, choose **Deploy from a branch**, a
 
 ## Support
 
-CertificationNation is free and always will be. If it helped you pass and you're in a position to,
+Rukeios Study is free and always will be. If it helped you pass and you're in a position to,
 you can chip in at [ko-fi.com/rukeios](https://ko-fi.com/rukeios). If you're a student, please don't —
 pass your exam and tell someone else about it instead.

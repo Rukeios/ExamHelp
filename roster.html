@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>CertificationNation — class roster</title>
+<title>Rukeios Study — class roster</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -82,8 +82,8 @@ select.filter{border:1px solid var(--line);background:var(--surface);border-radi
 <body>
 <div class="wrap">
   <header>
-    <h1>CertificationNation — class roster</h1>
-    <p class="muted" style="margin:6px 0 0;max-width:70ch">Drop the stats files your students exported from CertificationNation's Progress tab (or ExamHelp's Stats tab) and get a class table: who's behind, and which exam domains a student has never once attempted.</p>
+    <h1>Rukeios Study — class roster</h1>
+    <p class="muted" style="margin:6px 0 0;max-width:70ch">Drop the stats files your students exported from Rukeios Study's Progress tab (or an older ExamHelp/CertificationNation copy) and get a class table: who's behind, and which exam domains a student has never once attempted.</p>
     <span class="no-upload">Nothing is uploaded. Every file you drop is read and summarized right here, in this browser tab, and never leaves your computer.</span>
   </header>
 
@@ -116,7 +116,7 @@ select.filter{border:1px solid var(--line);background:var(--surface);border-radi
     <div id="tableBox" class="tablebox"></div>
   </section>
 
-  <footer>Standalone page · no server, no accounts, no data leaves this browser · part of <a href="index.html" style="color:inherit">CertificationNation</a> · <a href="https://ko-fi.com/rukeios" target="_blank" rel="noopener" style="color:inherit">Support ExamHelp on Ko-fi</a></footer>
+  <footer>Standalone page · no server, no accounts, no data leaves this browser · part of <a href="index.html" style="color:inherit">Rukeios Study</a> · <a href="https://ko-fi.com/rukeios" target="_blank" rel="noopener" style="color:inherit">Support ExamHelp on Ko-fi</a></footer>
 </div>
 
 <script>
@@ -142,7 +142,7 @@ function visibleStudents(){ return programFilter==="all"?students:students.filte
 
 function validate(parsed){
   if(!parsed || typeof parsed!=="object") return "not a JSON object";
-  if(!["ExamHelp","CertificationNation"].includes(parsed.app)) return "missing or wrong \"app\" field";
+  if(!["ExamHelp","CertificationNation","Rukeios Study"].includes(parsed.app)) return "missing or wrong \"app\" field";
   if(typeof parsed.schema!=="number" || parsed.schema>3) return "unsupported schema version";
   if(!parsed.summary || typeof parsed.summary!=="object") return "missing \"summary\"";
   if(!Array.isArray(parsed.attempts)) return "missing \"attempts\" array";
