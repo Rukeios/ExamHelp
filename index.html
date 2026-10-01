@@ -946,6 +946,120 @@ body.campaign-mode{--mark:url("assets/brand/mark-dark-96.png");--accent:#3CC4BB;
 .ca-arrow{align-self:center;font-size:20px;color:var(--accent-fill)}
 @media (max-width:640px){.ca-flow{grid-template-columns:1fr}.ca-arrow{transform:rotate(90deg);justify-self:center}}
 
+/* ---------- 2.2.2: interactive lesson pilot ---------- */
+body.wide-lesson .wrap{max-width:1320px}
+.pilot h1:focus{outline:none}.pilot h1:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.pilot-check .check{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:clamp(20px,2.6vw,30px)}
+body.wide-lesson .study-lessons{grid-template-columns:232px minmax(0,1fr);gap:32px}
+.pilot{display:flex;flex-direction:column;gap:22px;min-width:0}
+.pilot-head{display:flex;flex-direction:column;gap:6px}
+.pilot-head h1{margin:0;font-size:clamp(32px,4.4vw,48px)}
+.crumbs{letter-spacing:.04em}
+.pilot-steps ol{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.pilot-steps button{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:transparent;border-radius:999px;padding:5px 12px 5px 6px;font:600 14px/1.2 var(--body);color:var(--muted)}
+.pilot-steps .n{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--sunk);font-size:12px;color:var(--ink2)}
+.pilot-steps button.past .n{background:var(--accent-soft);color:var(--accent-ink)}
+.pilot-steps button.on{border-color:var(--accent);color:var(--ink);background:var(--surface)}
+.pilot-steps button.on .n{background:var(--accent);color:var(--on-accent)}
+.pilot-steps button:hover{border-color:var(--ink)}
+.pilot-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,1fr);grid-template-areas:"card practice" "note note" "nav nav";gap:20px;align-items:start}
+.pilot-card{grid-area:card;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--lift);padding:clamp(20px,2.6vw,30px);display:flex;flex-direction:column;gap:14px;min-width:0;animation:riseIn .25s ease-out both}
+.pilot-card h2{margin:0;font-size:clamp(24px,2.6vw,30px)}
+.pilot-card h2:focus{outline:none}
+.pilot-lead{margin:-6px 0 0;font-size:17px;color:var(--ink2)}
+.facet-tabs,.model-tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.facet-tabs button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:118px;padding:16px 10px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font:700 17px/1.2 var(--display);text-align:center;transition:border-color .12s,background-color .12s}
+.facet-tabs button svg{width:40px;height:40px;color:var(--ink)}
+.facet-tabs button:hover{border-color:var(--ink)}
+.facet-tabs button[aria-selected="true"]{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}
+.model-tabs{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.model-tabs button{padding:10px 8px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);font:700 16px/1.1 var(--display);color:var(--ink)}
+.model-tabs button[aria-selected="true"]{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}
+.pilot-panel{display:flex;flex-direction:column;gap:8px;padding-top:4px;animation:fadeIn .18s ease-out}
+.pilot-panel .say{margin:0;font:600 19px/1.4 var(--display);color:var(--ink)}
+.pilot-panel h3{margin:8px 0 0;font-size:16px}
+.pilot-panel .ex{margin:0;font-size:16.5px;line-height:1.55;color:var(--ink2)}
+.tagrow{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.tagrow li{padding:4px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);font:600 14px var(--body)}
+.pilot-sr{margin-top:8px}
+.pilot-sr th.other,.pilot-sr td.other{opacity:.45}
+.pilot-sr th.cur{color:var(--ink);box-shadow:inset 0 -2px 0 var(--accent)}
+.pilot-sr td.cur{box-shadow:inset 2px 0 0 var(--accent),inset -2px 0 0 var(--accent)}
+.layers-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:18px;align-items:start}
+.layer-stack{display:flex;flex-direction:column;gap:4px}
+.layer-stack button{display:flex;align-items:center;gap:10px;text-align:left;padding:9px 12px;margin-inline:calc(var(--i) * 7px);border:1.5px solid var(--line);border-radius:10px;background:color-mix(in srgb,var(--accent-fill) calc(var(--i) * 3%),var(--bg));font:600 15px/1.2 var(--body);color:var(--ink)}
+.layer-stack button .ln{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--surface);font-size:12px;color:var(--muted);flex:0 0 auto}
+.layer-stack button[aria-selected="true"]{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}
+.layer-stack button[aria-selected="true"] .ln{background:var(--accent);color:var(--on-accent)}
+.careers summary{cursor:pointer;font:600 15px var(--body);color:var(--accent-ink)}
+/* guided practice panel: navy in both themes */
+.pilot-practice{grid-area:practice;background:#0F2340;color:#EEF2F7;border-radius:var(--r-lg);padding:clamp(20px,2.4vw,28px);display:flex;flex-direction:column;gap:12px;box-shadow:var(--lift);border:1px solid rgba(255,255,255,.06)}
+.pp-kicker{margin:0;font:600 13px/1.2 var(--body);color:#9FB2C8;letter-spacing:.04em}
+.pilot-practice h2{margin:-4px 0 0;color:#fff;font-size:clamp(24px,2.4vw,30px)}
+.pp-art{width:100%;height:auto;display:block}
+.pp-s{margin:0;font-size:16.5px;line-height:1.5;color:#E4EAF2}
+.pilot-practice h3{margin:4px 0 0;font-size:18px;color:#fff}
+.pp-opts{display:flex;flex-direction:column;gap:8px}
+.pp-opt{display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:left;padding:12px 16px;border:1.5px solid rgba(255,255,255,.35);border-radius:10px;background:transparent;color:#fff;font:500 16px/1.3 var(--body);transition:border-color .12s,background-color .12s}
+.pp-opt:hover{border-color:#fff;background:rgba(255,255,255,.06)}
+.pp-opt:focus-visible{outline:2px solid #62D4CC;outline-offset:2px}
+.pp-opt.right{border-color:#5CC48A;background:rgba(92,196,138,.16)}
+.pp-opt.wrong{border-color:#F08A80;background:rgba(240,138,128,.14)}
+.pp-mark svg{width:18px;height:18px}
+.pp-fb{font-size:15px;line-height:1.5;color:#E4EAF2;border-left:3px solid transparent;padding:0 0 0 12px}
+.pp-fb:empty{display:none}
+.pp-fb.right{border-left-color:#5CC48A}
+.pp-fb.wrong{border-left-color:#F08A80}
+.pp-fb:focus{outline:none}
+.pp-hint,.pp-note{margin:0;font-size:13px;color:#9FB2C8}
+/* Pocket Note strip */
+.pilot-note{grid-area:note;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px 18px;align-items:start;padding:18px 22px;background:var(--sunk);border:1px solid var(--line);border-radius:var(--r-md)}
+.pn-icon svg{width:26px;height:26px;color:var(--ink)}
+.pn-body h3{margin:0 0 4px;font-size:16px}
+.pn-body ul{margin:0;padding-left:18px;font-size:15px;line-height:1.5;color:var(--ink2)}
+.pn-body .meta{margin-top:6px}
+.pn-actions{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.pn-msg{grid-column:2/4;margin:0;font-size:14px;color:var(--accent-ink)}
+.pn-msg:empty{display:none}
+.pilot-nav{grid-area:nav;display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid var(--line);padding-top:16px}
+.pilot-nav .btn{display:inline-flex;align-items:center;gap:8px}
+.pilot-nav svg{width:18px;height:18px}
+.pilot-check{display:flex;flex-direction:column;gap:20px;max-width:820px}
+.pilot-summary{border:1px solid var(--line);border-radius:var(--r-md);padding:14px 18px;background:var(--surface)}
+.pilot-summary summary{cursor:pointer;font:600 16px var(--display)}
+.pilot-summary .terms{margin-top:10px}
+.pilot-summary .trap{margin-top:12px}
+.pilot-foot{margin-top:4px}
+.pilot-foot a{color:var(--accent-ink)}
+.lesson-switch{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px;border:1px solid var(--accent);border-radius:var(--r-sm);background:var(--accent-soft);font-size:15px}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@media (max-width:1100px){
+  .pilot-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:"card" "practice" "note" "nav"}
+}
+@media (max-width:860px){
+  body.wide-lesson .study-lessons{grid-template-columns:minmax(0,1fr);gap:14px}
+}
+@media (max-width:620px){
+  .facet-tabs{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .facet-tabs button{min-height:92px;padding:12px 4px;font-size:13px;gap:6px;overflow-wrap:anywhere}
+  .facet-tabs button svg{width:30px;height:30px}
+  .model-tabs button{font-size:14px;padding:9px 2px}
+  .layers-wrap{grid-template-columns:minmax(0,1fr)}
+  .layer-stack button{margin-inline:calc(var(--i) * 4px)}
+  .pilot-sr th.other,.pilot-sr td.other{display:none}
+  .pilot-sr{min-width:0}
+  .pilot-note{grid-template-columns:minmax(0,1fr);padding:16px}
+  .pn-icon{display:none}
+  .pn-actions{flex-direction:row;align-items:center;justify-content:flex-start}
+  .pn-msg{grid-column:1}
+  .pilot-nav .btn.lg{padding:12px 14px;font-size:15px}
+  .pilot-steps .t{display:none}
+  .pilot-steps button{padding:5px}
+  .pilot-steps button.on .t{display:inline}
+  .pilot-steps button.on{padding-right:12px}
+}
+@media (prefers-reduced-motion:reduce){.pilot-card,.pilot-panel{animation:none}}
+
 </style>
 <script>
 // Theme choice (Light / Dark / System). Applied before the page draws to avoid a flash.
@@ -996,26 +1110,27 @@ body.campaign-mode{--mark:url("assets/brand/mark-dark-96.png");--accent:#3CC4BB;
   </footer>
 </div>
 
-<script src="data.js?v=2.2.1"></script>
-<script src="data-extra.js?v=2.2.1"></script>
-<script src="data-pack2.js?v=2.2.1"></script>
-<script src="data-pack3.js?v=2.2.1"></script>
-<script src="data-pack4-sc.js?v=2.2.1"></script>
-<script src="data-pack5-net.js?v=2.2.1"></script>
-<script src="data-acronyms.js?v=2.2.1"></script>
-<script src="data-patchnotes.js?v=2.2.1"></script>
-<script src="data-bosses.js?v=2.2.1"></script>
+<script src="data.js?v=2.2.2"></script>
+<script src="data-extra.js?v=2.2.2"></script>
+<script src="data-pack2.js?v=2.2.2"></script>
+<script src="data-pack3.js?v=2.2.2"></script>
+<script src="data-pack4-sc.js?v=2.2.2"></script>
+<script src="data-pack5-net.js?v=2.2.2"></script>
+<script src="data-acronyms.js?v=2.2.2"></script>
+<script src="data-patchnotes.js?v=2.2.2"></script>
+<script src="data-bosses.js?v=2.2.2"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=2.2.1"></script>
-<script src="data-campaign-flags.js?v=2.2.1"></script>
-<script src="data-campaign-endings.js?v=2.2.1"></script>
-<script src="data-fixes-01.js?v=2.2.1"></script>
-<script src="data-fixes-02.js?v=2.2.1"></script>
-<script src="data-fixes-03.js?v=2.2.1"></script>
-<script src="data-cn-sc.js?v=2.2.1"></script>
-<script src="data-cn-compare.js?v=2.2.1"></script>
-<script src="data-cn-sc-scenarios.js?v=2.2.1"></script>
-<script src="examhelp-effects.js?v=2.2.1"></script>
+<script src="data-daymissions.js?v=2.2.2"></script>
+<script src="data-campaign-flags.js?v=2.2.2"></script>
+<script src="data-campaign-endings.js?v=2.2.2"></script>
+<script src="data-fixes-01.js?v=2.2.2"></script>
+<script src="data-fixes-02.js?v=2.2.2"></script>
+<script src="data-fixes-03.js?v=2.2.2"></script>
+<script src="data-lessons.js?v=2.2.2"></script>
+<script src="data-cn-sc.js?v=2.2.2"></script>
+<script src="data-cn-compare.js?v=2.2.2"></script>
+<script src="data-cn-sc-scenarios.js?v=2.2.2"></script>
+<script src="examhelp-effects.js?v=2.2.2"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -1178,8 +1293,8 @@ let ui={tab:"home",studyTab:"plan",sel:null,quiz:{scope:"today",mode:rulesFor(st
         acr:{track:"both",dom:"All",n:20,timed:true},
         mock:{track:"sc"},
         cn:{view:"notes",deck:null,dir:"both",flashN:10,flashDeck:null,q:"",type:"all",sel:{},msg:null,focus:null,editNote:null,flashSetup:false}};
-try{const u=JSON.parse(localStorage.getItem(LS+".ui")||"null"); if(u){ui.tab=u.tab||ui.tab; Object.assign(ui.quiz,u.quiz||{}); if(u.acr) Object.assign(ui.acr,u.acr); if(u.cn) ["view","deck","dir","flashN"].forEach(k=>{ if(u.cn[k]!=null) ui.cn[k]=u.cn[k]; });}}catch(e){}
-function saveUI(){try{localStorage.setItem(LS+".ui",JSON.stringify({tab:ui.tab,quiz:ui.quiz,acr:ui.acr,cn:{view:ui.cn.view,deck:ui.cn.deck,dir:ui.cn.dir,flashN:ui.cn.flashN}}));}catch(e){}}
+try{const u=JSON.parse(localStorage.getItem(LS+".ui")||"null"); if(u){ui.tab=u.tab||ui.tab; Object.assign(ui.quiz,u.quiz||{}); if(u.acr) Object.assign(ui.acr,u.acr); if(u.cn) ["view","deck","dir","flashN"].forEach(k=>{ if(u.cn[k]!=null) ui.cn[k]=u.cn[k]; }); if(u.pilot&&typeof u.pilot==="object") ui.pilot=u.pilot; if(Number.isInteger(u.sel)) ui.sel=u.sel;}}catch(e){}
+function saveUI(){try{localStorage.setItem(LS+".ui",JSON.stringify({tab:ui.tab,quiz:ui.quiz,acr:ui.acr,cn:{view:ui.cn.view,deck:ui.cn.deck,dir:ui.cn.dir,flashN:ui.cn.flashN},pilot:ui.pilot||{},sel:ui.sel}));}catch(e){}}
 
 let progWriting=Promise.resolve();
 function saveProgress(){
@@ -2916,7 +3031,7 @@ function renderPlan(){
         const locked=d.d>current, done=!!state.done[d.d], isCur=d.d===current;
         return h("li",{},h("button",{class:"lvl "+d.track+(d.d===ui.sel?" sel":"")+(done?" done":"")+(isCur?" current":""),"aria-current":d.d===ui.sel?"true":null,disabled:locked?true:null,
           title:locked?"Finish Level "+disp[current]+" to unlock":null,
-          onclick:()=>{ ui.sel=d.d; ui.lvlOpen=false; render(); const a=document.querySelector(".lesson"); if(a&&window.innerWidth<=860) a.scrollIntoView({block:"start"}); const t=document.querySelector(".lesson h1"); if(t) t.focus({preventScroll:true}); }},
+          onclick:()=>{ ui.sel=d.d; ui.lvlOpen=false; render(); const a=document.querySelector(".lesson,.pilot"); if(a&&window.innerWidth<=860) a.scrollIntoView({block:"start"}); const t=document.querySelector(".lesson h1,.pilot h1"); if(t) t.focus({preventScroll:true}); }},
           h("span",{class:"lvl-n"},disp[d.d]),
           h("span",{class:"lvl-t"},d.kind?d.title:shortTitle(d.title)),
           h("span",{class:"lvl-s"},done?[svgIcon("check"),"Done"]:isCur?"Current":locked?[svgIcon("lock"),h("span",{class:"sr-only"},"Locked")]:"")));
@@ -2999,19 +3114,177 @@ function svgTriangle(){
   return s;
 }
 
-function lessonPanel(d){
-  const date=fmtD(dayDate(d.d)), dd=displayDay(d.d);
-  const kids=[h("div",{class:"lesson-head"},
-    h("div",{class:"row",style:"gap:8px"},h("span",{class:"tag "+d.track},TRACK[d.track]),h("span",{class:"meta"},"Level "+dd+" · "+date+(d.dom?" · "+d.dom.replace(/^\d /,""):"")+(d.min?" · about "+d.min+" min":""))),
-    h("h1",{tabindex:"-1"},d.kind?d.title:shortTitle(d.title)),
-    !d.kind&&topicsOf(d.title)?h("p",{class:"hero-sub"},topicsOf(d.title)):null)];
-  kids.push(h("div",{class:"kp"},d.pts.map(p=>{const [a,b]=p.split("|"), vis=LESSON_VISUALS[d.d]&&LESSON_VISUALS[d.d][a];return h("section",{class:"kp-item"},h("h3",{},a),h("p",{},b),vis?lessonVisual(vis):null);})));
-  if(d.terms) kids.push(h("section",{},h("h2",{},d.d===31?"Ports to lock in":"Terms to lock in"),h("dl",{class:"terms"},d.terms.map(([a,b])=>h("div",{},h("dt",{},a),h("dd",{},b))))));
-  if(d.trap) kids.push(h("aside",{class:"trap"},h("p",{class:"trap-label"},"Exam trap"),h("p",{},d.trap)));
-  const cs=(CN.byDay[d.d]||[]).filter(cnInProgram);
-  if(cs.length) kids.push(h("section",{class:"quickrev"},
-    h("p",{},h("b",{},"Quick review: "),cs.length+" Pocket Notes and "+cs.reduce((n,c)=>n+c.cards.length,0)+" flashcards for this level."),
-    h("div",{class:"actions"},h("button",{class:"btn small",onclick:()=>{ui.cn.view="notes";ui.cn.deck=d.d;goTab("cards");}},"Pocket Notes"),h("button",{class:"btn small",onclick:()=>{ui.cn.flashSetup=false;startFlash("d"+d.d,999);}},"Flashcards"))));
+// ---------- 2.2.2: interactive lesson (pilot: Level 1) ----------
+// Content lives in data-lessons.js (window.LESSON_PILOTS). This renders it. Guided practice is
+// kept in memory only: it never creates attempts, review entries or XP, and never affects unlocks.
+const LESSON_PILOTS=window.LESSON_PILOTS||{};
+const pilotFor=d=>LESSON_PILOTS[d]&&!ui.classicLesson?LESSON_PILOTS[d]:null;
+function pilotState(day){
+  ui.pilot=ui.pilot&&typeof ui.pilot==="object"?ui.pilot:{};
+  const s=ui.pilot[day]||(ui.pilot[day]={sec:0,pick:{}});
+  if(!s.pick||typeof s.pick!=="object") s.pick={};
+  return s;
+}
+let pilotAns={};   // guided practice answers: {day:{secId:optionIndex}}, memory only
+const pilotOrder={};   // per session, per section: shuffled option order
+function lessonIcon(name){
+  const NS="http://www.w3.org/2000/svg", s=document.createElementNS(NS,"svg");
+  s.setAttribute("viewBox","0 0 24 24"); s.setAttribute("aria-hidden","true"); s.setAttribute("fill","none"); s.setAttribute("stroke","currentColor"); s.setAttribute("stroke-width","1.8"); s.setAttribute("stroke-linecap","round"); s.setAttribute("stroke-linejoin","round");
+  const P={
+    eyeoff:["M3 3l18 18","M10.6 6.1A10 10 0 0 1 12 6c5 0 9 4.5 10 6-.5.8-1.6 2.2-3.2 3.5","M6.6 7.6C4.7 8.9 3.3 10.6 2 12c1 1.5 5 6 10 6 1.7 0 3.2-.5 4.5-1.2","M9.9 9.9a3 3 0 0 0 4.2 4.2"],
+    shield:["M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z","M9 12l2 2 4-4"],
+    cycle:["M20 12a8 8 0 0 1-14 5.3","M4 12a8 8 0 0 1 14-5.3","M18 3v4h-4","M6 21v-4h4"],
+    usercheck:["M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z","M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5","M16 11l2 2 4-4"],
+    key:["M7.5 19a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z","M10 13.5l9-9","M16 7.5l2 2","M18.5 5l2 2"],
+    breach:["M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z","M12.5 7.5l-2 4.5h3l-2 4.5"],
+    note:["M7 3h7l4 4v14H7z","M14 3v4h4","M10 12h5","M10 16h5"],
+    arrow:["M5 12h14","M13 6l6 6-6 6"],
+    back:["M19 12H5","M11 6l-6 6 6 6"]
+  }[name]||[];
+  P.forEach(d=>{ const p=document.createElementNS(NS,"path"); p.setAttribute("d",d); s.appendChild(p); });
+  return s;
+}
+function workplaceArt(){
+  // Decorative: a document and a person, in brand colors.
+  const NS="http://www.w3.org/2000/svg", s=document.createElementNS(NS,"svg");
+  s.setAttribute("viewBox","0 0 320 140"); s.setAttribute("aria-hidden","true"); s.setAttribute("class","pp-art");
+  s.innerHTML='<rect x="0" y="0" width="320" height="140" rx="12" fill="rgba(255,255,255,.05)"/>'
+    +'<path d="M250 0h70v70z" fill="rgba(255,255,255,.04)"/>'
+    +'<g transform="rotate(-6 150 80)"><rect x="96" y="22" width="112" height="128" rx="6" fill="#C9D6E4"/><rect x="104" y="14" width="112" height="128" rx="6" fill="#F5F2EC"/>'
+    +'<rect x="116" y="30" width="72" height="7" rx="3" fill="#2FB3AA"/>'
+    +'<g fill="#B8C4D2"><rect x="116" y="48" width="58" height="5" rx="2"/><rect x="182" y="48" width="20" height="5" rx="2"/><rect x="116" y="62" width="64" height="5" rx="2"/><rect x="186" y="62" width="16" height="5" rx="2"/><rect x="116" y="76" width="52" height="5" rx="2"/><rect x="182" y="76" width="20" height="5" rx="2"/><rect x="116" y="90" width="60" height="5" rx="2"/><rect x="186" y="90" width="16" height="5" rx="2"/><rect x="116" y="104" width="70" height="5" rx="2"/></g></g>'
+    +'<circle cx="236" cy="92" r="30" fill="#DCEAF5" stroke="#0F2340" stroke-width="3"/><circle cx="236" cy="84" r="9" fill="#0F2340"/><path d="M219 106c3-9 10-13 17-13s14 4 17 13" fill="#0F2340"/>';
+  return s;
+}
+function pilotGo(day,i){ const st=pilotState(day); st.sec=i; saveUI(); render(); const h1=document.querySelector(".pilot-card h2,.pilot-check h2"); if(h1){ h1.setAttribute("tabindex","-1"); h1.focus({preventScroll:true}); h1.scrollIntoView({block:"nearest",behavior:reducedMotion()?"auto":"smooth"}); } }
+function pilotPick(day,secId,key){ const st=pilotState(day); st.pick[secId]=key; saveUI(); render(); const t=document.querySelector('[data-psec="'+secId+'"][data-pkey="'+key+'"]'); if(t) t.focus(); }
+
+function renderLessonPilot(d,L){
+  const st=pilotState(d.d), secs=L.sections, i=Math.min(Math.max(0,st.sec|0),secs.length-1), sec=secs[i], next=secs[i+1], prev=secs[i-1];
+  const head=h("div",{class:"pilot-head"},
+    h("p",{class:"meta crumbs"},TRACK[d.track]," / ",d.dom||""," · Level "+displayDay(d.d)),
+    h("h1",{tabindex:"-1"},shortTitle(d.title)),
+    h("p",{class:"hero-sub"},L.subtitle),
+    h("nav",{class:"pilot-steps","aria-label":"Lesson sections"},h("ol",{},secs.map((s,j)=>h("li",{},
+      h("button",{class:(j===i?"on":"")+(j<i?" past":""),"aria-current":j===i?"step":null,onclick:()=>pilotGo(d.d,j)},h("span",{class:"n"},j+1),h("span",{class:"t"},s.title)))))));
+  let body;
+  if(sec.type==="check") body=pilotCheck(d,L,sec);
+  else body=h("div",{class:"pilot-grid"},
+    pilotCard(d,sec),
+    pilotPractice(d,sec),
+    pilotNote(sec),
+    h("div",{class:"pilot-nav"},
+      prev?h("button",{class:"btn ghost",onclick:()=>pilotGo(d.d,i-1)},lessonIcon("back"),"Back"):h("span"),
+      next?h("button",{class:"btn primary lg",onclick:()=>pilotGo(d.d,i+1)},"Next: "+next.title,lessonIcon("arrow")):null));
+  return h("article",{class:"pilot","aria-label":shortTitle(d.title)+" lesson"},head,body,
+    h("p",{class:"meta pilot-foot"},"Content checked against ",h("a",{href:L.src[0],target:"_blank",rel:"noopener"},"Microsoft Learn")," on "+L.reviewed+". ",
+      h("button",{class:"linklike",onclick:()=>{ui.classicLesson=true;render();}},"Switch to the classic lesson view")));
+}
+function pilotTabs(day,secId,items,cur,cls){
+  return h("div",{class:cls,role:"tablist","aria-label":"Choose one"},items.map(x=>h("button",{role:"tab",id:"pt-"+secId+"-"+x.id,"aria-selected":String(x.id===cur),"aria-controls":"pp-"+secId,tabindex:x.id===cur?"0":"-1",
+    "data-psec":secId,"data-pkey":x.id,"data-pday":day,onclick:()=>pilotPick(day,secId,x.id)},x.icon?lessonIcon(x.icon):null,h("span",{},x.name))));
+}
+function pilotCard(d,sec){
+  const st=pilotState(d.d);
+  const kids=[h("h2",{},sec.title),h("p",{class:"pilot-lead"},sec.lead)];
+  if(sec.type==="facets"){
+    const cur=(sec.facets.find(f=>f.id===st.pick[sec.id])||sec.facets[0]);
+    kids.push(pilotTabs(d.d,sec.id,sec.facets,cur.id,"facet-tabs"),
+      h("div",{class:"pilot-panel",role:"tabpanel",id:"pp-"+sec.id,"aria-labelledby":"pt-"+sec.id+"-"+cur.id},
+        h("p",{class:"say"},cur.say),
+        h("h3",{},"Example in the workplace"),h("p",{class:"ex"},cur.example),
+        cur.tags&&cur.tags.length?h("ul",{class:"tagrow","aria-label":"Related controls"},cur.tags.map(t=>h("li",{},t))):null));
+  } else if(sec.type==="models"){
+    const cur=(sec.models.find(m=>m.id===st.pick[sec.id])||sec.models[1]), ci=sec.models.indexOf(cur);
+    kids.push(pilotTabs(d.d,sec.id,sec.models,cur.id,"model-tabs"),
+      h("div",{class:"pilot-panel",role:"tabpanel",id:"pp-"+sec.id,"aria-labelledby":"pt-"+sec.id+"-"+cur.id},
+        h("p",{class:"say"},cur.say),
+        h("h3",{},"Example in the workplace"),h("p",{class:"ex"},cur.example),
+        h("div",{class:"tablebox"},h("table",{class:"sr-table pilot-sr"},
+          h("caption",{class:"sr-only"},"Who secures each layer"),
+          h("thead",{},h("tr",{},h("th",{scope:"col"},"Layer"),sec.models.map((m,j)=>h("th",{scope:"col",class:j===ci?"cur":"other"},m.name)))),
+          h("tbody",{},sec.rows.map(([name,...v],r)=>h("tr",{class:r===3?"sr-split":null},h("th",{scope:"row"},name),v.map((x,j)=>h("td",{class:(x==="you"?"you":"prov")+(j===ci?" cur":" other")},x==="you"?(j===2&&name==="Applications"?"Your code":"You"):"Provider"))))))),
+        h("p",{class:"meta"},sec.rowsNote)));
+  } else if(sec.type==="layers"){
+    const cur=(sec.layers.find(l=>l.id===st.pick[sec.id])||sec.layers[sec.layers.length-1]);
+    kids.push(h("div",{class:"layers-wrap"},
+      h("div",{class:"layer-stack",role:"tablist","aria-orientation":"vertical","aria-label":"Layers, outermost first"},sec.layers.map((l,j)=>h("button",{role:"tab",id:"pt-"+sec.id+"-"+l.id,"aria-selected":String(l.id===cur.id),"aria-controls":"pp-"+sec.id,tabindex:l.id===cur.id?"0":"-1",
+        "data-psec":sec.id,"data-pkey":l.id,"data-pday":d.d,style:"--i:"+j,onclick:()=>pilotPick(d.d,sec.id,l.id)},h("span",{class:"ln"},j+1),h("span",{},l.name)))),
+      h("div",{class:"pilot-panel",role:"tabpanel",id:"pp-"+sec.id,"aria-labelledby":"pt-"+sec.id+"-"+cur.id},
+        h("p",{class:"say"},h("b",{},cur.name+". "),cur.say),
+        h("h3",{},"Example in the workplace"),h("p",{class:"ex"},cur.example))));
+  }
+  if(sec.careers&&sec.careers.length) kids.push(h("details",{class:"careers"},h("summary",{},"Where this skill is used"),
+    h("ul",{},sec.careers.map(c=>h("li",{},c.text," ",h("a",{href:c.src,target:"_blank",rel:"noopener"},"Source"))))));
+  return h("section",{class:"pilot-card","aria-labelledby":"ph-"+sec.id},Object.assign(kids[0],{id:"ph-"+sec.id}),...kids.slice(1));
+}
+function pilotPractice(d,sec){
+  const P=sec.practice; if(!P) return null;
+  const key=d.d+"|"+sec.id, ord=pilotOrder[key]||(pilotOrder[key]=shuffle(P.o.map((_,j)=>j)));
+  const ans=(pilotAns[d.d]||{})[sec.id];
+  const fb=ans!=null?P.o[ans]:null;
+  return h("aside",{class:"pilot-practice","aria-labelledby":"pq-"+sec.id},
+    h("p",{class:"pp-kicker"},"Guided practice"),
+    h("h2",{},"In the workplace"),
+    workplaceArt(),
+    h("p",{class:"pp-s"},P.s),
+    h("h3",{id:"pq-"+sec.id},P.q),
+    h("div",{class:"pp-opts",role:"group","aria-labelledby":"pq-"+sec.id},ord.map(j=>{ const o=P.o[j], picked=ans===j;
+      return h("button",{class:"pp-opt"+(picked?(o[1]?" right":" wrong"):""),"aria-pressed":String(picked),onclick:()=>{ (pilotAns[d.d]=pilotAns[d.d]||{})[sec.id]=j; render(); const f=document.querySelector(".pp-fb"); if(f) f.focus({preventScroll:true}); }},
+        h("span",{},o[0]),picked?h("span",{class:"pp-mark"},o[1]?svgIcon("check"):svgIcon("x"),h("span",{class:"sr-only"},o[1]?"correct":"not correct")):null); })),
+    h("div",{class:"pp-fb"+(fb?(fb[1]?" right":" wrong"):""),role:"status","aria-live":"polite",tabindex:"-1"},fb?[h("b",{},fb[1]?"Correct. ":"Not quite. "),fb[2].replace(/^Right\. /,"")]:""),
+    fb&&!fb[1]?h("p",{class:"pp-hint"},"Pick another answer to see why it fits or doesn't."):null,
+    h("p",{class:"pp-note"},"Practice with the lesson in view. It doesn't count toward your score or readiness."));
+}
+function pilotNote(sec){
+  const c=CN.C[sec.concept]; if(!c) return null;
+  return h("section",{class:"pilot-note","aria-label":"Pocket Note"},
+    h("span",{class:"pn-icon"},lessonIcon("note")),
+    h("div",{class:"pn-body"},h("h3",{},"Pocket Note: ",c.title),h("ul",{},c.lines.map(l=>h("li",{},l))),c.clue?h("p",{class:"meta"},h("b",{},"Exam clue: "),c.clue):null),
+    h("div",{class:"pn-actions"},
+      h("button",{class:"btn"+(isSaved(c.id)?" saved":""),"aria-pressed":String(isSaved(c.id)),onclick:()=>{ toggleSave(c.id); if(ui.cn.msg){ ui.cn.msg.id=c.id; render(); } }},isSaved(c.id)?"★ Saved":"Save note"),
+      h("button",{class:"btn ghost small",onclick:()=>openConcept(c.id)},"Open in Notes & cards")),
+    h("p",{class:"pn-msg",role:"status","aria-live":"polite"},ui.cn.msg&&ui.cn.msg.tab===ui.tab&&ui.cn.msg.id===c.id?ui.cn.msg.text:""));
+}
+function pilotCheckKeys(day){
+  const hist=qHistory(), pool=CN.scenarios.filter(x=>x.day===day&&Q[x.id]);
+  const groups={}; pool.forEach(x=>{ const g=x.id.split(".").slice(0,3).join("."); (groups[g]=groups[g]||[]).push(x.id); });
+  const fresh=ids=>shuffle(ids).sort((a,b)=>(hist[a]?1:0)-(hist[b]?1:0));
+  const picked=Object.values(groups).map(ids=>fresh(ids)[0]);
+  const rest=fresh(pool.map(x=>x.id).filter(id=>!picked.includes(id)));
+  return shuffle(picked.concat(rest.slice(0,Math.max(0,4-picked.length))));
+}
+function pilotCheck(d,L,sec){
+  const scope="lesson-check-"+d.d, prior=attempts.filter(a=>a.scopeId===scope&&!a.early).sort((a,b)=>b.ts-a.ts)[0];
+  const n=Math.min(4,CN.scenarios.filter(x=>x.day===d.d&&Q[x.id]).length);
+  return h("div",{class:"pilot-check"},
+    h("section",{class:"pilot-card"},
+      h("h2",{},sec.title),h("p",{class:"pilot-lead"},sec.lead),
+      h("p",{},"The lesson text and Pocket Notes stay hidden while you answer. You'll get the explanations afterward."),
+      prior?h("p",{class:"meta"},"Last check: "+prior.score+" of "+prior.n+" on "+fmtD(new Date(prior.ts))+"."):null,
+      h("div",{class:"actions"},n?h("button",{class:"btn primary lg",onclick:()=>startQuiz({id:scope,label:shortTitle(d.title)+" check",keys:pilotCheckKeys(d.d)},"think",n)},"Start the check ("+n+" scenarios)"):null,
+        h("button",{class:"btn ghost",onclick:()=>pilotGo(d.d,0)},"Review the lesson first"))),
+    levelQuizSection(d,"Level quizzes"),
+    (d.terms||d.trap)?h("details",{class:"pilot-summary"},h("summary",{},"Lesson summary: terms and exam trap"),
+      d.terms?h("dl",{class:"terms"},d.terms.map(([a,b])=>h("div",{},h("dt",{},a),h("dd",{},b)))):null,
+      d.trap?h("aside",{class:"trap"},h("p",{class:"trap-label"},"Exam trap"),h("p",{},d.trap)):null):null);
+}
+// Arrow keys move between options in a tablist (facets, models, layers).
+document.addEventListener("keydown",e=>{
+  const t=e.target; if(!t||!t.dataset||!t.dataset.psec) return;
+  const list=[...t.parentElement.querySelectorAll("[data-psec]")], i=list.indexOf(t); if(i<0) return;
+  const vert=t.parentElement.getAttribute("aria-orientation")==="vertical";
+  const nextK=vert?"ArrowDown":"ArrowRight", prevK=vert?"ArrowUp":"ArrowLeft";
+  let j=null;
+  if(e.key===nextK||(!vert&&e.key==="ArrowDown")) j=(i+1)%list.length;
+  else if(e.key===prevK||(!vert&&e.key==="ArrowUp")) j=(i-1+list.length)%list.length;
+  else if(e.key==="Home") j=0; else if(e.key==="End") j=list.length-1;
+  if(j==null) return;
+  e.preventDefault(); const b=list[j]; pilotPick(+b.dataset.pday,b.dataset.psec,b.dataset.pkey);
+});
+
+function levelQuizSection(d,heading){
+  const dd=displayDay(d.d);
   let scope;
   if(d.kind==="review") scope={id:"day-"+d.d,label:"Level "+dd+" review",keys:keysFor(d.from)};
   else if(d.kind==="exam") scope={id:"day-"+d.d,label:TRACK[d.track]+" warmup",keys:keysFor(allTrackDays(d.track))};
@@ -3021,11 +3294,28 @@ function lessonPanel(d){
   const done=!!state.done[d.d], modesDone=modesCompleted(scope.id);
   const requiredModes=forceWritten?["written"]:["think","blitz","written"];
   const remaining=requiredModes.length-requiredModes.filter(m=>modesDone.has(m)).length;
-  kids.push(h("section",{class:"check"},h("h2",{},"Check yourself"),
+  return h("section",{class:"check"},h("h2",{},heading||"Check yourself"),
     h("p",{class:"meta"},n+" questions, shuffled. "+(done?"Level complete.":"Finish "+(forceWritten?"the Written quiz":"all three modes")+" to unlock the next level"+(remaining>0&&!forceWritten?" ("+remaining+" left).":"."))),
     h("div",{class:"actions"},quizBtns(scope,n,forceWritten)),
     forceWritten?h("p",{class:"muted",style:"margin:6px 0 0;font-size:13px"},"Shadow IT tier and up: review levels are Written only, no multiple choice."):null,
-    done&&d.d<unlockedDay()?h("div",{class:"actions",style:"margin-top:12px"},h("button",{class:"btn",onclick:()=>{ui.sel=d.d+1;render();window.scrollTo(0,0);}},"Next level")):null));
+    done&&d.d<unlockedDay()?h("div",{class:"actions",style:"margin-top:12px"},h("button",{class:"btn",onclick:()=>{ui.sel=d.d+1;render();window.scrollTo(0,0);}},"Next level")):null);
+}
+function lessonPanel(d){
+  const pilot=pilotFor(d.d); if(pilot) return renderLessonPilot(d,pilot);
+  const date=fmtD(dayDate(d.d)), dd=displayDay(d.d);
+  const kids=[h("div",{class:"lesson-head"},
+    h("div",{class:"row",style:"gap:8px"},h("span",{class:"tag "+d.track},TRACK[d.track]),h("span",{class:"meta"},"Level "+dd+" · "+date+(d.dom?" · "+d.dom.replace(/^\d /,""):"")+(d.min?" · about "+d.min+" min":""))),
+    h("h1",{tabindex:"-1"},d.kind?d.title:shortTitle(d.title)),
+    !d.kind&&topicsOf(d.title)?h("p",{class:"hero-sub"},topicsOf(d.title)):null)];
+  if(LESSON_PILOTS[d.d]) kids.splice(1,0,h("p",{class:"lesson-switch"},h("span",{},"This lesson has a new interactive version."),h("button",{class:"btn small primary",onclick:()=>{ui.classicLesson=false;render();}},"Open the interactive lesson")));
+  kids.push(h("div",{class:"kp"},d.pts.map(p=>{const [a,b]=p.split("|"), vis=LESSON_VISUALS[d.d]&&LESSON_VISUALS[d.d][a];return h("section",{class:"kp-item"},h("h3",{},a),h("p",{},b),vis?lessonVisual(vis):null);})));
+  if(d.terms) kids.push(h("section",{},h("h2",{},d.d===31?"Ports to lock in":"Terms to lock in"),h("dl",{class:"terms"},d.terms.map(([a,b])=>h("div",{},h("dt",{},a),h("dd",{},b))))));
+  if(d.trap) kids.push(h("aside",{class:"trap"},h("p",{class:"trap-label"},"Exam trap"),h("p",{},d.trap)));
+  const cs=(CN.byDay[d.d]||[]).filter(cnInProgram);
+  if(cs.length) kids.push(h("section",{class:"quickrev"},
+    h("p",{},h("b",{},"Quick review: "),cs.length+" Pocket Notes and "+cs.reduce((n,c)=>n+c.cards.length,0)+" flashcards for this level."),
+    h("div",{class:"actions"},h("button",{class:"btn small",onclick:()=>{ui.cn.view="notes";ui.cn.deck=d.d;goTab("cards");}},"Pocket Notes"),h("button",{class:"btn small",onclick:()=>{ui.cn.flashSetup=false;startFlash("d"+d.d,999);}},"Flashcards"))));
+  kids.push(levelQuizSection(d));
   if(d.track==="sc"&&!d.kind) kids.push(h("p",{class:"meta"},"Pair it with the matching Microsoft Learn module (linked at the bottom of the page), about 30 minutes."));
   if(d.track==="sec"&&!d.kind) kids.push(h("p",{class:"meta"},"Pair it with the matching Professor Messer videos for "+d.dom.replace(/^\d /,"Domain "+d.dom[0]+": ")+", about 30–45 minutes at 1.25×."));
   return h("article",{class:"panel lesson"},kids);
@@ -4138,6 +4428,7 @@ function renderCore(){
   if(ui.tab==="acr"){ ui.tab="quiz"; if(ui.quiz.mode!=="acronym"){ ui.lastMode=ui.quiz.mode; ui.quiz.mode="acronym"; } }
   const main=ui.tab==="home"?renderHome():ui.tab==="plan"?renderPlan():ui.tab==="cards"?renderCN():ui.tab==="quiz"?renderQuizTab():ui.tab==="stats"?renderStats():ui.tab==="game"?renderGame():ui.tab==="pbq"?renderPBQ():ui.tab==="lab"?renderLab():ui.tab==="mock"?renderMock():renderCampaign();
   v.replaceChildren(ui.tab==="home"&&renameNotice()||"",STUDY_TABS.includes(ui.tab)?h("div",{style:"display:flex;flex-direction:column;gap:16px"},renderStudyNav(),main):main);
+  document.body.classList.toggle("wide-lesson",!!v.querySelector(".pilot"));
   if(run&&!run.finished&&run.timedMs&&!run.answered&&!tick&&ui.tab==="quiz") startTimer();
 }
 if(["#home","#quiz","#stats","#plan","#cards"].includes(location.hash)) ui.tab=location.hash.slice(1);

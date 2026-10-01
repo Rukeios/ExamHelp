@@ -3,6 +3,17 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.2.2", date:"2026-10-01", title:"Interactive lesson pilot: Security basics", tag:"feature", items:[
+  "Level 1, Security basics, is now an interactive lesson in five steps: the CIA triad, shared responsibility, defense in depth, Zero Trust, and a final check.",
+  "Each step lets you pick what to look at (Confidentiality, Integrity or Availability; on-premises, IaaS, PaaS or SaaS; a defense layer; a Zero Trust principle) and shows a short explanation and a workplace example. Arrow keys move between the options.",
+  "Guided practice sits beside each step: a workplace situation with feedback on every answer. Because the lesson is on screen, these answers are practice only. They aren't saved as scores and don't count toward readiness or unlocking the next level.",
+  "The final step is an independent check: the lesson is hidden and you answer different scenarios, which count as normal scored practice.",
+  "Each step has its Pocket Note with a Save button. Saved notes go to your Field Guide as before. Your place in the lesson is remembered.",
+  "Unlocking the next level works exactly as before: all three quiz modes for the level.",
+  "Prefer the old layout? Use \"Switch to the classic lesson view\" at the bottom of the lesson. Other lessons keep the current layout while this pilot is reviewed."
+]},
+
+
 { v:"2.2.1", date:"2026-10-01", title:"Tighter Arena, lesson visuals", tag:"fix", items:[
   "The rename notice is now a small dismissible line on Home only, instead of a wide strip on every screen.",
   "Arena: the challenge button sits right under the boss's name and status, so it's visible without scrolling on a typical laptop screen. The artwork is still large, just shorter.",
