@@ -3,13 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>CertificationNation · SC-900 and Security+ study</title>
+<title>Rukeios Study · Your certification field guide</title>
 <meta name="description" content="Free SC-900 and Security+ study: short notes, flashcards, workplace scenarios, practice quizzes and a campaign. Progress stays in your browser.">
-<meta property="og:title" content="CertificationNation">
+<meta property="og:title" content="Rukeios Study">
+<meta property="og:image" content="assets/brand/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0F2340">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/outfit-var.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="assets/fonts/plex-sans-var.woff" as="font" type="font/woff" crossorigin>
 <meta property="og:description" content="Free SC-900 and Security+ study: learn a short note, recall it, apply it at work, review it later.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
 :root{
   --bg:#CFE8F8;--surface:#FFFFFF;--sunk:#E3F1EE;--ink:#123B5B;--muted:#42677A;--line:#BED9D5;
@@ -567,6 +572,318 @@ kbd{font:500 11px var(--mono);border:1px solid var(--line);border-radius:3px;pad
   body.print-guide .print-only{display:block;font-size:22px;margin:0 0 12px}
 }
 
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* ==========================================================================
+   2.2 design system. Loaded last, so it sets the tokens and component styles
+   the earlier layers fall back to. Paper study surfaces; dark, art-led challenges.
+   ========================================================================== */
+@font-face{font-family:"Outfit";src:url("assets/fonts/outfit-var.woff") format("woff");font-weight:500 800;font-display:swap}
+@font-face{font-family:"IBM Plex Sans";src:url("assets/fonts/plex-sans-var.woff") format("woff");font-weight:400 700;font-style:normal;font-display:swap}
+@font-face{font-family:"IBM Plex Sans";src:url("assets/fonts/plex-sans-italic-var.woff") format("woff");font-weight:400 600;font-style:italic;font-display:swap}
+@font-face{font-family:"Barlow Condensed";src:url("assets/fonts/barlow-condensed-700.woff") format("woff");font-weight:600 800;font-display:swap}
+
+:root{
+  --bg:#F5F2EC;--surface:#FFFFFF;--sunk:#EDE9E1;--ink:#0F2340;--ink2:#2A3A52;--muted:#5B6676;--line:#DDD7CB;--line2:#E8E3D9;
+  --accent:#0A7C77;--accent-ink:#086B66;--accent-fill:#0C9B96;--accent-soft:#DCEFEC;--on-accent:#FFFFFF;
+  --sc:#2E5AA8;--scbg:#E4EBF7;--sec:#94570F;--secbg:#F4E8D8;
+  --gold:var(--accent);--violet:#2E5AA8;
+  --ok:#1B7347;--okbg:#E1F0E6;--bad:#B3261E;--badbg:#F7E2DF;
+  --display:"Outfit","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --ops:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --r-lg:16px;--r-md:12px;--r-sm:8px;
+  --lift:0 1px 2px rgba(15,35,64,.05),0 10px 28px -12px rgba(15,35,64,.16);
+  --mark:url("assets/brand/mark-light-96.png");
+  --enc-bg:#0B111B;--enc-ink:#ECEFF3;--enc-muted:#9DA9B8;--enc-line:rgba(255,255,255,.14);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme:dark;--bg:#0B1524;--surface:#122036;--sunk:#0F1B2E;--ink:#EAF0F6;--ink2:#CCD6E2;--muted:#9BABBE;--line:#26364D;--line2:#1C2B40;
+  --accent:#3CC4BB;--accent-ink:#62D4CC;--accent-fill:#2FB3AA;--accent-soft:#103538;--on-accent:#06201F;
+  --sc:#89AAEA;--scbg:#182A47;--sec:#E2A65E;--secbg:#33261A;--violet:#89AAEA;
+  --ok:#5CC48A;--okbg:#12301F;--bad:#F08A80;--badbg:#3A1C1A;
+  --lift:0 1px 2px rgba(0,0,0,.3),0 12px 30px -14px rgba(0,0,0,.6);--mark:url("assets/brand/mark-dark-96.png");}}
+:root[data-theme="dark"]{
+  color-scheme:dark;--bg:#0B1524;--surface:#122036;--sunk:#0F1B2E;--ink:#EAF0F6;--ink2:#CCD6E2;--muted:#9BABBE;--line:#26364D;--line2:#1C2B40;
+  --accent:#3CC4BB;--accent-ink:#62D4CC;--accent-fill:#2FB3AA;--accent-soft:#103538;--on-accent:#06201F;
+  --sc:#89AAEA;--scbg:#182A47;--sec:#E2A65E;--secbg:#33261A;--violet:#89AAEA;
+  --ok:#5CC48A;--okbg:#12301F;--bad:#F08A80;--badbg:#3A1C1A;
+  --lift:0 1px 2px rgba(0,0,0,.3),0 12px 30px -14px rgba(0,0,0,.6);--mark:url("assets/brand/mark-dark-96.png")}
+
+/* Study pages read on a solid page in dark mode; only the Arena keeps its scene art. */
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--scene:none;--veil:none}
+  :root:not([data-theme="light"]) .panel{background:var(--surface);backdrop-filter:none;-webkit-backdrop-filter:none}
+  :root:not([data-theme="light"]) body.scene-arena{--scene:url("assets/bg/bg-arena-960.webp")}}
+:root[data-theme="dark"]{--scene:none;--veil:none}
+:root[data-theme="dark"] .panel{background:var(--surface);backdrop-filter:none;-webkit-backdrop-filter:none}
+:root[data-theme="dark"] body.scene-arena{--scene:url("assets/bg/bg-arena-960.webp")}
+@media (prefers-color-scheme: dark) and (min-width:761px){:root:not([data-theme="light"]) body:not(.scene-arena):not(.campaign-mode){--scene:none}}
+@media (min-width:761px){:root[data-theme="dark"] body:not(.scene-arena):not(.campaign-mode){--scene:none}}
+@media (prefers-color-scheme: dark) and (max-width:480px){:root:not([data-theme="light"]) body:not(.scene-arena):not(.campaign-mode){--scene:none}}
+@media (max-width:480px){:root[data-theme="dark"] body:not(.scene-arena):not(.campaign-mode){--scene:none}}
+
+/* ---------- type roles ---------- */
+body{font:16px/1.6 var(--body);color:var(--ink);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-.01em;line-height:1.12;text-transform:none}
+h1{font-size:clamp(30px,4.6vw,44px)}
+h2{font-size:clamp(22px,2.6vw,28px)}
+h3{font-size:18px;font-weight:600;letter-spacing:0}
+.meta,.eyebrow{font:500 13px/1.4 var(--body);color:var(--muted);letter-spacing:.005em;text-transform:none;margin:0}
+.label{font:600 13px/1.3 var(--body);color:var(--muted);letter-spacing:.01em;margin:0}
+.wrap{max-width:1080px;gap:24px}
+
+/* ---------- controls ---------- */
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:var(--r-sm);padding:10px 16px;font:600 15px/1.2 var(--body);transition:border-color .12s,background-color .12s,transform .12s}
+.btn:hover{border-color:var(--ink)}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{background:var(--accent-ink);border-color:var(--accent-ink)}
+.btn.lg{padding:13px 22px;font-size:16px;border-radius:10px}
+.btn.small{padding:6px 11px;font-size:14px}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--accent-ink);padding-inline:8px}
+.btn.ghost:hover{border-color:transparent;text-decoration:underline}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btn[disabled]:active{transform:none}
+.seg button[aria-pressed="true"],.subnav button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip{font:600 12px/1.5 var(--body);border-radius:999px;padding:1px 8px}
+.tag{font:600 12px/1.5 var(--body)!important;letter-spacing:0!important;border-radius:999px!important;padding:2px 9px!important}
+.panel{border-radius:var(--r-md);border-color:var(--line);padding:24px}
+.opt .k,kbd{font-family:var(--body)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.linklike{color:var(--accent-ink)}
+
+/* ---------- header: brand + one progression display ---------- */
+.appbar{align-items:center}
+.brand{display:flex;align-items:center;gap:12px;flex-wrap:nowrap}
+.brand-mark{width:40px;height:40px;flex:0 0 auto;background:var(--mark) center/contain no-repeat}
+.brand-text{display:flex;flex-direction:column;gap:1px}
+.brand-name{font:700 25px/1 var(--display);letter-spacing:-.015em;color:var(--ink)}
+.brand-name .accent{color:var(--accent-fill)}
+.brand-sub{font:500 13px/1.2 var(--body);color:var(--muted)}
+.appbar-meta{gap:16px}
+.sync{font:500 12px var(--body)}
+.sync:not(.sync-bad){position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sync.sync-bad{position:static;background:var(--badbg);padding:4px 10px;border-radius:999px}
+.verbtn{font:500 13px var(--body)}
+.rank-badge{display:none!important}
+.progress-pill{display:flex;align-items:center;gap:12px;padding:8px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--line)}
+.pp-label{font:700 16px/1 var(--display);white-space:nowrap}
+.pp-bar{display:block;width:120px;height:6px;border-radius:99px;background:var(--sunk);overflow:hidden}
+.pp-bar i{display:block;height:100%;background:var(--accent-fill);border-radius:inherit;transition:width .4s}
+.pp-sub{font:500 13px var(--body);color:var(--muted);white-space:nowrap}
+.exams .exam{border-radius:999px;padding:6px 14px}
+nav.tabs button{font:600 16px/1 var(--display);letter-spacing:0;color:var(--muted)}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent-fill)}
+@media (max-width:560px){.brand-sub,.pp-sub{display:none}.pp-bar{width:64px}.brand-name{font-size:22px}.brand-mark{width:34px;height:34px}}
+
+header{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"brand status meta" "nav nav nav";align-items:center;gap:14px 20px}
+header .appbar{display:contents}
+header .brand{grid-area:brand}
+header .appbar-meta{grid-area:meta}
+header .statusline{grid-area:status;justify-content:flex-end;flex-wrap:nowrap}
+header .statusline .settings{margin-left:0}
+header nav.tabs{grid-area:nav}
+@media (max-width:760px){header{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"brand meta" "status status" "nav nav"}header .statusline{justify-content:space-between;flex-wrap:wrap}}
+/* ---------- study sub-navigation: grouped ---------- */
+.subnav{gap:4px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:0}
+.subnav .sn-group{display:flex;gap:2px;align-items:center;flex:0 0 auto}
+.subnav button{white-space:nowrap;flex:0 0 auto}
+.subnav .sn-sep{width:1px;height:20px;background:var(--line);margin:0 8px;flex:0 0 auto}
+.subnav button{border:0;border-radius:0;background:transparent;padding:10px 12px 11px;font:600 15px/1 var(--body);color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.subnav button:hover{color:var(--ink)}
+.subnav button[aria-selected="true"]{background:transparent;color:var(--ink);border-bottom-color:var(--ink)}
+@media (max-width:720px){.subnav{mask-image:linear-gradient(to right,#000 88%,transparent);-webkit-mask-image:linear-gradient(to right,#000 88%,transparent)}}
+
+/* ---------- Home ---------- */
+.home{display:flex;flex-direction:column;gap:32px}
+.home-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:20px;align-items:start}
+.hero{background:var(--surface);border-radius:var(--r-lg);box-shadow:var(--lift);padding:clamp(22px,3.4vw,36px);display:flex;flex-direction:column;gap:14px;animation:riseIn .32s ease-out both}
+.hero-title{margin:0}
+.hero-sub{margin:0;font-size:18px;line-height:1.5;color:var(--ink2);max-width:52ch}
+.cover{display:flex;flex-direction:column;gap:8px;padding-top:6px}
+.cover ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:6px 18px}
+.cover li{position:relative;padding-left:18px;font-size:15px;color:var(--ink2)}
+.cover li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:8px;border-radius:2px;background:var(--accent-fill)}
+.hero .actions{margin-top:6px;gap:10px}
+.upnext{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;border-top:1px solid var(--line2);padding-top:14px;margin-top:4px}
+.upnext b{font-weight:600}
+.aside{display:flex;flex-direction:column;gap:16px}
+.quick{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.qrow{display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:center;padding:12px 2px;border-bottom:1px solid var(--line)}
+.qrow b{font:600 15px/1.3 var(--body)}
+.qrow .meta{grid-column:1}
+.qrow .btn{grid-row:1/3;grid-column:2}
+.recent{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:4px;grid-column:1/3}
+.recent li{display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.recent li span:last-child{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.section-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px;margin-bottom:12px}
+.section-head h2{margin:0}
+.overview{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px 28px}
+.dgroup h3{font-size:16px;margin:0 0 6px;display:flex;align-items:center;gap:8px}
+.dgroup h3::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--c)}
+.dgroup.sc{--c:var(--sc)}.dgroup.sec{--c:var(--sec)}
+.drows{list-style:none;margin:0;padding:0}
+.drow{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(70px,1fr) 118px auto;gap:4px 14px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.drow:first-child{border-top:1px solid var(--line)}
+.dname{font-weight:600;font-size:15px;line-height:1.3}
+.dname small{display:block;font-weight:500;font-size:13px;color:var(--muted)}
+.dbar{height:6px;border-radius:99px;background:var(--sunk);overflow:hidden}
+.dbar i{display:block;height:100%;background:var(--c);border-radius:inherit}
+.dboss{font-size:13px;color:var(--muted);white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+.dboss.won{color:var(--ok)}
+.dboss svg{width:14px;height:14px}
+.encounter{border:1px solid rgba(255,255,255,.06)}
+@media (max-width:860px){.home-grid{grid-template-columns:1fr}}
+@media (max-width:520px){.drow{grid-template-columns:1fr auto}.dbar{grid-column:1/3;grid-row:2}.dboss{display:none}}
+
+/* ---------- encounters (Home preview, Arena) ---------- */
+.encounter{background:var(--enc-bg);color:var(--enc-ink);border-radius:var(--r-lg);overflow:hidden;display:grid;position:relative;isolation:isolate}
+.encounter::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(120% 90% at 0% 0%,color-mix(in srgb,var(--boss) 22%,transparent),transparent 60%)}
+.enc-art{background:#000;display:flex;align-items:center;justify-content:center;aspect-ratio:1/1;overflow:hidden}
+.enc-art img{width:100%;height:100%;object-fit:contain;display:block}
+.enc-art img.dim{filter:grayscale(.85) brightness(.6)}
+.enc-body{display:flex;flex-direction:column;gap:8px;padding:20px 22px 22px}
+.enc-kicker{margin:0;font:600 13px/1.3 var(--body);color:var(--enc-muted)}
+.enc-name{margin:0;font:700 clamp(30px,4vw,46px)/.95 var(--ops);text-transform:uppercase;letter-spacing:.01em;color:#fff}
+.enc-dom{margin:0;font-size:15px;color:var(--enc-muted)}
+.encounter .btn{background:transparent;color:var(--enc-ink);border-color:var(--enc-line)}
+.encounter .btn:hover{border-color:#fff}
+.encounter .btn.primary{background:var(--accent-fill);border-color:var(--accent-fill);color:#06201F}
+.encounter .btn.primary:hover{background:#3CC4BB;border-color:#3CC4BB}
+.encounter .btn[disabled]{opacity:.55}
+.bstate{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;font:600 13px/1 var(--body);padding:6px 10px;border-radius:999px;border:1px solid var(--enc-line);color:var(--enc-ink)}
+.bstate svg{width:14px;height:14px;flex:0 0 auto}
+.bstate.won{border-color:rgba(92,196,138,.6);color:#8FE0B1}
+.bstate.open{border-color:color-mix(in srgb,var(--accent-fill) 70%,transparent);color:#7FE0D8}
+.bstate.locked{color:var(--enc-muted)}
+.encounter.mini{grid-template-columns:132px minmax(0,1fr)}
+.encounter.mini .enc-art{aspect-ratio:auto;height:100%;min-height:172px}
+.encounter.mini .enc-name{font-size:30px}
+.encounter.mini .enc-body{padding:16px 18px;gap:6px}
+.encounter.mini .btn{margin-top:4px;align-self:flex-start}
+.arena{display:flex;flex-direction:column;gap:28px}
+.arena-head h1{margin:0}
+.arena-head p{margin:6px 0 0;color:var(--muted);max-width:70ch}
+.encounter.enc-lg{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:stretch;box-shadow:0 20px 50px -24px rgba(0,0,0,.55);animation:riseIn .3s ease-out both}
+.encounter.enc-lg .enc-body{padding:clamp(20px,3vw,34px);gap:12px;justify-content:center}
+.enc-tests ul{margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:3px;color:var(--enc-ink)}
+.enc-tests .label{color:var(--enc-muted)}
+.enc-rules{margin:0;font-size:14px;color:var(--enc-muted)}
+.encounter .actions{margin-top:6px}
+.encounter.enc-lg .enc-art{aspect-ratio:auto;min-height:380px}
+@media (max-width:760px){.encounter.enc-lg{grid-template-columns:1fr}.encounter.enc-lg .enc-art{min-height:0}.encounter.enc-lg .enc-art{aspect-ratio:4/3}}
+@media (max-width:420px){.encounter.mini{grid-template-columns:96px minmax(0,1fr)}.encounter.mini .enc-name{font-size:25px}}
+.enc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.enc-card{display:flex;flex-direction:column;gap:2px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:8px 8px 12px;color:var(--ink);transition:border-color .12s,transform .15s}
+.enc-card:hover{border-color:var(--ink);transform:translateY(-2px)}
+.enc-card.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
+.enc-thumb{display:block;aspect-ratio:1/1;background:#000;border-radius:8px;overflow:hidden;margin-bottom:8px}
+.enc-thumb img{width:100%;height:100%;object-fit:contain;display:block}
+.enc-card.locked .enc-thumb img{filter:grayscale(.85) brightness(.6)}
+.enc-card-name{font:700 19px/1 var(--ops);text-transform:uppercase;letter-spacing:.01em;padding:0 4px}
+.enc-card-dom{font-size:13px;color:var(--muted);padding:0 4px;line-height:1.3}
+.enc-card-state{display:inline-flex;align-items:center;gap:5px;font:600 13px/1.2 var(--body);padding:6px 4px 0}
+.enc-card-state svg{width:13px;height:13px}
+.enc-card.won .enc-card-state{color:var(--ok)}
+.enc-card.open .enc-card-state{color:var(--accent-ink)}
+.enc-card.locked .enc-card-state{color:var(--muted)}
+.record{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px 28px;padding:22px 24px;background:var(--sunk);border-radius:var(--r-md)}
+.record h3{font-size:16px;margin:0 0 6px}
+.record .big-line{font:700 22px/1.1 var(--display);margin:0}
+.record .mission{padding:6px 0;font-size:14px}
+.record .seals{grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px}
+.record .seal{padding:6px 2px;border:0}
+.record .seal span{width:32px;height:32px;font-size:15px}
+.record .seal small{font-size:11px}
+.scene-arena .record{background:color-mix(in srgb,var(--sunk) 92%,transparent)}
+
+/* ---------- Campaign door ---------- */
+.camp-door{display:flex;flex-direction:column;gap:22px}
+.camp-hero{position:relative;border-radius:var(--r-lg);overflow:hidden;background:#05101C;color:#EEF2F6;min-height:440px;display:flex;align-items:flex-end;isolation:isolate;animation:riseIn .32s ease-out both}
+.camp-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;z-index:-2}
+.camp-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(5,14,26,.94) 0%,rgba(5,14,26,.82) 46%,rgba(5,14,26,.25) 100%),linear-gradient(0deg,rgba(5,14,26,.75),transparent 55%)}
+.camp-copy{display:flex;flex-direction:column;gap:14px;padding:clamp(22px,4vw,44px);max-width:640px}
+.camp-title{margin:0;font:700 clamp(40px,6.4vw,68px)/.92 var(--ops);text-transform:uppercase;letter-spacing:.005em;color:#fff}
+.camp-intro{margin:0;font-size:17px;line-height:1.55;color:#C9D3DE;max-width:54ch}
+.camp-status{display:flex;flex-direction:column;gap:2px;border-left:3px solid var(--accent-fill);padding:2px 0 2px 12px}
+.camp-status b{font:600 16px/1.35 var(--body);color:#fff}
+.camp-status span{font-size:14px;color:#AAB7C5}
+.camp-hero .btn.primary{background:var(--accent-fill);border-color:var(--accent-fill);color:#06201F;align-self:flex-start}
+.camp-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px 28px;margin:0}
+.camp-facts div{border-top:2px solid var(--line);padding-top:10px}
+.camp-facts dt{font:600 15px/1.3 var(--display);margin-bottom:4px}
+.camp-facts dd{margin:0;font-size:15px;color:var(--ink2);line-height:1.5}
+@media (max-width:640px){.camp-hero{min-height:0}.camp-hero::after{background:linear-gradient(0deg,rgba(5,14,26,.96) 0%,rgba(5,14,26,.86) 60%,rgba(5,14,26,.55) 100%)}.camp-copy{padding-top:120px}}
+
+/* ---------- Lessons: grouped level navigator + reading layout ---------- */
+.study-lessons{display:grid;grid-template-columns:260px minmax(0,1fr);gap:28px;align-items:start}
+.lvl-nav{position:sticky;top:64px;max-height:calc(100vh - 84px);overflow:auto;display:flex;flex-direction:column;gap:6px;padding-right:4px;scrollbar-width:thin}
+.lvl-track{font:600 13px var(--body);color:var(--muted);margin:10px 0 2px}
+.lvl-track:first-child{margin-top:0}
+.lvl-group{border-radius:10px}
+.lvl-group>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:8px 10px;border-radius:8px}
+.lvl-group>summary::-webkit-details-marker{display:none}
+.lvl-group>summary:hover{background:var(--sunk)}
+.lg-name{font:600 15px/1.3 var(--display);display:flex;align-items:center;gap:8px}
+.lg-name::before{content:"";width:6px;height:6px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(-45deg);transition:transform .15s;flex:0 0 auto}
+.lvl-group[open]>summary .lg-name::before{transform:rotate(45deg)}
+.lg-meta{font-size:12px;color:var(--muted);white-space:nowrap}
+.lvl-group ol{list-style:none;margin:2px 0 6px;padding:0 0 0 8px;display:flex;flex-direction:column;gap:1px}
+.lvl{width:100%;display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:8px;align-items:center;text-align:left;border:0;background:transparent;border-radius:8px;padding:7px 8px;color:var(--ink2);font-size:14px;line-height:1.3}
+.lvl:hover:not([disabled]){background:var(--sunk)}
+.lvl-n{font:600 13px var(--body);font-variant-numeric:tabular-nums;color:var(--muted);text-align:center;border:1px solid var(--line);border-radius:6px;padding:2px 0}
+.lvl-s{font-size:12px;color:var(--muted);display:inline-flex;align-items:center;gap:4px}
+.lvl-s svg{width:12px;height:12px}
+.lvl.done .lvl-n{background:var(--c,var(--sc));border-color:var(--c,var(--sc));color:var(--surface)}
+.lvl.done .lvl-s{color:var(--ok)}
+.lvl.current .lvl-s{color:var(--accent-ink);font-weight:600}
+.lvl.sel{background:var(--surface);box-shadow:var(--lift);color:var(--ink);font-weight:600}
+.lvl[disabled]{cursor:not-allowed;opacity:.6}
+.lvl.sc{--c:var(--sc)}.lvl.sec{--c:var(--sec)}
+.lvl-toggle{display:none}
+@media (max-width:860px){
+  .study-lessons{grid-template-columns:minmax(0,1fr);gap:14px}
+  .lvl-toggle{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;padding:12px 14px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface);font:600 15px/1.3 var(--body);color:var(--ink)}
+  .lvl-toggle span:last-child{color:var(--accent-ink);white-space:nowrap}
+  .lvl-nav{position:static;max-height:none;display:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:8px}
+  .lvl-nav.open{display:flex}
+}
+.lesson{background:var(--surface);border:0;box-shadow:var(--lift);border-radius:var(--r-lg);padding:clamp(22px,3.6vw,40px);gap:26px}
+.lesson-head{display:flex;flex-direction:column;gap:8px}
+.lesson-head h1{margin:0}
+.lesson-head h1:focus{outline:none}
+.lesson-head h1:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:4px}
+.lesson-head .hero-sub{font-size:17px}
+.kp{display:flex;flex-direction:column;gap:20px;max-width:66ch}
+.kp-item h3{margin:0 0 4px;font-size:19px}
+.kp-item p{margin:0;font-size:16.5px;line-height:1.65;color:var(--ink2)}
+.lesson h2{font-size:21px;margin:0 0 10px}
+.terms{grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0 24px;max-width:72ch}
+.terms div{background:none;border-radius:0;padding:10px 0;border-bottom:1px solid var(--line2)}
+.terms dt{font:600 15px/1.3 var(--body);color:var(--ink)}
+.terms dd{font-size:14.5px;color:var(--muted);margin-top:2px}
+.trap{background:var(--badbg);border-radius:var(--r-sm);padding:16px 18px;max-width:66ch;border-left:4px solid var(--bad)}
+.trap .trap-label{margin:0 0 4px;font:700 14px/1.2 var(--display);color:var(--bad)}
+.trap p{margin:0;font-size:16px;line-height:1.55}
+.quickrev{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;padding:16px 18px;background:var(--accent-soft);border-radius:var(--r-sm)}
+.quickrev p{margin:0}
+.quickrev b{font-family:var(--display)}
+.check h2{margin-bottom:4px}
+.check .meta{margin-bottom:12px}
+.modebtn{border-radius:var(--r-sm)}
+
+/* ---------- Progress record line ---------- */
+.standing{display:flex;flex-wrap:wrap;gap:6px 24px;align-items:baseline;padding:14px 18px;background:var(--sunk);border-radius:var(--r-md);font-size:15px}
+.standing b{font-family:var(--display)}
+
+/* ---------- motion ---------- */
+@keyframes riseIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.hero,.encounter.enc-lg,.camp-hero{animation:none}.enc-card:hover{transform:none}}
+
+/* ---------- campaign mode keeps its own dark page; refresh its type ---------- */
+.cbar h1{font-family:var(--ops)}
+body.campaign-mode{--mark:url("assets/brand/mark-dark-96.png");--accent:#3CC4BB;--accent-ink:#62D4CC;--accent-fill:#2FB3AA;--accent-soft:#103538;--on-accent:#06201F;--ink2:#CCD6E2;--line2:#1C2B40}
+
 </style>
 <script>
 // Theme choice (Light / Dark / System). Applied before the page draws to avoid a flash.
@@ -578,16 +895,16 @@ kbd{font:500 11px var(--mono);border:1px solid var(--line);border-radius:3px;pad
 <div class="wrap">
   <header>
     <div class="appbar">
-      <div class="brand"><span class="brand-name">CertificationNation</span><span class="brand-sub">SC-900 and Security+ study camp</span></div>
+      <div class="brand" id="brand"><span class="brand-mark" aria-hidden="true"></span><span class="brand-text"><span class="brand-name">Rukeios <span class="accent">Study</span></span><span class="brand-sub">Your certification field guide</span></span></div>
       <div class="appbar-meta">
         <span class="sync" id="sync">Loading saved progress…</span>
-        <button class="verbtn" id="supportbtn" aria-label="Support CertificationNation">Support</button>
+        <button class="verbtn" id="supportbtn" aria-label="Support">Support</button>
         <button class="verbtn" id="verbtn" aria-label="Patch notes"></button>
       </div>
     </div>
     <div class="statusline">
       <div class="exams" id="exams"></div>
-      <span class="rank-badge" id="rank"></span>
+      <span class="rank-badge" id="rank" hidden></span>
       <details class="settings" id="settings">
         <summary>Plan settings</summary>
         <div class="settings-body">
@@ -617,26 +934,26 @@ kbd{font:500 11px var(--mono);border:1px solid var(--line);border-radius:3px;pad
   </footer>
 </div>
 
-<script src="data.js?v=2.1.0"></script>
-<script src="data-extra.js?v=2.1.0"></script>
-<script src="data-pack2.js?v=2.1.0"></script>
-<script src="data-pack3.js?v=2.1.0"></script>
-<script src="data-pack4-sc.js?v=2.1.0"></script>
-<script src="data-pack5-net.js?v=2.1.0"></script>
-<script src="data-acronyms.js?v=2.1.0"></script>
-<script src="data-patchnotes.js?v=2.1.0"></script>
-<script src="data-bosses.js?v=2.1.0"></script>
+<script src="data.js?v=2.2.0"></script>
+<script src="data-extra.js?v=2.2.0"></script>
+<script src="data-pack2.js?v=2.2.0"></script>
+<script src="data-pack3.js?v=2.2.0"></script>
+<script src="data-pack4-sc.js?v=2.2.0"></script>
+<script src="data-pack5-net.js?v=2.2.0"></script>
+<script src="data-acronyms.js?v=2.2.0"></script>
+<script src="data-patchnotes.js?v=2.2.0"></script>
+<script src="data-bosses.js?v=2.2.0"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=2.1.0"></script>
-<script src="data-campaign-flags.js?v=2.1.0"></script>
-<script src="data-campaign-endings.js?v=2.1.0"></script>
-<script src="data-fixes-01.js?v=2.1.0"></script>
-<script src="data-fixes-02.js?v=2.1.0"></script>
-<script src="data-fixes-03.js?v=2.1.0"></script>
-<script src="data-cn-sc.js?v=2.1.0"></script>
-<script src="data-cn-compare.js?v=2.1.0"></script>
-<script src="data-cn-sc-scenarios.js?v=2.1.0"></script>
-<script src="examhelp-effects.js?v=2.1.0"></script>
+<script src="data-daymissions.js?v=2.2.0"></script>
+<script src="data-campaign-flags.js?v=2.2.0"></script>
+<script src="data-campaign-endings.js?v=2.2.0"></script>
+<script src="data-fixes-01.js?v=2.2.0"></script>
+<script src="data-fixes-02.js?v=2.2.0"></script>
+<script src="data-fixes-03.js?v=2.2.0"></script>
+<script src="data-cn-sc.js?v=2.2.0"></script>
+<script src="data-cn-compare.js?v=2.2.0"></script>
+<script src="data-cn-sc-scenarios.js?v=2.2.0"></script>
+<script src="examhelp-effects.js?v=2.2.0"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -675,6 +992,18 @@ DAYS.forEach(day=>{
   Object.keys(FIX||{}).forEach(k=>{ if(!Q[k]) return; const x=FIX[k];
     Q[k]=Object.assign({},Q[k],{q:x[0],o:x[1],a:x[2],why:x[3]}); });
 });
+// ---------- brand ----------
+// Every user-facing product name comes from here (plus the static <title>, meta tags and header
+// markup in the HTML head, which repeat it for first paint). Storage keys and the "app" id in
+// exported files stay "sprint.v2" / "ExamHelp" on purpose, so a rename never empties a profile.
+const BRAND={name:"Rukeios Study",nameParts:["Rukeios","Study"],tagline:"Your certification field guide",
+  formerNames:["ExamHelp","CertificationNation"],repo:"https://github.com/Rukeios/ExamHelp"};
+function renderBrand(){
+  const el=document.getElementById("brand"); if(!el) return;
+  el.replaceChildren(h("span",{class:"brand-mark","aria-hidden":"true"}),h("span",{class:"brand-text"},
+    h("span",{class:"brand-name"},BRAND.nameParts[0]+" ",h("span",{class:"accent"},BRAND.nameParts[1])),h("span",{class:"brand-sub"},BRAND.tagline)));
+  document.title=BRAND.name+" · "+BRAND.tagline;
+}
 // ---------- CertificationNation study content (v2.1) ----------
 // One model: concepts own their Pocket Note and recall cards; comparisons and scenarios link to
 // concepts by id. Ids are permanent, so bookmarks and review schedules follow corrections.
@@ -1046,11 +1375,11 @@ function renderHeader(){
 
   const current=unlockedDay(), doneCount=Object.keys(state.done).length;
   const lifetimeQ=attempts.reduce((s,a)=>s+a.n,0), lifetimeCorrect=attempts.reduce((s,a)=>s+(a.score||0),0);
-  ex.append(h("div",{class:"exam run-status"},
-    h("span",{class:"eyebrow"},tierName(state.prestige)+(state.prestige?" — Prestige "+state.prestige:" — Run "+((state.lifetime.runsCompleted||0)+1))),
-    h("b",{class:"tabnum"},"Level "+displayDay(current)+" of "+programDays().length),
-    h("div",{class:"runbar","aria-hidden":"true"},h("i",{style:"width:"+pct(programDays().filter(d=>state.done[d.d]).length,programDays().length)+"%"})),
-    h("span",{class:"muted",style:"font-size:12px"},(state.lifetime.runsCompleted||0)+" run"+(state.lifetime.runsCompleted===1?"":"s")+" completed · "+lifetimeQ+" questions answered · "+pct(lifetimeCorrect,lifetimeQ)+"% lifetime accuracy")));
+  const N=programDays().length, doneN=programDays().filter(d=>state.done[d.d]).length;
+  ex.append(h("div",{class:"progress-pill",role:"group","aria-label":"Lesson progress"},
+    h("span",{class:"pp-label tabnum"},"Level "+displayDay(current)+" of "+N),
+    h("span",{class:"pp-bar",role:"progressbar","aria-valuemin":"0","aria-valuemax":String(N),"aria-valuenow":String(doneN),"aria-label":doneN+" of "+N+" levels done"},h("i",{style:"width:"+pct(doneN,N)+"%"})),
+    h("span",{class:"pp-sub tabnum"},doneN+" done")));
 
   if(state.examMode){
     [["sc",examEntry("sc")],["sec",examEntry("sec")]].forEach(([tr,e])=>{
@@ -1067,6 +1396,7 @@ function renderHeader(){
         line?h("span",{class:"muted",style:"font-size:12px;max-width:220px"},line):null));
     });
   }
+  renderBrand();
   document.getElementById("start").value=state.start;
   document.body.classList.toggle("onboarding",!state.program||!state.studyMode);
   renderExamToggle();
@@ -1132,12 +1462,12 @@ function renderSupportModal(){
   const mount=document.getElementById("supportModal"); if(!mount) return;
   if(supportOpen||patchOpen) document.body.style.overflow="hidden"; else document.body.style.overflow="";
   if(!supportOpen){ mount.replaceChildren(); return; }
-  const dialog=h("div",{class:"modal",role:"dialog","aria-modal":"true","aria-label":"Support CertificationNation",tabindex:"-1"},
+  const dialog=h("div",{class:"modal",role:"dialog","aria-modal":"true","aria-label":"Support "+BRAND.name,tabindex:"-1"},
     h("button",{class:"modal-x","aria-label":"Close",onclick:closeSupport},"×"),
     h("h2",{style:"margin:0"},"This is free"),
-    h("p",{style:"margin:0"},"CertificationNation is free and always will be. No account, no paywall, no ads, and none of your data leaves your browser."),
+    h("p",{style:"margin:0"},BRAND.name+" is free and always will be. No account, no paywall, no ads, and none of your data leaves your browser."),
     h("p",{style:"margin:0"},"If it helped you pass, and you're in a position to, you can chip in toward the time it takes to keep the question bank current with the exam objectives. If you're a student, please don't — pass your exam and tell someone else about it instead. That helps more."),
-    h("p",{style:"margin:0"},h("a",{href:DONATION_URL,target:"_blank",rel:"noopener"},"Support CertificationNation on Ko-fi")),
+    h("p",{style:"margin:0"},h("a",{href:DONATION_URL,target:"_blank",rel:"noopener"},"Support "+BRAND.name+" on Ko-fi")),
     h("p",{class:"muted",style:"margin:0;font-size:13px"},"Teaching a class? ",h("a",{href:"https://github.com/Rukeios/ExamHelp",target:"_blank",rel:"noopener"},"roster.html"),
       " in the repo turns your students' exported stats into a class view."));
   const backdrop=h("div",{class:"modal-backdrop",onclick:e=>{ if(e.target===backdrop) closeSupport(); }},dialog);
@@ -1190,28 +1520,6 @@ function prestigeBanner(){
         h("button",{class:"btn primary",onclick:doPrestige},"Confirm prestige"),
         h("button",{class:"btn",onclick:()=>{prestigeConfirmOpen=false;render();}},"Cancel"))):null);
 }
-function renderPlan(){
-  const t=todayN(), current=unlockedDay();
-  if(ui.sel==null||ui.sel>current||!BYDAY[ui.sel]||!inProgram(BYDAY[ui.sel].track)) ui.sel=current;
-  const pd=programDays(), disp=displayDayMap();
-  const strip=h("div",{class:"strip",role:"list",style:"--cols:"+pd.length});
-  pd.forEach(d=>{
-    const locked=d.d>current;
-    const cls=["cell",d.track,d.kind||"",state.done[d.d]?"done":"",d.d===t?"today":"",d.d===ui.sel?"sel":"",locked?"locked":""].join(" ");
-    const title=locked?"Complete Level "+disp[current]+" to unlock Level "+disp[d.d]:"Level "+disp[d.d]+" · "+fmtD(dayDate(d.d))+"\n"+d.title;
-    strip.append(h("button",{class:cls,role:"listitem","aria-label":"Level "+disp[d.d]+": "+d.title,title,disabled:locked?true:null,onclick:()=>{ui.sel=d.d;render();}},disp[d.d]));
-  });
-  const legendKids=[];
-  if(inProgram("sc")) legendKids.push(h("span",{},h("i",{class:"sw",style:"background:var(--sc)"}),"SC-900 (levels 1–"+disp[12]+")"));
-  if(inProgram("sec")) legendKids.push(h("span",{},h("i",{class:"sw",style:"background:var(--sec)"}),"Security+ (levels "+(programOf()==="both"?disp[13]:1)+"–"+disp[33]+")"));
-  legendKids.push(
-    h("span",{},h("i",{class:"sw",style:"background:repeating-linear-gradient(135deg,var(--surface) 0 3px,var(--line) 3px 5px);border:1px solid var(--line)"}),"Review level"),
-    h("span",{},h("i",{class:"sw",style:"background:var(--gold);border-radius:50%;width:8px;height:8px"}),"Exam"),
-    h("span",{},h("i",{class:"sw",style:"box-shadow:inset 0 0 0 2px var(--gold)"}),"Today"),
-    h("span",{class:"tabnum"},Object.keys(state.done).filter(dd=>inProgram(BYDAY[dd]&&BYDAY[dd].track)).length+" / "+pd.length+" levels done · Level "+disp[current]+" is active"));
-  const legend=h("div",{class:"legend"},legendKids);
-  return h("div",{style:"display:flex;flex-direction:column;gap:14px"},prestigeBanner(),strip,legend,lessonPanel(BYDAY[ui.sel]));
-}
 function modesCompleted(scopeId){
   return new Set(attempts.filter(a=>a.scopeId===scopeId&&!a.early).map(a=>a.mode));   // a mode counts once you finish it
 }
@@ -1222,33 +1530,6 @@ function quizBtns(scope,n,forceWritten){
     h("span",{class:"row",style:"gap:6px;width:100%;justify-content:space-between"},v.name+" quiz",done.has(m)?h("span",{class:"chip good"},"✓"):null),
     h("small",{},v.desc)));
 }
-function lessonPanel(d){
-  const date=fmtD(dayDate(d.d)), dd=displayDay(d.d);
-  const kids=[h("div",{class:"row"},h("span",{class:"tag "+d.track},TRACK[d.track]),h("span",{class:"eyebrow"},"Level "+dd+" · "+date+(d.dom?" · "+d.dom:"")+(d.min?" · ~"+d.min+" min":"")))];
-  kids.push(h("h2",{},d.title));
-  kids.push(h("ul",{class:"pts"},d.pts.map(p=>{const [a,b]=p.split("|");return h("li",{},h("b",{},a),b);})));
-  if(d.terms) kids.push(h("div",{},h("h3",{style:"margin-bottom:8px"},d.d===31?"Ports to lock in":"Terms to lock in"),h("dl",{class:"terms"},d.terms.map(([a,b])=>h("div",{},h("dt",{},a),h("dd",{},b))))));
-  if(d.trap) kids.push(h("div",{class:"trap"},h("div",{class:"eyebrow"},"Exam trap"),d.trap));
-  let scope;
-  if(d.kind==="review") scope={id:"day-"+d.d,label:"Level "+dd+" review",keys:keysFor(d.from)};
-  else if(d.kind==="exam") scope={id:"day-"+d.d,label:TRACK[d.track]+" warmup",keys:keysFor(allTrackDays(d.track))};
-  else scope={id:"day-"+d.d,label:"Level "+dd,keys:interleavedKeys([d.d])};
-  const forceWritten=d.kind==="review"&&rulesFor(state.prestige).forceWrittenOnReview;
-  const n=d.n||scope.keys.length;
-  kids.push(h("div",{},h("h3",{style:"margin-bottom:8px"},(d.kind?"":"Mini quiz · ")+n+" questions, shuffled"),h("div",{class:"actions"},quizBtns(scope,n,forceWritten)),
-    forceWritten?h("p",{class:"muted",style:"margin:6px 0 0;font-size:12px"},"Shadow IT tier and up: review levels are Written only, no multiple choice."):null));
-  const done=!!state.done[d.d];
-  const modesDone=modesCompleted(scope.id);
-  const requiredModes=forceWritten?["written"]:["think","blitz","written"];
-  const remaining=requiredModes.length-requiredModes.filter(m=>modesDone.has(m)).length;
-  kids.push(h("div",{class:"actions"},
-    done?h("span",{class:"chip good"},"✓ Level complete"):h("span",{class:"muted",style:"font-size:13px"},"Complete "+(forceWritten?"the Written quiz":"all 3 quiz modes")+" above to unlock the next level"+(remaining>0&&!forceWritten?" ("+remaining+" left)":"")),
-    done&&d.d<unlockedDay()?h("button",{class:"btn",onclick:()=>{ui.sel=d.d+1;render();window.scrollTo(0,0);}},"Next level →"):null));
-  if(d.track==="sc"&&!d.kind) kids.push(h("p",{class:"muted",style:"margin:0;font-size:13px"},"Pair it with the matching Microsoft Learn module (link below), about 30 minutes."));
-  if(d.track==="sec"&&!d.kind) kids.push(h("p",{class:"muted",style:"margin:0;font-size:13px"},"Pair it with the matching Professor Messer videos for "+d.dom.replace(/^\d /,"Domain "+d.dom[0]+": ")+", about 30–45 minutes at 1.25×."));
-  return h("section",{class:"panel lesson"},kids);
-}
-
 // ---------- quiz launcher ----------
 function scopes(){
   const t=unlockedDay(), td=BYDAY[t];
@@ -1647,7 +1928,7 @@ function renderRun(){
 let reportOpen=null, reportIncludeAnswer=false, reportCopied=false;
 function reportText(q,pick){
   const v=(PATCHNOTES[0]&&PATCHNOTES[0].v)||"?";
-  const lines=["CertificationNation question report","Question ID: "+q.k,"Content version: "+v,"Exam: "+(TRACK[q.track]||q.track)+(q.dom?" · "+q.dom:""),"","Question: "+(q.ctx?q.ctx+" ":"")+q.q,"Listed answer: "+q.o[q.a]];
+  const lines=[BRAND.name+" question report","Question ID: "+q.k,"Content version: "+v,"Exam: "+(TRACK[q.track]||q.track)+(q.dom?" · "+q.dom:""),"","Question: "+(q.ctx?q.ctx+" ":"")+q.q,"Listed answer: "+q.o[q.a]];
   if(reportIncludeAnswer&&pick!=null&&pick>=0) lines.push("My answer: "+q.o[pick]);
   lines.push("","What's wrong or unclear:","");
   return lines.join("\n");
@@ -1836,71 +2117,6 @@ function renderByok(){
       h("label",{class:"fld"},"API key",key),
       h("label",{class:"fld"},"Model (optional)",model),
       h("div",{class:"actions"},h("button",{class:"btn primary",onclick:()=>{byokSet(k);render();}},"Save key"),k.key?h("button",{class:"btn",onclick:()=>{localStorage.removeItem(LS+".byok");render();}},"Clear key"):null)));
-}
-function renderGame(){
-  const [title,need]=rank(), next=RANKS.find(([,xp])=>xp>state.xp);
-  const missions=missionData(), allDone=missions.every(m=>m.now>=m.goal);
-  const domainBosses=BOSSES.filter(b=>!b.final&&inProgram(b.track));
-  const finalBoss=FINAL_BOSS;
-  const domainWon=domainBosses.filter(b=>state.bosses[b.track+"|"+b.domain]).length;
-  const allDomainsCleared=domainWon>=domainBosses.length;
-  const finalRequires=programOf()==="sc"?"Clear all four SC-900 bosses to unlock.":programOf()==="sec"?"Clear all five Security+ bosses to unlock.":(finalBoss&&finalBoss.requires)||"Clear all 9 domain bosses to unlock.";
-  const generated=ui.generated.length?h("div",{class:"misslist",style:"margin-top:12px"},ui.generated.map((q,i)=>h("div",{class:"miss"},
-    h("div",{class:"eyebrow"},q.dom+" · candidate"),
-    h("div",{},q.q),
-    h("div",{class:"ans"},h("b",{},"Answer: "),q.o[q.a]),
-    h("div",{class:"actions"},
-      h("button",{class:"btn primary",onclick:()=>approveGenerated(i)},"Keep in question bank"),
-      h("button",{class:"btn",onclick:()=>{ui.generated.splice(i,1);render();}},"Discard"))))):null;
-  const haveKey=!!(byokGet()&&byokGet().key);
-  const engine=sample?h("span",{class:"chip good"},"Using Claude"):haveKey?h("span",{class:"chip good"},"Using your "+byokGet().provider+" key"):h("span",{class:"chip weak"},"No generator connected");
-  // Boss dossier: what it tests, how to unlock it, your best result, and a way to practice.
-  const bossCard=(b)=>{
-    const won=state.bosses[b.track+"|"+b.domain];
-    const available=Object.values(Q).some(q=>q.track===b.track&&q.dom===b.domain&&q.d<=unlockedDay());
-    const firstDay=programDays().find(d=>d.track===b.track&&d.dom===b.domain);
-    const tries=attempts.filter(a=>a.scopeId==="boss-"+b.track+"-"+b.domain);
-    const best=tries.length?Math.max(...tries.map(a=>a.pct)):null;
-    return h("div",{class:"game-card boss dossier "+b.track,style:"border-left-color:"+b.color},
-      h("div",{class:"boss-thumb-box"},
-        h("img",{src:BOSS_IMG(b.img,"thumb"),alt:b.name+", "+b.domain+" boss",width:"320",height:"320",loading:"lazy",class:available?"":"locked"}),
-        won?h("div",{class:"boss-check",style:"background:"+b.color},"✓"):null,
-        !available?h("div",{class:"boss-lock"},"Locked"):null),
-      h("span",{class:"tag "+b.track},TRACK[b.track]),h("b",{},b.name),h("p",{class:"muted",style:"margin:2px 0 0;font-size:13px"},b.domain),
-      h("div",{class:"dossier-body"},
-        h("div",{class:"eyebrow"},"Tests"),
-        h("ul",{},(b.teaches||[]).slice(0,3).map(t=>h("li",{},t.split(":")[0]))),
-        h("div",{class:"eyebrow"},"Unlock"),
-        h("p",{},available?"Unlocked.":"Reach Level "+(firstDay?displayDay(firstDay.d):"?")+" ("+b.domain+")."),
-        h("div",{class:"eyebrow"},"Your best"),
-        h("p",{},best==null?"Not attempted yet":best+"% over "+tries.length+" attempt"+(tries.length===1?"":"s")+(won?" · defeated":""))),
-      h("div",{class:"actions",style:"flex-wrap:wrap;margin-top:auto"},
-        h("button",{class:"btn "+(won?"":"primary"),disabled:available?null:true,onclick:()=>startBoss(b.track,b.domain)},won?"Rematch":available?"Challenge boss":"Locked"),
-        h("button",{class:"btn small",onclick:()=>{ui.quiz.scope="domain";ui.quiz.dom=b.domain;ui.quiz.filter="all";goTab("quiz");}},"Practice this domain"),
-        won?h("button",{class:"btn small",onclick:()=>{ui.teachesBoss=b;render();}},"Look again"):null));
-  };
-  const sealBosses=["sc","sec"].filter(inProgram).flatMap(t=>(DOMS[t]||[]).map(d=>bossFor(t,d)).filter(Boolean));
-  const seals=h("section",{class:"panel"},h("h2",{style:"margin-bottom:4px"},"Domain seals"),
-    h("p",{class:"muted",style:"margin:0 0 12px"},sealBosses.filter(b=>state.bosses[b.track+"|"+b.domain]).length+" of "+sealBosses.length+" earned. Each seal is a defeated domain boss."),
-    h("div",{class:"seals"},sealBosses.map(b=>{ const won=state.bosses[b.track+"|"+b.domain];
-      return h("div",{class:"seal"+(won?" won":""),style:"--seal:"+b.color,title:b.domain+(won?": earned "+fmtD(new Date(won)):": not yet earned")},
-        h("span",{"aria-hidden":"true"},won?"✓":"·"),h("small",{},b.domain)); })));
-  return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
-    h("section",{class:"panel"},h("div",{class:"game-grid"},
-      h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Current rank"),h("b",{},title),h("div",{class:"tabnum"},state.xp+" XP"+(next?" · "+(next[1]-state.xp)+" to "+next[0]:" · top rank"))),
-      h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Daily missions "+(allDone?"🔥":"")),missions.map(m=>h("div",{class:"mission"},h("i",{},m.now>=m.goal?"✓":"○"),h("span",{},m.text,h("span",{class:"muted"}," · "+Math.min(m.now,m.goal)+"/"+m.goal))))),
-      h("div",{class:"game-card"},h("span",{class:"eyebrow"},"Achievements"),Object.entries(ACHIEVEMENTS).filter(([key,a])=>!a.retired||state.achievements[key]).map(([key,a])=>h("div",{class:"mission"},h("i",{},state.achievements[key]?"★":"○"),h("span",{},a.name,h("span",{class:"muted"}," · "+a.desc))))))),
-    seals,
-    h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Domain boss fights"),h("p",{class:"muted",style:"margin-top:0"},"Up to 15 questions (fewer if the domain's pool is small), 3 mistakes allowed. The fourth mistake ends the fight. Finish every question at 80% or better to win, and you can always try again."),h("div",{class:"game-grid"},domainBosses.map(bossCard))),
-    finalBoss?h("section",{class:"panel"},h("h2",{style:"margin-bottom:8px"},"Final boss"),h("div",{class:"boss-final-row"},
-      h("div",{class:"boss-thumb-box",style:"max-height:220px"},
-        h("img",{src:BOSS_IMG(finalBoss.img,allDomainsCleared?"full":"thumb"),alt:finalBoss.name,width:"320",height:"320",loading:"lazy",class:allDomainsCleared?"":"locked"}),
-        state.bosses["final|"+finalBoss.domain]?h("div",{class:"boss-check",style:"background:"+finalBoss.color},"✓"):null),
-      h("b",{style:"font:700 26px var(--display)"},finalBoss.name),
-      h("p",{class:"muted",style:"margin:0"},allDomainsCleared?finalBoss.domain:finalRequires+" ("+domainWon+"/"+domainBosses.length+")"),
-      h("div",{class:"actions"},h("button",{class:"btn "+(state.bosses["final|"+finalBoss.domain]?"":"primary"),disabled:allDomainsCleared?null:true,onclick:()=>startBoss("final",finalBoss.domain)},state.bosses["final|"+finalBoss.domain]?"✓ Defeated · rematch":allDomainsCleared?"Challenge final boss":"Locked"),
-        state.bosses["final|"+finalBoss.domain]?h("button",{class:"btn small",onclick:()=>{ui.teachesBoss=finalBoss;render();}},"Look again"):null))):null,
-    ui.teachesBoss?h("div",{},teachesPanel(ui.teachesBoss),h("div",{class:"actions",style:"margin-top:10px"},h("button",{class:"btn",onclick:()=>{ui.teachesBoss=null;render();}},"Close"))):null);
 }
 function renderLab(){
   const generated=ui.generated.length?h("div",{class:"misslist",style:"margin-top:12px"},ui.generated.map((q,i)=>h("div",{class:"miss"},
@@ -2124,7 +2340,7 @@ function renderCampaignChrome(on){
   const g=G(), L=guidedLevels(), cleared=L.filter(x=>g.passed[x.d]).length;
   const at=g.started?L.findIndex(x=>x.d===guidedDay().d)+1:0;
   bar.replaceChildren(h("div",{class:"cbar"},
-    h("div",{class:"eyebrow"},"CertificationNation · Campaign · "+PROGRAM_LABEL[state.program]),
+    h("div",{class:"eyebrow"},BRAND.name+" · Campaign · "+PROGRAM_LABEL[state.program]),
     h("h1",{},"Night Shift at Leon River Water"),
     h("div",{class:"muted",style:"font:500 13px var(--mono)"},"Run "+g.run+(at?" · Level "+at+" of "+L.length:"")+" · "+cleared+" cleared"),
     h("div",{class:"meter","aria-hidden":"true"},h("i",{style:"width:"+Math.round(100*cleared/L.length)+"%"}))));
@@ -2428,83 +2644,265 @@ function goTab(t){
   ui.tab=t; saveUI(); queueFx("panel","#view"); render(); window.scrollTo(0,0);
 }
 function resumeRun(){ if(run&&run.pauseAt){ run.qt+=Date.now()-run.pauseAt; run.pauseAt=null; } }
+const STUDY_GROUPS=[["Learn",["plan","cards"]],["Practice",["quiz","acr","pbq","mock"]],["Build",["lab"]]];
 function renderStudyNav(){
-  const cur=ui.tab==="quiz"&&ui.quiz.mode==="acronym"?"acr":ui.tab;
-  return h("div",{class:"subnav",role:"tablist","aria-label":"Study"},STUDY_VIEWS.map(([k,l])=>h("button",{role:"tab","aria-selected":String(k===cur),onclick:()=>goTab(k)},l,
-    k==="quiz"&&run&&!run.finished&&run.pauseAt?h("span",{class:"dot","aria-label":"quiz paused"}):null)));
+  const cur=ui.tab==="quiz"&&ui.quiz.mode==="acronym"?"acr":ui.tab, label=Object.fromEntries(STUDY_VIEWS);
+  const kids=[];
+  STUDY_GROUPS.forEach(([g,keys],gi)=>{
+    if(gi) kids.push(h("span",{class:"sn-sep","aria-hidden":"true"}));
+    kids.push(h("div",{class:"sn-group",role:"presentation"},keys.map(k=>h("button",{role:"tab","aria-selected":String(k===cur),onclick:()=>goTab(k)},label[k],
+      k==="quiz"&&run&&!run.finished&&run.pauseAt?h("span",{class:"dot","aria-label":"quiz paused"}):null))));
+  });
+  return h("div",{class:"subnav",role:"tablist","aria-label":"Study"},kids);
 }
+// ---------- 2.2: shared bits for bosses and icons ----------
+function svgIcon(name){
+  const NS="http://www.w3.org/2000/svg", s=document.createElementNS(NS,"svg");
+  s.setAttribute("viewBox","0 0 16 16"); s.setAttribute("aria-hidden","true"); s.setAttribute("fill","none"); s.setAttribute("stroke","currentColor"); s.setAttribute("stroke-width","1.8"); s.setAttribute("stroke-linecap","round"); s.setAttribute("stroke-linejoin","round");
+  const P={lock:["M4.5 7.5h7v6h-7z","M6 7.5V5.5a2 2 0 0 1 4 0v2"],check:["M3 8.5l3 3 7-7"],dot:["M8 8m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"]}[name]||[];
+  P.forEach(d=>{ const p=document.createElementNS(NS,"path"); p.setAttribute("d",d); s.appendChild(p); });
+  return s;
+}
+const bossKeyOf=b=>(b.final?"final":b.track)+"|"+b.domain;
+const domainBossOrder=()=>["sc","sec"].filter(inProgram).flatMap(t=>(DOMS[t]||[]).map(d=>bossFor(t,d)).filter(Boolean));
+function bossOpen(b){
+  if(b.final) return domainBossOrder().every(x=>state.bosses[bossKeyOf(x)]);
+  return Object.values(Q).some(q=>coreQ(q)&&q.track===b.track&&q.dom===b.domain&&q.d<=unlockedDay());
+}
+function bossState(b){ return state.bosses[bossKeyOf(b)]?"won":bossOpen(b)?"open":"locked"; }
+function bossUnlockText(b){
+  if(b.final) return programOf()==="sc"?"Defeat the four SC-900 bosses":programOf()==="sec"?"Defeat the five Security+ bosses":"Defeat all nine domain bosses";
+  const fd=programDays().find(d=>d.track===b.track&&d.dom===b.domain);
+  return "Unlocks at Level "+(fd?displayDay(fd.d):"?");
+}
+function bossBadge(b,cls){
+  const s=bossState(b);
+  return h("span",{class:(cls||"bstate")+" "+s},svgIcon(s==="won"?"check":s==="open"?"dot":"lock"),s==="won"?"Defeated":s==="open"?"Available now":bossUnlockText(b));
+}
+function bossPreview(b){
+  const s=bossState(b);
+  return h("section",{class:"encounter mini",style:"--boss:"+b.color,"aria-label":"Next challenge"},
+    h("div",{class:"enc-art"},h("img",{src:BOSS_IMG(b.img,"thumb"),alt:b.name+" boss artwork",width:"320",height:"320",loading:"lazy",class:s==="locked"?"dim":null})),
+    h("div",{class:"enc-body"},
+      h("p",{class:"enc-kicker"},"Next challenge"),
+      h("h2",{class:"enc-name"},b.name),
+      h("p",{class:"enc-dom"},b.final?"Final boss · every domain":TRACK[b.track]+" · "+b.domain),
+      bossBadge(b),
+      h("button",{class:"btn small"+(s==="open"?" primary":""),onclick:()=>{ui.arenaPick=b.id;goTab("game");}},s==="open"?"Go to the encounter":"See the encounter")));
+}
+function runLabel(){ return tierName(state.prestige)+(state.prestige?" · Prestige "+state.prestige:" · Run "+((state.lifetime.runsCompleted||0)+1)); }
+
+// ---------- Home ----------
+function renderHome(){
+  const t=unlockedDay(), day=BYDAY[t], due=dueKeys().length, A=attempts.slice().sort((a,b)=>b.ts-a.ts);
+  const paused=run&&!run.finished, isNew=!A.length, N=programDays().length;
+  const lesson={
+    meta:[TRACK[day.track],"Level "+displayDay(t)+" of "+N,day.dom?day.dom.replace(/^\d /,""):(day.kind==="review"?"Review checkpoint":"Exam checkpoint"),day.min?"about "+day.min+" min":null].filter(Boolean),
+    title:(isNew?"Start: ":"Continue: ")+shortTitle(day.title), sub:topicsOf(day.title)||null,
+    cover:(day.pts||[]).map(p=>p.split("|")[0]).slice(0,6),
+    btn:"Open Level "+displayDay(t), go:()=>{ui.sel=t;goTab("plan");}};
+  let lead=lesson;
+  if(paused) lead={meta:["Paused quiz"],title:"Resume your quiz",sub:run.scope.label+" · question "+(run.i+1)+" of "+run.list.length+". Your place is saved.",btn:"Resume quiz",go:()=>goTab("quiz")};
+  else if(due) lead={meta:["Review","due today"],title:"Review "+Math.min(due,20)+" due question"+(Math.min(due,20)===1?"":"s"),
+    sub:"Questions come back on a schedule. Answering them on the day they're due is what makes them stick.",btn:"Start review",
+    go:()=>startQuiz({id:"review",label:"Review",keys:[]},"think",Math.min(due,20))};
+  const notesHere=CN.byDay[t]&&CN.byDay[t].some(cnInProgram);
+  const hero=h("section",{class:"hero"},
+    h("p",{class:"meta"},lead.meta.join(" · ")),
+    h("h1",{class:"hero-title"},lead.title),
+    lead.sub?h("p",{class:"hero-sub"},lead.sub):null,
+    lead.cover&&lead.cover.length?h("div",{class:"cover"},h("p",{class:"label"},"In this lesson"),h("ul",{},lead.cover.map(c=>h("li",{},c)))):null,
+    h("div",{class:"actions"},
+      h("button",{class:"btn primary lg",onclick:lead.go},lead.btn),
+      lead===lesson&&notesHere?h("button",{class:"btn ghost",onclick:()=>{ui.cn.view="notes";ui.cn.deck=t;goTab("cards");}},"Read the Pocket Notes"):null,
+      lead===lesson&&isNew?h("button",{class:"btn ghost",onclick:()=>startQuiz({id:"diagnostic",label:"Diagnostic",keys:Object.values(Q).filter(q=>coreQ(q)&&inProgram(q.track)&&!/^generated-|^acr-/.test(q.k)).map(q=>q.k)},"think",10)},"Take a 10-question check first"):null,
+      lead===lesson&&!isNew?h("button",{class:"btn ghost",onclick:()=>{ui.quiz.scope="domain";goTab("quiz");}},"Practice any domain"):null),
+    lead!==lesson?h("div",{class:"upnext"},h("span",{class:"meta"},"Then"),h("b",{},"Level "+displayDay(t)+": "+shortTitle(day.title)),h("button",{class:"btn ghost small",onclick:lesson.go},"Open lesson")):null);
+
+  const nb=nextBoss();
+  const sprint=state.study.sprint&&!state.study.sprint.finished?state.study.sprint:null;
+  const fd=cardsDue();
+  const quick=h("section",{class:"quick","aria-label":"Review and quick study"},
+    h("div",{class:"qrow"},h("b",{},"Review"),h("span",{class:"meta"},due?due+" question"+(due===1?"":"s")+" due today":Object.keys(state.review||{}).length?"Nothing due today. "+Object.keys(state.review).length+" on your schedule.":"Questions you answer come back here on a schedule."),
+      due&&lead.btn!=="Start review"?h("button",{class:"btn small",onclick:()=>startQuiz({id:"review",label:"Review",keys:[]},"think",Math.min(due,20))},"Review"):null),
+    fd?h("div",{class:"qrow"},h("b",{},"Flashcards"),h("span",{class:"meta"},fd+" due · self-rated"),h("button",{class:"btn small",onclick:()=>{ui.cn.flashSetup=false;startFlash("due",999);}},"Study")):null,
+    CN.concepts.some(cnInProgram)?h("div",{class:"qrow"},h("b",{},"Five-minute sprint"),
+      h("span",{class:"meta"},sprint?"Paused at step "+(sprint.i+1)+" of "+sprint.steps.length:"Three notes, three recall cards, one scenario"),
+      h("button",{class:"btn small",onclick:sprint?()=>{ui.cn.view="sprint";goTab("cards");}:startSprint},sprint?"Resume":"Start")):null,
+    h("div",{class:"qrow"},h("b",{},"Recent"),
+      A.length?h("ul",{class:"recent"},A.slice(0,3).map(a=>h("li",{},h("span",{},a.scope||a.scopeId),h("span",{},a.pct+"% · "+fmtD(new Date(a.ts)))))):h("span",{class:"meta"},"Your quiz scores will show up here.")));
+  const aside=h("div",{class:"aside"},nb?bossPreview(nb.b):null,quick);
+
+  const overview=["sc","sec"].filter(inProgram).map(tr=>h("div",{class:"dgroup "+tr},h("h3",{},TRACK[tr]),
+    h("ol",{class:"drows"},(DOMS[tr]||[]).map(dm=>{
+      const e=evidenceFor(q=>q.track===tr&&q.dom===dm), b=bossFor(tr,dm), won=b&&state.bosses[bossKeyOf(b)];
+      return h("li",{class:"drow"},
+        h("span",{class:"dname"},dm.replace(/^\d /,""),h("small",{},e.coverage.seen+" of "+e.coverage.total+" seen"+(e.recent.n>=MIN_EVIDENCE?" · "+e.recent.p+"% recent accuracy":""))),
+        h("span",{class:"dbar",role:"img","aria-label":e.coverage.p+"% of "+dm+" seen"},h("i",{style:"width:"+e.coverage.p+"%"})),
+        h("span",{class:"dboss"+(won?" won":"")},won?[svgIcon("check"),"Boss defeated"]:""),
+        h("button",{class:"btn small",onclick:()=>{ui.quiz.scope="domain";ui.quiz.dom=dm;ui.quiz.filter="all";goTab("quiz");},"aria-label":"Practice "+dm},"Practice"));
+    }))));
+  return h("div",{class:"home"},
+    h("div",{class:"home-grid"},hero,aside),
+    h("section",{},h("div",{class:"section-head"},h("h2",{},"Progress by domain"),h("p",{class:"meta"},"Coverage is how much of a domain you've seen. Accuracy appears after "+MIN_EVIDENCE+" answers.")),
+      h("div",{class:"overview"},overview)));
+}
+
+// ---------- Arena ----------
+function renderGame(){
+  const list=domainBossOrder().concat(FINAL_BOSS?[FINAL_BOSS]:[]);
+  const nb=nextBoss(), fallback=nb?nb.b:(FINAL_BOSS||list[0]);
+  const pick=list.find(b=>b.id===ui.arenaPick)||fallback;
+  return h("div",{class:"arena"},
+    h("div",{class:"arena-head"},h("h1",{},"Arena"),h("p",{},"Each boss guards one exam domain. Up to 15 questions, three mistakes allowed; finish every question at 80% or better to win. You can always try again.")),
+    encounterHero(pick),
+    ui.teachesBoss?h("div",{},teachesPanel(ui.teachesBoss),h("div",{class:"actions",style:"margin-top:10px"},h("button",{class:"btn",onclick:()=>{ui.teachesBoss=null;render();}},"Close"))):null,
+    h("section",{},h("div",{class:"section-head"},h("h2",{},"All encounters"),h("p",{class:"meta"},domainBossOrder().filter(b=>state.bosses[bossKeyOf(b)]).length+" of "+domainBossOrder().length+" domain bosses defeated")),
+      h("div",{class:"enc-grid"},list.map(b=>encCard(b,b===pick)))),
+    renderRecord());
+}
+function encounterHero(b){
+  const s=bossState(b), scopeId=b.final?"boss-final-"+b.domain:"boss-"+b.track+"-"+b.domain;
+  const tries=attempts.filter(a=>a.scopeId===scopeId), best=tries.length?Math.max(...tries.map(a=>a.pct)):null;
+  return h("section",{class:"encounter enc-lg",id:"encounter",style:"--boss:"+b.color,"aria-label":b.name},
+    h("div",{class:"enc-art"},h("img",{src:BOSS_IMG(b.img,"full"),alt:b.name+" boss artwork",width:"900",height:"900",class:s==="locked"?"dim":null})),
+    h("div",{class:"enc-body"},
+      h("p",{class:"enc-kicker"},b.final?"Final boss":TRACK[b.track]+" domain boss"),
+      h("h1",{class:"enc-name"},b.name),
+      h("p",{class:"enc-dom"},b.final?"Every domain in your program":b.domain.replace(/^\d /,"")),
+      bossBadge(b),
+      (b.teaches||[]).length?h("div",{class:"enc-tests"},h("p",{class:"label"},"What it tests"),h("ul",{},b.teaches.slice(0,4).map(t=>h("li",{},t.split(/:| — /)[0])))):null,
+      h("p",{class:"enc-rules"},best==null?"Not attempted yet.":"Your best: "+best+"% across "+tries.length+" attempt"+(tries.length===1?"":"s")+"."),
+      h("div",{class:"actions"},
+        h("button",{class:"btn lg"+(s==="open"?" primary":""),disabled:s==="locked"?true:null,onclick:()=>startBoss(b.final?"final":b.track,b.domain)},s==="won"?"Rematch":s==="open"?"Challenge "+b.name:"Locked"),
+        !b.final?h("button",{class:"btn",onclick:()=>{ui.quiz.scope="domain";ui.quiz.dom=b.domain;ui.quiz.filter="all";goTab("quiz");}},"Practice this domain"):null,
+        s==="won"?h("button",{class:"btn",onclick:()=>{ui.teachesBoss=b;render();}},"What it teaches"):null)));
+}
+function encCard(b,sel){
+  const s=bossState(b);
+  return h("button",{class:"enc-card "+s+(sel?" sel":""),"aria-pressed":String(sel),"aria-label":b.name+", "+b.domain+": "+(s==="won"?"defeated":s==="open"?"available":"locked"),
+    onclick:()=>{ ui.arenaPick=b.id; ui.teachesBoss=null; render(); const el=document.getElementById("encounter"); if(el) el.scrollIntoView({block:"start",behavior:reducedMotion()?"auto":"smooth"}); }},
+    h("span",{class:"enc-thumb"},h("img",{src:BOSS_IMG(b.img,"thumb"),alt:"",width:"320",height:"320",loading:"lazy"})),
+    h("span",{class:"enc-card-name"},b.name),
+    h("span",{class:"enc-card-dom"},b.final?"Final boss":b.domain.replace(/^\d /,"")),
+    h("span",{class:"enc-card-state"},svgIcon(s==="won"?"check":s==="open"?"dot":"lock"),s==="won"?"Defeated":s==="open"?"Available":(b.final?"Locked":bossUnlockText(b).replace("Unlocks at ",""))));
+}
+function renderRecord(){
+  const [title]=rank(), next=RANKS.find(([,xp])=>xp>state.xp), missions=missionData();
+  const seals=domainBossOrder();
+  return h("section",{class:"record","aria-label":"Your record"},
+    h("div",{},h("h3",{},"Rank"),h("p",{class:"big-line"},(state.activeTitle&&state.titles[state.activeTitle]&&CN_TITLES[state.activeTitle]?CN_TITLES[state.activeTitle].name+" · ":"")+title),
+      h("p",{class:"meta"},state.xp+" XP"+(next?" · "+(next[1]-state.xp)+" to "+next[0]:" · top rank")),
+      h("p",{class:"meta"},runLabel()+". XP and rank are optional extras; your level progress is in the header.")),
+    h("div",{},h("h3",{},"Daily missions"),missions.map(m=>h("div",{class:"mission"},h("i",{},m.now>=m.goal?"✓":"○"),h("span",{},m.text,h("span",{class:"muted"}," · "+Math.min(m.now,m.goal)+"/"+m.goal))))),
+    h("div",{},h("h3",{},"Achievements"),Object.entries(ACHIEVEMENTS).filter(([key,a])=>!a.retired||state.achievements[key]).map(([key,a])=>h("div",{class:"mission"},h("i",{},state.achievements[key]?"★":"○"),h("span",{},a.name,h("span",{class:"muted"}," · "+a.desc))))),
+    h("div",{},h("h3",{},"Domain seals"),h("div",{class:"seals"},seals.map(b=>{ const won=state.bosses[bossKeyOf(b)];
+      return h("div",{class:"seal"+(won?" won":""),style:"--seal:"+b.color,title:b.domain+(won?": earned "+fmtD(new Date(won)):": not yet earned")},
+        h("span",{"aria-hidden":"true"},won?"✓":"·"),h("small",{},b.domain.replace(/^\d /,""))); }))));
+}
+
+// ---------- Campaign door ----------
+function renderCampaign(){
+  if(state.studyMode==="campaign") return renderGuided();
+  const g=G(), L=guidedLevels(), cleared=L.filter(x=>g.passed[x.d]).length;
+  const cur=g.started?guidedDay():L[0], at=L.findIndex(x=>x.d===cur.d)+1, m=missionForDay(cur.d);
+  const ended=g.started&&g.phase==="ending";
+  const intro=CAMPAIGN_STORY.setting.split(/(?<=\.)\s+/).slice(0,2).join(" ");
+  const status=!g.started
+    ?[h("b",{},L.length+" missions, one for each level"),h("span",{},"You start with Mission 1"+(m?": "+m.title:"")+".")]
+    :ended?[h("b",{},"Run "+g.run+" complete"),h("span",{},cleared+" of "+L.length+" missions cleared. Open the campaign to see your ending or start a new run.")]
+    :[h("b",{},"Run "+g.run+" · Mission "+at+" of "+L.length+" · "+cleared+" cleared"),h("span",{},(m?"Current mission: "+m.title+". ":"")+"Your place is saved.")];
+  return h("div",{class:"camp-door"},
+    h("section",{class:"camp-hero"},
+      h("img",{src:"assets/bg/bg-hall-960.webp",srcset:"assets/bg/bg-hall-480.webp 480w, assets/bg/bg-hall-960.webp 960w, assets/bg/bg-hall-1920.webp 1920w",sizes:"(max-width: 1080px) 100vw, 1080px",alt:"",width:"960",height:"540"}),
+      h("div",{class:"camp-copy"},
+        h("p",{class:"enc-kicker"},"Campaign"),
+        h("h1",{class:"camp-title"},CAMPAIGN_STORY.title),
+        h("p",{class:"camp-intro"},intro),
+        h("div",{class:"camp-status"},status),
+        h("button",{class:"btn primary lg",onclick:()=>setStudyMode("campaign")},ended?"Open the campaign":g.started?"Resume the campaign":"Start the campaign"))),
+    h("dl",{class:"camp-facts"},
+      h("div",{},h("dt",{},"How a mission works"),h("dd",{},"A brief, the lesson as intel, a quiz you pass at "+GUIDED_PASS+"%, then decisions and a debrief.")),
+      h("div",{},h("dt",{},"What carries over"),h("dd",{},"Passing a mission also completes that level in self-paced study. XP, boss wins and your review schedule are shared.")),
+      h("div",{},h("dt",{},"Decisions are final"),h("dd",{},"Choices lock for the current run and decide which ending you reach. Leave any time from the bottom of the campaign page."))));
+}
+
+// ---------- Lessons ----------
+function renderPlan(){
+  const current=unlockedDay();
+  if(ui.sel==null||ui.sel>current||!BYDAY[ui.sel]||!inProgram(BYDAY[ui.sel].track)) ui.sel=current;
+  const pd=programDays(), disp=displayDayMap();
+  const groups=[], seen=new Set();
+  pd.forEach(d=>{
+    const last=groups[groups.length-1];
+    const key=d.dom||(last&&last.track===d.track?last.key:(d.kind==="exam"?"Exam day":"Review"));
+    if(last&&last.key===key&&last.track===d.track) last.days.push(d);
+    else { groups.push({key,track:d.track,label:seen.has(d.track+key)?"Final stretch":key.replace(/^(\d) /,"Domain $1 · "),days:[d]}); seen.add(d.track+key); }
+  });
+  const sel=BYDAY[ui.sel];
+  const navKids=[]; let lastTrack=null;
+  groups.forEach(gp=>{
+    if(programOf()==="both"&&gp.track!==lastTrack){ navKids.push(h("p",{class:"lvl-track"},TRACK[gp.track])); lastTrack=gp.track; }
+    const doneN=gp.days.filter(d=>state.done[d.d]).length, open=gp.days.some(d=>d.d===ui.sel||d.d===current);
+    navKids.push(h("details",{class:"lvl-group",open:open?true:null},
+      h("summary",{},h("span",{class:"lg-name"},gp.label),h("span",{class:"lg-meta"},doneN+" of "+gp.days.length)),
+      h("ol",{},gp.days.map(d=>{
+        const locked=d.d>current, done=!!state.done[d.d], isCur=d.d===current;
+        return h("li",{},h("button",{class:"lvl "+d.track+(d.d===ui.sel?" sel":"")+(done?" done":"")+(isCur?" current":""),"aria-current":d.d===ui.sel?"true":null,disabled:locked?true:null,
+          title:locked?"Finish Level "+disp[current]+" to unlock":null,
+          onclick:()=>{ ui.sel=d.d; ui.lvlOpen=false; render(); const a=document.querySelector(".lesson"); if(a&&window.innerWidth<=860) a.scrollIntoView({block:"start"}); const t=document.querySelector(".lesson h1"); if(t) t.focus({preventScroll:true}); }},
+          h("span",{class:"lvl-n"},disp[d.d]),
+          h("span",{class:"lvl-t"},d.kind?d.title:shortTitle(d.title)),
+          h("span",{class:"lvl-s"},done?[svgIcon("check"),"Done"]:isCur?"Current":locked?[svgIcon("lock"),h("span",{class:"sr-only"},"Locked")]:"")));
+      }))));
+  });
+  const toggle=h("button",{class:"lvl-toggle","aria-expanded":String(!!ui.lvlOpen),onclick:()=>{ui.lvlOpen=!ui.lvlOpen;render();}},
+    h("span",{},"Level "+disp[sel.d]+" · "+(sel.kind?sel.title:shortTitle(sel.title))),h("span",{},ui.lvlOpen?"Close":"Change level"));
+  return h("div",{style:"display:flex;flex-direction:column;gap:14px"},prestigeBanner(),
+    h("div",{class:"study-lessons"},
+      h("div",{},toggle,h("nav",{class:"lvl-nav"+(ui.lvlOpen?" open":""),"aria-label":"Levels"},navKids)),
+      lessonPanel(sel)));
+}
+function lessonPanel(d){
+  const date=fmtD(dayDate(d.d)), dd=displayDay(d.d);
+  const kids=[h("div",{class:"lesson-head"},
+    h("div",{class:"row",style:"gap:8px"},h("span",{class:"tag "+d.track},TRACK[d.track]),h("span",{class:"meta"},"Level "+dd+" · "+date+(d.dom?" · "+d.dom.replace(/^\d /,""):"")+(d.min?" · about "+d.min+" min":""))),
+    h("h1",{tabindex:"-1"},d.kind?d.title:shortTitle(d.title)),
+    !d.kind&&topicsOf(d.title)?h("p",{class:"hero-sub"},topicsOf(d.title)):null)];
+  kids.push(h("div",{class:"kp"},d.pts.map(p=>{const [a,b]=p.split("|");return h("section",{class:"kp-item"},h("h3",{},a),h("p",{},b));})));
+  if(d.terms) kids.push(h("section",{},h("h2",{},d.d===31?"Ports to lock in":"Terms to lock in"),h("dl",{class:"terms"},d.terms.map(([a,b])=>h("div",{},h("dt",{},a),h("dd",{},b))))));
+  if(d.trap) kids.push(h("aside",{class:"trap"},h("p",{class:"trap-label"},"Exam trap"),h("p",{},d.trap)));
+  const cs=(CN.byDay[d.d]||[]).filter(cnInProgram);
+  if(cs.length) kids.push(h("section",{class:"quickrev"},
+    h("p",{},h("b",{},"Quick review: "),cs.length+" Pocket Notes and "+cs.reduce((n,c)=>n+c.cards.length,0)+" flashcards for this level."),
+    h("div",{class:"actions"},h("button",{class:"btn small",onclick:()=>{ui.cn.view="notes";ui.cn.deck=d.d;goTab("cards");}},"Pocket Notes"),h("button",{class:"btn small",onclick:()=>{ui.cn.flashSetup=false;startFlash("d"+d.d,999);}},"Flashcards"))));
+  let scope;
+  if(d.kind==="review") scope={id:"day-"+d.d,label:"Level "+dd+" review",keys:keysFor(d.from)};
+  else if(d.kind==="exam") scope={id:"day-"+d.d,label:TRACK[d.track]+" warmup",keys:keysFor(allTrackDays(d.track))};
+  else scope={id:"day-"+d.d,label:"Level "+dd,keys:interleavedKeys([d.d])};
+  const forceWritten=d.kind==="review"&&rulesFor(state.prestige).forceWrittenOnReview;
+  const n=d.n||scope.keys.length;
+  const done=!!state.done[d.d], modesDone=modesCompleted(scope.id);
+  const requiredModes=forceWritten?["written"]:["think","blitz","written"];
+  const remaining=requiredModes.length-requiredModes.filter(m=>modesDone.has(m)).length;
+  kids.push(h("section",{class:"check"},h("h2",{},"Check yourself"),
+    h("p",{class:"meta"},n+" questions, shuffled. "+(done?"Level complete.":"Finish "+(forceWritten?"the Written quiz":"all three modes")+" to unlock the next level"+(remaining>0&&!forceWritten?" ("+remaining+" left).":"."))),
+    h("div",{class:"actions"},quizBtns(scope,n,forceWritten)),
+    forceWritten?h("p",{class:"muted",style:"margin:6px 0 0;font-size:13px"},"Shadow IT tier and up: review levels are Written only, no multiple choice."):null,
+    done&&d.d<unlockedDay()?h("div",{class:"actions",style:"margin-top:12px"},h("button",{class:"btn",onclick:()=>{ui.sel=d.d+1;render();window.scrollTo(0,0);}},"Next level")):null));
+  if(d.track==="sc"&&!d.kind) kids.push(h("p",{class:"meta"},"Pair it with the matching Microsoft Learn module (linked at the bottom of the page), about 30 minutes."));
+  if(d.track==="sec"&&!d.kind) kids.push(h("p",{class:"meta"},"Pair it with the matching Professor Messer videos for "+d.dom.replace(/^\d /,"Domain "+d.dom[0]+": ")+", about 30–45 minutes at 1.25×."));
+  return h("article",{class:"panel lesson"},kids);
+}
+
 function nextBoss(){
   const order=["sc","sec"].filter(inProgram).flatMap(t=>(DOMS[t]||[]).map(d=>bossFor(t,d)).filter(Boolean));
   const b=order.find(b=>!state.bosses[b.track+"|"+b.domain]);
   if(!b) return FINAL_BOSS&&!state.bosses["final|"+FINAL_BOSS.domain]?{b:FINAL_BOSS,open:order.every(x=>state.bosses[x.track+"|"+x.domain])}:null;
-  return {b,open:Object.values(Q).some(q=>q.track===b.track&&q.dom===b.domain&&q.d<=unlockedDay())};
+  return {b,open:bossOpen(b)};
 }
 function shortTitle(t){ const i=String(t||"").indexOf(":"); return i>0?t.slice(0,i).trim():String(t||""); }
 function topicsOf(t){ const i=String(t||"").indexOf(":"); return i>0?t.slice(i+1).trim():""; }
-function renderHome(){
-  const t=unlockedDay(), day=BYDAY[t], due=dueKeys().length, A=attempts.slice().sort((a,b)=>b.ts-a.ts);
-  const paused=run&&!run.finished;
-  let action;
-  if(paused) action={why:"You left a quiz partway through.",title:"Resume your quiz",detail:run.scope.label+" · question "+(run.i+1)+" of "+run.list.length,
-    btn:"Resume",go:()=>goTab("quiz")};
-  else if(due) action={why:due+" question"+(due===1?" is":"s are")+" due for review today. Reviewing on schedule is what makes it stick.",title:"Review "+Math.min(due,20)+" due question"+(Math.min(due,20)===1?"":"s"),
-    detail:"Due items first, then ones you've missed",btn:"Start review",go:()=>startQuiz({id:"review",label:"Review",keys:[]},"think",Math.min(due,20))};
-  else if(!A.length) action={why:"You haven't answered anything yet.",title:"Start: "+shortTitle(BYDAY[programDays()[0].d].title),sub:topicsOf(BYDAY[programDays()[0].d].title),
-    detail:"Level 1 · read the lesson, then take its quiz",btn:"Open Level 1",go:()=>{ui.sel=programDays()[0].d;goTab("plan");},
-    alt:["Or take a 10-question check across everything",()=>startQuiz({id:"diagnostic",label:"Diagnostic",keys:Object.values(Q).filter(q=>coreQ(q)&&inProgram(q.track)&&!/^generated-|^acr-/.test(q.k)).map(q=>q.k)},"think",10)]};
-  else action={why:"Nothing is due. Pick up where your plan left off.",title:"Continue: "+shortTitle(day.title),sub:topicsOf(day.title),
-    detail:"Level "+displayDay(t)+" · "+(day.dom||(day.kind==="review"?"Review checkpoint":"Exam checkpoint"))+(day.min?" · about "+day.min+" min":""),btn:"Open Level "+displayDay(t),go:()=>{ui.sel=t;goTab("plan");}};
-  const next=h("section",{class:"panel home-next"},
-    h("p",{class:"muted",style:"margin:0"},action.why),
-    h("h2",{style:"margin:0"},action.title),
-    action.sub?h("p",{class:"home-topics"},action.sub):null,
-    h("p",{style:"margin:0"},action.detail),
-    h("div",{class:"actions",style:"flex-wrap:wrap"},h("button",{class:"btn primary",onclick:action.go},action.btn),
-      action.alt?h("button",{class:"btn",onclick:action.alt[1]},action.alt[0]):null,
-      h("button",{class:"btn",onclick:()=>{ui.quiz.scope="domain";goTab("quiz");}},"Study anything instead")));
-  const nb=nextBoss();
-  const side=h("div",{class:"home-side"},
-    h("section",{class:"panel"},h("h3",{style:"margin:0 0 6px"},"Review queue"),
-      h("p",{style:"margin:0"},due?h("b",{},due+" due now"):"Nothing due today"),
-      h("p",{class:"muted",style:"margin:4px 0 0;font-size:13px"},Object.keys(state.review||{}).length+" questions on your schedule"),
-      cardsDue()?h("p",{style:"margin:8px 0 0"},h("button",{class:"linklike",onclick:()=>{ui.cn.flashSetup=false;startFlash("due",999);}},cardsDue()+" flashcard"+(cardsDue()===1?"":"s")+" due")," (self-rated)"):null),
-    CN.concepts.some(cnInProgram)?h("section",{class:"panel"},h("h3",{style:"margin:0 0 6px"},"Short on time?"),
-      state.study.sprint&&!state.study.sprint.finished
-        ?[h("p",{style:"margin:0"},"Your sprint is waiting at step "+(state.study.sprint.i+1)+" of "+state.study.sprint.steps.length+"."),h("button",{class:"btn small primary",style:"margin-top:8px",onclick:()=>{ui.cn.view="sprint";goTab("cards");}},"Resume sprint")]
-        :[h("p",{style:"margin:0"},"A 5-minute sprint: three notes, three recall cards, one workplace scenario."),h("button",{class:"btn small",style:"margin-top:8px",onclick:startSprint},"Start a sprint")]):null,
-    h("section",{class:"panel"},h("h3",{style:"margin:0 0 6px"},"Recent activity"),
-      A.length?h("ul",{class:"home-list"},A.slice(0,4).map(a=>h("li",{},h("span",{},a.scope||a.scopeId),h("span",{class:"muted tabnum"},a.pct+"% · "+fmtDT(a.ts))))):h("p",{class:"muted",style:"margin:0"},"Your quizzes will show up here.")),
-    nb?h("section",{class:"panel"},h("h3",{style:"margin:0 0 6px"},"Next boss"),
-      h("p",{style:"margin:0"},h("b",{},nb.b.name)," · "+(nb.b.final?"final boss":nb.b.domain)),
-      h("p",{class:"muted",style:"margin:4px 0 0;font-size:13px"},nb.open?"Ready to challenge in the Arena.":"Unlocks when you reach its domain."),
-      nb.open?h("button",{class:"btn small",style:"margin-top:8px",onclick:()=>goTab("game")},"Go to the Arena"):null):null);
-  const doms=["sc","sec"].filter(inProgram).flatMap(tr=>(DOMS[tr]||[]).map(dm=>({tr,dm})));
-  const map=h("section",{class:"panel"},h("h3",{style:"margin:0 0 4px"},"Domain map"),
-    h("p",{class:"muted",style:"margin:0 0 12px;font-size:13px"},"Coverage is how much of a domain you've seen. Accuracy needs at least "+MIN_EVIDENCE+" answers before it means much."),
-    h("div",{class:"dommap"},doms.map(({tr,dm})=>{
-      const e=evidenceFor(q=>q.track===tr&&q.dom===dm), boss=bossFor(tr,dm), won=boss&&state.bosses[tr+"|"+dm];
-      return h("div",{class:"domcard "+tr},
-        h("div",{class:"row",style:"justify-content:space-between;gap:8px"},h("b",{},dm),won?h("span",{class:"chip good"},"Boss defeated"):null),
-        h("span",{class:"muted",style:"font-size:12px"},TRACK[tr]),
-        h("div",{class:"runbar","aria-hidden":"true"},h("i",{style:"width:"+e.coverage.p+"%"})),
-        h("span",{style:"font-size:13px"},e.coverage.seen+" of "+e.coverage.total+" seen · "+(e.recent.n>=MIN_EVIDENCE?e.recent.p+"% recent accuracy":e.n?"accuracy after "+MIN_EVIDENCE+" answers ("+e.n+" so far)":"not started")),
-        h("button",{class:"btn small",onclick:()=>{ui.quiz.scope="domain";ui.quiz.dom=dm;ui.quiz.filter="all";goTab("quiz");}},"Practice"));
-    })));
-  return h("div",{class:"home"},h("div",{class:"home-top"},next,side),map);
-}
-function renderCampaign(){
-  if(state.studyMode==="campaign") return renderGuided();
-  // Self-paced: the Campaign destination is a door into the one campaign. The old per-day
-  // mission list was retired in 2.0 (it didn't shuffle choices and ran on different rules).
-  const g=G(), L=guidedLevels(), cleared=L.filter(x=>g.passed[x.d]).length;
-  const at=g.started?L.findIndex(x=>x.d===guidedDay().d)+1:0;
-  const status=!g.started?"Not started yet.":g.phase==="ending"?"Run "+g.run+" complete.":"Run "+g.run+": level "+at+" of "+L.length+", "+cleared+" cleared.";
-  return h("section",{class:"panel",style:"display:flex;flex-direction:column;gap:12px"},
-    h("h2",{style:"margin:0"},"Night Shift at Leon River Water"),
-    h("p",{style:"margin:0;max-width:62ch"},"The guided campaign: each level is a mission brief, the lesson as intel, a quiz you pass at "+GUIDED_PASS+"%, then decisions that shape which of nine endings you reach. It runs as its own page, and your self-paced progress carries over."),
-    h("p",{class:"muted",style:"margin:0"},status),
-    h("div",{class:"actions"},h("button",{class:"btn primary",onclick:()=>setStudyMode("campaign")},g.started?"Resume the campaign":"Enter campaign mode")));
-}
 // ---------- stats export / import ----------
 // Donations: Ko-fi. Free forever; this link is the only ask, and it tells students not to.
 const DONATION_URL="https://ko-fi.com/rukeios";
@@ -2540,7 +2938,7 @@ function statsSnapshot(){
 function buildExportPayload(){
   const snap=statsSnapshot();
   return {
-    app:"ExamHelp", brand:"CertificationNation", schema:3, exported:new Date().toISOString(),
+    app:"ExamHelp", brand:BRAND.name, schema:3, exported:new Date().toISOString(),
     program:programOf(),
     student:{name:statsIO.name||""},
     plan:{start:state.start, daysDone:Object.keys(state.done).length},
@@ -2558,25 +2956,25 @@ function buildExportPayload(){
 // prestige, campaign run with decisions, option order and phase, custom questions), every
 // attempt, and view preferences. API keys live in a separate store and are never included.
 const BACKUP_SCHEMA=5;   // 5 (v2.1): adds bookmarks, flashcard state, stamps, titles and saved study sessions inside state
-const APP_IDS=["ExamHelp","CertificationNation"];   // files from before and after the rename
+const APP_IDS=["ExamHelp","CertificationNation","Rukeios Study"];   // files from before and after the rename
 function buildBackup(){
   let uiPrefs=null; try{ uiPrefs=JSON.parse(localStorage.getItem(LS+".ui")||"null"); }catch(e){}
   let theme=null; try{ theme=localStorage.getItem(LS+".theme"); }catch(e){}
-  return { app:"ExamHelp", brand:"CertificationNation", kind:"backup", schema:BACKUP_SCHEMA, exported:new Date().toISOString(),
+  return { app:"ExamHelp", brand:BRAND.name, kind:"backup", schema:BACKUP_SCHEMA, exported:new Date().toISOString(),
     contentVersion:(PATCHNOTES[0]&&PATCHNOTES[0].v)||null,
     state:JSON.parse(JSON.stringify(state)), attempts:JSON.parse(JSON.stringify(attempts)), prefs:{ui:uiPrefs,theme} };
 }
 function downloadBackup(){
   const blob=new Blob([JSON.stringify(buildBackup(),null,2)],{type:"application/json"});
   const url=URL.createObjectURL(blob), a=document.createElement("a");
-  a.href=url; a.download="certificationnation-backup-"+todayISO()+".json"; document.body.appendChild(a); a.click(); a.remove();
+  a.href=url; a.download=BRAND.name.toLowerCase().replace(/\s+/g,"-")+"-backup-"+todayISO()+".json"; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 // Checks every field a restore would write. Returns a list of problems; empty means safe.
 function validateBackup(p){
   const errs=[], isObj=x=>x&&typeof x==="object"&&!Array.isArray(x), isNum=x=>typeof x==="number"&&isFinite(x);
-  if(!isObj(p)||!APP_IDS.includes(p.app)||p.kind!=="backup") return ["not an ExamHelp or CertificationNation backup file"];
-  if(!isNum(p.schema)||p.schema>BACKUP_SCHEMA) errs.push("made by a newer version of CertificationNation (backup format "+p.schema+")");
+  if(!isObj(p)||!APP_IDS.includes(p.app)||p.kind!=="backup") return ["not a "+BRAND.name+" (or ExamHelp) backup file"];
+  if(!isNum(p.schema)||p.schema>BACKUP_SCHEMA) errs.push("made by a newer version of "+BRAND.name+" (backup format "+p.schema+")");
   const st=p.state;
   if(!isObj(st)) return errs.concat("missing learner state");
   if(!isObj(st.done)) errs.push("level progress is malformed");
@@ -2625,7 +3023,7 @@ function undoLastImport(){
 function restoreBackup(p){
   const problems=validateBackup(p);
   if(problems.length){ statsIO.importError="Nothing was changed. This backup can't be restored: "+problems.join("; ")+"."; render(); return; }
-  if(!snapshotBeforeImport()){ statsIO.importError="Nothing was changed. This browser won't let CertificationNation save a safety copy first."; render(); return; }
+  if(!snapshotBeforeImport()){ statsIO.importError="Nothing was changed. This browser won't let "+BRAND.name+" save a safety copy first."; render(); return; }
   try{
     localStorage.setItem(LS,JSON.stringify({state:p.state,attempts:p.attempts}));
     if(p.prefs&&p.prefs.ui) localStorage.setItem(LS+".ui",JSON.stringify(p.prefs.ui));
@@ -2638,7 +3036,7 @@ function buildSummaryText(){
   const readiness={sc:snap.recent("sc"),sec:snap.recent("sec")};
   const dateStr=new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
   const lines=[];
-  lines.push("CertificationNation — "+(statsIO.name||"Study stats")+" — "+dateStr);
+  lines.push(BRAND.name+" — "+(statsIO.name||"Study stats")+" — "+dateStr);
   lines.push(snap.A.length+" tests · "+snap.items.length+" questions · "+snap.streak+(snap.streak===1?" day":" days")+" streak");
   lines.push("");
   lines.push("SC-900 recent accuracy: "+(readiness.sc?readiness.sc.pct+"% (last "+readiness.sc.n+" answers)":"no answers yet"));
@@ -2659,7 +3057,7 @@ function downloadStatsExport(){
   const payload=buildExportPayload();
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
   const url=URL.createObjectURL(blob);
-  const a=document.createElement("a"); a.href=url; a.download="certificationnation-"+slugify(statsIO.name)+"-"+todayISO()+".json";
+  const a=document.createElement("a"); a.href=url; a.download=BRAND.name.toLowerCase().replace(/\s+/g,"-")+"-"+slugify(statsIO.name)+"-"+todayISO()+".json";
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
@@ -2692,7 +3090,7 @@ function handleStatsImportFile(file){
       statsIO.importPreview=parsed; render(); return;
     }
     if(!(parsed&&APP_IDS.includes(parsed.app)&&typeof parsed.schema==="number"&&parsed.schema<=3&&Array.isArray(parsed.attempts))){
-      statsIO.importError="That doesn't look like a CertificationNation (or ExamHelp) file. Use a Full backup or an Instructor summary."; render(); return;
+      statsIO.importError="That doesn't look like a "+BRAND.name+" (or ExamHelp) file. Use a Full backup or an Instructor summary."; render(); return;
     }
     statsIO.importPreview=parsed; render();
   };
@@ -2770,6 +3168,10 @@ function renderStatsIOPanel(hasAttempts){
       h("button",{class:"linklike",style:"font-size:inherit",onclick:undoLastImport},"Undo it and restore what you had before")):null; })());
 }
 // ---------- stats ----------
+function standingLine(){
+  const [title]=rank(), next=RANKS.find(([,xp])=>xp>state.xp), N=programDays().length, doneN=programDays().filter(d=>state.done[d.d]).length;
+  return h("div",{class:"standing"},h("span",{},h("b",{},doneN+" of "+N)," levels done"),h("span",{},h("b",{},title)," · "+state.xp+" XP"+(next?" ("+(next[1]-state.xp)+" to "+next[0]+")":"")),h("span",{class:"muted"},runLabel()));
+}
 function renderStats(){
   const A=attempts.slice().sort((a,b)=>a.ts-b.ts);
   if(!A.length) return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
@@ -2859,6 +3261,7 @@ function renderStats(){
     h("tbody",{},state.lifetime.prestigeHistory.slice().reverse().map(r=>h("tr",{},h("td",{},tierName(r.level)),h("td",{},fmtDT(r.completedAt)),h("td",{class:"num"},r.accuracy+"%")))))):h("p",{class:"muted"},"Finish all 33 levels and prestige to start your run history.");
 
   return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
+    standingLine(),
     tiles,
     renderTitlesPanel(),
     h("section",{class:"panel"},h("div",{class:"row",style:"justify-content:space-between;margin-bottom:10px"},h("h3",{},"Score trend · last "+last.length+" tests"),chartLegend),h("div",{class:"chartbox"},svg)),
@@ -3065,10 +3468,11 @@ function renderMock(){
 // change, so their progress is exactly where it was.
 function renameNotice(){
   if(!hadProfile) return null;
-  try{ if(localStorage.getItem(LS+".renamed")) return null; }catch(e){ return null; }
+  try{ if(localStorage.getItem(LS+".renamed2")) return null; }catch(e){ return null; }
+  let was="ExamHelp"; try{ if(localStorage.getItem(LS+".renamed")) was="CertificationNation"; }catch(e){}
   return h("div",{class:"rename-note",role:"status"},
-    h("p",{style:"margin:0"},h("b",{},"ExamHelp is now CertificationNation. "),"Your progress is still here: levels, scores, campaign decisions, rewards and backups all carried over."),
-    h("button",{class:"btn small",onclick:()=>{ try{ localStorage.setItem(LS+".renamed","1"); }catch(e){} render(); }},"Got it"));
+    h("p",{style:"margin:0"},h("b",{},was+" is now "+BRAND.name+". "),"Your progress is still here: levels, scores, notes, campaign decisions, rewards and backups all carried over."),
+    h("button",{class:"btn small",onclick:()=>{ try{ localStorage.setItem(LS+".renamed2","1"); }catch(e){} render(); }},"Got it"));
 }
 // ---------- CertificationNation 2.1: notes, flashcards, comparisons, field guide, sprints ----------
 // Content comes from the CN_PACKS data modules (see CN above). Nothing here edits content; learner
@@ -3369,7 +3773,7 @@ function renderGuide(){
       h("button",{class:"btn",disabled:shown.length?null:true,onclick:printGuide},"Print")),
     shown.length?null:h("p",{class:"muted",style:"margin:0"},"No saved items match."),
     h("div",{class:"guide-print"},
-      h("h1",{class:"print-only"},"My Field Guide · CertificationNation"),
+      h("h1",{class:"print-only"},"My Field Guide · "+BRAND.name),
       Object.entries(groups).map(([g,xs])=>h("div",{class:"guide-group"},h("h3",{},g),xs.map(guideRow)))));
 }
 function guideRow(x){

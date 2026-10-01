@@ -3,6 +3,18 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.2.0", date:"2026-10-01", title:"Rukeios Study: a cleaner, calmer look", tag:"feature", items:[
+  "New name and logo: CertificationNation is now Rukeios Study, your certification field guide. Your progress, notes, campaign decisions, rewards and backups all carry over, and older backup files still import.",
+  "One progress display in the header: your level in the plan. Rank, XP and your run moved to the Arena and Progress, where they're explained.",
+  "Home leads with the one thing to do next, shows what the lesson covers, and previews your next boss with its artwork. Review and the five-minute sprint sit beside it in a compact list, and empty sections no longer take up space.",
+  "The Arena opens on your next encounter: large artwork, what it tests, whether it's available, locked or defeated (shown with an icon and words, not just color), and a clear Challenge button. Pick any boss below to bring it forward. Rank, missions, achievements and seals are underneath.",
+  "The Campaign tab now introduces Night Shift at Leon River Water properly: the story setup, where you are (or where you'll start), one Start or Resume button, and what carries over between modes.",
+  "Lessons: the 33 level boxes are replaced by a level list grouped by exam domain, with your current level open and the rest one tap away. Lessons read better: shorter lines, clearer section headings, a cleaner terms list, a stronger exam-trap callout, and quick links to that level's Pocket Notes and flashcards.",
+  "Study tools are grouped into Learn, Practice and Build.",
+  "A new look throughout: paper-toned light theme, matching dark theme, new type, and fonts served with the app instead of from Google."
+]},
+
+
 { v:"2.1.0", date:"2026-10-01", title:"CertificationNation 2.1: study your way", tag:"feature", items:[
   "ExamHelp is now CertificationNation. Nothing about your progress changed: levels, scores, campaign decisions, rewards and backups all carry over, and old ExamHelp backup files still import.",
   "New in Study: Notes & cards. Pocket Notes are short, copyable study cards for every SC-900 lesson (61 concepts), each with an exam clue and links to its Microsoft Learn sources. Copy a note, save it, or practice it.",
