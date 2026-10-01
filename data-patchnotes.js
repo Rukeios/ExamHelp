@@ -3,6 +3,14 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.2.1", date:"2026-10-01", title:"Tighter Arena, lesson visuals", tag:"fix", items:[
+  "The rename notice is now a small dismissible line on Home only, instead of a wide strip on every screen.",
+  "Arena: the challenge button sits right under the boss's name and status, so it's visible without scrolling on a typical laptop screen. The artwork is still large, just shorter.",
+  "Boss panels now take on the exact background color of each boss's artwork, so the image and the text read as one piece with no visible seam.",
+  "Lessons get a few visuals where they help: a CIA triad diagram, a shared-responsibility table across on-premises, IaaS, PaaS and SaaS, the defense-in-depth layers, real hashing examples (expandable), the three MFA factor types, and the Conditional Access signals-to-decision flow."
+]},
+
+
 { v:"2.2.0", date:"2026-10-01", title:"Rukeios Study: a cleaner, calmer look", tag:"feature", items:[
   "New name and logo: CertificationNation is now Rukeios Study, your certification field guide. Your progress, notes, campaign decisions, rewards and backups all carry over, and older backup files still import.",
   "One progress display in the header: your level in the plan. Rank, XP and your run moved to the Arena and Progress, where they're explained.",
