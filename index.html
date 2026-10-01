@@ -1656,6 +1656,8 @@ function drawQR(canvas,text,mode,px){
   c.fillStyle="#fff"; c.fillRect(0,0,W,W); c.fillStyle="#000";
   for(let r=0;r<n;r++) for(let k=0;k<n;k++) if(q.isDark(r,k)) c.fillRect((k+quiet)*scale,(r+quiet)*scale,scale,scale);
 }
+function onPhone(){ try{ return matchMedia("(pointer:coarse)").matches&&Math.min(screen.width,screen.height)<700; }catch(e){ return false; } }
+const otherDev=()=>onPhone()?"computer":"phone";
 function siteLink(){ return location.origin+location.pathname+"#receive"; }
 
 let mv={open:false,tab:"send",frames:null,i:0,playing:true,timer:null,busy:false,err:null,
@@ -1780,8 +1782,8 @@ function renderMoveModal(){
     const linkCv=h("canvas",{class:"mv-link-qr","aria-hidden":"true"});
     body=[
       h("section",{class:"mv-step"},h("span",{class:"mv-n","aria-hidden":"true"},"1"),h("div",{},
-        h("h3",{},"Open "+BRAND.name+" on your phone"),
-        mv.frames?h("p",{class:"muted"},"On your phone: open ",h("b",{class:"mv-url"},siteLink().replace(/^https?:\/\//,"").replace(/#receive$/,""))," → Receive on this device → Start camera.")
+        h("h3",{},"Open "+BRAND.name+" on your "+otherDev()),
+        mv.frames||onPhone()?h("p",{class:"muted"},"On your "+otherDev()+": open ",h("b",{class:"mv-url"},siteLink().replace(/^https?:\/\//,"").replace(/#receive$/,""))," → Progress → Move to another device → Receive on this device → Start camera."+(onPhone()?" Your computer needs a webcam. No webcam? Use the file option below.":""))
           :[h("p",{class:"muted"},"Scan this with your phone's camera. It opens the site straight to Receive. Or go to ",h("b",{class:"mv-url"},siteLink().replace(/^https?:\/\//,"").replace(/#receive$/,"")),"."),linkCv])),
       h("section",{class:"mv-step"},h("span",{class:"mv-n","aria-hidden":"true"},"2"),h("div",{},
         h("h3",{},"Show the transfer codes"),
@@ -1797,7 +1799,7 @@ function renderMoveModal(){
         mv.err?h("p",{class:"mv-err",role:"alert"},mv.err):null)),
       h("section",{class:"mv-step mv-alt"},h("span",{class:"mv-n","aria-hidden":"true"},"or"),h("div",{},
         h("h3",{},"Send a backup file instead"),
-        h("p",{class:"muted"},"Share it to your phone with AirDrop, Messages, email or a drive, then on the phone choose Receive → Open a backup file."),
+        h("p",{class:"muted"},"Share it to your "+otherDev()+" with AirDrop, Messages, email or a drive, then on the "+otherDev()+" choose Receive → Open a backup file."),
         h("button",{class:"btn",onclick:shareBackup},navigator.canShare?"Share backup file":"Download backup file")))];
     setTimeout(()=>{ if(window.qrcode&&linkCv.isConnected) drawQR(linkCv,siteLink(),"Byte",150); else loadVendor("qrcode-generator.js").then(()=>{ if(linkCv.isConnected) drawQR(linkCv,siteLink(),"Byte",150); }).catch(()=>{ linkCv.remove(); }); },0);
   } else if(mv.preview){
@@ -1811,7 +1813,7 @@ function renderMoveModal(){
     body=[
       h("section",{class:"mv-step"},h("span",{class:"mv-n","aria-hidden":"true"},"1"),h("div",{},
         h("h3",{},"Scan the codes from your other device"),
-        h("p",{class:"muted"},"On the device that has your progress, open Progress (or Plan settings) → Move to another device → Show transfer codes."),
+        h("p",{class:"muted"},"On the device that has your progress, open Progress (or Plan settings) → Move to another device → Show transfer codes."+(onPhone()?"":" Using a webcam? Turn the phone's brightness up and hold it steady, about a foot from the camera.")),
         mv.scan?[h("div",{class:"mv-cam"},h("video",{id:"mv-video",muted:true,playsinline:true,autoplay:true,"aria-label":"Camera view"})),
             h("div",{class:"mv-prog",role:"progressbar","aria-label":"Codes received","aria-valuemin":"0","aria-valuemax":"100","aria-valuenow":"0"},h("i",{id:"mv-bar"})),
             h("p",{class:"mv-count",id:"mv-got"},"Point the camera at the codes"),
@@ -1821,7 +1823,7 @@ function renderMoveModal(){
         mv.err?h("p",{class:"mv-err",role:"alert"},mv.err):null)),
       h("section",{class:"mv-step mv-alt"},h("span",{class:"mv-n","aria-hidden":"true"},"or"),h("div",{},
         h("h3",{},"Open a backup file"),
-        h("p",{class:"muted"},"If you sent yourself a backup file, pick it here."),
+        h("p",{class:"muted"},onPhone()?"If you sent yourself a backup file, pick it here.":"No webcam? On your phone choose Send from this device → Share backup file, send it to this computer, then pick it here."),
         h("label",{class:"btn"},"Open a backup file",h("input",{type:"file",accept:".json,application/json",class:"sr-only",onchange:e=>{ moveFile(e.target.files[0]); e.target.value=""; }})),
         mv.fileErr?h("p",{class:"mv-err",role:"alert"},mv.fileErr):null))];
   }
