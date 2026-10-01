@@ -884,6 +884,68 @@ header nav.tabs{grid-area:nav}
 .cbar h1{font-family:var(--ops)}
 body.campaign-mode{--mark:url("assets/brand/mark-dark-96.png");--accent:#3CC4BB;--accent-ink:#62D4CC;--accent-fill:#2FB3AA;--accent-soft:#103538;--on-accent:#06201F;--ink2:#CCD6E2;--line2:#1C2B40}
 
+/* ---------- 2.2.1 refinements ---------- */
+/* compact rename notice (Home only) */
+.rename-note{display:inline-flex;align-self:flex-start;align-items:center;gap:10px;margin:0 0 14px;padding:6px 6px 6px 14px;border:1px solid var(--line);border-left:3px solid var(--accent-fill);border-radius:999px;background:var(--surface);font-size:14px;max-width:100%}
+.rename-note p{margin:0;line-height:1.35}
+.rn-x{border:0;background:none;color:var(--muted);font-size:20px;line-height:1;width:32px;height:32px;border-radius:50%;flex:0 0 auto}
+.rn-x:hover{background:var(--sunk);color:var(--ink)}
+@media (max-width:480px){.rename-note p span{display:none}}
+/* encounters: the panel takes the artwork's own edge color, so art and text read as one piece */
+.encounter{background:var(--edge,#000)}
+.encounter::before{background:radial-gradient(90% 120% at 100% 0%,color-mix(in srgb,var(--boss) 16%,transparent),transparent 62%)}
+.enc-art{background:var(--edge,#000)}
+.encounter.enc-lg{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:center}
+.encounter.enc-lg .enc-art{min-height:0;aspect-ratio:auto;height:clamp(300px,56vh,470px)}
+.encounter.enc-lg .enc-body{padding:clamp(20px,3vw,32px) clamp(20px,3vw,36px)}
+.encounter.enc-lg .actions{margin:4px 0 2px}
+.enc-tests{border-top:1px solid var(--enc-line);padding-top:12px;margin-top:4px}
+.arena{gap:22px}
+@media (max-width:760px){.encounter.enc-lg .enc-art{height:min(44vh,340px)}}
+/* lesson visuals */
+.lv{margin:14px 0 0;padding:16px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--bg)}
+.lv figcaption{margin-top:12px;font-size:13.5px;color:var(--muted);line-height:1.45}
+.cia{position:relative;display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"c c" "i a";gap:22px 18px;padding:4px 0}
+.cia-tri{position:absolute;inset:18% 22% 12%;width:56%;height:70%;z-index:0}
+.cia-tri polygon{fill:var(--accent-soft);stroke:var(--accent-fill);stroke-width:1.5;opacity:.9}
+.cia-node{position:relative;z-index:1;display:flex;flex-direction:column;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;max-width:260px}
+.cia-node b{font:700 17px/1.2 var(--display)}
+.cia-node span{font-size:14px}
+.cia-node.c{grid-area:c;justify-self:center;text-align:center}
+.cia-node.i{grid-area:i;justify-self:start}
+.cia-node.a{grid-area:a;justify-self:end}
+@media (max-width:560px){.cia{grid-template-columns:1fr;grid-template-areas:"c" "i" "a";gap:8px}.cia-tri{display:none}.cia-node{max-width:none;justify-self:stretch!important;text-align:left!important}}
+.sr-table{font-size:14px;min-width:520px}
+.sr-table th,.sr-table td{white-space:normal;padding:7px 8px;text-align:center;border-bottom:1px solid var(--line2)}
+.sr-table th[scope=row]{text-align:left;font:600 14px var(--body);color:var(--ink);text-transform:none;letter-spacing:0}
+.sr-table thead th{font:600 13px var(--body);text-transform:none;letter-spacing:0;color:var(--muted)}
+.sr-table td.you{background:color-mix(in srgb,var(--accent-fill) 18%,transparent);color:var(--ink);font-weight:600}
+.sr-table td.prov{color:var(--muted)}
+.sr-table tr.sr-split th,.sr-table tr.sr-split td{border-bottom:2px solid var(--ink)}
+.did-layer{border:1.5px solid color-mix(in srgb,var(--accent-fill) calc(30% + var(--i)*10%),var(--line));border-radius:10px;padding:6px 8px 8px;background:color-mix(in srgb,var(--accent-fill) calc(var(--i)*4%),var(--surface))}
+.did-layer>span{display:block;font:600 13px/1.3 var(--body);color:var(--ink2);padding:0 2px 6px}
+.did-layer .did-layer{margin-top:0}
+.did-layer:not(:has(.did-layer)){padding:10px;text-align:center;background:var(--accent-fill)}
+.did-layer:not(:has(.did-layer))>span{color:#fff;padding:0;font-size:14px}
+.lv-hash summary{cursor:pointer;font:600 15px var(--body);color:var(--accent-ink)}
+.lv-hash table{margin-top:10px;font-size:14px}
+.lv-hash code{font-family:var(--mono);font-size:13px}
+.lv-hash ul{margin:10px 0 0;padding-left:18px;font-size:14.5px;color:var(--ink2)}
+.mfa-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.mfa-col{display:flex;flex-direction:column;gap:2px;padding:10px 12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;font-size:14px}
+.mfa-col b{font:700 16px/1.25 var(--display)}
+.mfa-checks{margin-top:10px;display:flex;flex-direction:column;gap:4px;font-size:14.5px}
+.mfa-checks p{margin:0;display:flex;gap:8px;align-items:center}
+.mfa-checks svg{width:15px;height:15px;flex:0 0 auto}
+.mfa-checks .ok svg{color:var(--ok)} .mfa-checks .no svg{color:var(--bad)}
+@media (max-width:560px){.mfa-cols{grid-template-columns:1fr}}
+.ca-flow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:stretch}
+.ca-step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.ca-step b{font:700 16px/1.2 var(--display)}
+.ca-step ul{margin:6px 0 0;padding-left:16px;font-size:14px;color:var(--ink2)}
+.ca-arrow{align-self:center;font-size:20px;color:var(--accent-fill)}
+@media (max-width:640px){.ca-flow{grid-template-columns:1fr}.ca-arrow{transform:rotate(90deg);justify-self:center}}
+
 </style>
 <script>
 // Theme choice (Light / Dark / System). Applied before the page draws to avoid a flash.
@@ -934,26 +996,26 @@ body.campaign-mode{--mark:url("assets/brand/mark-dark-96.png");--accent:#3CC4BB;
   </footer>
 </div>
 
-<script src="data.js?v=2.2.0"></script>
-<script src="data-extra.js?v=2.2.0"></script>
-<script src="data-pack2.js?v=2.2.0"></script>
-<script src="data-pack3.js?v=2.2.0"></script>
-<script src="data-pack4-sc.js?v=2.2.0"></script>
-<script src="data-pack5-net.js?v=2.2.0"></script>
-<script src="data-acronyms.js?v=2.2.0"></script>
-<script src="data-patchnotes.js?v=2.2.0"></script>
-<script src="data-bosses.js?v=2.2.0"></script>
+<script src="data.js?v=2.2.1"></script>
+<script src="data-extra.js?v=2.2.1"></script>
+<script src="data-pack2.js?v=2.2.1"></script>
+<script src="data-pack3.js?v=2.2.1"></script>
+<script src="data-pack4-sc.js?v=2.2.1"></script>
+<script src="data-pack5-net.js?v=2.2.1"></script>
+<script src="data-acronyms.js?v=2.2.1"></script>
+<script src="data-patchnotes.js?v=2.2.1"></script>
+<script src="data-bosses.js?v=2.2.1"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=2.2.0"></script>
-<script src="data-campaign-flags.js?v=2.2.0"></script>
-<script src="data-campaign-endings.js?v=2.2.0"></script>
-<script src="data-fixes-01.js?v=2.2.0"></script>
-<script src="data-fixes-02.js?v=2.2.0"></script>
-<script src="data-fixes-03.js?v=2.2.0"></script>
-<script src="data-cn-sc.js?v=2.2.0"></script>
-<script src="data-cn-compare.js?v=2.2.0"></script>
-<script src="data-cn-sc-scenarios.js?v=2.2.0"></script>
-<script src="examhelp-effects.js?v=2.2.0"></script>
+<script src="data-daymissions.js?v=2.2.1"></script>
+<script src="data-campaign-flags.js?v=2.2.1"></script>
+<script src="data-campaign-endings.js?v=2.2.1"></script>
+<script src="data-fixes-01.js?v=2.2.1"></script>
+<script src="data-fixes-02.js?v=2.2.1"></script>
+<script src="data-fixes-03.js?v=2.2.1"></script>
+<script src="data-cn-sc.js?v=2.2.1"></script>
+<script src="data-cn-compare.js?v=2.2.1"></script>
+<script src="data-cn-sc-scenarios.js?v=2.2.1"></script>
+<script src="examhelp-effects.js?v=2.2.1"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -2659,10 +2721,14 @@ function renderStudyNav(){
 function svgIcon(name){
   const NS="http://www.w3.org/2000/svg", s=document.createElementNS(NS,"svg");
   s.setAttribute("viewBox","0 0 16 16"); s.setAttribute("aria-hidden","true"); s.setAttribute("fill","none"); s.setAttribute("stroke","currentColor"); s.setAttribute("stroke-width","1.8"); s.setAttribute("stroke-linecap","round"); s.setAttribute("stroke-linejoin","round");
-  const P={lock:["M4.5 7.5h7v6h-7z","M6 7.5V5.5a2 2 0 0 1 4 0v2"],check:["M3 8.5l3 3 7-7"],dot:["M8 8m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"]}[name]||[];
+  const P={lock:["M4.5 7.5h7v6h-7z","M6 7.5V5.5a2 2 0 0 1 4 0v2"],check:["M3 8.5l3 3 7-7"],dot:["M8 8m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"],x:["M4.5 4.5l7 7","M11.5 4.5l-7 7"]}[name]||[];
   P.forEach(d=>{ const p=document.createElementNS(NS,"path"); p.setAttribute("d",d); s.appendChild(p); });
   return s;
 }
+// Edge color of each boss artwork, so the panel around the art matches it with no seam.
+const BOSS_EDGE={"boss-alert-storm":"#0f0f0f","boss-auditor":"#000000","boss-blind-spot":"#000000","boss-compliance-collector":"#0e0e0e","boss-firewall-warlord":"#0e0e0e",
+  "boss-gatekeeper":"#000000","boss-identity-impostor":"#0b0d0f","boss-insider-threat":"#0e0f10","boss-keymaster":"#0e0e0e","boss-ransomware-king":"#0e0e10"};
+const encStyle=b=>"--boss:"+b.color+";--edge:"+(BOSS_EDGE[b.img]||"#000");
 const bossKeyOf=b=>(b.final?"final":b.track)+"|"+b.domain;
 const domainBossOrder=()=>["sc","sec"].filter(inProgram).flatMap(t=>(DOMS[t]||[]).map(d=>bossFor(t,d)).filter(Boolean));
 function bossOpen(b){
@@ -2681,7 +2747,7 @@ function bossBadge(b,cls){
 }
 function bossPreview(b){
   const s=bossState(b);
-  return h("section",{class:"encounter mini",style:"--boss:"+b.color,"aria-label":"Next challenge"},
+  return h("section",{class:"encounter mini",style:encStyle(b),"aria-label":"Next challenge"},
     h("div",{class:"enc-art"},h("img",{src:BOSS_IMG(b.img,"thumb"),alt:b.name+" boss artwork",width:"320",height:"320",loading:"lazy",class:s==="locked"?"dim":null})),
     h("div",{class:"enc-body"},
       h("p",{class:"enc-kicker"},"Next challenge"),
@@ -2754,7 +2820,7 @@ function renderGame(){
   const nb=nextBoss(), fallback=nb?nb.b:(FINAL_BOSS||list[0]);
   const pick=list.find(b=>b.id===ui.arenaPick)||fallback;
   return h("div",{class:"arena"},
-    h("div",{class:"arena-head"},h("h1",{},"Arena"),h("p",{},"Each boss guards one exam domain. Up to 15 questions, three mistakes allowed; finish every question at 80% or better to win. You can always try again.")),
+    h("div",{class:"arena-head"},h("h1",{},"Arena"),h("p",{},"Each boss guards one exam domain: up to 15 questions, three mistakes allowed, 80% or better to win.")),
     encounterHero(pick),
     ui.teachesBoss?h("div",{},teachesPanel(ui.teachesBoss),h("div",{class:"actions",style:"margin-top:10px"},h("button",{class:"btn",onclick:()=>{ui.teachesBoss=null;render();}},"Close"))):null,
     h("section",{},h("div",{class:"section-head"},h("h2",{},"All encounters"),h("p",{class:"meta"},domainBossOrder().filter(b=>state.bosses[bossKeyOf(b)]).length+" of "+domainBossOrder().length+" domain bosses defeated")),
@@ -2764,19 +2830,19 @@ function renderGame(){
 function encounterHero(b){
   const s=bossState(b), scopeId=b.final?"boss-final-"+b.domain:"boss-"+b.track+"-"+b.domain;
   const tries=attempts.filter(a=>a.scopeId===scopeId), best=tries.length?Math.max(...tries.map(a=>a.pct)):null;
-  return h("section",{class:"encounter enc-lg",id:"encounter",style:"--boss:"+b.color,"aria-label":b.name},
+  return h("section",{class:"encounter enc-lg",id:"encounter",style:encStyle(b),"aria-label":b.name},
     h("div",{class:"enc-art"},h("img",{src:BOSS_IMG(b.img,"full"),alt:b.name+" boss artwork",width:"900",height:"900",class:s==="locked"?"dim":null})),
     h("div",{class:"enc-body"},
       h("p",{class:"enc-kicker"},b.final?"Final boss":TRACK[b.track]+" domain boss"),
       h("h1",{class:"enc-name"},b.name),
       h("p",{class:"enc-dom"},b.final?"Every domain in your program":b.domain.replace(/^\d /,"")),
       bossBadge(b),
-      (b.teaches||[]).length?h("div",{class:"enc-tests"},h("p",{class:"label"},"What it tests"),h("ul",{},b.teaches.slice(0,4).map(t=>h("li",{},t.split(/:| — /)[0])))):null,
-      h("p",{class:"enc-rules"},best==null?"Not attempted yet.":"Your best: "+best+"% across "+tries.length+" attempt"+(tries.length===1?"":"s")+"."),
       h("div",{class:"actions"},
         h("button",{class:"btn lg"+(s==="open"?" primary":""),disabled:s==="locked"?true:null,onclick:()=>startBoss(b.final?"final":b.track,b.domain)},s==="won"?"Rematch":s==="open"?"Challenge "+b.name:"Locked"),
         !b.final?h("button",{class:"btn",onclick:()=>{ui.quiz.scope="domain";ui.quiz.dom=b.domain;ui.quiz.filter="all";goTab("quiz");}},"Practice this domain"):null,
-        s==="won"?h("button",{class:"btn",onclick:()=>{ui.teachesBoss=b;render();}},"What it teaches"):null)));
+        s==="won"?h("button",{class:"btn",onclick:()=>{ui.teachesBoss=b;render();}},"What it teaches"):null),
+      (b.teaches||[]).length?h("div",{class:"enc-tests"},h("p",{class:"label"},"What it tests"),h("ul",{},b.teaches.slice(0,4).map(t=>h("li",{},t.split(/:| — /)[0])))):null,
+      h("p",{class:"enc-rules"},best==null?"Not attempted yet.":"Your best: "+best+"% across "+tries.length+" attempt"+(tries.length===1?"":"s")+".")));
 }
 function encCard(b,sel){
   const s=bossState(b);
@@ -2863,13 +2929,83 @@ function renderPlan(){
       h("div",{},toggle,h("nav",{class:"lvl-nav"+(ui.lvlOpen?" open":""),"aria-label":"Levels"},navKids)),
       lessonPanel(sel)));
 }
+// ---------- 2.2.1: lesson visuals ----------
+// Small, purposeful figures placed right after the key point they explain. Each is built from
+// HTML (or a little SVG) so it follows the theme, reflows on phones, and stays readable to
+// screen readers through its caption. Keyed by level and key-point heading.
+const LESSON_VISUALS={
+  1:{"CIA is the whole game":"cia","Shared responsibility":"shared","Defense in depth":"did"},
+  2:{"Hashing":"hash"},
+  4:{"MFA":"mfa"},
+  5:{"Conditional Access":"ca"}
+};
+function lessonVisual(id){
+  const fig=(cls,cap,...body)=>h("figure",{class:"lv "+cls},...body,h("figcaption",{},cap));
+  if(id==="cia"){
+    const node=(cls,name,harm,ctl)=>h("div",{class:"cia-node "+cls},h("b",{},name),h("span",{},"Harm: "+harm),h("span",{class:"meta"},ctl));
+    return fig("lv-cia","Name the harm first, then pick the control that addresses it.",
+      h("div",{class:"cia"},
+        svgTriangle(),
+        node("c","Confidentiality","data exposed","Encryption, access control, MFA"),
+        node("i","Integrity","data altered","Hashing, digital signatures, change control"),
+        node("a","Availability","service unreachable","Backups, redundancy, DDoS protection")));
+  }
+  if(id==="shared"){
+    const cols=["On-premises","IaaS","PaaS","SaaS"], Y="You", M="Provider";
+    const rows=[["Data",[Y,Y,Y,Y]],["Devices (endpoints)",[Y,Y,Y,Y]],["Identities and access",[Y,Y,Y,Y]],["Configuration and settings",[Y,Y,Y,Y]],
+      ["Applications",[Y,Y,"Your code",M]],["Operating system and runtime",[Y,Y,M,M]],["Physical datacenter, network, hosts",[Y,M,M,M]]];
+    return fig("lv-shared","Who secures each layer, based on Microsoft Learn's SC-900 module. The top four rows stay yours in every model.",
+      h("div",{class:"tablebox"},h("table",{class:"sr-table"},
+        h("thead",{},h("tr",{},h("th",{scope:"col"},"Layer"),cols.map(c=>h("th",{scope:"col"},c)))),
+        h("tbody",{},rows.map(([name,v],i)=>h("tr",{class:i===3?"sr-split":null},h("th",{scope:"row"},name),v.map(x=>h("td",{class:x===M?"prov":"you"},x))))))));
+  }
+  if(id==="did"){
+    const layers=["Physical security","Identity and access","Perimeter","Network","Compute","Application","Data"];
+    const build=i=>i>=layers.length?null:h("div",{class:"did-layer",style:"--i:"+i},h("span",{},layers[i]),build(i+1));
+    return fig("lv-did","Microsoft's seven layers. An attacker has to get through each one to reach the data at the center.",build(0));
+  }
+  if(id==="hash"){
+    const rows=[["Riverside1","9b5c7141623edbc4…"],["Riverside2","f3ff825943862e86…"],["riverside1","6d400957180b87a4…"]];
+    return h("details",{class:"lv lv-hash"},h("summary",{},"See hashing with real values"),
+      h("div",{class:"tablebox"},h("table",{},h("thead",{},h("tr",{},h("th",{scope:"col"},"Input"),h("th",{scope:"col"},"SHA-256 (first 16 of 64 characters)"))),
+        h("tbody",{},rows.map(([a,b])=>h("tr",{},h("td",{},h("code",{},a)),h("td",{},h("code",{},b))))))),
+      h("ul",{},h("li",{},"Change one character and the whole hash changes."),h("li",{},"The same input always gives the same hash, which is how a stored password hash is checked."),
+        h("li",{},"Nothing in the hash lets you work back to the input. A salt adds random data first, so two people with the same password get different hashes.")));
+  }
+  if(id==="mfa"){
+    const col=(name,ex)=>h("div",{class:"mfa-col"},h("b",{},name),h("span",{},ex));
+    return fig("lv-mfa","MFA means two or more different types, not two of the same type.",
+      h("div",{class:"mfa-cols"},col("Something you know","Password, PIN"),col("Something you have","Phone with Authenticator, security key"),col("Something you are","Fingerprint, face")),
+      h("div",{class:"mfa-checks"},
+        h("p",{class:"ok"},svgIcon("check"),"Password + Authenticator prompt: two types, so it's MFA"),
+        h("p",{class:"no"},svgIcon("x"),"Password + security question: both are something you know, so it isn't")));
+  }
+  if(id==="ca"){
+    const step=(name,items)=>h("div",{class:"ca-step"},h("b",{},name),h("ul",{},items.map(x=>h("li",{},x))));
+    return fig("lv-ca","Conditional Access evaluates signals at sign-in, then blocks, grants, or grants with requirements.",
+      h("div",{class:"ca-flow"},
+        step("Signals",["User or group","Location or IP","Device and compliance","App being opened","Sign-in risk"]),
+        h("span",{class:"ca-arrow","aria-hidden":"true"},"→"),
+        step("Decision",["Block access","Grant access","Grant, but require…"]),
+        h("span",{class:"ca-arrow","aria-hidden":"true"},"→"),
+        step("Requirements",["MFA","Compliant device","Password change"])));
+  }
+  return null;
+}
+function svgTriangle(){
+  const NS="http://www.w3.org/2000/svg", s=document.createElementNS(NS,"svg");
+  s.setAttribute("viewBox","0 0 100 100"); s.setAttribute("preserveAspectRatio","none"); s.setAttribute("aria-hidden","true"); s.setAttribute("class","cia-tri");
+  const p=document.createElementNS(NS,"polygon"); p.setAttribute("points","50,12 12,88 88,88"); p.setAttribute("vector-effect","non-scaling-stroke"); s.appendChild(p);
+  return s;
+}
+
 function lessonPanel(d){
   const date=fmtD(dayDate(d.d)), dd=displayDay(d.d);
   const kids=[h("div",{class:"lesson-head"},
     h("div",{class:"row",style:"gap:8px"},h("span",{class:"tag "+d.track},TRACK[d.track]),h("span",{class:"meta"},"Level "+dd+" · "+date+(d.dom?" · "+d.dom.replace(/^\d /,""):"")+(d.min?" · about "+d.min+" min":""))),
     h("h1",{tabindex:"-1"},d.kind?d.title:shortTitle(d.title)),
     !d.kind&&topicsOf(d.title)?h("p",{class:"hero-sub"},topicsOf(d.title)):null)];
-  kids.push(h("div",{class:"kp"},d.pts.map(p=>{const [a,b]=p.split("|");return h("section",{class:"kp-item"},h("h3",{},a),h("p",{},b));})));
+  kids.push(h("div",{class:"kp"},d.pts.map(p=>{const [a,b]=p.split("|"), vis=LESSON_VISUALS[d.d]&&LESSON_VISUALS[d.d][a];return h("section",{class:"kp-item"},h("h3",{},a),h("p",{},b),vis?lessonVisual(vis):null);})));
   if(d.terms) kids.push(h("section",{},h("h2",{},d.d===31?"Ports to lock in":"Terms to lock in"),h("dl",{class:"terms"},d.terms.map(([a,b])=>h("div",{},h("dt",{},a),h("dd",{},b))))));
   if(d.trap) kids.push(h("aside",{class:"trap"},h("p",{class:"trap-label"},"Exam trap"),h("p",{},d.trap)));
   const cs=(CN.byDay[d.d]||[]).filter(cnInProgram);
@@ -3471,8 +3607,8 @@ function renameNotice(){
   try{ if(localStorage.getItem(LS+".renamed2")) return null; }catch(e){ return null; }
   let was="ExamHelp"; try{ if(localStorage.getItem(LS+".renamed")) was="CertificationNation"; }catch(e){}
   return h("div",{class:"rename-note",role:"status"},
-    h("p",{style:"margin:0"},h("b",{},was+" is now "+BRAND.name+". "),"Your progress is still here: levels, scores, notes, campaign decisions, rewards and backups all carried over."),
-    h("button",{class:"btn small",onclick:()=>{ try{ localStorage.setItem(LS+".renamed2","1"); }catch(e){} render(); }},"Got it"));
+    h("p",{},h("b",{},was+" is now "+BRAND.name+"."),h("span",{}," Your progress came with you.")),
+    h("button",{class:"rn-x","aria-label":"Dismiss",onclick:()=>{ try{ localStorage.setItem(LS+".renamed2","1"); }catch(e){} render(); }},"×"));
 }
 // ---------- CertificationNation 2.1: notes, flashcards, comparisons, field guide, sprints ----------
 // Content comes from the CN_PACKS data modules (see CN above). Nothing here edits content; learner
@@ -4001,7 +4137,7 @@ function renderCore(){
   if(STUDY_TABS.includes(ui.tab)) ui.studyTab=ui.tab==="quiz"&&ui.quiz.mode==="acronym"?"acr":ui.tab;
   if(ui.tab==="acr"){ ui.tab="quiz"; if(ui.quiz.mode!=="acronym"){ ui.lastMode=ui.quiz.mode; ui.quiz.mode="acronym"; } }
   const main=ui.tab==="home"?renderHome():ui.tab==="plan"?renderPlan():ui.tab==="cards"?renderCN():ui.tab==="quiz"?renderQuizTab():ui.tab==="stats"?renderStats():ui.tab==="game"?renderGame():ui.tab==="pbq"?renderPBQ():ui.tab==="lab"?renderLab():ui.tab==="mock"?renderMock():renderCampaign();
-  v.replaceChildren(renameNotice()||"",STUDY_TABS.includes(ui.tab)?h("div",{style:"display:flex;flex-direction:column;gap:16px"},renderStudyNav(),main):main);
+  v.replaceChildren(ui.tab==="home"&&renameNotice()||"",STUDY_TABS.includes(ui.tab)?h("div",{style:"display:flex;flex-direction:column;gap:16px"},renderStudyNav(),main):main);
   if(run&&!run.finished&&run.timedMs&&!run.answered&&!tick&&ui.tab==="quiz") startTimer();
 }
 if(["#home","#quiz","#stats","#plan","#cards"].includes(location.hash)) ui.tab=location.hash.slice(1);
