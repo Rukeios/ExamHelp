@@ -4,7 +4,7 @@ const CERT="https://www.comptia.org/en-us/certifications/security/";
 const M=s=>"https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/"+s+"-sy0-701/";
 const P=(s,q,o)=>({s,q,o});
 const L=window.LESSON_PILOTS=window.LESSON_PILOTS||{};
-L[13]={id:"lesson.sec.13",day:13,v:1,reviewed:REV,src:[CERT,M("security-controls"),M("the-cia-triad"),M("non-repudiation"),M("authentication-authorization-and-accounting"),M("gap-analysis"),M("zero-trust"),M("physical-security"),M("deception-and-disruption")],
+L[13]={id:"lesson.sec.13",day:13,v:1,reviewed:REV,status:"drafted",src:[CERT,M("security-controls"),M("the-cia-triad"),M("non-repudiation"),M("authentication-authorization-and-accounting"),M("gap-analysis"),M("zero-trust"),M("physical-security"),M("deception-and-disruption")],
   title:"Controls, security principles, and Zero Trust",
   subtitle:"Pinecrest Group maps what a control is, what it does, and how trust should be earned.",
   sections:[
@@ -53,7 +53,7 @@ L[13]={id:"lesson.sec.13",day:13,v:1,reviewed:REV,src:[CERT,M("security-controls
       practice:P("Pinecrest wants to know immediately if stolen cloud credentials are tested anywhere on the internet.","Which item from the map fits best?",[["Honeytoken",true,"A planted credential should never be used, so any use is a high-confidence alert."],["Bollard",false,"Bollards protect buildings from vehicles, not cloud credentials."],["Vestibule",false,"A vestibule controls physical entry, not digital decoy usage."]])},
     {id:"check",type:"check",title:"Check yourself",lead:"New scored scenarios across controls, CIA, Zero Trust, and facilities security.",from:[13],max:6}
   ]};
-L[14]={id:"lesson.sec.14",day:14,v:1,reviewed:REV,src:[CERT,M("change-management"),M("technical-change-management"),M("encrypting-data"),M("encryption-technologies"),M("key-exchange"),M("hashing-and-digital-signatures"),M("public-key-infrastructure"),M("certificates")],
+L[14]={id:"lesson.sec.14",day:14,v:1,reviewed:REV,status:"drafted",src:[CERT,M("change-management"),M("technical-change-management"),M("encrypting-data"),M("encryption-technologies"),M("key-exchange"),M("hashing-and-digital-signatures"),M("public-key-infrastructure"),M("certificates")],
   title:"Change management and cryptography",
   subtitle:"Pinecrest secures changes, then uses the right cryptographic tool for the right job.",
   sections:[
@@ -101,7 +101,7 @@ L[14]={id:"lesson.sec.14",day:14,v:1,reviewed:REV,src:[CERT,M("change-management
       practice:P("Pinecrest trusts a partner's certificate chain but wants to know whether that specific certificate was revoked right now.","Which PKI item fits best?",[["OCSP",true,"OCSP answers the status of one certificate in near real time."],["CSR",false,"A CSR asks for a certificate to be issued; it is not a status check."],["Wildcard certificate",false,"Wildcard certificates define hostname coverage, not revocation status."]])},
     {id:"check",type:"check",title:"Check yourself",lead:"Scored scenarios across change control, hashing, signatures, PKI, and key exchange.",from:[14],max:6}
   ]};
-L[15]={id:"lesson.sec.15",day:15,v:1,reviewed:REV,src:[CERT,M("threat-actors"),M("common-threat-vectors"),M("phishing"),M("impersonation"),M("watering-hole-attacks"),M("other-social-engineering-attacks")],
+L[15]={id:"lesson.sec.15",day:15,v:1,reviewed:REV,status:"drafted",src:[CERT,M("threat-actors"),M("common-threat-vectors"),M("phishing"),M("impersonation"),M("watering-hole-attacks"),M("other-social-engineering-attacks")],
   title:"Threat actors, attack surfaces, and social engineering",
   subtitle:"Pinecrest learns to separate who is attacking, why they care, and how they get in.",
   sections:[
@@ -137,10 +137,10 @@ L[15]={id:"lesson.sec.15",day:15,v:1,reviewed:REV,src:[CERT,M("threat-actors"),M
         {id:"typo",name:"Typosquatting",say:"The victim lands on a look-alike domain because of a typing mistake or a visually similar name.",example:"payr0ll-pinecrest.example captures sign-ins intended for payroll.",tags:["Look-alike","Domain"]},
         {id:"bec",name:"Business email compromise",say:"An executive or vendor identity is impersonated to trigger a payment or data change.",example:"Finance receives an urgent wire request from a spoofed CFO account.",tags:["Money","Authority"]},
         {id:"info",name:"Misinformation and disinformation",say:"False content shapes beliefs or behavior, whether spread carelessly or deliberately.",example:"A fake outage notice drives staff to a phony status portal.",tags:["Manipulation","Trust"]}],
-      practice:P("Pinecrest staff visit payrolI.pinecrest.example after typing quickly and see copied branding.","Which technique is most directly at work?",[["Typosquatting",true,"The attacker is abusing a look-alike domain name to borrow trust."],["Watering hole",false,"A watering hole compromises a legitimate site the victims already use, not a fake look-alike domain."],["Gap analysis",false,"Gap analysis compares current and target states; it is not an attack method."]])},
+      practice:P("Pinecrest staff mistype the payroll address, land on pinecrest-payrol.example, and see copied Pinecrest branding.","Which technique is most directly at work?",[["Typosquatting",true,"The attacker is abusing a look-alike domain name to borrow trust."],["Watering hole",false,"A watering hole compromises a legitimate site the victims already use, not a fake look-alike domain."],["Gap analysis",false,"Gap analysis compares current and target states; it is not an attack method."]])},
     {id:"check",type:"check",title:"Check yourself",lead:"Scored scenarios across actors, motives, vectors, phishing, and social engineering.",from:[15],max:6}
   ]};
-L[16]={id:"lesson.sec.16",day:16,v:1,reviewed:REV,src:[CERT,M("memory-injections"),M("buffer-overflows"),M("race-conditions"),M("malicious-updates"),M("operating-system-vulnerabilities"),M("sql-injection"),M("cross-site-scripting"),M("hardware-vulnerabilities"),M("virtualization-vulnerabilities"),M("cloud-specific-vulnerabilities"),M("supply-chain-vulnerabilities"),M("misconfiguration-vulnerabilities"),M("mobile-device-vulnerabilities"),M("zero-day-vulnerabilities")],
+L[16]={id:"lesson.sec.16",day:16,v:1,reviewed:REV,status:"drafted",src:[CERT,M("memory-injections"),M("buffer-overflows"),M("race-conditions"),M("malicious-updates"),M("operating-system-vulnerabilities"),M("sql-injection"),M("cross-site-scripting"),M("hardware-vulnerabilities"),M("virtualization-vulnerabilities"),M("cloud-specific-vulnerabilities"),M("supply-chain-vulnerabilities"),M("misconfiguration-vulnerabilities"),M("mobile-device-vulnerabilities"),M("zero-day-vulnerabilities")],
   title:"Vulnerability types",
   subtitle:"Pinecrest sorts weaknesses by where they live and how attackers exploit them.",
   sections:[
@@ -186,7 +186,7 @@ L[16]={id:"lesson.sec.16",day:16,v:1,reviewed:REV,src:[CERT,M("memory-injections
       practice:P("A trusted vendor update turns out to contain malicious code inserted before release.","Which step in the sequence failed first?",[["The organization trusted a delivery path that attackers later poisoned",true,"The update channel itself became the path in, which is why this is supply-chain exposure."],["The organization forgot to segment guest Wi-Fi",false,"Guest Wi-Fi segmentation does not explain a poisoned trusted update."],["The organization used OCSP instead of CRL",false,"Revocation-check choice is not the root issue in the software-supply path described."]])},
     {id:"check",type:"check",title:"Check yourself",lead:"Scored scenarios across memory bugs, injection flaws, platform weaknesses, and supply-chain risk.",from:[16],max:6}
   ]};
-L[17]={id:"lesson.sec.17",day:17,v:1,reviewed:REV,src:[CERT,M("an-overview-of-malware"),M("viruses-and-worms"),M("spyware-and-bloatware"),M("other-malware-types"),M("physical-attacks"),M("denial-of-service"),M("dns-attacks"),M("wireless-attacks"),M("on-path-attacks"),M("replay-attacks"),M("malicious-code"),M("application-attacks"),M("cryptographic-attacks"),M("password-attacks"),M("indicators-of-compromise")],
+L[17]={id:"lesson.sec.17",day:17,v:1,reviewed:REV,status:"drafted",src:[CERT,M("an-overview-of-malware"),M("viruses-and-worms"),M("spyware-and-bloatware"),M("other-malware-types"),M("physical-attacks"),M("denial-of-service"),M("dns-attacks"),M("wireless-attacks"),M("on-path-attacks"),M("replay-attacks"),M("malicious-code"),M("application-attacks"),M("cryptographic-attacks"),M("password-attacks"),M("indicators-of-compromise")],
   title:"Malware, attacks, and indicators",
   subtitle:"Pinecrest studies what malicious activity looks like before, during, and after compromise.",
   sections:[
@@ -219,7 +219,7 @@ L[17]={id:"lesson.sec.17",day:17,v:1,reviewed:REV,src:[CERT,M("an-overview-of-ma
       practice:P("The SIEM shows one common password used once against thousands of accounts with few lockouts.","Which classification should responders choose first?",[["Password spraying",true,"The guess pattern is shallow across many accounts, which is the spraying hallmark."],["Brute force",false,"Brute force is many guesses against one account or one secret."],["Rootkit",false,"A rootkit is resident malware, not a login-attempt pattern."]])},
     {id:"check",type:"check",title:"Check yourself",lead:"Scored scenarios across malware, network attacks, application attacks, crypto/password attacks, and IOCs.",from:[17],max:6}
   ]};
-L[18]={id:"lesson.sec.18",day:18,v:1,reviewed:REV,src:[CERT,M("segmentation-and-access-control"),M("mitigation-techniques"),M("hardening-techniques")],
+L[18]={id:"lesson.sec.18",day:18,v:1,reviewed:REV,status:"drafted",src:[CERT,M("segmentation-and-access-control"),M("mitigation-techniques"),M("hardening-techniques")],
   title:"Mitigation techniques",
   subtitle:"Pinecrest focuses on the controls that reduce blast radius, close weaknesses, and contain damage quickly.",
   sections:[
@@ -258,7 +258,7 @@ L[18]={id:"lesson.sec.18",day:18,v:1,reviewed:REV,src:[CERT,M("segmentation-and-
       practice:P("Two servers keep drifting from the approved baseline after emergency work.","What should Pinecrest add first?",[["Configuration enforcement with drift detection",true,"The team needs faster visibility and control over baseline changes as they happen."],["A honeyfile on each server",false,"A decoy file may detect snooping but does not manage baseline drift."],["A wildcard certificate",false,"Hostnames and TLS identity are unrelated to baseline drift control."]])},
     {id:"check",type:"check",title:"Check yourself",lead:"Scored scenarios across containment, segmentation, least privilege, allow listing, hardening, and decommissioning.",from:[18],max:6}
   ]};
-L[19]={id:"lesson.sec.19",day:19,v:1,reviewed:REV,src:[CERT,M("security-controls"),M("hashing-and-digital-signatures"),M("phishing"),M("sql-injection"),M("an-overview-of-malware"),M("mitigation-techniques")],
+L[19]={id:"lesson.sec.19",day:19,v:1,reviewed:REV,status:"drafted",src:[CERT,M("security-controls"),M("hashing-and-digital-signatures"),M("phishing"),M("sql-injection"),M("an-overview-of-malware"),M("mitigation-techniques")],
   title:"Review: domains 1 and 2",
   subtitle:"Six Pinecrest cases connect the ideas across Levels 13 to 18 before an independent check.",
   sections:[
@@ -274,7 +274,7 @@ L[19]={id:"lesson.sec.19",day:19,v:1,reviewed:REV,src:[CERT,M("security-controls
           o:[["A watering hole",true,"The attacker likely waited on a trusted site the targets already visited."],["Smishing",false,"No text-message lure appears in the case."],["Password spraying",false,"Password spraying does not explain infections tied to one trusted site."]],
           links:[{day:15,sec:"social",label:"Level 15: Social-engineering patterns"},{concept:"sec.watering-hole-brand-abuse"}]},
         {id:"c4",task:"Name the vulnerability class",s:"A review finds that a public object-storage bucket lets anyone with the URL download customer exports. The data was exposed through settings, not malware.",q:"Which weakness is most direct?",
-          o:[["A cloud-specific vulnerability caused by misconfiguration",true,"The storage service was left too open, which is a cloud-configuration weakness."],["A zero-day",false,"Nothing suggests a new unknown flaw without a vendor patch."],["A replay attack",false,"The issue is open storage settings, not reused captured traffic."]],
+          o:[["A misconfiguration vulnerability",true,"The storage was left too open by its owner's settings. That is a misconfiguration, even though it lives in the cloud."],["A zero-day",false,"Nothing suggests a new unknown flaw without a vendor patch."],["A replay attack",false,"The issue is open storage settings, not reused captured traffic."]],
           links:[{day:16,sec:"platform",label:"Level 16: Platform-specific weaknesses"},{concept:"sec.platform-vulnerabilities"}]},
         {id:"c5",task:"Read the indicator",s:"One service account signs in from Texas and then Germany four minutes later, while normal logs disappear during the same window.",q:"What should responders conclude first?",
           o:[["There are strong indicators of compromise that warrant immediate investigation",true,"Impossible travel plus missing logs during anomalies is a serious signal even before full root cause is known."],["The account is healthy because it still signs in",false,"Successful sign-ins do not outweigh impossible travel and vanished logs."],["The safest move is to wait for the next change window",false,"The clues point to active risk, not something that should wait."]],

@@ -172,7 +172,7 @@ C("watering-hole-brand-abuse",15,"2.2","Social engineering","Watering holes, typ
   "Misinformation and disinformation manipulate behavior through false content."
 ],"Trusted site means watering hole; look-alike name means typosquatting.",[
   ["term","What makes a watering hole attack distinct?","The attacker waits on a site the victim already visits."],
-  ["use","Staff land on payrolI.example after typing quickly. What technique is this?","Typosquatting using a look-alike name."]
+  ["use","Staff mistype the payroll address and land on payrol-portal.example, which copies the real site. What technique is this?","Typosquatting using a look-alike name."]
 ],["watering-hole-attacks","other-social-engineering-attacks"]),
 C("vulnerability",16,"2.3","Vulnerabilities","What a vulnerability is",[
   "A vulnerability is a weakness that can be exploited.",
@@ -203,7 +203,7 @@ C("injection-vulnerabilities",16,"2.3","Vulnerabilities","SQL injection and XSS"
 ],["sql-injection","cross-site-scripting"]),
 C("platform-vulnerabilities",16,"2.3","Vulnerabilities","Platform and environment vulnerabilities",[
   "Operating systems, firmware, hypervisors, clouds, and phones all have distinct weaknesses.",
-  "Examples include VM escape, open storage, and sideloaded apps.",
+  "Examples include VM escape, attacks on internet-facing cloud services, and sideloaded apps.",
   "Legacy or end-of-life systems stay vulnerable longer.",
   "Rooting or jailbreaking removes built-in mobile protections."
 ],"Ask which platform layer failed: OS, cloud, hypervisor, hardware, or mobile.",[

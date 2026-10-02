@@ -1,0 +1,333 @@
+{
+ "issues": [
+  {
+   "file": "data-lessons-sec-2.js",
+   "id": "lesson 21, section zones (practice, option 2 feedback)",
+   "severity": "wrong",
+   "problem": "Feedback for the distractor 'Put the database next to the public portal in the screened subnet' says: 'A screened subnet is safer than the internal LAN, but still the wrong place for the core database.' That is backwards. A screened subnet is the more exposed zone (it holds internet-reachable services); the internal network is the more protected one. The sentence teaches the opposite of the section's own zone descriptions.",
+   "fix": "Replace the feedback with: \"A screened subnet holds internet-facing services, so it is more exposed than the internal network. The core database does not belong there.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/secure-infrastructures-sy0-701/"
+  },
+  {
+   "file": "data-lessons-sec-2.js",
+   "id": "lesson 20, section map (zone 'hybrid' / item 'multi')",
+   "severity": "wrong",
+   "problem": "The item 'Multicloud analytics' (two public providers, no on-premises part) is filed under the zone 'Hybrid environment - Connected mix of on-prem and cloud resources'. That contradicts the same section's first link ('Hybrid and multicloud are not the same'), the Pocket Note sec.cloud-models, and xf.sec.cloud-models.multi, all of which define hybrid as on-premises plus cloud and multicloud as several providers. The map shows multicloud as a kind of hybrid while the text says it is not.",
+   "fix": "Rename the zone so both items fit: {id:\"hybrid\",name:\"Mixed environments\",desc:\"Workloads spread across on-premises and cloud, or across more than one cloud provider\"}. Keep items 'hyb' and 'multi' in it. Also change the third practice option from 'Only the hybrid zone' to 'Mixed environments' with feedback: \"Mixing sites or providers describes where workloads sit, not event-driven execution with no servers to patch.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-2.js",
+   "id": "sec.cloud-models (lines[2], card c1) + data-lessons-sec-2.js lesson 20 map links[0]",
+   "severity": "ambiguous",
+   "problem": "Hybrid is defined only as 'on-prem and cloud', and the lesson states flatly that hybrid and multicloud are not the same. The source this batch cites (Professor Messer, Cloud Infrastructures, 3.1) defines hybrid cloud as using multiple clouds across different providers, and NIST SP 800-145 defines it as a composition of two or more distinct cloud infrastructures (private, community, or public). SY0-701 lists 'Hybrid considerations' under 3.1 and 'Multi-cloud systems' under 3.4, so a learner can meet a multi-provider scenario where 'hybrid' is the expected answer. The app's definition is the common industry one and is not wrong, but it is stated more absolutely than the sources support.",
+   "fix": "lines[2]: \"Hybrid combines distinct environments, usually on-premises or private cloud with public cloud; multicloud uses several providers.\" Card c1 answer: \"A mix of two or more distinct environments, most often on-premises or private cloud combined with public cloud.\" Lesson 20 map links[0]: \"Hybrid usually means on-premises or private cloud combined with public cloud, while multicloud means more than one provider. Some courses call any mix of several clouds hybrid, so read the scenario's wording.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/cloud-infrastructures-sy0-701/ ; https://csrc.nist.gov/pubs/sp/800/145/final"
+  },
+  {
+   "file": "data-xf-sec-2.js",
+   "id": "xf.sec.ot.yn",
+   "severity": "giveaway",
+   "problem": "All three yes/no items in this file (xf.sec.ot.yn, xf.sec.secure-comms.yn, xf.sec.targets.yn) use the identical pattern true, true, false, and in each the false row is an absurd statement ('expose it directly to the internet for visibility'). A learner can score the whole type by pattern alone.",
+   "fix": "Use rows in this order (false, true, true): [\"A real-time operating system is chosen mainly because it runs a wider range of general-purpose applications than a desktop OS.\",false,\"An RTOS is chosen for deterministic, predictable timing, not for broad application support.\"], [\"ICS and SCADA environments often prioritize availability over frequent change windows.\",true,\"Outages can affect physical processes, so uptime often outweighs frequent patch cycles.\"], [\"When an embedded or OT device cannot be patched easily, isolating or segmenting it is a common compensating control.\",true,\"Hard-to-patch devices are usually isolated and tightly segmented to reduce exposure.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-xf-sec-2.js",
+   "id": "xf.sec.secure-comms.yn",
+   "severity": "giveaway",
+   "problem": "Same true, true, false pattern as the other two yes/no items, and the false row ('SASE is mainly a battery technology') can be rejected with no knowledge.",
+   "fix": "Use rows (false, true, false): [\"IPsec transport mode is the usual choice for site-to-site VPNs because it wraps the entire original packet inside a new one.\",false,\"That describes tunnel mode. Transport mode protects only the payload and keeps the original IP header.\"], [\"A forward proxy typically relays requests on behalf of clients rather than protecting public web applications from injection attacks.\",true,\"Client-side relay and policy are proxy functions; injection defense for web apps is a WAF function.\"], [\"SD-WAN on its own provides the cloud-delivered security services that define SASE.\",false,\"SD-WAN handles WAN path selection. SASE combines networking with cloud-delivered security and access controls.\"]",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/secure-communication-sy0-701/"
+  },
+  {
+   "file": "data-xf-sec-2.js",
+   "id": "xf.sec.targets.yn",
+   "severity": "giveaway",
+   "problem": "Same true, true, false pattern as the other two yes/no items; the false row is worded so strongly ('alone removes the need for backups') that it gives itself away.",
+   "fix": "Use rows (true, false, true): [\"If leadership says a system may lose no more than one hour of data, they are defining RPO.\",true,\"RPO measures acceptable data loss as a time window.\"], [\"A generator bridges the first seconds of a power failure, and a UPS then carries the site through a long outage.\",false,\"It is the other way round: the UPS bridges the short gap and the generator supplies long-term power while it has fuel.\"], [\"Clustering and load balancing keep a service up when a server fails, but they do not bring back data that was deleted or corrupted.\",true,\"Availability reduces downtime from component failure; recovering lost data still needs backups.\"]",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/power-resiliency-sy0-701/"
+  },
+  {
+   "file": "data-xf-sec-2.js",
+   "id": "xf.sec.cloud-models.multi",
+   "severity": "giveaway",
+   "problem": "The stem asks about 'hybrid or multicloud' and the two correct options are the only ones that start with 'Hybrid' and 'Multicloud'. The distractors use 'always' and 'means the same thing as', which are easy to reject.",
+   "fix": "Replace o[2] and o[3] with: \"Hybrid means every workload runs with one public provider\" and \"Multicloud means one provider hosting several customers on shared hardware\". Update why to: \"Hybrid mixes environments, while multicloud mixes providers. A single public provider is neither, and several customers on shared hardware describes multitenancy.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-xf-sec-2.js",
+   "id": "xf.sec.firewalls.multi",
+   "severity": "giveaway",
+   "problem": "Distractors 'A jump server is the same thing as a firewall' and 'TLS replaces the need for any traffic filtering' are absolute statements nobody would pick; the item can be answered without knowing what a WAF or NGFW does.",
+   "fix": "Replace o[2] and o[3] with: \"A stateful firewall judges each packet with no record of the connection it belongs to\" and \"An IDS on a mirror port can drop malicious packets before they arrive\". Update why to: \"WAFs protect web apps and NGFWs inspect applications, not only ports. Stateful firewalls do track connections, and an out-of-band IDS can only alert.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/firewall-types-sy0-701/"
+  },
+  {
+   "file": "data-xf-sec-2.js",
+   "id": "xf.sec.containers.match, xf.sec.zones.match, xf.sec.protection.match",
+   "severity": "giveaway",
+   "problem": "Each match item has exactly one extra option and it comes from an unrelated topic (Air gap, Cold site, Load balancing). The extra is obvious, so the last pair is always found by elimination. No extra fits a row, so the keys themselves are correct.",
+   "fix": "Add a second, same-topic extra to each: containers.match extra:[\"Air gap\",\"Software-defined networking\"]; zones.match extra:[\"Cold site\",\"Forward proxy\"]; protection.match extra:[\"Load balancing\",\"Hashing\"]. None of the added extras fits any existing row.",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-2-scen.js",
+   "id": "rw.sec.ot.constraints",
+   "severity": "giveaway",
+   "problem": "All three distractors are things no one would do (install features from the internet, move controllers into serverless, replace controllers with a SaaS app). The correct option is also the longest.",
+   "fix": "o:[\"Isolate the controllers on a segmented industrial network\",\"Schedule monthly patch reboots for the controllers\",\"Install the office endpoint agent on each controller\",\"Move the controllers onto the office VLAN for monitoring\"]; no:[\"Monthly reboots conflict with the yearly shutdown window and the need to stay online.\",\"Controllers often cannot run standard endpoint agents, and an agent does not remove the path from the office LAN.\",\"Sharing the office VLAN gives office malware a direct path to the controllers.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-2-scen.js",
+   "id": "rw.sec.airgap.next",
+   "severity": "giveaway",
+   "problem": "Distractors all make exposure obviously worse or are unrelated (public web server on the control VLAN, containers for billing, internet patch checks).",
+   "fix": "o:[\"Remove the path and isolate the control network\",\"Keep the route and add an IDS to watch it\",\"Run weekly vulnerability scans of the controllers from the billing network\",\"Give billing administrators accounts on the pump controllers\"]; no:[\"An IDS only alerts; the unnecessary path between billing and control would still exist.\",\"Scanning from the billing network is the kind of outside scanning the control network cannot tolerate.\",\"More accounts widen casual admin access instead of removing the path.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-2-scen.js",
+   "id": "rw.sec.serverless.next",
+   "severity": "giveaway",
+   "problem": "Distractors (more VLANs, a cold site, replacing TLS with IPsec) are not execution models at all, so only one option answers the question asked.",
+   "fix": "o:[\"Use a serverless function\",\"Run an always-on virtual machine that waits for uploads\",\"Deploy a container cluster the team sizes and patches\",\"Add the task to the on-premises web server\"]; no:[\"An always-on VM still has to be patched and sized, and it sits idle between uploads.\",\"A self-managed cluster keeps the patching and sizing work the team wants to avoid.\",\"An on-premises server is still a server to patch and size for idle periods.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-2-scen.js",
+   "id": "rw.sec.port-security.next",
+   "severity": "giveaway",
+   "problem": "Distractors (hot site, tokenization, reverse proxy 'for every laptop') are unrelated to network admission.",
+   "fix": "o:[\"802.1X on the switch ports\",\"A screened subnet for the classroom switches\",\"An IDS on a mirror port\",\"A forward proxy for classroom web traffic\"]; no:[\"A screened subnet separates public-facing services; it does not authenticate devices that plug in.\",\"An IDS alerts on suspicious traffic after a device is already connected.\",\"A forward proxy filters web requests but does not stop a device from joining the network.\"]",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/port-security-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-2-scen.js",
+   "id": "rw.sec.waf.next",
+   "severity": "giveaway",
+   "problem": "Distractors (cold site, 802.1X on laptops, site-to-site VPN) have nothing to do with inspecting web requests, and the correct option is the longest.",
+   "fix": "o:[\"A web application firewall\",\"A packet-filtering rule that allows only TCP 443\",\"An IDS on a mirror port\",\"A forward proxy for staff browsing\"]; no:[\"The site already allows only HTTPS; a port rule cannot see attacks inside permitted web requests.\",\"An IDS could alert on the attempts, but it would not block them.\",\"A forward proxy filters outbound staff browsing, not inbound requests to the public site.\"]",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/firewall-types-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-2-scen.js",
+   "id": "rw.sec.sase.identify",
+   "severity": "giveaway",
+   "problem": "Distractors (cold site replication, 802.1X, air-gapped networking) are not remote-access architectures. The item never makes the learner separate SASE from SD-WAN or a VPN, which is the distinction the exam tests.",
+   "fix": "o:[\"SASE\",\"SD-WAN only\",\"A site-to-site IPsec VPN to headquarters\",\"A jump server at headquarters\"]; no:[\"SD-WAN optimizes WAN paths between sites but does not by itself deliver the cloud security services described.\",\"A site-to-site VPN links fixed sites and still hauls traffic through headquarters.\",\"A jump server is an admin path into a protected zone, not an access architecture for all remote staff.\"]",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/secure-communication-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-2-scen.js",
+   "id": "rw.sec.classification.identify",
+   "severity": "giveaway",
+   "problem": "The correct option hedges across two labels ('highly sensitive or restricted') while the distractors are joke answers (public marketing content, disposable test data, guest resource).",
+   "fix": "o:[\"Restricted, with access limited to the named legal team\",\"Internal, open to any employee of the firm\",\"Public, because the merger will be announced eventually\",\"Left unlabeled until the deal closes\"]; no:[\"Firm-wide access is broader than the small legal team the scenario allows.\",\"A future announcement does not make the drafts public today; disclosure now would cause major harm.\",\"Unlabeled data gets no handling rules, the opposite of what high-impact data needs.\"]",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/data-types-and-classifications-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-2-scen.js",
+   "id": "rw.sec.restore-test.next",
+   "severity": "giveaway",
+   "problem": "Distractors (another load balancer, lowering classification labels, disabling backup encryption) are unrelated or self-evidently harmful.",
+   "fix": "o:[\"Run recovery and restore tests\",\"Increase the backups from nightly to hourly\",\"Add a second off-site copy of the backups\",\"Hold a tabletop discussion of the recovery plan\"]; no:[\"More frequent backups reduce data loss but still do not prove a restore works.\",\"Another copy adds redundancy, not evidence that systems can be rebuilt in time.\",\"A tabletop walks through the plan on paper; it does not show the backups restore within the required time.\"]",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/recovery-testing-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-2-scen.js",
+   "id": "rw.sec.power.next",
+   "severity": "giveaway",
+   "problem": "Only one option (UPS) is a power device; WAF, forward proxy and air gap can be eliminated without knowing anything about power resilience.",
+   "fix": "o:[\"A UPS\",\"A second generator\",\"A larger generator fuel tank\",\"A surge protector\"]; no:[\"A second generator has the same startup delay.\",\"More fuel extends runtime; it does not cover the gap before the generator starts.\",\"A surge protector guards against voltage spikes; it stores no power for the switchover.\"]",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/power-resiliency-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-2-scen.js",
+   "id": "rw.sec.iac.next, rw.sec.vpn.next, rw.sec.token.next, rw.sec.masking.constraints, rw.sec.rtos.constraints, rw.sec.rpo.identify, rw.sec.rto.constraints",
+   "severity": "giveaway",
+   "problem": "Milder version of the same pattern: one or two of the three distractors come from an unrelated topic (jump server for a build-consistency question; screened subnet 'for the printers'; cold site and fail-open for a data-display question; web proxy and multicloud for a device OS question; 'Throughput', 'Data masking', 'Geofencing' for recovery-metric questions). Keys are correct.",
+   "fix": "Swap the off-topic distractors for near neighbours. rpo.identify o:[\"RPO\",\"RTO\",\"MTTR\",\"MTBF\"] with no[2]: \"MTBF estimates the time between failures, not acceptable data loss.\" rto.constraints o:[\"RTO\",\"RPO\",\"MTTR\",\"MTBF\"] with no:[\"RPO would describe the one hour of acceptable lost work records.\",\"MTTR is the average time repairs actually take, not the business limit on downtime.\",\"MTBF estimates the time between failures, not how long an outage may last.\"]. masking.constraints: replace 'Move the data to a cold site' and 'Change the network to fail open' with \"Hash every stored account number\" (no: \"A hash is one-way, so the full number would no longer exist for payment workflows.\") and \"Encrypt the display with a key staff do not hold\" (no: \"Staff would then see nothing readable, not the last four digits.\"). rtos.constraints: replace 'A public web proxy' and 'A multicloud deployment' with \"A container platform on a general-purpose OS\" (no: \"Containers still depend on a general-purpose kernel with no timing guarantees.\") and \"A full server OS in a virtual machine\" (no: \"A hypervisor and server OS add overhead and unpredictable scheduling on limited hardware.\").",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-2.js",
+   "id": "lesson 20, section iac (practice)",
+   "severity": "giveaway",
+   "problem": "The stem begins 'A reviewer sees that a template...' and the correct answer is 'Review'. The stem repeats the answer's word.",
+   "fix": "Stem: \"A template waiting to be merged would expose SSH to the internet in every region.\" Question unchanged.",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-2.js",
+   "id": "lesson 20, section ot (practice)",
+   "severity": "giveaway",
+   "problem": "Distractors are joke options ('How many browser tabs the user opens', 'Whether SaaS can host the legal archive').",
+   "fix": "Replace options 2 and 3 with [\"Ease of deployment across many sites\",false,\"Rollout effort matters, but it is not what stops an agent from running on this sensor.\"] and [\"Risk transference to the vendor\",false,\"Transferring risk does not make a heavy agent fit on constrained hardware.\"]",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/infrastructure-considerations-sy0-701/"
+  },
+  {
+   "file": "data-lessons-sec-2.js",
+   "id": "lesson 21, section controls (practice)",
+   "severity": "giveaway",
+   "problem": "Distractors 'A cold site' and 'Tokenization' are from other lessons; the facets just taught jump server, proxy and load balancer, which are the natural confusables.",
+   "fix": "Replace options 2 and 3 with [\"A forward proxy\",false,\"A forward proxy relays users' outbound web requests; it is not an admin path into a protected subnet.\"] and [\"A load balancer\",false,\"A load balancer spreads client traffic across servers; it does not gate administrator sessions.\"]",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/network-appliances-sy0-701/"
+  },
+  {
+   "file": "data-lessons-sec-2.js",
+   "id": "lesson 21, section filters (practice)",
+   "severity": "giveaway",
+   "problem": "The section compares firewall, IDS and IPS, but the third practice option is 'Hot site'.",
+   "fix": "Replace option 3 with [\"Firewall\",false,\"A firewall allows or denies flows by policy; the request here is for signature-based alerts without blocking.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-2.js",
+   "id": "lesson 21, section design (practice)",
+   "severity": "giveaway",
+   "problem": "The correct option 'Tune and test the inline control' repeats the step name 'Tune inline controls' and the stem's 'inline blocking'; the distractors ('Move the clinic to a cold site', 'Lower every data label to public') are absurd.",
+   "fix": "Options: [\"Run it in detect-only mode and review what it would have blocked\",true,\"Inline prevention can create outages, so the rules are tuned against real traffic before blocking is switched on.\"], [\"Set the IPS to fail open and turn blocking on at once\",false,\"Fail-open covers a device failure; it does nothing about false positives dropping valid traffic.\"], [\"Redraw the clinic's security zones first\",false,\"Zones were set in the first step; the open question is whether this IPS will drop valid traffic.\"]",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/intrusion-prevention-sy0-701/"
+  },
+  {
+   "file": "data-lessons-sec-2.js",
+   "id": "lesson 20 platforms, lesson 20 map, lesson 22 classify, lesson 22 protect, lesson 22 resilience, lesson 22 targets (practice)",
+   "severity": "giveaway",
+   "problem": "Each has one throwaway third option from an unrelated topic ('A forward proxy', 'Both should always be treated as public', 'Cold site recovery', 'Fail-open mode everywhere', 'Masking' as a recovery metric), which turns a three-option question into a two-option one. Keys and feedback are correct.",
+   "fix": "Suggested third options: platforms: [\"A serverless function\",false,\"Serverless hides the operating system entirely; it cannot supply a specific guest OS.\"]; protect: [\"Encryption, with the key given to the analytics tool\",false,\"A tool holding the key can recover the live card number.\"]; resilience: [\"A third active server\",false,\"Another node improves availability, but the deletion would reach it too.\"]; targets: [\"MTTR\",false,\"MTTR is the average time repairs actually take, not the business limit on downtime.\"]; classify: [\"Neither needs a label until release\",false,\"Unreleased merger plans need strict handling now.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-1.js",
+   "id": "lesson 19, section cases (c1, c2, c4, c5)",
+   "severity": "giveaway",
+   "problem": "Level 19 lives in data-lessons-sec-1.js, outside the file list for this batch, but I read it because the batch is labelled levels 19-22. Structure and keys are correct (6 cases, one correct each). In c1, c2, c4 and c5 the correct option is much longer and more qualified than both distractors (for example c5: 'There are strong indicators of compromise that warrant immediate investigation' against 'The account is healthy because it still signs in').",
+   "fix": "Shorten the correct options and bring distractors to similar length: c1 \"Least privilege\"; c2 \"Encryption plus a digital signature\" with distractors [\"Encryption plus a hash\",false,\"A hash shows the file is unchanged but does not prove who approved it.\"] and [\"A digital signature alone\",false,\"A signature proves approval and integrity but does not keep the file confidential.\"]; c4 \"A cloud misconfiguration\"; c5 \"The account is likely compromised\".",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-2.js",
+   "id": "sec.rto, sec.rpo (obj, src)",
+   "severity": "minor",
+   "problem": "Both are tagged obj 3.4, but RTO and RPO are listed in SY0-701 under 5.2 (business impact analysis, with MTTR and MTBF). The cited Messer 3.4 'Resiliency' page does not mention RTO or RPO; they are in his 5.2 'Business Impact Analysis' video. Batch 4 already has sec.bia-recovery-metrics at obj 5.2 covering the same definitions (consistent with these).",
+   "fix": "Set obj:\"5.2\" on sec.rto and sec.rpo (add \"5.2\":\"Explain elements of the risk management process\" to O), and replace U(\"resiliency\") in their src with U(\"business-impact-analysis\"). If they must stay under 3.4 for level 22, keep obj but still add U(\"business-impact-analysis\") to src.",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/business-impact-analysis-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-2-scen.js",
+   "id": "rw.sec.rpo.identify, rw.sec.rto.constraints (obj)",
+   "severity": "minor",
+   "problem": "Same objective slip as the notes: tagged 3.4, but RTO/RPO sit under 5.2. rw.sec.cloud-models.identify is tagged 3.1 although 'Multi-cloud systems' is listed under 3.4 (hybrid considerations are 3.1); that one is defensible either way.",
+   "fix": "Change obj to \"5.2\" on rw.sec.rpo.identify and rw.sec.rto.constraints if the concepts are retagged; leave rw.sec.cloud-models.identify as is.",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/"
+  },
+  {
+   "file": "data-cn-sec-2.js",
+   "id": "sec.rpo card c2, plus rw.sec.rpo.identify, xf.sec.targets.yn row 1, lesson 22 targets step 'set'",
+   "severity": "minor",
+   "problem": "'Fifteen minutes' is RPO and 'two hours' is RTO in nearly every item in this batch, and again in data-cn-compare.js cmp.rto-rpo and batch 4 (rw.sec.recovery-rpo.identify, lesson 29). A learner can match the number to the metric instead of reading the requirement.",
+   "fix": "Vary the figures and include a case where the RTO is the smaller number. Example for rw.sec.rpo.identify: s: \"A retailer says it can rebuild its ordering service within thirty minutes, but it must never lose more than one hour of orders. Architects are choosing backup frequency.\" q: \"Which metric does the one-hour requirement describe?\" why unchanged; no[0]: \"RTO would describe the thirty-minute service recovery target.\"; take unchanged.",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-2.js",
+   "id": "sec.iac, sec.serverless-microservices (src)",
+   "severity": "minor",
+   "problem": "Both cite U(\"other-infrastructure-concepts\"), but that page covers virtualization, containers, IoT, SCADA/ICS, RTOS, embedded systems and high availability. Infrastructure as code, serverless and microservices are in the 'Cloud Infrastructures' video.",
+   "fix": "For both concepts use src [U(\"cloud-infrastructures\"),U(\"infrastructure-considerations\")].",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/cloud-infrastructures-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-2.js",
+   "id": "sec.segmentation-zones lines[3]",
+   "severity": "minor",
+   "problem": "'More segmentation can reduce blast radius and simplify policy.' More segments mean more boundaries and rules to manage; segmentation reduces blast radius at the cost of added policy complexity.",
+   "fix": "\"More segmentation shrinks the blast radius, but adds rules to manage.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-2.js",
+   "id": "sec.data-protection clue",
+   "severity": "minor",
+   "problem": "'Token absent from the real value suggests tokenization' is garbled; it is the real value that is absent, replaced by the token.",
+   "fix": "\"Real value replaced by a stand-in suggests tokenization; partly hidden value suggests masking.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/protecting-data-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-2.js",
+   "id": "sec.responsibility-matrix card c2",
+   "severity": "minor",
+   "problem": "'A company wants the provider to handle the application platform but not just email delivery' is hard to parse; 'not just email delivery' appears to be a stray contrast with SaaS.",
+   "fix": "Question: \"A company wants to deploy its own code while the provider runs the operating system and runtime. Which model fits best?\" Answer unchanged (PaaS).",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-2.js",
+   "id": "sec.control-points clue",
+   "severity": "minor",
+   "problem": "'pre-authenticated switch port implies 802.1X' reads as if the port is already authenticated. 802.1X keeps the port closed until the supplicant authenticates.",
+   "fix": "\"Admin gateway implies jump server; a switch port that stays closed until the device authenticates implies 802.1X.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/port-security-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-2-scen.js",
+   "id": "rw.sec.failmode.constraints (concept link)",
+   "severity": "minor",
+   "problem": "The scenario is correct (fail closed), but it is linked to sec.firewall-types, and no Pocket Note in the batch defines fail-open or fail-closed. Lesson 21 only mentions 'fail-closed designs' in passing in the last step. The scored question tests terms the notes never define.",
+   "fix": "In sec.ids-ips, merge lines[2] and lines[3] into \"Blocking risks false positives, so teams tune in detect-only mode first.\" and add a new last line: \"Inline devices fail open (traffic keeps flowing) or fail closed (traffic stops).\" Then set concept:\"sec.ids-ips\", concepts:[\"sec.ids-ips\"] on rw.sec.failmode.constraints.",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/intrusion-prevention-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-2-scen.js",
+   "id": "rw.sec.responsibility.identify, rw.sec.sdn.identify",
+   "severity": "minor",
+   "problem": "Stem echoes the answer: 'managed application platform' for PaaS (Platform as a Service) and 'changed centrally through software' for Software-defined networking.",
+   "fix": "responsibility: change 'a managed application platform' to 'a managed hosting service'. sdn: change 'changed centrally through software' to 'changed from one central console'.",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-2.js",
+   "id": "lesson 20, section map (item 'saas')",
+   "severity": "minor",
+   "problem": "The item is named 'SaaS billing app' but its text describes 'a finished subscription app for payroll and tickets' with an HR example, and the multicloud item's example says 'Billing stays in Azure'. The name, description and neighbouring example disagree about what the app is.",
+   "fix": "Rename the item to \"SaaS HR and ticketing app\".",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-2.js",
+   "id": "lesson 21, section zones (zone descriptions)",
+   "severity": "minor",
+   "problem": "Zone 'Public edge' is described as 'Internet-facing systems exposed to untrusted users' and zone 'Screened subnet' as 'Public services isolated from the internal network'. The patient portal fits both descriptions, and remote access gateways are commonly placed in a screened subnet as well, so the split between the two zones is not clear from the text.",
+   "fix": "Public edge desc: \"Perimeter devices that terminate connections from untrusted networks, such as the edge firewall and VPN gateway\". Screened subnet desc: \"Public-facing servers placed behind the edge and kept apart from the internal network\".",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/secure-infrastructures-sy0-701/"
+  },
+  {
+   "file": "data-xf-sec-2.js",
+   "id": "xf.sec.zones.match (q), xf.sec.protection.match (pair 2)",
+   "severity": "minor",
+   "problem": "zones.match asks 'where it fits best' but three of the four answers are controls, not places. protection.match says 'Replace a card number with a surrogate kept in a vault'; it is the real number and mapping that stay in the vault, not the surrogate.",
+   "fix": "zones.match q: \"Match each description to the term it describes.\" protection.match pair 2 left side: \"Replace a card number with a surrogate while the real number stays in a vault\".",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-2.js",
+   "id": "sec.data-protection lines[3] and xf.sec.protection.match pair 4",
+   "severity": "minor",
+   "problem": "The SY0-701 objective term is 'Geographic restrictions'; geofencing is one way of applying them. Using only 'Geofencing' may leave learners unable to recognise the objective's wording.",
+   "fix": "lines[3]: \"Geographic restrictions (such as geofencing) and permissions limit where data can be used and by whom.\" Match pair right side: \"Geographic restrictions\".",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/protecting-data-sy0-701/"
+  }
+ ],
+ "counts": {
+  "concepts": 17,
+  "comparisons": 4,
+  "scenarios": 27,
+  "lesson_sections": 18,
+  "xf_items": 12
+ },
+ "checked_fully": true,
+ "notes": "Read every item in all five files: 17 concepts (34 recall cards), 4 comparisons, 27 scenarios, 3 lessons (levels 20-22: 15 content sections with practice plus 3 'check' sections that only draw from the scenario pool), 12 exam-style items. Structure is clean: every scenario has no.length == options-1 and each `no` entry lines up with its option; every practice has exactly one correct option; dd first options, multi first-n options, match pairs and yn truth values are all correct; no match `extra` fits a row; cmp:'cmp.rto-rpo' resolves to data-cn-compare.js; tools/check-content.js passes. data-cn-sec-2-cmp.js has no issues. No keyed answer is wrong, and I found no scored question with a second defensible answer. Level 19 (review casebook) is not in the listed files; it is in data-lessons-sec-1.js and covers domains 1-2. I read it (6 cases, keys correct, one giveaway issue logged) but did not source-check the batch 1 concepts it links to. The batch contains no port numbers, RAID levels, backup-type or MTTR/MTBF content, so there was nothing of that kind to verify; the only figures are scenario RTO/RPO values. Coverage gaps against the objectives (not errors, not logged as issues): 3.2 has nothing on UTM, layer 4 vs layer 7, EAP, sensors, reverse proxy, active/passive and inline/tap device attributes, and no note defining fail-open/fail-closed; 3.3 omits hashing, obfuscation, segmentation, data sovereignty, trade secrets and human/non-human-readable data; 3.4 omits platform diversity, continuity of operations, capacity planning, geographic dispersion, test types (tabletop, failover, simulation, parallel processing), backup details (onsite/offsite, frequency, snapshots, replication, journaling) and UPS/generator in the Pocket Notes (lesson 22 covers power briefly). Professor Messer pages were read through a summarising fetch tool, so quotations from them are the tool's extraction, not text I saw verbatim; direct HTTP checks of the URLs were blocked by the sandbox proxy. The CompTIA objectives PDF was not fetched; objective placement of RTO/RPO (5.2) and multi-cloud (3.4) is taken from Messer's course index and my knowledge of the SY0-701 objectives."
+}

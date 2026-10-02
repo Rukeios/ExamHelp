@@ -1243,7 +1243,8 @@ label.btn:has(input:focus-visible){outline:2px solid var(--accent);outline-offse
 .xf-mark.ok{background:var(--okbg);color:var(--ok)}
 .xf-mark.no{background:var(--badbg);color:var(--bad)}
 .xf-sentence{margin:0;font-size:calc(17px*var(--ts,1));line-height:2.4}
-.xf-blank{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;vertical-align:middle;line-height:1.3}
+.xf-blank{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;vertical-align:middle;line-height:1.3;max-width:100%}
+.xf-blank select{min-width:0;max-width:100%;text-overflow:ellipsis}
 .xf select{font:inherit;font-size:calc(15px*var(--ts,1));padding:8px 10px;border:1.5px solid var(--muted);border-radius:8px;background:var(--surface);color:var(--ink);max-width:100%;min-height:42px}
 .xf select.ok{border-color:var(--ok)}
 .xf select.no{border-color:var(--bad)}
@@ -1301,6 +1302,11 @@ label.btn:has(input:focus-visible){outline:2px solid var(--accent);outline-offse
 .course-links a{font-weight:600;font-size:calc(15px*var(--ts,1));color:var(--ink);text-decoration:underline;text-underline-offset:2px}
 .course-links small{display:block;font-size:calc(13px*var(--ts,1));color:var(--ink2)}
 .course-links .meta{margin:2px 0 0}
+details.cl-fold{display:block}
+.cl-fold>summary{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;min-height:28px}
+.cl-fold>summary .cl-h{margin:0}
+.cl-fold .cl-n{font-size:calc(14px*var(--ts,1));font-weight:600;color:var(--accent-ink);text-decoration:underline;white-space:nowrap}
+.cl-fold[open]>summary{margin-bottom:6px}
 
 </style>
 <script>
@@ -2117,6 +2123,7 @@ function goLevelStep(d,id){
   const {checkI,L,st,links}=levelSteps(d);
   if(id==="link"){
     if(links&&links.length===1){ markStep(d.d,"link"); window.open(links[0].url,"_blank","noopener"); render(); return; }
+    const fold=document.querySelector("details.course-links"); if(fold) fold.open=true;
     const row=document.querySelector(".course-links a"); if(row){ row.focus(); row.scrollIntoView({block:"center",behavior:reducedMotion()?"auto":"smooth"}); }
     return;
   }
@@ -2159,11 +2166,15 @@ function levelPath(d,mode){
 function courseLinksRow(d){
   const links=courseLinks(d); if(!links) return null;
   const sc=links[0].kind!=="video";
-  return h("div",{class:"course-links"},
-    h("p",{class:"cl-h"},sc?"Microsoft Learn for this level":"Course videos for this level"),
-    h("ul",{},links.map(l=>h("li",{},
+  const list=h("ul",{},links.map(l=>h("li",{},
       h("a",{href:l.url,target:"_blank",rel:"noopener",onclick:()=>{ markStep(d.d,"link"); setTimeout(render,0); }},l.title,h("span",{class:"sr-only"}," (opens in a new tab)"),h("span",{"aria-hidden":"true"}," ↗")),
-      l.focus?h("small",{},l.focus):null))),
+      l.focus?h("small",{},l.focus):null)));
+  const head=sc?"Microsoft Learn for this level":"Course videos for this level";
+  // A long list (Security+ levels have up to 16 videos) folds away so the next step stays in view.
+  if(links.length>3) return h("details",{class:"course-links cl-fold",open:ui.linksOpen===d.d?true:null,ontoggle:e=>{ ui.linksOpen=e.target.open?d.d:null; }},
+    h("summary",{},h("span",{class:"cl-h"},head),h("span",{class:"cl-n"},links.length+" links")),list);
+  return h("div",{class:"course-links"},
+    h("p",{class:"cl-h"},head),list,
     sc?h("p",{class:"meta"},"Free on Microsoft Learn. Opens in a new tab, and your place here is kept."):null);
 }
 // Sections left in an interactive lesson you've started. Null when not started or finished.
@@ -4090,8 +4101,16 @@ function renderLessonPilot(d,L){
       prev?h("button",{class:"btn ghost",onclick:()=>pilotGo(d.d,i-1)},lessonIcon("back"),"Back"):h("span"),
       next?h("button",{class:"btn primary lg",onclick:()=>pilotGo(d.d,i+1)},"Next: "+next.title,lessonIcon("arrow")):null));
   return h("article",{class:"pilot","aria-label":(L.title||shortTitle(d.title))+" lesson"},head,body,
-    h("p",{class:"meta pilot-foot"},L.reviewed&&L.src&&L.src.length?["Content checked against ",h("a",{href:L.src[0],target:"_blank",rel:"noopener"},"Microsoft Learn")," ("+L.src.length+" page"+(L.src.length===1?"":"s")+") on "+L.reviewed+". "]:null,
+    h("p",{class:"meta pilot-foot"},lessonSourceLine(L),
       h("button",{class:"linklike",onclick:()=>{ui.classicLesson=true;render();}},"Switch to the classic lesson view")));
+}
+// What the lesson footer may claim. "Checked against Microsoft Learn" only when every source is a
+// Microsoft Learn page and the lesson isn't marked as a draft. Anything else says what it is.
+function lessonSourceLine(L){
+  const src=L.src||[]; if(!src.length) return null;
+  const ms=src.every(u=>/^https:\/\/learn\.microsoft\.com\//.test(u));
+  if(L.reviewed&&ms&&L.status!=="drafted") return ["Content checked against ",h("a",{href:src[0],target:"_blank",rel:"noopener"},"Microsoft Learn")," ("+src.length+" page"+(src.length===1?"":"s")+") on "+L.reviewed+". "];
+  return "Drafted with AI help"+(L.reviewed?" on "+L.reviewed:"")+" from the exam objectives and the linked course videos. Not yet checked against its sources or reviewed by a human expert. ";
 }
 function pilotTabs(day,secId,items,cur,cls){
   return h("div",{class:cls,role:"tablist","aria-label":"Choose one"},items.map(x=>h("button",{role:"tab",id:"pt-"+secId+"-"+x.id,"aria-selected":String(x.id===cur),"aria-controls":"pp-"+secId,tabindex:x.id===cur?"0":"-1",
@@ -4989,7 +5008,7 @@ function refDetails(item){
   return h("details",{class:"note-ref"},h("summary",{},"Reference"),
     obj?h("p",{},obj):null,
     h("p",{},"Sources: ",(item.src||[]).map((u,i)=>[i?", ":"",h("a",{href:u,target:"_blank",rel:"noopener"},u.replace(/^https:\/\/(www\.)?/,"").split("/").slice(0,3).join("/")+"…")])),
-    h("p",{},"Checked against these sources on "+item.reviewed+" by an automated review. Not yet reviewed by a human expert. Content version "+(item.v||1)+". ID "+item.id));
+    h("p",{},(item.status==="drafted"?"Drafted with AI help on "+item.reviewed+". Not yet checked against these sources or reviewed by a human expert.":"Checked against these sources on "+item.reviewed+" by an automated review. Not yet reviewed by a human expert.")+" Content version "+(item.v||1)+". ID "+item.id));
 }
 function noteCard(c,opts){
   opts=opts||{};

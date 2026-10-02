@@ -6,7 +6,7 @@ const P=function(s,q,o){ return {s:s,q:q,o:o}; };
 const V=function(slug){ return PM+slug+"-sy0-701/"; };
 const L=window.LESSON_PILOTS=window.LESSON_PILOTS||{};
 
-L[23]={id:"lesson.sec.23",day:23,v:1,reviewed:REV,src:[COMP,V("secure-baselines"),V("hardening-targets"),V("securing-wireless-and-mobile"),V("wireless-security-settings"),V("application-security"),V("asset-management"),V("vulnerability-scanning"),V("threat-intelligence"),V("penetration-testing"),V("analyzing-vulnerabilities"),V("vulnerability-remediation")],
+L[23]={id:"lesson.sec.23",day:23,v:1,reviewed:REV,status:"drafted",src:[COMP,V("secure-baselines"),V("hardening-targets"),V("securing-wireless-and-mobile"),V("wireless-security-settings"),V("application-security"),V("asset-management"),V("vulnerability-scanning"),V("threat-intelligence"),V("penetration-testing"),V("analyzing-vulnerabilities"),V("vulnerability-remediation")],
   title:"Hardening, assets, and vulnerability operations",
   subtitle:"Build an operations baseline for Alder Printworks, a fictional manufacturer with offices, Wi-Fi, and cloud apps.",
   sections:[
@@ -70,7 +70,7 @@ L[23]={id:"lesson.sec.23",day:23,v:1,reviewed:REV,src:[COMP,V("secure-baselines"
     {id:"check",type:"check",title:"Check yourself",lead:"Hardening and vulnerability scenarios without the lesson in view. These count as scored practice.",from:[23],max:6}
   ]};
 
-L[24]={id:"lesson.sec.24",day:24,v:1,reviewed:REV,src:[COMP,V("security-monitoring"),V("security-tools"),V("firewalls"),V("web-filtering"),V("operating-system-security"),V("secure-protocols"),V("email-security"),V("monitoring-data"),V("endpoint-security")],
+L[24]={id:"lesson.sec.24",day:24,v:1,reviewed:REV,status:"drafted",src:[COMP,V("security-monitoring"),V("security-tools"),V("firewalls"),V("web-filtering"),V("operating-system-security"),V("secure-protocols"),V("email-security"),V("monitoring-data"),V("endpoint-security")],
   title:"Monitoring and enterprise security capabilities",
   subtitle:"Alder Printworks now needs signal, visibility, and enforcement across email, endpoints, and network paths.",
   sections:[
@@ -135,7 +135,7 @@ L[24]={id:"lesson.sec.24",day:24,v:1,reviewed:REV,src:[COMP,V("security-monitori
     {id:"check",type:"check",title:"Check yourself",lead:"Monitoring and enterprise-capability scenarios without the lesson in view. These count as scored practice.",from:[24],max:6}
   ]};
 
-L[25]={id:"lesson.sec.25",day:25,v:1,reviewed:REV,src:[COMP,V("identity-and-access-management"),V("access-controls"),V("multifactor-authentication"),V("password-security")],
+L[25]={id:"lesson.sec.25",day:25,v:1,reviewed:REV,status:"drafted",src:[COMP,V("identity-and-access-management"),V("access-controls"),V("multifactor-authentication"),V("password-security")],
   title:"Identity and access management",
   subtitle:"Alder Printworks is cleaning up account lifecycle, sign-in design, and privileged access for staff, contractors, and administrators.",
   sections:[
@@ -193,7 +193,7 @@ L[25]={id:"lesson.sec.25",day:25,v:1,reviewed:REV,src:[COMP,V("identity-and-acce
     {id:"check",type:"check",title:"Check yourself",lead:"IAM scenarios without the lesson in view. These count as scored practice.",from:[25],max:6}
   ]};
 
-L[26]={id:"lesson.sec.26",day:26,v:1,reviewed:REV,src:[COMP,V("scripting-and-automation"),V("incident-response"),V("incident-planning"),V("digital-forensics"),V("log-data")],
+L[26]={id:"lesson.sec.26",day:26,v:1,reviewed:REV,status:"drafted",src:[COMP,V("scripting-and-automation"),V("incident-response"),V("incident-planning"),V("digital-forensics"),V("log-data")],
   title:"Automation, incident response, forensics, and data sources",
   subtitle:"Alder Printworks now needs repeatable response, defensible evidence handling, and better investigation habits.",
   sections:[
@@ -248,7 +248,7 @@ L[26]={id:"lesson.sec.26",day:26,v:1,reviewed:REV,src:[COMP,V("scripting-and-aut
     {id:"check",type:"check",title:"Check yourself",lead:"Automation, incident, and forensic scenarios without the lesson in view. These count as scored practice.",from:[26],max:6}
   ]};
 
-L[27]={id:"lesson.sec.27",day:27,v:1,reviewed:REV,src:[COMP,V("secure-baselines"),V("security-monitoring"),V("identity-and-access-management"),V("incident-response")],
+L[27]={id:"lesson.sec.27",day:27,v:1,reviewed:REV,status:"drafted",src:[COMP,V("secure-baselines"),V("security-monitoring"),V("identity-and-access-management"),V("incident-response")],
   title:"Review: Security operations",
   subtitle:"Short workplace cases across Levels 23 to 26. Use the guided review, then the independent check.",
   sections:[
@@ -275,7 +275,7 @@ L[27]={id:"lesson.sec.27",day:27,v:1,reviewed:REV,src:[COMP,V("secure-baselines"
     {id:"check",type:"check",title:"Independent check",lead:"Different scored scenarios drawn from Levels 23 to 26, with the lessons hidden. These count as scored practice.",from:[23,24,25,26],max:8}
   ]};
 
-L[31]={id:"lesson.sec.31",day:31,v:1,reviewed:REV,src:[COMP,V("firewalls"),V("secure-protocols"),V("monitoring-data"),V("log-data"),V("endpoint-security")],
+L[31]={id:"lesson.sec.31",day:31,v:1,reviewed:REV,status:"drafted",src:[COMP,V("firewalls"),V("secure-protocols"),V("monitoring-data"),V("log-data"),V("endpoint-security")],
   title:"PBQ drills: ports, logs, and firewall rules",
   subtitle:"Practice common Security+ PBQ patterns: secure protocol pairings, log-line interpretation, and top-down firewall evaluation.",
   sections:[

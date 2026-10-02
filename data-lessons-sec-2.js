@@ -5,7 +5,7 @@ const U=slug=>"https://www.professormesser.com/security-plus/sy0-701/sy0-701-vid
 const P=(s,q,o)=>({s,q,o});
 const L=window.LESSON_PILOTS=window.LESSON_PILOTS||{};
 
-L[20]={id:"lesson.sec.20",day:20,v:1,reviewed:REV,
+L[20]={id:"lesson.sec.20",day:20,v:1,reviewed:REV,status:"drafted",
   src:[U("cloud-infrastructures"),U("network-infrastructure-concepts"),U("other-infrastructure-concepts"),U("infrastructure-considerations"),CERT],
   title:"Architecture models and special-purpose systems",
   subtitle:"Choose where workloads live, how they are built, and how much isolation they need.",
@@ -13,7 +13,7 @@ L[20]={id:"lesson.sec.20",day:20,v:1,reviewed:REV,
     {id:"map",type:"map",title:"Where the workload lives",lead:"Blue Mesa Utilities runs office apps, customer web apps, and plant control systems. Place each design where it belongs.",note:"sec.cloud-models",
      zones:[
       {id:"provider",name:"Provider-managed cloud",desc:"Shared or managed services in public cloud"},
-      {id:"hybrid",name:"Hybrid environment",desc:"Connected mix of on-prem and cloud resources"},
+      {id:"hybrid",name:"Mixed environments",desc:"Workloads spread across on-premises and cloud, or across more than one cloud provider"},
       {id:"isolated",name:"Isolated operations zone",desc:"Systems kept tightly separated from normal business networks"}],
      items:[
       {id:"saas",zone:"provider",kind:"Service model",name:"SaaS billing app",say:"Blue Mesa uses a finished subscription app for payroll and tickets. The provider runs the stack, while Blue Mesa still manages users and data handling.",example:"HR signs in to a cloud app that Blue Mesa does not patch itself."},
@@ -21,11 +21,11 @@ L[20]={id:"lesson.sec.20",day:20,v:1,reviewed:REV,
       {id:"hyb",zone:"hybrid",kind:"Deployment model",name:"Hybrid customer portal",say:"The portal uses cloud web tiers but still reads an on-premises meter database through a controlled connection.",example:"Meter history stays on site while the web front end scales in cloud."},
       {id:"multi",zone:"hybrid",kind:"Deployment model",name:"Multicloud analytics",say:"Blue Mesa spreads different workloads across more than one provider to avoid single-provider dependence.",example:"Billing stays in Azure while analytics runs in AWS."},
       {id:"ot",zone:"isolated",kind:"Operational system",name:"Pump controllers",say:"Industrial controllers prioritize uptime and safety, so they stay isolated from general business traffic.",example:"Water pumps are managed on a segmented control network with few access paths."}],
-     links:["Hybrid and multicloud are not the same: hybrid mixes environments, while multicloud mixes providers.","Provider-managed services reduce operations work, but Blue Mesa still owns identities, configuration and data decisions.","Control systems stay in the isolated zone because availability and patch limits change the security design."],
+     links:["Hybrid usually means on-premises or private cloud combined with public cloud, while multicloud means more than one provider. Some courses call any mix of several clouds hybrid, so read the scenario's wording.","Provider-managed services reduce operations work, but Blue Mesa still owns identities, configuration and data decisions.","Control systems stay in the isolated zone because availability and patch limits change the security design."],
      practice:P("Blue Mesa wants a photo-upload function that runs only when a customer sends a picture and should not require server patching.","Which area of this map best fits that new feature?",
       [["Provider-managed cloud",true,"An event-driven cloud function belongs in the provider-managed area because the provider handles the server layer."],
        ["Isolated operations zone",false,"The isolated zone is for sensitive control systems, not customer image resizing."],
-       ["Only the hybrid zone",false,"Hybrid describes placement across cloud and on-premises, not event-driven execution by itself."]])},
+       ["Mixed environments",false,"Mixing sites or providers describes where workloads sit, not event-driven execution with no servers to patch."]])},
     {id:"resp",type:"facets",title:"Responsibility and tradeoffs",lead:"Every model trades control for provider effort. Read each lens before picking a design.",note:"sec.responsibility-matrix",
      facets:[
       {id:"control",name:"Control",say:"IaaS gives the most control over the guest OS and network details. SaaS gives the least because the provider runs almost everything.",example:"Blue Mesa can harden its own VM image in IaaS, but not a SaaS mail platform.",tags:["Control","Customization"]},
@@ -72,7 +72,7 @@ L[20]={id:"lesson.sec.20",day:20,v:1,reviewed:REV,
     {id:"check",type:"check",title:"Check yourself",lead:"Architecture choices without the lesson in view. These count as scored practice.",from:[20],max:6}
   ]};
 
-L[21]={id:"lesson.sec.21",day:21,v:1,reviewed:REV,
+L[21]={id:"lesson.sec.21",day:21,v:1,reviewed:REV,status:"drafted",
   src:[U("secure-infrastructures"),U("intrusion-prevention"),U("network-appliances"),U("port-security"),U("firewall-types"),U("secure-communication"),CERT],
   title:"Network security design",
   subtitle:"Place systems into zones, control paths between them, and secure communication without breaking the business.",
@@ -90,7 +90,7 @@ L[21]={id:"lesson.sec.21",day:21,v:1,reviewed:REV,
      links:["A screened subnet does not make a public system trusted; it only isolates it better.","Security zones are about trust boundaries, not just IP subnets.","Remote access gateways belong at the edge because they are an entry point from untrusted networks."],
      practice:P("Northbridge wants its records database directly reachable from the internet to simplify remote clinic access.","What is the best response?",
       [["Keep the database internal and publish only the needed front end",true,"Sensitive internal systems should stay behind controlled access paths instead of being exposed directly."],
-       ["Put the database next to the public portal in the screened subnet",false,"A screened subnet is safer than the internal LAN, but still the wrong place for the core database."],
+       ["Put the database next to the public portal in the screened subnet",false,"A screened subnet holds internet-facing services, so it is more exposed than the internal network. The core database does not belong there."],
        ["Move the database to the guest Wi-Fi",false,"That would reduce security even further."]])},
     {id:"controls",type:"facets",title:"Control points between zones",lead:"Northbridge uses different controls depending on who is moving and why.",note:"sec.control-points",
      facets:[
@@ -138,7 +138,7 @@ L[21]={id:"lesson.sec.21",day:21,v:1,reviewed:REV,
     {id:"check",type:"check",title:"Check yourself",lead:"Network security design decisions with the lesson hidden. These count as scored practice.",from:[21],max:6}
   ]};
 
-L[22]={id:"lesson.sec.22",day:22,v:1,reviewed:REV,
+L[22]={id:"lesson.sec.22",day:22,v:1,reviewed:REV,status:"drafted",
   src:[U("data-types-and-classifications"),U("states-of-data"),U("protecting-data"),U("resiliency"),U("capacity-planning"),U("recovery-testing"),U("backups"),U("power-resiliency"),CERT],
   title:"Data protection and resilience",
   subtitle:"Protect the value itself, then prove the organization can survive failures and recover on time.",

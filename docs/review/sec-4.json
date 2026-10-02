@@ -1,0 +1,221 @@
+{
+ "issues": [
+  {
+   "file": "data-lessons-sec-4.js",
+   "id": "lesson 28 / governance (facet 'local')",
+   "severity": "ambiguous",
+   "problem": "The 'Decentralized model' facet uses the example 'Regional sites tailor procedures while the central council keeps authority for major exceptions.' That is the same fact pattern that scenario rw.sec.centralized.constraints keys as 'Centralized governance with local implementation' (one team approves exceptions, sites tailor procedures). The two files label the same arrangement with opposite terms, and the example does not show decentralized decision-making at all (Messer: decentralized = decisions made by others, e.g. the people doing the job).",
+   "fix": "Replace the facet example with: \"Each regional office's security lead approves that office's own exceptions and reports the outcome to headquarters.\" Optionally change `say` to: \"Decisions are made by the business units or sites closest to the work.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/security-procedures-sy0-701/"
+  },
+  {
+   "file": "data-xf-sec-4.js",
+   "id": "xf.sec.documents.match",
+   "severity": "ambiguous",
+   "problem": "Pair 1 keys \"'All terminated accounts must be disabled the same day'\" as Policy, while pair 2 keys \"'All laptops must use one approved full-disk encryption baseline'\" as Standard. Both are 'All X must <specific measurable requirement>' statements; the first reads at least as much like a standard as a policy (the batch itself defines a standard as the 'mandatory specific requirement' and a policy as 'broad direction and accountability'). It is only solvable by elimination and teaches a blurry policy example.",
+   "fix": "Change pair 1's left text to: \"'Access to company systems must be removed when employment ends, and managers are accountable for requesting it'\" (keep right = Policy).",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-4-scen.js",
+   "id": "rw.sec.compliance.identify",
+   "severity": "ambiguous",
+   "problem": "The stem describes purely internal research into a new regulation and keys 'Due diligence', with 'Due care' as the first distractor. The source this batch cites for the topic (Professor Messer, Compliance) draws the line differently: 'the activities that you're doing internally are referred to as due care, and any activities that you perform with a third party would be based on due diligence.' Under that framing the keyed answer is the distractor. Other SY0-701 guides do support the batch's research-vs-ongoing-operation split, so the key is defensible, but the item is ambiguous against its own cited source.",
+   "fix": "Make the scenario satisfy both framings by putting a third party and a pending commitment in the stem: s: \"A credit union is about to sign with a cloud core-banking provider. Before committing, security and legal investigate the provider's compliance record, verify its claims and list any gaps against a regulation that takes effect next quarter.\" q: \"Which concept does that investigation represent?\" why: \"Due diligence is the investigation and verification done before a commitment, here into a third party.\" Leave options and `no` as they are.",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/compliance-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-4.js",
+   "id": "sec.compliance-program (also lesson 30 / compliance, xf.sec.compliance.yn)",
+   "severity": "minor",
+   "problem": "Due diligence vs due care is taught as a strict before-the-decision / after-the-decision split ('Research first is due diligence; ongoing care is due care'; lesson caution 'Due diligence comes before the decision; due care continues after the decision'). SY0-701 lists them together as 'Due diligence/care', and the cited Messer page distinguishes them as third-party (diligence) vs internal (care). The batch's split matches other guides and is not false, but it is presented as more settled than it is.",
+   "fix": "Keep the keyed answers. Change concept line 2 to \"Due diligence investigates and verifies, often before a commitment or about a third party.\" and line 3 to \"Due care is acting on that knowledge: running reasonable safeguards day to day.\" Change the lesson 30 caution to: \"The exam lists these together as due diligence/care. Diligence is investigating and verifying; care is the reasonable, ongoing action that follows.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/compliance-sy0-701/ ; https://uniontestprep.com/comptia-security/study-guide/syo-701-security-program-management-and-oversight/pages/3"
+  },
+  {
+   "file": "data-cn-sec-4-scen.js",
+   "id": "rw.sec.roe.constraints (and concept sec.penetration-testing)",
+   "severity": "minor",
+   "problem": "Objective-number slip. 'Rules of engagement' is a bullet under SY0-701 objective 5.3 (third-party risk assessment and management), not 5.5. Messer covers it in the Third-party Risk Assessment video; his Penetration Tests video (the concept's only cited source) does not mention it.",
+   "fix": "Set obj:\"5.3\" on rw.sec.roe.constraints. In data-cn-sec-4.js add \"thirdParty\" to the src list of sec.penetration-testing (src becomes [\"pentest\",\"thirdParty\",\"comptia\"]).",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/third-party-risk-assessment-sy0-701/ ; https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/penetration-tests-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-4.js",
+   "id": "sec.governance-boards, sec.governance-monitoring",
+   "severity": "minor",
+   "problem": "Wrong source link. Both concepts cite the Security Considerations page, which covers regulatory/legal/industry/geographic considerations only. Governance structures (boards, committees, government entities, centralized/decentralized) and 'monitoring and revision' are covered on the Security Procedures page.",
+   "fix": "Change src for both concepts from [\"considerations\",\"comptia\"] to [\"procedure\",\"comptia\"].",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/security-procedures-sy0-701/ ; https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/security-considerations-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-4.js",
+   "id": "sec.data-owner-custodian-steward (also lesson 28 / roles, xf.sec.roles.dd)",
+   "severity": "minor",
+   "problem": "SY0-701 5.1 lists 'Custodians/stewards' as a single role, and Messer describes one combined role that is responsible for accuracy, privacy and security, assigns sensitivity labels and manages access rights. The batch teaches custodian and steward as two distinct roles ('Custodians protect and operate the systems. Stewards manage quality, labels and handling') without saying the exam groups them. No keyed answer depends on telling them apart (the owner or processor is always the key), so nothing is marked wrong, but xf.sec.roles.dd blank 1 offers both as distractors for 'accountable for classifying a dataset', which a Messer-taught learner could misread because the custodian/steward applies the labels.",
+   "fix": "Replace concept line 4 with: \"The exam lists custodian/steward together: the hands-on role under the owner.\" In xf.sec.roles.dd change the first sentence to \"The [1] is the senior person accountable for a dataset and decides how it is classified.\" and in lesson 28 roles add to links: \"SY0-701 lists custodian and steward as one line (custodians/stewards); expect to separate them from the owner, not from each other.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/data-roles-and-responsibilities-sy0-701/"
+  },
+  {
+   "file": "data-xf-sec-4.js",
+   "id": "xf.sec.recon.yn row 2 (also lesson 30 / pentest step 'team'; rw.sec.audit-right.next and rw.sec.recon.constraints distractors)",
+   "severity": "minor",
+   "problem": "'Purple team' is not an SY0-701 objective term (it was in SY0-601). Objective 5.5 lists Offensive, Defensive and Integrated penetration testing; Messer's 701 video uses red team, blue team and 'integrate these two teams'. The statements are true, but the learner never sees the word the exam will use (integrated), and physical penetration testing is not mentioned at all.",
+   "fix": "xf row: \"An integrated (purple-team) exercise means offensive and defensive teams work together and share findings during the test.\" Lesson step `say`: \"Offensive (red) teams attack, defensive (blue) teams detect and respond, and an integrated (purple) approach has both share findings. A physical test targets doors, locks and devices on site.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/penetration-tests-sy0-701/"
+  },
+  {
+   "file": "data-lessons-sec-4.js",
+   "id": "lesson 30 / awareness (item 'insider')",
+   "severity": "minor",
+   "problem": "The item says staff learn to notice 'risky, unexpected or unusual behavior'. The SY0-701 5.6 bullet 'Anomalous behavior recognition' lists Risky, Unexpected and Unintentional. 'Unusual' replaces the objective's third term, and the item files the list under 'Insider-threat signs' although insider threat is a separate bullet (user guidance and training).",
+   "fix": "Rename the item to \"Anomalous behavior recognition\" and set say: \"Teaches staff to notice and report risky, unexpected or unintentional behavior, including insider-threat signs.\" Keep the example.",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/security-awareness-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-4-scen.js",
+   "id": "rw.sec.offboarding.constraints",
+   "severity": "minor",
+   "problem": "`no[2]` expands BPA as 'business partnership agreement'. The CompTIA SY0-701 acronym list and Messer both use 'Business Partners Agreement'.",
+   "fix": "Change no[2] to: \"A BPA is a business partners agreement, not an internal workflow document.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/agreement-types-sy0-701/"
+  },
+  {
+   "file": "data-lessons-sec-4.js",
+   "id": "lesson 29 / risk (facet 'register')",
+   "severity": "minor",
+   "problem": "Example says the risk is recorded 'with the controller who must resolve it'. Level 28 has just taught 'controller' as the privacy role that decides why personal data is processed; here it apparently means a finance controller. The register term the objectives use is 'risk owner'.",
+   "fix": "Change the example to: \"Harborlight records a payment-export risk with a named risk owner who must resolve it.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-4.js",
+   "id": "lesson 29 / bia (step 'metrics')",
+   "severity": "minor",
+   "problem": "Example 'Repeated switch failures show up as low MTBF and rising MTTR' ties MTTR to failure frequency. More frequent failures lower MTBF; MTTR only rises if each repair takes longer.",
+   "fix": "Change the example to: \"Repeated switch failures show up as a falling MTBF; slow repairs show up as a rising MTTR.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/business-impact-analysis-sy0-701/"
+  },
+  {
+   "file": "data-lessons-sec-4.js",
+   "id": "lesson 29 / vendor (item 'mou' and links[2])",
+   "severity": "minor",
+   "problem": "The MOU is placed in the 'During service: ongoing performance and oversight' zone, but an MOU is an informal statement of broad goals that normally precedes a contract (Messer: 'very informal. It's not a signed contract'). links[2] also says 'Audit rights matter most before the relationship starts', which reads as if they stop mattering once service begins.",
+   "fix": "Move item 'mou' to zone \"before\". Change links[2] to: \"Negotiate audit rights before signing; they are hard to add once the contract is in force.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/agreement-types-sy0-701/"
+  },
+  {
+   "file": "data-lessons-sec-4.js",
+   "id": "lesson 30 / awareness (item 'phish')",
+   "severity": "minor",
+   "problem": "The phishing simulation is described as something that 'Measures whether staff recognize and report a suspicious message', the section's own link says 'Phishing campaigns are measurement tools', and the concept clue says simulations 'measure and reinforce', yet the item sits in the 'Recognize risk' zone rather than 'Measure and reinforce'.",
+   "fix": "Move item 'phish' to zone \"measure\", or keep it in \"recognize\" and change say to: \"Teaches staff what a suspicious message looks like and how to report it.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-4.js",
+   "id": "lesson 32 / cases (lead)",
+   "severity": "minor",
+   "problem": "The lead says 'These short cases pull from all five domains', but all six cases are keyed to domain-5 answers and only use other domains as background flavor. Four of the six reuse the correct-answer text of level 28-30 items almost verbatim (c2 = rw.sec.bia.next, c4 = rw.sec.audit.constraints and lesson 30 audit practice, c5 = rw.sec.gdpr.next, c6 = rw.sec.phishing.next and lesson 30 awareness practice).",
+   "fix": "Change the lead to: \"These short cases start from incidents in other domains and ask for the program-management decision. The links point back to the domain-5 lesson pieces added in this batch.\" Consider rewording the correct options of c4, c5 and c6 so they are not character-for-character repeats of the level 30 answers.",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-4-cmp.js",
+   "id": "cmp.sle-ale-aro",
+   "severity": "minor",
+   "problem": "The apply text ends with 'Leadership wants the yearly expected loss' but neither `apply` nor `notIt` ever states the result, so the worked example stops before the multiplication (lesson 29 does give $10,000 for the same numbers).",
+   "fix": "Change notIt[2] to: \"The yearly expected loss is the ALE: $40,000 x 0.25 = $10,000, the one-incident loss multiplied by the annual rate.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-xf-sec-4.js",
+   "id": "all six yn items (policy-framework, controller-processor, risk-analysis, bia, compliance, recon)",
+   "severity": "giveaway",
+   "problem": "Five of the six yn sets are exactly two true + one false (TTF as written), and the sixth is TFF; no set is all-true or mostly false. Rows are shuffled at render, so position is not the leak, but 'two yes, one no' is. Several false rows are also absurd or absolute rather than plausible: 'A procedure is the same thing as an SLA', 'A phishing campaign is mainly used to prove a vendor SLA', 'Due care and due diligence mean exactly the same thing', '...the same role in every situation', 'Risk is determined only by technical severity'.",
+   "fix": "Vary the mix and make the false rows near-misses. (1) xf.sec.risk-analysis.yn row 2 -> [\"ALE is calculated by multiplying asset value by exposure factor.\", false, \"That is SLE. ALE is SLE multiplied by ARO.\"] (2) xf.sec.bia.yn row 2 -> [\"RPO is the maximum time allowed to bring a failed service back online.\", false, \"That is RTO. RPO is the acceptable data loss, expressed in time.\"] (3) xf.sec.policy-framework.yn row 3 -> [\"A procedure states broad intent and leaves the steps to each team.\", false, \"That describes a policy. A procedure gives the step-by-step actions.\"] (4) xf.sec.recon.yn row 3 -> [\"A port scan of the target's public address range counts as passive reconnaissance.\", false, \"Scanning interacts with the target, so it is active reconnaissance.\"] (5) xf.sec.compliance.yn row 3 -> [\"An internal audit gives outside stakeholders the same independent assurance as an external audit.\", false, \"Internal audits help the organization improve; independence is what an external audit adds.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-4-scen.js",
+   "id": "rw.sec.gdpr.next",
+   "severity": "giveaway",
+   "problem": "Correct option is 75 characters against 44/56/32 for the distractors and is the only two-part, hedged answer.",
+   "fix": "Change o[0] to \"Check retention duties and locate every copy of the data\" (and make the same change to the matching text in lesson 32 case c5 if you keep them aligned).",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-4-scen.js",
+   "id": "rw.sec.register.next",
+   "severity": "giveaway",
+   "problem": "Correct option 'The risk register with an owner and status' (42 chars) is the only option with a qualifying clause; distractors are 29/24/23 and two of them ('A phishing landing page', 'An external audit report') are not plausible tracking artifacts.",
+   "fix": "o: [\"The risk register\",\"The incident response playbook\",\"The business impact analysis\",\"The statement of work\"]; no: [\"A playbook guides response to an incident that is under way; it does not track open risks and owners.\",\"A BIA ranks business functions by impact; it is not the running list of risks and their status.\",\"A statement of work defines vendor deliverables, not internal risk follow-up.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-4-scen.js",
+   "id": "rw.sec.regulatory.next",
+   "severity": "giveaway",
+   "problem": "Correct option is 61 characters against 35/41/35 and is the only cautious, do-the-homework answer; the stem has already said legal warned the rules differ.",
+   "fix": "Change o[0] to \"Review the new country's legal requirements\" and o[3] to \"Transfer the compliance risk to the EHR vendor by contract\".",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-4-scen.js",
+   "id": "rw.sec.risk.identify",
+   "severity": "giveaway",
+   "problem": "Correct option (68 chars) is a textbook definition of risk; the three distractors (warranty, an MOU signed last year, awareness training) are unrelated to the stem and can be discarded without knowing what risk is.",
+   "fix": "o: [\"Likelihood and business impact are being weighed together\",\"The circuit has a known vulnerability with a high severity score\",\"The office has not completed a business impact analysis\",\"The outage has already been transferred to the circuit vendor\"]; no: [\"A severity score describes the weakness alone; risk also needs likelihood and the business effect.\",\"A BIA would help measure the impact, but its absence is not what makes this a risk question.\",\"Nothing in the scenario says the loss was shifted to the vendor, and transfer is a response, not the definition of risk.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-4-scen.js",
+   "id": "rw.sec.awareness.identify",
+   "severity": "giveaway",
+   "problem": "Correct option (41 chars vs 28/24/25) is the only one about people; the stem says the company 'teaches', 'reminds' and 'gives guidance', and the distractors are a risk calculation, a vendor review and a contract.",
+   "fix": "o: [\"Role-based security awareness training\",\"A simulated phishing campaign\",\"An acceptable use policy\",\"Anomalous behavior monitoring\"]; no: [\"A phishing campaign sends test lures and measures clicks; this scenario is tailored teaching for each role.\",\"An AUP states the rules for using company systems; it is a document, not the training activity described.\",\"Behavior monitoring detects unusual activity after the fact; it does not teach each group what to do.\"]; why: \"Each group is taught the risks of its own daily work, which is role-based awareness training.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-4-scen.js",
+   "id": "rw.sec.agreement.constraints, rw.sec.audit-right.next, rw.sec.attestation.next, rw.sec.global-data.constraints",
+   "severity": "giveaway",
+   "problem": "Throwaway distractors that no test-taker would consider: 'A phishing waiver' (not a real agreement type), 'A new asset tag format', 'A purple-team exercise' as a contract clause, 'A password spraying report', 'The phishing failure rate', 'The custodian's personal preference'. Each item is reduced to a two- or three-way choice, and none of them uses the confusable SY0-701 terms that are absent from the whole batch (MOA, SOW/WO, NDA as a wrong answer, exception/exemption).",
+   "fix": "rw.sec.agreement.constraints: o[3] -> \"A statement of work (SOW)\", no[2] -> \"A SOW lists the deliverables and schedule for one specific job under the master agreement.\" rw.sec.audit-right.next: o -> [\"A right-to-audit clause\",\"A non-disclosure agreement\",\"A stricter uptime SLA\",\"A memorandum of understanding\"], no -> [\"An NDA protects confidential information; it does not let the hospital inspect the vendor's controls.\",\"A tighter SLA changes the service target, not the hospital's ability to verify controls.\",\"An MOU records informal shared intent and gives no enforceable inspection right.\"]. rw.sec.attestation.next: o[2] -> \"A right-to-audit clause\", no[1] -> \"A right-to-audit clause lets the client inspect later; the client is asking for a signed statement now.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-4-scen.js",
+   "id": "rw.sec.audit.constraints (also lesson 30 / audit practice, lesson 32 c2 and c4, rw.sec.centralized.constraints)",
+   "severity": "giveaway",
+   "problem": "Distractors are marked with 'only' / 'fully ... all' ('An internal audit only', 'A phishing simulation only', 'Only an MOU with the plant managers', 'An internal lessons-learned meeting only', 'A fully decentralized model for all decisions', 'An external audit program only'). The absolute wording flags them as wrong without any knowledge.",
+   "fix": "Drop the qualifiers: \"An internal audit\", \"A phishing simulation\", \"An MOU with the plant managers\", \"An internal lessons-learned meeting\", \"A decentralized model\", \"An external audit program\".",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-xf-sec-4.js",
+   "id": "xf.sec.governance.multi, xf.sec.awareness.multi, xf.sec.risk-treatment.multi",
+   "severity": "giveaway",
+   "problem": "The two wrong options in each multi are discardable on wording alone: both governance distractors contain 'always'; the awareness distractors ('Annualized loss expectancy calculations', 'Master service agreement negotiation') and the risk-treatment distractors ('Baseline', 'Attest') come from unrelated topics.",
+   "fix": "governance: replace the two distractors with \"A processor decides the business purpose for personal data it handles\" and \"A guideline is a mandatory requirement that staff must follow\". awareness: replace the two distractors with \"Publishing the names of staff who clicked a test lure\" and \"A single onboarding session with no later refreshers\", and set why to \"Awareness programs coach rather than shame, and training is recurring, not one-time. Simulated phishing and role-based guidance both belong.\" risk-treatment: replace \"Baseline\" and \"Attest\" with \"Monitor\" and \"Report\", and set why to \"The classic strategies are mitigate, transfer, avoid and accept. Monitoring and reporting support risk management but are not response strategies.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-4-scen.js / data-lessons-sec-4.js",
+   "id": "batch-wide: repeated stems and answer strings",
+   "severity": "giveaway",
+   "problem": "The same question appears up to four times with the same answer text, so later exposures test recall of the string: 'An external audit or assessment' (rw.sec.audit.constraints, lesson 30 audit practice, lesson 32 c4); targeted follow-up training (rw.sec.phishing.next, lesson 30 awareness practice, lesson 32 c6, xf.sec.awareness.multi); 'RPO' for 'fifteen minutes' (rw.sec.recovery-rpo.identify, lesson 29 bia step example, lesson 29 bia practice, xf.sec.bia.yn why); 99.9% uptime = SLA (cmp.msa-sla-mou, lesson 29 vendor practice); flood $40,000 / once in four years (cmp.sle-ale-aro, lesson 29 analysis). In 13 of 30 scenarios the correct option is also the longest (chance would be about 7 or 8).",
+   "fix": "Vary the numbers and the asked-for term: e.g. make lesson 29's bia practice ask which target is the four hours (RTO), make the lesson 29 analysis example a different asset (e.g. $60,000 server, EF 50%, once every five years: SLE $30,000, ARO 0.2, ALE $6,000, which also exercises SLE = AV x EF), and have lesson 32 c4 ask about attestation or the audit committee instead of repeating external audit.",
+   "source": "general knowledge"
+  }
+ ],
+ "counts": {
+  "concepts": 17,
+  "comparisons": 4,
+  "scenarios": 30,
+  "lesson_sections": 20,
+  "xf_items": 15
+ },
+ "checked_fully": true,
+ "notes": "Read every item in all five files (17 concepts / 34 recall cards, 4 comparisons, 30 scenarios, 20 lesson sections = 15 practice questions + 6 casebook cases + 4 'check' pool sections, 15 exam-style items). Structure verified by script: every scenario has no.length == o.length-1; every practice and case has exactly one correct option; every concept/comparison reference resolves; dd blank counts match the text; match `extra` values (Guideline, BIA, ARO) fit no row; multi n=2 with 4 options. index.html shuffles scenario options, practice/case options, yn rows, dd options and multi options at render, so 'correct is always first' in the data is not a position giveaway. Arithmetic recomputed: $40,000 x 0.25 = $10,000 (cmp + lesson 29); $20,000 x 0.2 = $4,000 (xf dd); $30,000 x 0.4 = $12,000 (rw.sec.quant.identify). All correct. No keyed answer was found to be outright wrong and no distractor is unambiguously also correct; there are no 'wrong'-severity findings. data-cn-sec-4-cmp.js is clean apart from one optional wording improvement. Coverage gaps (not errors, but SY0-701 bullets with no item in this batch): 5.2 exemption vs exception, key risk indicators and risk threshold as tested terms, risk appetite types (expansionary/conservative/neutral), assessment frequency (ad hoc, recurring, one-time, continuous), exposure factor and SLE = AV x EF as a calculation, risk reporting; 5.3 MOA, WO/SOW, NDA and BPA as answers, conflict of interest, supply chain analysis, evidence of internal audits, vendor monitoring; 5.4 compliance reporting, consequences of non-compliance beyond one concept line, acknowledgement, automation; 5.5 audit committee, self-assessment, regulatory/examination, partially known environment as a keyed answer, physical testing, active reconnaissance as a keyed answer; 5.6 unintentional behavior, initial vs recurring reporting, development/execution, operational security, password management. Level 28 never tests guideline as a correct answer. Cross-batch observation outside my scope: data-cn-sec-2.js files RTO and RPO concepts under obj 3.4; SY0-701 lists RTO/RPO/MTTR/MTBF under 5.2 (this batch has them right). COVERAGE.md lists 3 comparisons for level 29 and I could only attribute 2 from this batch's cmp file (did not check whether an earlier comparison file links to a level-29 concept). Could not check: the paywalled CompTIA official study guide wording for due diligence/due care (used Messer plus two third-party SY0-701 guides instead); Messer page content was read through a summarizing fetch, so quoted phrases are from that summary of the transcripts rather than from the PDFs of his course notes."
+}

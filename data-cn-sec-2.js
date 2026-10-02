@@ -29,9 +29,9 @@ const C=(id,day,obj,topic,title,lines,clue,cards,src,extra)=>Object.assign({
 
 const concepts=[
 C("cloud-models",20,"3.1","Architecture models","Cloud and deployment models",
-  ["Public cloud rents shared provider capacity.","Private cloud keeps single-tenant control.","Hybrid mixes on-prem and cloud; multicloud uses several providers.","Third-party hosting can reduce workload but adds vendor dependence."],
+  ["Public cloud rents shared provider capacity.","Private cloud keeps single-tenant control.","Hybrid combines distinct environments, usually on-premises or private cloud with public cloud; multicloud uses several providers.","Third-party hosting can reduce workload but adds vendor dependence."],
   "Look for where workloads run and who owns the underlying environment.",
-  [["term","What is hybrid cloud?","An environment that combines on-premises resources with cloud services."],
+  [["term","What is hybrid cloud?","A mix of two or more distinct environments, most often on-premises or private cloud combined with public cloud."],
    ["use","A team spreads apps across Azure and AWS to avoid one-provider dependence. Which model is that?","Multicloud."]],
   [U("cloud-infrastructures"),U("infrastructure-considerations")]),
 C("responsibility-matrix",20,"3.1","Architecture models","Responsibility matrix",

@@ -1,0 +1,357 @@
+{
+ "issues": [
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "rw.sec.bucket.constraints",
+   "severity": "ambiguous",
+   "problem": "A publicly readable storage bucket is keyed as \"Cloud-specific vulnerability from open storage\" and the takeaway says \"Open cloud storage is a classic cloud-specific vulnerability\". Professor Messer's SY0-701 notes put open storage buckets (the Verizon S3 example) under Misconfiguration vulnerabilities / open permissions; his Cloud-specific vulnerabilities video covers DoS, authentication bypass, directory traversal, RCE, XSS, out-of-bounds write and SQL injection and never mentions open buckets. The batch also contradicts itself: xf.sec.vuln.yn row 3 and concept sec.misconfiguration-supply-chain-vulnerabilities call open storage / broad permissions weak configuration. A learner trained on this item would pick \"cloud-specific\" over \"misconfiguration\" when both appear on the exam. The correct option also echoes the stem (\"cloud object storage\", \"public\").",
+   "fix": "Re-key to misconfiguration. concept and concepts[0] -> \"sec.misconfiguration-supply-chain-vulnerabilities\". o -> [\"Misconfiguration vulnerability\",\"Zero-day vulnerability\",\"Virtualization vulnerability\",\"Supply chain vulnerability\"]. why -> \"The bucket was left open by its owner's settings (open permissions), which is a misconfiguration vulnerability.\" no -> [\"A zero-day is a flaw with no vendor fix; here the service works as designed and was simply left public.\",\"Virtualization vulnerabilities involve guest/host boundaries such as VM escape, not a public sharing setting.\",\"Nothing indicates a compromised vendor, library, or update path.\"] take -> \"Storage left open to anyone is a misconfiguration (open permissions) vulnerability.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/misconfiguration-vulnerabilities-sy0-701/ and https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/cloud-specific-vulnerabilities-sy0-701/"
+  },
+  {
+   "file": "data-lessons-sec-1.js",
+   "id": "lesson 15 / brand (practice)",
+   "severity": "ambiguous",
+   "problem": "The stem uses \"payrolI.pinecrest.example\" (capital I in place of the second l). Two problems: (1) that is a host under Pinecrest's own pinecrest.example domain, which an attacker cannot register - reaching it would mean DNS compromise or a compromised legitimate site, which makes the \"Watering hole\" distractor defensible; (2) a capital I is a visual look-alike, not something produced by \"typing quickly\", and in any fallback sans-serif font it is indistinguishable from \"payroll\", so the stem can read as staff visiting the real site.",
+   "fix": "Replace the practice stem with: \"Pinecrest staff mistype the payroll address, land on pinecrest-payrol.example, and see copied Pinecrest branding.\" Keep the options and feedback.",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/phishing-sy0-701/"
+  },
+  {
+   "file": "data-xf-sec-1.js",
+   "id": "all six yn items (xf.sec.principles.yn, .change.yn, .threats.yn, .vuln.yn, .malware.yn, .mitigations.yn)",
+   "severity": "giveaway",
+   "problem": "Every yn set has exactly two true rows and one false row (TTF, TTF, TFT, TFT, TTF, TFT; first row is always true in the data). Rows are shuffled at render, but the fixed 2-true/1-false count means that once the false row is spotted the rest are known. The false rows are also absurd or use absolutes (\"A logic bomb is simply another name for password spraying\", \"Shadow IT always means a malicious insider...\", \"A vulnerability is the same thing as the threat actor\"), so they are spotted without knowledge.",
+   "fix": "Vary the true/false counts and use near-miss false rows. Suggested edits: (a) xf.sec.principles.yn: replace row 2 with [\"A hash of a file is enough by itself to provide non-repudiation.\",false,\"A hash shows integrity only; non-repudiation needs a signature made with the signer's private key.\"] (1 true, 2 false). (b) xf.sec.change.yn: replace row 3 with [\"Diagrams and documentation should be updated after the change is implemented.\",true,\"Accurate documentation matters after implementation for support, audits, and incident response.\"] (3 true). (c) xf.sec.vuln.yn: replace row 1 with [\"A flaw is still a zero-day if the vendor released a fix last month but you have not installed it.\",false,\"Once a vendor fix exists it is a known unpatched vulnerability, not a zero-day.\"] (1 true, 2 false). (d) xf.sec.malware.yn: replace row 3 with [\"A virus spreads from system to system on its own, with no user action.\",false,\"That describes a worm; a virus needs a host file and user action to spread.\"] (e) xf.sec.threats.yn: replace row 2 with [\"Shadow IT is a threat only when the employee intends harm.\",false,\"Shadow IT is usually convenience-driven, and it creates exposure even with no malicious intent.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-xf-sec-1.js",
+   "id": "xf.sec.pki.match, xf.sec.phishing.match, xf.sec.memory.match, xf.sec.attack-patterns.match, xf.sec.containment.match",
+   "severity": "giveaway",
+   "problem": "The unused \"extra\" option in five of the six match items comes from an unrelated topic (\"Password spraying\" in a PKI match and in a phishing-variant match, \"Whaling\" in a memory-vulnerability match and in a mitigation match, \"Certificate signing request\" in an attack match). It is eliminated on sight, so the extra adds no difficulty and the last pair is always solved by elimination. (None of the extras fits a row, so the structure is valid.)",
+   "fix": "Replace extras with same-topic terms that fit no row: xf.sec.pki.match extra -> [\"Periodically published list of revoked certificates\"]; xf.sec.phishing.match extra -> [\"Typosquatting\"]; xf.sec.memory.match extra -> [\"Input is treated as part of a database command\"]; xf.sec.attack-patterns.match extra -> [\"Cryptographic downgrade attack\"]; xf.sec.containment.match extra -> [\"Application allow listing\"].",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-xf-sec-1.js",
+   "id": "xf.sec.crypto.dd",
+   "severity": "giveaway",
+   "problem": "Blank 1: the stem says \"readable only by the intended recipient, encrypt for the [1]\" and the answer is \"recipient\" - the stem contains the answer. The distractor \"certificate revocation list\" cannot grammatically or logically fill the blank.",
+   "fix": "text -> \"To send a confidential message using asymmetric encryption, encrypt it with the [1]. To prove who signed a message, verify the signature with the [2].\" blanks[0] -> [\"recipient's public key\",\"sender's private key\",\"sender's public key\"]. Keep blanks[1]. why -> \"Encrypting with the recipient's public key means only the recipient's private key can decrypt; signatures are verified with the signer's public key.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-xf-sec-1.js",
+   "id": "xf.sec.platform.dd",
+   "severity": "giveaway",
+   "problem": "Blank 2: the correct choice \"supply chain exposure through a malicious update\" is 47 characters against \"directory traversal\" and \"key escrow\", and it repeats the stem's own words (\"signed vendor update that carries malicious code\"). Blank 1 distractors (\"password spraying\", \"whaling\") are not vulnerabilities at all.",
+   "fix": "blanks -> [[\"VM escape\",\"resource reuse\",\"sideloading\"],[\"a supply chain vulnerability\",\"a misconfiguration vulnerability\",\"a zero-day vulnerability\"]]. text second sentence -> \"A vendor update that was tampered with before release illustrates [2].\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-xf-sec-1.js",
+   "id": "xf.sec.control-types.dd, xf.sec.social.dd, xf.sec.ioc.dd, xf.sec.allowlist.dd",
+   "severity": "giveaway",
+   "problem": "Drop-down distractors are drawn from unrelated topics, so each blank has one option of the right kind: \"segmentation\"/\"key stretching\" for social-engineering blanks; \"segmentation\"/\"a wildcard certificate\"/\"a backout plan\"/\"a certificate request\" for IoC blanks; \"key escrow\"/\"directory traversal\"/\"password stretching\"/\"phishing\" for allow-listing blanks.",
+   "fix": "Use same-family distractors. xf.sec.social.dd blanks -> [[\"pretexting\",\"smishing\",\"typosquatting\"],[\"a watering hole attack\",\"brand impersonation\",\"business email compromise\"]]. xf.sec.ioc.dd blanks -> [[\"impossible travel\",\"concurrent session usage\",\"account lockout\"],[\"missing logs\",\"out-of-cycle logging\",\"blocked content\"]] and change the second sentence to \"Security logs that vanish during a suspicious spike are an example of [2].\" xf.sec.allowlist.dd blanks -> [[\"application allow listing\",\"application deny listing\",\"least privilege\"],[\"deny listing\",\"segmentation\",\"patching\"]]. xf.sec.control-types.dd blanks -> [[\"preventive\",\"detective\",\"deterrent\"],[\"corrective\",\"compensating\",\"detective\"]].",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "batch-wide (examples: rw.sec.gap-analysis.identify, .deception.next, .change.identify, .pretext.identify, .shadow-it.next, .typosquat.constraints, .bec.constraints, .xss.next, .toc-tou.next, .vmescape.next, .mobile-rooting.constraints, .dns.next, .missing-logs.constraints, .patching.next, .baseline.next, .host-hardening.constraints, .segment-legacy.constraints, .permissions.constraints)",
+   "severity": "giveaway",
+   "problem": "In about half of the 59 scenarios no distractor belongs to the same family as the answer (e.g. options for a Wi-Fi attack are \"A CSR mismatch / A backout plan error / A digital signature failure\"; options for least privilege are \"Watering hole resistance / Typosquatting defense / Hash collision testing\"; \"Whaling kit\" is not a real term). \"Key escrow\" is used as a distractor in 7 scenarios although no concept in the batch teaches it. Options such as \"Turn off audit logging\", \"Ignore the issue until replacement\", \"Promote it to a domain controller\", \"Disable all logging around it\" are self-evidently wrong. A learner can answer by picking the only option of the right type.",
+   "fix": "Rewrite distractors so at least two per item come from the same objective and family as the answer (other control types for a control-type item, other 2.2 techniques for a social-engineering item, other 2.5 mitigations for a mitigation item). Concrete replacements for the worst ten are given in the separate entries below; apply the same pattern to the rest. Either add a key-escrow line to sec.pki-certificates or stop using it as a distractor.",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "rw.sec.gap-analysis.identify",
+   "severity": "giveaway",
+   "problem": "The stem ends \"Leadership wants the highest-impact gaps fixed first\" and the answer is \"Gap analysis\"; the distractors (Password auditing, Threat hunting, Key escrow) are unrelated.",
+   "fix": "s last sentence -> \"Leadership wants the largest shortfalls fixed first.\" o -> [\"Gap analysis\",\"Change impact analysis\",\"Accounting review\",\"Compensating control selection\"]. no -> [\"An impact analysis studies what one proposed change could break, not overall maturity against a baseline.\",\"Accounting reviews who did what and when; it does not score controls against a target state.\",\"Choosing a compensating control substitutes for one control that cannot be used; it is not a current-versus-target comparison.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "rw.sec.vector.identify",
+   "severity": "giveaway",
+   "problem": "Correct option \"Default credentials on an exposed service\" (41 chars vs 12-24) restates the stem (\"exposed to the internet\", \"vendor's default administrator password\"). Distractors (watering hole, CRL outage, corrective control gap) are unrelated.",
+   "fix": "q -> \"What best describes the main weakness?\" o -> [\"Default credentials\",\"A zero-day vulnerability\",\"Unsupported end-of-life software\",\"An open cloud storage bucket\"]. no -> [\"A zero-day is a flaw with no vendor fix; here the weakness is an unchanged password, not unknown code.\",\"Nothing says the appliance is past vendor support; the stated problem is the unchanged password.\",\"No cloud storage is involved; the exposure is an administrator login.\"] s first sentence -> \"A clinic's VPN appliance is reachable from the internet and its administrator account still uses the password it shipped with.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "rw.sec.update.constraints",
+   "severity": "giveaway",
+   "problem": "Correct option \"Supply chain exposure through a malicious update\" is the longest and repeats the stem (\"signed update\", \"malicious code\"); distractors are unrelated.",
+   "fix": "o -> [\"Supply chain vulnerability\",\"Misconfiguration vulnerability\",\"Zero-day vulnerability\",\"Memory injection\"]. no -> [\"Nothing was configured badly by the hospital; the malicious code arrived inside the vendor's release.\",\"A zero-day is an unpatched flaw in legitimate code, not code deliberately inserted upstream.\",\"Memory injection places code inside a running process; the path in here was the vendor's update channel.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "rw.sec.signature.identify",
+   "severity": "giveaway",
+   "problem": "The question asks \"Which pairing is best?\" and only o[0] is a pairing; the three distractors each contain a self-refuting \"because\" clause or are irrelevant (\"Use a wildcard certificate without encryption\"). The stem sentence \"wants to use the fewest separate cryptographic functions correctly\" is confusing. no[1] has a typo (\"publically\").",
+   "fix": "Delete the stem's second sentence. o -> [\"Encrypt with the recipient's public key and sign with the mayor's private key\",\"Encrypt with the mayor's private key and sign with the recipient's public key\",\"Encrypt with a shared symmetric key and attach a hash\",\"Sign with the mayor's private key and send the memo unencrypted\"]. why -> \"Encrypting for the recipient gives confidentiality; a signature made with the mayor's private key proves origin and integrity.\" no -> [\"That reverses the keys: the recipient's public key cannot create the mayor's signature, and anything encrypted with the mayor's private key can be read by anyone with the public key.\",\"A shared key and a bare hash keep the memo private and show it is unchanged, but neither proves which party approved it.\",\"A signature can be publicly verified and does not keep the memo secret.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "rw.sec.vestibule.constraints",
+   "severity": "giveaway",
+   "problem": "Only one option is a physical entry control (honeyfile, gap analysis and a bulletin are not).",
+   "fix": "o -> [\"An access control vestibule\",\"Bollards at the entrance\",\"A motion sensor inside the lab\",\"A sign reading Authorized Personnel Only\"]. no -> [\"Bollards stop vehicles, not a second person walking in behind an employee.\",\"A motion sensor detects presence after entry; it does not limit entry to one person.\",\"A sign is directive and depends on voluntary compliance.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "rw.sec.ocsp.next",
+   "severity": "giveaway",
+   "problem": "Distractors \"A backout plan\", \"PBKDF2\", \"A deny list of macros\" have nothing to do with certificates, so OCSP is the only possible pick.",
+   "fix": "o -> [\"OCSP\",\"Last week's downloaded CRL\",\"The certificate's original CSR\",\"The wildcard certificate's subject name\"]. no -> [\"A CRL is published periodically, so a downloaded copy can be stale; OCSP returns the status of one certificate on demand.\",\"A CSR is the request that led to issuance and says nothing about current revocation status.\",\"The subject name shows which hosts the certificate covers, not whether it has been revoked.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "rw.sec.zero-day.identify",
+   "severity": "giveaway",
+   "problem": "None of the distractors (Compensating control, Password spray, Corrective control) is a vulnerability class.",
+   "fix": "o -> [\"Zero-day vulnerability\",\"Misconfiguration vulnerability\",\"Known unpatched vulnerability\",\"Supply chain vulnerability\"]. no -> [\"A misconfiguration is a bad setting chosen by the owner; this is a flaw in the vendor's code.\",\"Known unpatched means a fix exists but was not applied; here no fix exists yet.\",\"Nothing indicates a tampered supplier, library, or update path.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "rw.sec.backout.identify",
+   "severity": "giveaway",
+   "problem": "Distractors (certificate chain, key stretch factor, business pretext) are not parts of a change ticket.",
+   "fix": "o -> [\"The backout plan\",\"The maintenance window\",\"The impact analysis\",\"The approval record\"]. no -> [\"The maintenance window is when the change is scheduled, not how it is reversed.\",\"The impact analysis predicts what could break; it is not the rollback procedure.\",\"Approval authorizes the change; it does not restore the prior configuration.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "rw.sec.evil-twin.next",
+   "severity": "giveaway",
+   "problem": "Distractors (CSR mismatch, backout plan error, digital signature failure) are not wireless or network attacks.",
+   "fix": "o -> [\"An evil twin access point\",\"A deauthentication attack\",\"DNS poisoning\",\"A replay attack\"]. no -> [\"Deauthentication knocks clients off Wi-Fi; by itself it does not present a look-alike network or a credential prompt.\",\"DNS poisoning redirects name lookups; the clue here is a second network broadcasting the campus SSID.\",\"A replay attack reuses captured traffic; here users are lured into typing credentials into a fake portal.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "rw.sec.segment.identify",
+   "severity": "giveaway",
+   "problem": "The question asks for a mitigation technique and the distractors are two attacks and key escrow (\"Password spraying\", \"Key escrow\", \"Whaling\").",
+   "fix": "o -> [\"Network segmentation\",\"Application allow listing\",\"Decommissioning\",\"Patching\"]. no -> [\"Allow listing controls which software may run on a host, not which networks can reach each other.\",\"Decommissioning removes retired assets; both networks here stay in service.\",\"Patching fixes known flaws; it does not separate guest traffic from internal systems.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "rw.sec.least-priv.identify",
+   "severity": "giveaway",
+   "problem": "Distractors are invented phrases (\"Watering hole resistance\", \"Typosquatting defense\", \"Hash collision testing\").",
+   "fix": "o -> [\"Least privilege\",\"Network segmentation\",\"Application allow listing\",\"Isolation\"]. no -> [\"Segmentation separates network zones; the limit here is on what the role may do inside the application.\",\"Allow listing restricts which software can execute, not which records a role may export.\",\"Isolation quarantines a system or process; nothing was quarantined here.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "rw.sec.decom.constraints",
+   "severity": "giveaway",
+   "problem": "Distractors (Password stretching, Whaling awareness, Key exchange) are not mitigations for stale infrastructure; the stem also says \"retired\" and \"supposed to be gone for good\".",
+   "fix": "o -> [\"Proper decommissioning\",\"Network segmentation\",\"Application allow listing\",\"Configuration enforcement\"]. no -> [\"Segmentation would limit reach to the old portal, but a system meant to be gone should be removed, not fenced in.\",\"Allow listing controls what runs on a host; it does not retire the host.\",\"Configuration enforcement keeps live systems on their baseline; this system should no longer exist.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-1.js",
+   "id": "all lesson practices and lesson 19 cases vs data-cn-sec-1-scen.js",
+   "severity": "giveaway",
+   "problem": "Almost every lesson practice (answered with feedback) is a close paraphrase of a scored scenario that the same lesson's \"Check yourself\" section then draws from the same day (lesson 13's check even says \"New scored scenarios\"). Pairs: L13 categories~rw.sec.control-category.identify; L13 principles~rw.sec.cia.identify; L13 strategy~rw.sec.zero-trust.next; L13 physical~rw.sec.deception.next; L14 change~rw.sec.maintenance.next; L14 crypto~rw.sec.hash.constraints (identical answer text \"Store salted slow hashes\"); L14 sign~rw.sec.signature.identify; L14 pki~rw.sec.ocsp.next; L15 actors~rw.sec.actor.identify; L15 surface~rw.sec.vector.identify; L15 social~rw.sec.pretext.identify; L15 brand~rw.sec.typosquat.constraints; L16 memory~rw.sec.toc-tou.next; L16 web~rw.sec.sqli.identify (same \"quote characters and always-true logic\"); L16 platform~rw.sec.mobile-rooting.constraints; L16 supply~rw.sec.update.constraints; L17 malware~rw.sec.worm.identify; L17 attacks~rw.sec.ssrf.next; L17 ioc~rw.sec.missing-logs.constraints; L17 respond~rw.sec.spraying.constraints; L18 contain~rw.sec.isolate.next; L18 zones~rw.sec.segment-legacy.constraints; L18 choices~rw.sec.allowlist.identify; L18 hardening~rw.sec.baseline.next (identical answer text); L19 c1-c6 repeat zero-trust.next, signature.identify, watering-hole.next, bucket.constraints, ioc.identify/missing-logs, isolate.next. The scored check therefore measures recall of the practice just seen.",
+   "fix": "Give each lesson practice a different situation from its scenario twin (different organisation, asset and surface details, ideally a different angle such as \"which option would NOT help\"), or exclude the twin scenario ids from that lesson's check pool. At minimum change the L13 check lead from \"New scored scenarios across...\" to \"Scored scenarios across...\".",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-1.js",
+   "id": "lesson 16 / supply (practice)",
+   "severity": "giveaway",
+   "problem": "Correct option is 70 characters against 46 and 41, and the distractors (guest Wi-Fi segmentation, OCSP vs CRL) are unrelated to the sequence being taught.",
+   "fix": "o -> [[\"The trusted update path was poisoned\",true,\"The vendor's release itself became the path in, which is why this is supply-chain exposure.\"],[\"A default setting was left unchanged\",false,\"That is the misconfiguration path; here the vendor's release carried the malicious code.\"],[\"Staff sideloaded an unapproved app\",false,\"The update arrived through the approved vendor channel, not an unofficial install.\"]]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-1.js",
+   "id": "lesson 17 / ioc (practice)",
+   "severity": "giveaway",
+   "problem": "Correct option is 65 characters against 43-44, and both distractors are implausible readings (\"Log loss proves the server is healthy again\").",
+   "fix": "o -> [[\"Logging may have been tampered with\",true,\"Missing logs during an already-anomalous period are a strong compromise clue.\"],[\"A log rotation job probably ran\",false,\"Routine rotation archives logs on a schedule; it does not make them vanish exactly while outbound traffic spikes.\"],[\"The traffic spike filled the disk\",false,\"Possible, but it does not explain why only security logs stopped, and it still needs investigation as resource consumption.\"]]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-1.js",
+   "id": "lesson 19 / cases c2, c4, c5",
+   "severity": "giveaway",
+   "problem": "Correct options are far longer than the distractors (c2: 56 vs 13/11; c4: 57 vs 10/15; c5: 78 vs 48/53) and the distractors are weak. c4 also repeats the open-bucket = \"cloud-specific\" classification (see rw.sec.bucket.constraints).",
+   "fix": "c2 o texts -> \"Encrypt it and digitally sign it\" / \"Hash it and send the hash separately\" / \"Encrypt it with a shared symmetric key only\" (third feedback: \"A shared key keeps the file secret, but either holder could have produced it, so it does not prove who approved it.\"). c4 o texts -> \"A misconfiguration vulnerability\" / \"A zero-day vulnerability\" / \"A virtualization vulnerability\" (correct feedback: \"The storage was left open through its own settings (open permissions), which is a misconfiguration.\"; third feedback: \"Nothing crossed a guest/host boundary; the bucket was simply public.\"). c5 o texts -> \"Strong indicators of compromise; investigate now\" / \"Normal behaviour for a service account\" / \"A logging fault to fix at the next change window\".",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-1.js",
+   "id": "lesson 16 / foundations (practice) and lesson 18 / hardening (practice)",
+   "severity": "giveaway",
+   "problem": "Correct options are conspicuously longer and the third option in each is from another topic (\"A honeytoken\"; \"A wildcard certificate\" / \"A honeyfile on each server\").",
+   "fix": "L16 foundations: replace [\"A honeytoken\",false,...] with [\"A supply chain vulnerability\",false,\"Nothing suggests a tampered vendor or update path; the fix exists and simply was not applied.\"]. L18 hardening: distractors -> [\"Application allow listing on both servers\",false,\"Allow listing limits what can execute; it does not report or reverse settings that moved off the baseline.\"] and [\"A tighter network segment for both servers\",false,\"Segmentation limits reach; it does not detect configuration changes.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1.js",
+   "id": "sec.platform-vulnerabilities",
+   "severity": "minor",
+   "problem": "Line 2 lists \"open storage\" as a platform (cloud-specific) example. Messer's SY0-701 notes classify open storage/open permissions as a misconfiguration vulnerability, and the batch's own misconfiguration concept and xf.sec.vuln.yn do the same.",
+   "fix": "Line 2 -> \"Examples include VM escape, resource reuse, firmware flaws, and sideloaded apps.\" Add \"open permissions on cloud storage\" to line 1 of sec.misconfiguration-supply-chain-vulnerabilities: \"Default credentials, open ports, and open permissions (such as a public storage bucket) are misconfigurations.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/misconfiguration-vulnerabilities-sy0-701/"
+  },
+  {
+   "file": "data-lessons-sec-1.js",
+   "id": "lesson 16 / platform (map item 'cloud')",
+   "severity": "minor",
+   "problem": "\"Open cloud storage\" is presented as the cloud platform weakness; same classification problem as rw.sec.bucket.constraints.",
+   "fix": "Keep the item but change kind to \"Misconfiguration\" and say -> \"A cloud service left public or over-permissive is a misconfiguration (open permissions), wherever it is hosted.\" Or replace the item with a cloud-specific example: name \"Exposed cloud application\", say \"Internet-facing cloud apps face authentication bypass, injection, and denial of service from anywhere.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/cloud-specific-vulnerabilities-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-1.js",
+   "id": "sec.zero-trust",
+   "severity": "minor",
+   "problem": "The concept and its card use Microsoft's three principles (\"verify explicitly, least privilege, assume breach\" - SC-900 framing). SY0-701 objective 1.2 enumerates different Zero Trust vocabulary that no file in the Security+ batches teaches: control plane (adaptive identity, threat scope reduction, policy-driven access control, Policy Administrator, Policy Engine) and data plane (implicit trust zones, subject/system, Policy Enforcement Point). Messer's SY0-701 Zero Trust video uses those terms and never says \"verify explicitly\" or \"assume breach\".",
+   "fix": "Replace line 4 \"Assume breach and segment access.\" with \"The control plane (policy engine and policy administrator) decides; the data plane's policy enforcement point allows or blocks each request.\" Replace card 1 with [\"term\",\"In Zero Trust, what does the policy enforcement point (PEP) do?\",\"It is the gatekeeper in the data plane that allows or blocks each request based on the control plane's decision.\"]. Consider a second concept for adaptive identity, threat scope reduction, and security zones.",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/zero-trust-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-1.js",
+   "id": "sec.phishing (also rw.sec.whaling.identify, xf.sec.phishing.match row 1)",
+   "severity": "minor",
+   "problem": "Spear phishing and whaling take two of the four lines and both recall cards, but neither term is in the SY0-701 objective 2.2 list (they were SY0-601 terms; Messer's SY0-701 phishing video does not mention them). The listed 2.2 items are phishing, vishing, smishing, misinformation/disinformation, impersonation, business email compromise, pretexting, watering hole, brand impersonation, typosquatting. Not wrong, and still worth knowing, but it is the scored answer in one scenario and one match row.",
+   "fix": "Keep one line (\"Spear phishing is targeted; whaling targets executives - older terms that can still appear as answer choices.\") and use the freed line and one card for an in-objective item, e.g. card [\"use\",\"A text message says a package is held until you confirm your card number. What variant is this?\",\"Smishing.\"].",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/phishing-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-1-cmp.js",
+   "id": "cmp.phishing-pretexting",
+   "severity": "minor",
+   "problem": "notIt[1] says \"The claim to be IT support is the pretext\", but concept sec.impersonation-pretexting says \"The fake identity is impersonation; the story behind it is pretexting.\" The lesson 15 social column likewise defines pretexting as \"A fake role or scenario\". Result: near-identical phone-call scenarios are keyed \"Pretexting\" (rw.sec.pretext.identify, lesson 15 social practice) and \"Vishing supported by impersonation\" (rw.sec.vishing.next) with no stated rule for telling them apart.",
+   "fix": "notIt[1] -> \"Claiming to be IT support is impersonation; the VPN-upgrade story that justifies the request is the pretext.\" In lesson 15 social, col 'pre' say -> \"An invented scenario, often delivered under a false identity, is used to justify the request.\" and row 1 middle cell -> \"Believable invented story\".",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/impersonation-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-1.js",
+   "id": "sec.watering-hole-brand-abuse (card c2)",
+   "severity": "minor",
+   "problem": "\"Staff land on payrolI.example after typing quickly\" uses a capital I for the second l. That is a visual look-alike, not a typing slip, and it is unreadable in fonts where I and l look the same.",
+   "fix": "q -> \"Staff mistype the payroll address and land on payrol.example, which copies the real login page. What technique is this?\" a -> \"Typosquatting.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1.js",
+   "id": "sec.indicators-of-compromise (line 3) and lesson 17 / ioc (facet 'system')",
+   "severity": "minor",
+   "problem": "\"Blocked content or out-of-cycle logging can signal containment or evasion\" / \"blocked content can show tampering or containment\" is misleading. As an IoC, blocked content means the attacker is blocking access to security updates, patch downloads or anti-malware sites to protect their foothold; out-of-cycle logging means log activity (e.g. patch or install entries) at unexpected times. Neither indicates defender \"containment\".",
+   "fix": "Concept line 3 -> \"Blocked content (security sites or updates suddenly unreachable) and out-of-cycle logging (activity logged at unexpected times) suggest an attacker protecting a foothold.\" Lesson facet say -> \"Missing logs, unexplained resource spikes, and blocked security updates can show tampering.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/indicators-of-compromise-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-1.js",
+   "id": "sec.change-management (clue)",
+   "severity": "minor",
+   "problem": "Clue order \"Request, review, test, approve, schedule, implement, document\" puts testing before approval, while lesson 14's steps put \"Approve and schedule\" before \"Test and backout\" (which matches the order in Messer's notes: request form, change control board approval, sandbox testing, backout plan, maintenance window). The two files in the batch disagree.",
+   "fix": "Clue -> \"Request, analyze impact, approve, test with a backout plan, schedule the window, implement, document.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/change-management-sy0-701/"
+  },
+  {
+   "file": "data-lessons-sec-1.js",
+   "id": "lesson 17 / respond (steps) vs lesson 18 / contain",
+   "severity": "minor",
+   "problem": "Lesson 17 teaches classify -> identify path -> gather confirming evidence -> contain, saying evidence narrows the category \"before containment escalates\"; lesson 18, concept sec.isolation-decommissioning and rw.sec.isolate.next teach \"Contain first; investigate second.\" A learner gets opposite orderings on consecutive days.",
+   "fix": "Lesson 17 step 'proof' say -> \"Logs, captures, and host telemetry confirm the category. If the threat is actively spreading, contain first and confirm afterward.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1.js",
+   "id": "sec.application-allow-listing, sec.isolation-decommissioning, sec.watering-hole-brand-abuse, sec.impersonation-pretexting (src)",
+   "severity": "minor",
+   "problem": "Source slugs do not match where the content is covered. Allow/deny lists are in Messer's \"Segmentation and Access Control\" video, not \"Mitigation Techniques\" (which covers patching, encryption, monitoring, least privilege, configuration enforcement, decommissioning). Typosquatting and pretexting are defined in the \"Phishing\" video, not in \"Other Social Engineering Attacks\" (which covers only misinformation/disinformation and brand impersonation). Business email compromise is not named in any cited page.",
+   "fix": "sec.application-allow-listing src -> [\"segmentation-and-access-control\"]; sec.isolation-decommissioning src -> [\"segmentation-and-access-control\",\"mitigation-techniques\"]; sec.watering-hole-brand-abuse src -> [\"watering-hole-attacks\",\"phishing\",\"other-social-engineering-attacks\"]; sec.impersonation-pretexting src -> [\"impersonation\",\"phishing\"].",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/segmentation-and-access-control-sy0-701/ ; https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/mitigation-techniques-sy0-701/ ; https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/other-social-engineering-attacks-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "type field: rw.sec.vishing.next, .toc-tou.next, .vmescape.next, .dns.next, .evil-twin.next, .ssrf.next; rw.sec.typosquat.constraints, .bec.constraints, .sms.constraints, .bucket.constraints, .update.constraints, .defaults.constraints, .mobile-rooting.constraints, .directory-traversal.constraints, .spraying.constraints, .downgrade.constraints, .missing-logs.constraints, .decom.constraints, .host-hardening.constraints",
+   "severity": "minor",
+   "problem": "These are plain identification questions (\"Which attack is this?\", \"Which vulnerability type best fits?\") but are typed \"next\" or \"constraints\". Only a handful of items in the batch actually ask for a next step or impose constraints.",
+   "fix": "Set type to \"identify\" for the listed ids (and rename ids if the suffix must match), or rewrite the question to ask for a next action / a choice under stated constraints.",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "rw.sec.actor.identify; rw.sec.ioc.identify",
+   "severity": "minor",
+   "problem": "Distractor wording is not SY0-701 terminology: \"A script-kiddie\" (the objectives say \"unskilled attacker\", and the explanation already uses that phrase) and \"Resource exhaustion\" (the objectives' indicator is \"resource consumption\").",
+   "fix": "rw.sec.actor.identify o[2] -> \"An unskilled attacker\". rw.sec.ioc.identify o[1] -> \"Resource consumption\" and no[0] -> \"Resource consumption refers to abnormal system or network usage, not location timing.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "rw.sec.xss.next",
+   "severity": "minor",
+   "problem": "Correct option \"Validate and encode user-supplied output\" blurs two controls: input is validated, output is encoded.",
+   "fix": "o[0] -> \"Validate input and encode output\".",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-1-scen.js",
+   "id": "rw.sec.segment-legacy.constraints",
+   "severity": "minor",
+   "problem": "Near-duplicate of rw.sec.compensating.constraints (hospital legacy device that cannot take agents -> restricted network segment, even the same answer wording) and of the lesson 18 zones practice.",
+   "fix": "Change the setting and asset (e.g. a factory controller or a lab instrument PC) and ask a different angle, such as which traffic the segment should still permit.",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-1.js",
+   "id": "lesson 13 / categories (facet 'technical')",
+   "severity": "minor",
+   "problem": "Example \"Pinecrest requires MFA for payroll admins\" reads as a rule or policy (managerial) rather than a technology enforcing something.",
+   "fix": "example -> \"The payroll system enforces MFA at every admin sign-in.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-1.js",
+   "id": "lesson 18 / zones (map)",
+   "severity": "minor",
+   "problem": "The zone holding the unpatchable legacy device is named \"High trust\". That label conflicts with the Zero Trust material in lesson 13 and with the item's own point that the device is fragile and must be tightly restricted.",
+   "fix": "Zone 'critical' name -> \"Restricted\", desc -> \"Sensitive or fragile systems behind the strictest rules\"; zone 'guest' name can stay \"Low trust\".",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-1.js",
+   "id": "lesson 17 / malware (facet 'virus')",
+   "severity": "minor",
+   "problem": "Example \"A fake update installer spreads as a trojan\" suggests trojans self-spread, right beside the line that says only worms do.",
+   "fix": "example -> \"A fake update installer arrives as a trojan, then drops ransomware.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-xf-sec-1.js",
+   "id": "xf.sec.attack-patterns.match",
+   "severity": "minor",
+   "problem": "The prompt asks for an \"attack category\", two right-hand values are categories (\"Network and wireless attack\", \"Application attack\") and the third is a specific technique (\"Password spraying\").",
+   "fix": "Third pair right-hand value -> \"Password attack\".",
+   "source": "general knowledge"
+  }
+ ],
+ "counts": {
+  "concepts": 32,
+  "comparisons": 4,
+  "scenarios": 59,
+  "lesson_sections": 35,
+  "xf_items": 24
+ },
+ "checked_fully": true,
+ "notes": "Read every item in all five files: 32 concepts (64 recall cards), 4 comparisons, 59 scenarios, 7 lessons (levels 13-19; 35 sections including 7 \"check\" sections, 27 practices and 6 review cases), 24 exam-style items (6 each of yn, dd, multi, match). Structure is clean: every scenario has no.length == o.length-1 with no duplicate options; every practice and case has exactly one correct option; no match 'extra' fits a row; dd blank counts match; all concept/comparison ids referenced by scenarios, lessons and xf items resolve (cmp.symmetric-asymmetric used by lesson 14 lives in data-cn-compare.js, outside this batch). Scenario obj and day values agree with their primary concept, and objective numbers 1.1-2.5 are correctly assigned. I found no hard factual errors and no wrongly keyed answers: cryptography statements (symmetric/asymmetric roles, signing with the private key and verifying with the public key, hashing, salting, stretching, CSR/OCSP/CRL/wildcard), malware definitions and attack names are correct; the batch states no port numbers. data-cn-sec-1-cmp.js has only one minor wording inconsistency. Not checked: every professormesser.com source URL could not be tested by script (the sandbox proxy returns 403 to curl for that host); 19 of the 54 slugs were opened through WebFetch and all exist. I could not open CompTIA's official objectives PDF, so objective-list claims (whaling/spear phishing absent from 2.2; Zero Trust control/data plane terms in 1.2) rest on my knowledge of the SY0-701 objectives plus Messer's SY0-701 pages. Coverage gaps outside the requested checks: level 14 has 9 scenarios (others have 10) and no scenario has sec.encryption-approaches as its primary concept; objective 1.4 items with no concept in this batch include key escrow (used as a distractor seven times), TPM/HSM/secure enclave, obfuscation (steganography, tokenization, data masking), encryption levels, and blockchain; objective 2.4 keylogger and bloatware appear only as a distractor. Option order in the data (correct first) is not a giveaway because index.html shuffles scenario options, lesson practice options, and xf rows/blanks/options at render."
+}

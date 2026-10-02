@@ -3,7 +3,7 @@ const REV="2026-10-02", CERT="https://www.comptia.org/en-us/certifications/secur
 const P=(s,q,o)=>({s,q,o});
 const L=window.LESSON_PILOTS=window.LESSON_PILOTS||{};
 
-L[28]={id:"lesson.sec.28",day:28,v:1,reviewed:REV,src:[
+L[28]={id:"lesson.sec.28",day:28,v:1,reviewed:REV,status:"drafted",src:[
   "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/security-policies-sy0-701/",
   "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/security-standards-sy0-701/",
   "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/security-procedures-sy0-701/",
@@ -30,7 +30,7 @@ L[28]={id:"lesson.sec.28",day:28,v:1,reviewed:REV,src:[
    facets:[
     {id:"board",name:"Board or steering committee",say:"Approves direction, risk posture and major exceptions.",example:"Harborlight's steering committee reviews unresolved security exceptions every month.",tags:["Oversight","Priority setting"]},
     {id:"central",name:"Centralized model",say:"One group makes decisions for the whole organization.",example:"One security council approves every exception across all offices.",tags:["Consistency","Shared criteria"]},
-    {id:"local",name:"Decentralized model",say:"Business units decide more of their own details within shared boundaries.",example:"Regional sites tailor procedures while the central council keeps authority for major exceptions.",tags:["Local flexibility"]}],
+    {id:"local",name:"Decentralized model",say:"Decisions are made by the business units or sites closest to the work.",example:"Each regional office's security lead approves that office's own exceptions and reports the outcome to headquarters.",tags:["Local flexibility"]}],
    caution:"Governance sets the direction; operations carry it out. Committees should not become the help desk.",
    practice:P("Harborlight wants one body to approve risk exceptions for every branch so similar issues are handled the same way.","Which model fits best?",
     [["Centralized governance",true,"One decision authority gives the same criteria to every branch."],
@@ -76,7 +76,7 @@ L[28]={id:"lesson.sec.28",day:28,v:1,reviewed:REV,src:[
   {id:"check",type:"check",title:"Check yourself",lead:"Short governance decisions without the notes in view.",from:[28],max:6}
 ]};
 
-L[29]={id:"lesson.sec.29",day:29,v:1,reviewed:REV,src:[
+L[29]={id:"lesson.sec.29",day:29,v:1,reviewed:REV,status:"drafted",src:[
   "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/risk-management-sy0-701/",
   "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/risk-analysis-sy0-701/",
   "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/risk-management-strategies-sy0-701/",
@@ -155,7 +155,7 @@ L[29]={id:"lesson.sec.29",day:29,v:1,reviewed:REV,src:[
   {id:"check",type:"check",title:"Check yourself",lead:"Risk and vendor decisions without the notes in view.",from:[29],max:6}
 ]};
 
-L[30]={id:"lesson.sec.30",day:30,v:1,reviewed:REV,src:[
+L[30]={id:"lesson.sec.30",day:30,v:1,reviewed:REV,status:"drafted",src:[
   "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/compliance-sy0-701/",
   "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/privacy-sy0-701/",
   "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/audits-and-assessments-sy0-701/",
@@ -228,7 +228,7 @@ L[30]={id:"lesson.sec.30",day:30,v:1,reviewed:REV,src:[
   {id:"check",type:"check",title:"Check yourself",lead:"Compliance, testing and awareness decisions without the lesson in view.",from:[30],max:6}
 ]};
 
-L[32]={id:"lesson.sec.32",day:32,v:1,reviewed:REV,src:[
+L[32]={id:"lesson.sec.32",day:32,v:1,reviewed:REV,status:"drafted",src:[
   "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/security-policies-sy0-701/",
   "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/risk-management-sy0-701/",
   "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/compliance-sy0-701/",

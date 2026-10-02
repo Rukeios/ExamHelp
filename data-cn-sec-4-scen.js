@@ -144,10 +144,10 @@ const scenarios=[
   take:"Tolerance is the room leadership allows around risk targets."},
 
  {id:"rw.sec.compliance.identify",concept:"sec.compliance-program",concepts:["sec.compliance-program"],cmp:null,day:30,dom:"5 Program mgmt",obj:"5.4",type:"identify",diff:1,setting:"credit-union",
-  s:"A credit union knows a new regulation takes effect next quarter. Security and legal review the text, map the new obligations to current controls and list the gaps before making changes.",
-  q:"Which concept does that early research represent?",
+  s:"A credit union is about to sign with a cloud core-banking provider. Before committing, security and legal investigate the provider's compliance record, verify its claims and list any gaps against a regulation that takes effect next quarter.",
+  q:"Which concept does that investigation represent?",
   o:["Due diligence","Due care","A right to be forgotten request","A black-box test"],
-  why:"Due diligence is the research and evaluation performed before action or commitment.",
+  why:"Due diligence is the investigation and verification done before a commitment, here into a third party.",
   no:["Due care is the ongoing operation of safeguards after decisions are made.","A right to be forgotten request comes from a data subject, not from regulatory research.","A black-box test is a penetration-test style, not a compliance activity."],
   take:"Research before acting is due diligence."},
  {id:"rw.sec.gdpr.next",concept:"sec.privacy-gdpr",concepts:["sec.privacy-gdpr","sec.controller-processor"],cmp:null,day:30,dom:"5 Program mgmt",obj:"5.4",type:"next",diff:2,setting:"law-firm",
