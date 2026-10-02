@@ -1,0 +1,389 @@
+{
+ "issues": [
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.mobile.constraints",
+   "severity": "wrong",
+   "problem": "no[1] defines CYOD incorrectly: 'CYOD still means the company chooses from approved models'. In CYOD the EMPLOYEE chooses from a company-approved list (the device is normally still corporate-owned). The `why` also expands COPE as 'company-owned, personally enabled'; CompTIA's acronym list and Messer use 'corporate-owned, personally enabled'.",
+   "fix": "Replace no[1] with: \"CYOD lets the employee pick a device from a company-approved list. Nothing here says the manager chooses the model; the defining facts are company-purchased with personal use allowed, which is COPE.\" In `why`, change 'company-owned, personally enabled' to 'corporate-owned, personally enabled'.",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/securing-wireless-and-mobile-sy0-701/"
+  },
+  {
+   "file": "data-xf-sec-3.js",
+   "id": "xf.sec.ir.dd",
+   "severity": "ambiguous",
+   "problem": "Blank [2] has more than one true answer. With [1]=containment, the sentence 'responders usually move to containment before [2]' is true for eradication, recovery AND lessons learned (all three options come after containment). Only 'eradication' is keyed, so a learner picking 'recovery' or 'lessons learned' is marked wrong for a true statement. Blank [1] has the same weakness in reverse if [2] is filled with a later phase (eradication also comes before recovery).",
+   "fix": "Change text to: \"After detection and analysis, the next phase is [1]. The phase that comes immediately after that is [2].\" Keep blanks as [[\"containment\",\"eradication\",\"recovery\"],[\"eradication\",\"recovery\",\"lessons learned\"]].",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/incident-response-sy0-701/"
+  },
+  {
+   "file": "data-lessons-sec-3.js",
+   "id": "24 / email (facet spf example)",
+   "severity": "minor",
+   "problem": "Example says 'Alder lists its cloud mail provider in SPF so lookalike senders fail the check.' SPF only checks whether the sending server is authorized for the domain actually used in the envelope sender. A lookalike (cousin) domain is a different domain with its own SPF record and can pass SPF. The sentence teaches that SPF stops lookalike domains, which it does not.",
+   "fix": "Replace example with: \"Alder lists its cloud mail provider in SPF so mail sent from any other server claiming to be from Alder's domain fails the check.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/email-security-sy0-701/"
+  },
+  {
+   "file": "data-lessons-sec-3.js",
+   "id": "24 / email (facet dmarc)",
+   "severity": "minor",
+   "problem": "'reject mail that fails SPF or DKIM checks' is loose: DMARC fails a message only when neither SPF nor DKIM produces an aligned pass. A message that fails SPF but passes aligned DKIM passes DMARC.",
+   "fix": "Reword `say` to: \"A policy tells the receiver whether to monitor, quarantine, or reject mail that does not pass the domain's SPF and DKIM checks, and where to send reports.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/email-security-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-3.js",
+   "id": "sec.identity-lifecycle",
+   "severity": "minor",
+   "problem": "'Attestation confirms users still need what they have' treats attestation only as periodic access review. The Messer video cited as this concept's source describes attestation as verifying a person's identity during identity proofing ('all of this needs to be verified through a process called attestation'). SY0-701 prep sources split on this term, so the note contradicts its own cited source. Same framing is used in rw.sec.iam.next and lesson 25 step 'attest'. The keyed answers still hold because they say 'access reviews', but the definition should acknowledge both senses.",
+   "fix": "Change line 3 to: \"Attestation is formal confirmation: that a person is who they claim to be, and (in access reviews) that their access is still needed.\" No change needed to the keyed answer of rw.sec.iam.next.",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/identity-and-access-management-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-3.js",
+   "id": "sec.application-security-controls",
+   "severity": "minor",
+   "problem": "'Secure cookies protect session data in the browser' is imprecise. The Secure attribute stops the browser sending the cookie over unencrypted HTTP (protection in transit); it does not protect data stored in the browser. This also sits awkwardly beside rw.sec.app.next, which correctly separates Secure (transit) from HttpOnly (script access).",
+   "fix": "Replace line 2 with: \"Secure cookies are sent only over HTTPS, so session tokens are not exposed in transit.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/application-security-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-3.js",
+   "id": "sec.file-and-network-service-ports",
+   "severity": "minor",
+   "problem": "Clue 'When two ports appear together, ask whether the protocol normally uses a client and server pair' is only true for DHCP (67 server / 68 client). FTP 20/21 are data and control channels, and SNMP 161/162 are polling and traps. The port numbers themselves are all correct.",
+   "fix": "Replace clue with: \"Paired ports split a job: FTP 21 control and 20 data, DHCP 67 server and 68 client, SNMP 161 queries and 162 traps.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3.js",
+   "id": "pack objectives map O[\"4.9\"]",
+   "severity": "minor",
+   "problem": "Objective 4.9 title is truncated. The SY0-701 wording is 'Given a scenario, use data sources to support an investigation'. The other eight titles match the published objectives.",
+   "fix": "Change to: \"4.9\":\"Given a scenario, use data sources to support an investigation\"",
+   "source": "https://www.oreilly.com/library/view/comptia-security-sy0-701/9781835461532/B21881_22_ePub.xhtml"
+  },
+  {
+   "file": "data-cn-sec-3.js",
+   "id": "sec.security-operations-tooling",
+   "severity": "minor",
+   "problem": "Tagged obj 4.4, but two of the four ideas it teaches (file integrity monitoring and user behavior analytics) are listed under 4.5 in SY0-701, not 4.4. Agents/agentless and DLP are in 4.4 (DLP is in both). rw.sec.fim.identify inherits the wrong obj.",
+   "fix": "Either move the FIM and UEBA lines to a 4.5 concept (for example sec.email-and-endpoint-detection) or leave the concept at 4.4 and set obj:\"4.5\" on rw.sec.fim.identify.",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3.js",
+   "id": "sec.order-of-volatility",
+   "severity": "minor",
+   "problem": "Order of volatility is not named in the SY0-701 objectives (4.8 lists legal hold, chain of custody, acquisition, reporting, preservation, e-discovery) and is not mentioned in the Messer SY0-701 Digital Forensics video cited as the source; it was an explicit SY0-601 item. The content is accurate and fits under 'acquisition', but one concept, one scenario (rw.sec.volatility.identify), lesson 26 'evidence', case c6 and one xf row are spent on it while e-discovery, reporting and preservation get no coverage.",
+   "fix": "Keep, but relabel title to \"Acquisition: collect volatile data first\" and add a line covering the listed items, e.g. \"E-discovery collects and produces electronic records for legal review; preservation keeps the evidence intact for later.\"",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/digital-forensics-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-3.js",
+   "id": "sec.federation-protocols",
+   "severity": "minor",
+   "problem": "OpenID Connect is not in the SY0-701 objectives (4.6 lists LDAP, OAuth and SAML under SSO) and the cited Messer video only mentions OpenID in passing. The statements are accurate, but it is tested in a concept, a comparison, rw.sec.oidc.identify, lesson 25 and xf.sec.oauth-oidc.dd, while LDAP, which IS listed, has no IAM coverage at all in this batch.",
+   "fix": "Keep OIDC as supporting context, and add LDAP to the concept: e.g. line \"LDAP is the directory protocol many SSO systems query for users and groups.\" Consider swapping rw.sec.oidc.identify for an LDAP item.",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/identity-and-access-management-sy0-701/"
+  },
+  {
+   "file": "data-cn-sec-3.js",
+   "id": "sec.log-attack-signatures",
+   "severity": "minor",
+   "problem": "Tagged obj 4.9. Reading logs is 4.9, but naming brute force, spraying, XSS, SQL injection and directory traversal is objective 2.4 (indicators of malicious activity) and 2.3. Acceptable for a PBQ drill; worth noting in the data so coverage reports do not over-count 4.9.",
+   "fix": "Leave obj as 4.9 but add \"2.4\" as a secondary objective if the schema allows, or mention it in the clue.",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-cmp.js",
+   "id": "cmp.cve-cvss",
+   "severity": "minor",
+   "problem": "`apply` says 'which patched flaws can wait for the next window'. A flaw that is already patched does not wait for a window; the intended meaning is flaws that still need patching.",
+   "fix": "Change to: \"An analyst must brief leadership on which unpatched flaws can wait for the next maintenance window and which need emergency change review.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.asset.identify",
+   "severity": "minor",
+   "problem": "Stem contradicts itself: the SSDs are sent to a destruction vendor, yet the partner wants proof the media 'was destroyed before it left the building's control'. Stem also uses 'destroyed'/'destruction' twice, echoing the answer.",
+   "fix": "Change s to: \"A law firm hands failed SSDs from legal staff laptops to a disposal vendor. The partner asks for written proof of what happened to the media.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.vuln.identify",
+   "severity": "minor",
+   "problem": "Uses 'CVE-2026-1044' as if it were a made-up ID. An ID of that form may be a real, assigned CVE (not looked up), which would attach an invented scenario to a real record.",
+   "fix": "Use an obviously fictional placeholder, e.g. \"a CVE on a public web server\" or \"CVE-2099-0001\".",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.firewall.constraints",
+   "severity": "minor",
+   "problem": "Correct option contains the word 'narrow', which is the principle being tested, and gives the port without the transport.",
+   "fix": "Change o[0] to: \"Allow the support subnet to the server on TCP 22 only\".",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-3.js",
+   "id": "31 / ports (rows)",
+   "severity": "minor",
+   "problem": "Row [\"Secure web port\",\"443\",\"443\",\"Not applicable\"] puts 443 under the 'Remote administration' column (SSH/RDP/Telnet), which reads as if SSH or RDP use 443.",
+   "fix": "Replace the row with: [\"Secure port to remember\",\"22 (SSH)\",\"443 (HTTPS), 993 (IMAPS), 995 (POP3S)\",\"636 (LDAPS)\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-3.js",
+   "id": "31 / workflow (step mark)",
+   "severity": "minor",
+   "problem": "Lists RDP/3389 among 'known secure pairings'. RDP is not one of the secure-replacement protocols in objective 4.5 and exposed RDP is a common attack target; the batch's own concept sec.secure-remote-admin-ports describes it neutrally.",
+   "fix": "Change `say` to: \"Map fixed facts first: SSH/22, HTTPS/443 and LDAPS/636 are the secure pairings, and RDP is 3389.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-3.js",
+   "id": "25 / factors",
+   "severity": "minor",
+   "problem": "The section teaches three factor categories; SY0-701 lists four (something you know, have, are, and somewhere you are). The Pocket Note sec.mfa-and-factors lists all four, so the lesson and the note disagree on the count.",
+   "fix": "Add a facet: {id:\"where\",name:\"Somewhere you are\",say:\"Location, such as an IP range or GPS position, can be used as a factor.\",example:\"Alder blocks admin sign-ins that do not come from the office network.\",tags:[\"Location\"]}",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/multifactor-authentication-sy0-701/"
+  },
+  {
+   "file": "data-xf-sec-3.js",
+   "id": "xf.sec.pbq-mail.match",
+   "severity": "giveaway",
+   "problem": "Three of four right-hand answers contain the left-hand name (IMAP -> 'IMAPS on 993', POP3 -> 'POP3S on 995', LDAP -> 'LDAPS on 636'), so the match needs no port knowledge, and the only bare number left must be SMTP. Also, 587 is the mail-submission port (normally STARTTLS), not a 'secure pairing' in the same sense; implicit-TLS SMTP is 465.",
+   "fix": "Change q to \"Match each service to its port.\" and pairs to [[\"IMAPS\",\"993\"],[\"POP3S\",\"995\"],[\"SMTP submission\",\"587\"],[\"LDAPS\",\"636\"]], extra [\"143\",\"389\"].",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-xf-sec-3.js",
+   "id": "xf.sec.mobile.match",
+   "severity": "giveaway",
+   "problem": "'Company-owned, personally enabled phones' -> COPE spells out the acronym (and uses 'company' where CompTIA says 'corporate'); 'Employee-owned phones used for work' -> BYOD is nearly as direct. The single extra ('Certificate of destruction') is off-topic.",
+   "fix": "Change pairs 1-2 to [\"The business buys the phone and permits limited personal use\",\"COPE\"] and [\"Staff use the phone they already own for work email\",\"BYOD\"]; change extra to [\"CYOD\"].",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/securing-wireless-and-mobile-sy0-701/"
+  },
+  {
+   "file": "data-xf-sec-3.js",
+   "id": "xf.sec.pbq-secure.dd",
+   "severity": "giveaway",
+   "problem": "Both blanks answer themselves: blank 1 offers 'Telnet on 23' in a sentence that says 'instead of Telnet', and blank 2 offers 'LDAPS on 636' as the only LDAP-named option in a sentence about LDAP.",
+   "fix": "Ask for ports only: text \"Secure remote shell administration (SSH) uses TCP [1]. Encrypted directory lookups (LDAPS) use TCP [2].\" blanks [[\"22\",\"23\",\"3389\"],[\"636\",\"389\",\"443\"]].",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-xf-sec-3.js",
+   "id": "xf.sec.baselines.yn, xf.sec.protocols.yn, xf.sec.iam.yn, xf.sec.auto.yn",
+   "severity": "giveaway",
+   "problem": "All four yes/no sets have exactly two true rows and one false row (TTF, TTF, TFT, TTF), and every false row is recognizable by form: an absolute ('always ... regardless', 'unnecessary') or a deliberately absurd pairing ('HTTPS uses port 80 and is the insecure variant'). Rows are shuffled at render, but 'find the one false statement' still works without knowledge.",
+   "fix": "Vary the mix. Suggested: in xf.sec.protocols.yn replace row 2 with [\"XDR only collects data from endpoints.\",false,\"That describes EDR. XDR correlates endpoint data with other layers such as email, identity, or network.\"] and row 3 with [\"HTTPS normally uses TCP port 443.\",true,\"HTTPS is HTTP over TLS and uses 443; plain HTTP uses 80.\"]. In xf.sec.auto.yn replace row 3 with [\"A SIEM's main job is to run automated response playbooks across tools.\",false,\"That is SOAR. A SIEM collects and correlates logs to raise alerts.\"] and add a 4th row [\"Automation can spread a mistake faster than a person would.\",true,\"That is why disruptive actions get approval gates and narrow scopes.\"]. Make xf.sec.baselines.yn all-true or two-false so the count is not predictable.",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-xf-sec-3.js",
+   "id": "xf.sec.monitor.match, xf.sec.access-models.match, xf.sec.forensics.match, xf.sec.pbq-clues.match, xf.sec.pbq-rules.match",
+   "severity": "giveaway",
+   "problem": "The `extra` options are from unrelated topics (RDP; XDR; BYOD; RDP and BYOD; 'DMARC reject'), so they are eliminated on sight and the last pair is always answered by elimination. None of the extras fits a row (structure is valid).",
+   "fix": "Use same-topic extras that fit no row: monitor -> [\"SCAP\"]; access-models -> [\"Rule-based access control\"]; forensics -> [\"E-discovery\"]; pbq-clues -> [\"SQL injection\",\"Replay\"]; pbq-rules -> [\"The last matching rule wins\"].",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.pbq-telnet.constraints",
+   "severity": "giveaway",
+   "problem": "The stem states the answer: 'secure remote administration ... Telnet on 23 and SSH on 22 ... the safer choice', and o[0] is 'SSH on 22'. It also duplicates rw.sec.protocol.identify and rw.sec.pbq-ssh.identify.",
+   "fix": "s: \"A law firm wants one firewall rule for command-line administration of legacy appliances. The devices accept both Telnet and SSH, and policy says credentials must never cross the network in cleartext.\" q: \"Which port should the rule permit?\" o: [\"TCP 22\",\"TCP 23\",\"TCP 21\",\"TCP 3389\"] no: [\"23 is Telnet, which sends credentials in cleartext.\",\"21 is FTP control, a file-transfer protocol, not a remote shell.\",\"3389 is RDP, a Windows remote-desktop protocol the appliances were not said to support.\"] why: \"SSH encrypts the session and credentials and uses TCP 22.\"",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.app.next",
+   "severity": "giveaway",
+   "problem": "Correct option is 59 characters against 34-42 for the others and is the only technical one; the distractors ('Move the site from HTTPS back to HTTP', 'Replace the portal with a PDF form', 'Publish the cookie format to the help desk') are not things anyone would choose.",
+   "fix": "o: [\"Set the Secure and HttpOnly cookie attributes\",\"Add input validation to the login form\",\"Sign the application code\",\"Shorten the session timeout\"] no: [\"Input validation rejects unsafe input but does not change how the browser sends or exposes the cookie.\",\"Code signing proves where the code came from; it does not protect a session cookie.\",\"A shorter timeout limits how long a stolen cookie works but leaves it exposed to scripts and cleartext connections.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.logs.next",
+   "severity": "giveaway",
+   "problem": "Correct option is 55 characters against 21-33 and restates the stem ('records time differently' -> 'timestamp synchronization'); distractors (guest SSID, 'A broader Telnet rule', 'More shared local admin passwords') are unrelated.",
+   "fix": "o: [\"Synchronize clocks across all log sources\",\"Keep logs for a longer retention period\",\"Add full packet capture at the edge\",\"Build more SIEM dashboards\"] no: [\"Longer retention keeps more history but the events still will not line up.\",\"Packet capture adds detail, not a common time reference.\",\"Dashboards summarize data; they cannot correct mismatched event times.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.baseline.identify",
+   "severity": "giveaway",
+   "problem": "All three distractors come from unrelated topics (for example email policy, wireless surveys, disposal paperwork, Telnet), so the item can be answered by elimination without knowing the concept.",
+   "fix": "o: [\"A secure baseline\",\"A vulnerability scan report\",\"A patch management schedule\",\"A change-approval record\"] no: [\"A scan report lists weaknesses found on a system; it is not the approved build systems are compared against.\",\"A patch schedule says when updates are applied, not what the approved configuration is.\",\"A change record documents one approved change, not the standard starting configuration.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.asset.identify",
+   "severity": "giveaway",
+   "problem": "All three distractors come from unrelated topics (for example email policy, wireless surveys, disposal paperwork, Telnet), so the item can be answered by elimination without knowing the concept.",
+   "fix": "o: [\"A certificate of destruction\",\"A chain of custody form\",\"A data retention schedule\",\"An asset inventory record\"] no: [\"Chain of custody tracks who handled the drives; it does not certify that they were destroyed.\",\"A retention schedule says how long data must be kept, not that media was destroyed.\",\"An inventory record tracks the asset; it is not proof of destruction.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.monitor.identify",
+   "severity": "giveaway",
+   "problem": "All three distractors come from unrelated topics (for example email policy, wireless surveys, disposal paperwork, Telnet), so the item can be answered by elimination without knowing the concept.",
+   "fix": "o: [\"A SIEM\",\"A SOAR platform\",\"A NetFlow collector\",\"An EDR agent\"] no: [\"SOAR automates response steps after detection; collecting and correlating logs is the SIEM's job.\",\"NetFlow summarizes traffic metadata only; it does not take in VPN, server, and endpoint logs.\",\"EDR watches individual endpoints rather than correlating logs from every source.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.netflow.identify",
+   "severity": "giveaway",
+   "problem": "All three distractors come from unrelated topics (for example email policy, wireless surveys, disposal paperwork, Telnet), so the item can be answered by elimination without knowing the concept.",
+   "fix": "o: [\"NetFlow\",\"Full packet capture\",\"SNMP traps\",\"A vulnerability scan\"] no: [\"Packet capture stores the payloads the team said it does not need and is far heavier to collect and keep.\",\"SNMP traps report device events such as an interface going down, not per-conversation traffic summaries.\",\"A vulnerability scan lists weaknesses on hosts, not who talked to whom.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.fim.identify",
+   "severity": "giveaway",
+   "problem": "All three distractors come from unrelated topics (for example email policy, wireless surveys, disposal paperwork, Telnet), so the item can be answered by elimination without knowing the concept.",
+   "fix": "o: [\"File integrity monitoring\",\"Data loss prevention\",\"User behavior analytics\",\"Antivirus signatures\"] no: [\"DLP watches sensitive data leaving, not changes to operating system files.\",\"Behavior analytics flags unusual user activity over time rather than changes to specific watched files.\",\"Antivirus looks for known malicious code; it does not alert on every unexpected change to a watched file.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.email.next",
+   "severity": "giveaway",
+   "problem": "All three distractors come from unrelated topics (for example email policy, wireless surveys, disposal paperwork, Telnet), so the item can be answered by elimination without knowing the concept.",
+   "fix": "o: [\"XDR\",\"A second EDR agent\",\"File integrity monitoring\",\"A web filter\"] no: [\"More endpoint tooling still sees only the laptop, not the mailbox or the cloud sign-in.\",\"FIM reports file changes on a host; it does not link email, endpoint, and identity alerts.\",\"A web filter blocks destinations; it does not build one incident from several alert sources.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.sso.identify",
+   "severity": "giveaway",
+   "problem": "All three distractors come from unrelated topics (for example email policy, wireless surveys, disposal paperwork, Telnet), so the item can be answered by elimination without knowing the concept.",
+   "fix": "o: [\"Federation\",\"Privileged access management\",\"Attestation\",\"Discretionary access control\"] no: [\"PAM protects administrator credentials; it does not let another organization's accounts sign in.\",\"Attestation confirms identity or access; it is not the trust between two identity systems.\",\"DAC lets a resource owner grant access; it does not accept another organization's logins.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.oauth.identify",
+   "severity": "giveaway",
+   "problem": "All three distractors come from unrelated topics (for example email policy, wireless surveys, disposal paperwork, Telnet), so the item can be answered by elimination without knowing the concept.",
+   "fix": "o: [\"OAuth\",\"SAML\",\"LDAP\",\"RADIUS\"] no: [\"SAML carries sign-in assertions for browser SSO; it is not the delegated, revocable app access described.\",\"LDAP is a directory lookup protocol, not delegated authorization.\",\"RADIUS handles network access authentication such as Wi-Fi and VPN.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.oidc.identify",
+   "severity": "giveaway",
+   "problem": "All three distractors come from unrelated topics (for example email policy, wireless surveys, disposal paperwork, Telnet), so the item can be answered by elimination without knowing the concept.",
+   "fix": "o: [\"OpenID Connect\",\"LDAP\",\"RADIUS\",\"Kerberos\"] no: [\"LDAP queries a directory; it does not add identity claims to an OAuth flow.\",\"RADIUS handles network access authentication, not app sign-in claims.\",\"Kerberos issues tickets inside a domain; it is not a layer on top of OAuth.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.pam.identify",
+   "severity": "giveaway",
+   "problem": "All three distractors come from unrelated topics (for example email policy, wireless surveys, disposal paperwork, Telnet), so the item can be answered by elimination without knowing the concept.",
+   "fix": "o: [\"PAM\",\"SSO\",\"MFA\",\"RBAC\"] no: [\"SSO reduces the number of sign-ins; it does not vault or rotate admin credentials.\",\"MFA adds a second factor at login but provides no checkout approval or rotation.\",\"RBAC assigns permissions by role; it does not vault, check out, or rotate privileged passwords.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.soar.identify",
+   "severity": "giveaway",
+   "problem": "All three distractors come from unrelated topics (for example email policy, wireless surveys, disposal paperwork, Telnet), so the item can be answered by elimination without knowing the concept.",
+   "fix": "o: [\"SOAR\",\"SIEM\",\"EDR\",\"UEBA\"] no: [\"A SIEM collects and correlates logs to raise the alert; running the multi-tool response workflow is SOAR.\",\"EDR detects and responds on endpoints, not across ticketing, mail, and enrichment tools.\",\"Behavior analytics flags anomalies; it does not orchestrate response steps.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.coc.identify",
+   "severity": "giveaway",
+   "problem": "All three distractors come from unrelated topics (for example email policy, wireless surveys, disposal paperwork, Telnet), so the item can be answered by elimination without knowing the concept.",
+   "fix": "o: [\"Chain of custody\",\"Legal hold\",\"E-discovery\",\"A forensic image hash\"] no: [\"A legal hold stops relevant data being deleted; it does not log who handled an item.\",\"E-discovery gathers and produces electronic records for legal review.\",\"A hash proves a copy is unchanged; it does not record handlers and handoff times.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.hold.next",
+   "severity": "giveaway",
+   "problem": "All three distractors come from unrelated topics (for example email policy, wireless surveys, disposal paperwork, Telnet), so the item can be answered by elimination without knowing the concept.",
+   "fix": "o: [\"A legal hold\",\"A chain of custody form\",\"A shorter retention schedule\",\"A full forensic image of the mail server\"] no: [\"Chain of custody documents handling of collected evidence; it does not stop retention jobs deleting data.\",\"Shorter retention would delete the data sooner.\",\"An image is one copy at one moment; it does not suspend deletion of mailbox, cloud files, and chat going forward.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.auto.constraints",
+   "severity": "giveaway",
+   "problem": "All three distractors come from unrelated topics (for example email policy, wireless surveys, disposal paperwork, Telnet), so the item can be answered by elimination without knowing the concept.",
+   "fix": "o: [\"Require approval before disabling accounts\",\"Lower the alert threshold so more accounts are covered\",\"Remove logging to speed the workflow up\",\"Apply the same action to medium-risk alerts too\"] no: [\"A lower threshold makes false-positive lockouts more likely.\",\"Less logging makes mistakes harder to detect and explain.\",\"Widening the scope increases the damage one bad rule can do.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.password.next",
+   "severity": "giveaway",
+   "problem": "All three distractors come from unrelated topics (for example email policy, wireless surveys, disposal paperwork, Telnet), so the item can be answered by elimination without knowing the concept.",
+   "fix": "o: [\"Use a password manager for long, unique passwords\",\"Require a password change every 30 days\",\"Lower the minimum length so passwords are easier to recall\",\"Allow one shared password per team\"] no: [\"Forced frequent changes push people toward predictable patterns and more resets.\",\"Shorter passwords are easier to guess and do not stop reuse.\",\"Shared passwords remove accountability and spread one secret widely.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-cn-sec-3-scen.js",
+   "id": "rw.sec.app.identify, rw.sec.asset.next, rw.sec.vuln.identify, rw.sec.scap.constraints, rw.sec.dlp.next, rw.sec.filter.identify, rw.sec.iam.next, rw.sec.logs.constraints",
+   "severity": "giveaway",
+   "problem": "Same pattern as above: at most one plausible distractor, the rest are off-topic filler (guest Wi-Fi, certificate authority, WPA3 site survey, POP3S, legal hold, certificate of destruction, password vault). Keyed answers and explanations are correct.",
+   "fix": "Replace off-topic distractors with same-domain alternatives, e.g. app.identify -> [SAST, DAST, Penetration testing, Fuzzing]; vuln.identify -> [CVSS score, CVE number, Exposure factor, Risk tolerance]; scap.constraints -> [SCAP-aligned content, A SIEM correlation rule, NetFlow export, An SNMP trap receiver]; dlp.next -> [DLP on outbound email, DMARC reject policy, A web filter category, File integrity monitoring]; filter.identify -> [Web or DNS filtering, A stateless port ACL, DLP, File integrity monitoring]; iam.next -> [Attestation/access reviews, SSO, Password manager, Longer passwords]; logs.constraints -> [Firewall or NetFlow records, Endpoint process logs, Vulnerability scan report, Application error log]; asset.next -> [Ownership and inventory records, A longer retention period, A new data classification label, A vulnerability rescan]. Rewrite each `no` entry to match.",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-3.js",
+   "id": "24 / email (practice)",
+   "severity": "giveaway",
+   "problem": "Distractors are WPA3 and NetFlow; the real confusion on the exam is DMARC vs SPF vs DKIM.",
+   "fix": "o: [[\"DMARC\",true,\"DMARC provides the receiver policy (none, quarantine, reject) and the reporting address for SPF and DKIM results.\"],[\"SPF\",false,\"SPF lists the servers allowed to send for the domain. It has no reject-and-report policy of its own.\"],[\"DKIM\",false,\"DKIM signs the message so the receiver can verify it. It does not tell the receiver what to do on failure.\"]]",
+   "source": "https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/email-security-sy0-701/"
+  },
+  {
+   "file": "data-lessons-sec-3.js",
+   "id": "31 / rules (practice)",
+   "severity": "giveaway",
+   "problem": "Third option 'The result depends on DMARC' is not a real distractor, leaving a two-way choice. The useful trap here is implicit deny. The table is also identical to scored scenario rw.sec.pbq-firewall.next.",
+   "fix": "Replace third option with [\"The SSH attempt is blocked by the implicit deny\",false,\"Implicit deny applies only when no rule matches. Rule 1 matched first, so the block comes from rule 1.\"]",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-3.js",
+   "id": "23 / assets, 24 / monitor, 24 / tools, 24 / controls, 25 / fed, 25 / privileged, 26 / auto, 26 / evidence, 26 / logs, 27 / cases c1 c2 c6, 31 / clues (practice options)",
+   "severity": "giveaway",
+   "problem": "Each has distractors from unrelated topics ('A new Wi-Fi heat map', 'More shared passwords', 'A certificate of destruction', 'A password vault', 'WPA3', 'A public guest Wi-Fi SSID', 'DAC', 'The quarterly access review list', 'Chain of custody' as an attack type). With only three options this usually leaves nothing to decide. All keyed answers are correct and each practice has exactly one correct option.",
+   "fix": "Swap in near-miss options with feedback, e.g. 24/tools -> Full packet capture, SNMP traps; 24/controls -> DLP, Antivirus; 25/fed -> SAML, OpenID Connect; 25/privileged -> SSO, MFA; 26/auto -> SIEM, EDR; 26/evidence and c6 -> A disk image, Archived backups; 26/logs -> Firewall logs, NetFlow records; 31/clues -> SQL injection, Directory traversal; 23/assets -> Chain of custody form, Asset inventory record; c1 -> A vulnerability scan, A patch schedule; c2 -> Full packet capture, Endpoint process logs.",
+   "source": "general knowledge"
+  },
+  {
+   "file": "data-lessons-sec-3.js",
+   "id": "23-31 practice and 27 casebook vs scored scenarios",
+   "severity": "giveaway",
+   "problem": "Most guided practices reuse the scored scenario of the same level almost word for word, and the 'Check yourself' sections then draw from that scenario pool 'without the lesson in view'. Identical or near-identical: 23/baselines = rw.sec.baseline.identify (same question text 'What is that approved image called?'); 24/tools = rw.sec.netflow.identify; 24/controls = rw.sec.fim.identify; 25/fed = rw.sec.oauth.identify; 26/logs = rw.sec.logs.identify (same PowerShell parent-process case); 31/clues = rw.sec.pbq-xss.identify (same log line); 31/rules = rw.sec.pbq-firewall.next (same rule table). Lesson 27 says its check uses 'Different scored scenarios', but cases c1, c2, c3, c4, c6 mirror rw.sec.baseline.identify, netflow.identify, iam.identify, ir.identify and volatility.identify. The scored check can be passed by recall of the practice just seen.",
+   "fix": "Change the surface details of either the practice or the scenario in each pair (different attack string, different rule table, different question angle). Minimum: 31/clues practice -> use a traversal line such as GET /download?file=../../../../etc/passwd with answer 'Directory traversal'; 31/rules practice -> use 1) allow admin subnet to web01 22, 2) deny any to web01 any and ask what happens (allowed by rule 1); 23/baselines practice -> ask what the team measures against the baseline (configuration drift).",
+   "source": "general knowledge"
+  }
+ ],
+ "counts": {
+  "concepts": 28,
+  "comparisons": 4,
+  "scenarios": 50,
+  "lesson_sections": 30,
+  "xf_items": 22
+ },
+ "checked_fully": true,
+ "notes": "Read every item in all five files (28 concepts with 56 recall cards, 4 comparisons, 50 scenarios, 6 lessons = 30 sections with 23 practices and 6 casebook cases, 22 exam-style items). Severity totals: {\"wrong\":1,\"ambiguous\":1,\"minor\":17,\"giveaway\":28}. Structure is clean: every scenario has no.length = o.length-1, every practice and case has exactly one correct option, no match `extra` fits a row, all dd blank counts match, all concept/comparison/lesson cross-references resolve, and each scenario's day/obj matches its concept. Every port number and transport pairing in the batch is correct (20/21 FTP, 22 SSH, 23 Telnet, 25 and 587 SMTP, 53 DNS, 67/68 DHCP, 80 HTTP, 110 POP3, 143 IMAP, 161/162 SNMP, 389 LDAP, 443 HTTPS, 445 SMB, 636 LDAPS, 993 IMAPS, 995 POP3S, 3389 RDP). Firewall first-match and implicit-deny logic, incident response order, CVE/CVSS, false positive/negative, SAML/OAuth/OIDC, MFA factor rules, MAC/DAC/RBAC/ABAC, chain of custody and legal hold are all stated correctly, and no keyed answer is wrong. data-cn-sec-3-cmp.js is clean apart from one wording slip. All 29 Professor Messer source URLs exist on the SY0-701 course index. Option order is shuffled at render (index.html), so answer position is not a giveaway; correct-answer length is not systematically biased (13 of 50 scenarios have the longest option correct, about chance). The dominant weakness is distractor quality, not accuracy. Coverage gaps noticed but not listed as issues: no EAP types or WPA2-vs-WPA3 detail, no rule-based access control, no scan types (credentialed vs non-credentialed), no LDAP, no e-discovery/reporting/preservation, no tabletop/simulation or root cause analysis, and no UDP/TCP transport drill in the ports level. Not verified: the official CompTIA objectives PDF could not be fetched directly; objective wording was confirmed from a publisher's SY0-701 guide and Messer's course pages. Whether CVE-2026-1044 is assigned was not looked up."
+}

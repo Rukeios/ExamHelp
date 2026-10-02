@@ -3,6 +3,14 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.3.1", date:"2026-10-02", title:"Security+ now has the full level path", tag:"content", items:[
+  "Every Security+ lesson level (13-31) now has what SC-900 has: an interactive lesson, Pocket Notes with recall flashcards, Don't Mix These Up comparisons, Real-World scenarios, a Check yourself step and exam-style questions. That's 94 notes (188 flashcards), 12 new comparisons, 166 scenarios and 73 exam-style questions.",
+  "The review levels (19, 27, 32) have a guided review and an independent check that draws on the levels they cover. Level 31's PBQ drills cover ports, log reading and firewall rule order, with matching and drop-down questions.",
+  "Each Security+ level lists the exact Professor Messer SY0-701 videos for its objectives, in order, plus the CompTIA objective numbers. Every video link opened on October 2.",
+  "Three comparison cards that were waiting for Security+ notes are now live: threat vs vulnerability vs risk, IDS vs IPS, and RTO vs RPO.",
+  "This content was drafted with AI help. An independent automated review then read every item: no answer key was wrong, three factual errors and seven ambiguous questions were fixed, and each lesson and note now says plainly that it is a draft. Some questions can still be answered by ruling out off-topic options, and no human expert has reviewed it. If something looks wrong, tell us. Your progress and history are untouched."
+]},
+
 { v:"2.3.0", date:"2026-10-02", title:"Exam-style questions and a fuller path for each level", tag:"feature", items:[
   "New question formats that match what Microsoft exams use alongside multiple choice: Yes/No statement sets, drop-down sentences, choose two, and matching. There are 62 for SC-900, spread across every lesson level.",
   "Each correct selection is worth one point, so a three-statement question can earn one, two or three. After you submit, every part is marked and explained.",
