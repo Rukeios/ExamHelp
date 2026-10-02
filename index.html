@@ -1225,6 +1225,83 @@ label.btn:has(input:focus-visible){outline:2px solid var(--accent);outline-offse
 .move-entry{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 @media (max-width:520px){.mv-step{grid-template-columns:minmax(0,1fr)}.mv-n{display:none}}
 
+/* ---------- 2.3.0: exam-style questions ---------- */
+.xf{display:flex;flex-direction:column;gap:12px}
+.xf-stem{margin:0;color:var(--muted);font-size:calc(14px*var(--ts,1));max-width:70ch}
+.xf-table{width:100%;border-collapse:collapse;table-layout:auto}
+.xf-table th,.xf-table td{white-space:normal;border-bottom:1px solid var(--line);padding:10px 8px;vertical-align:top;text-align:left}
+.xf-table thead th{font:600 calc(13px*var(--ts,1)) var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.xf-table thead th:not(:first-child),.xf-table td.xf-c{text-align:center;width:64px;padding:4px}
+.xf-table tbody th{text-transform:none;letter-spacing:0;font-family:var(--body);color:var(--ink);font-weight:400;font-size:calc(16px*var(--ts,1));line-height:1.5}
+.xf-table tbody th>span:first-child{display:block}
+.xf-hit{display:grid;place-items:center;min-width:44px;min-height:44px;cursor:pointer}
+.xf-hit input{width:22px;height:22px;accent-color:var(--accent);margin:0}
+.xf-c.is-ans{background:var(--okbg)}
+.xf-rowwhy{display:flex;gap:8px;margin-top:6px;font-weight:400;font-size:calc(14px*var(--ts,1));line-height:1.5;color:var(--ink2)}
+.xf-mark{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;flex:0 0 auto}
+.xf-mark svg{width:13px;height:13px}
+.xf-mark.ok{background:var(--okbg);color:var(--ok)}
+.xf-mark.no{background:var(--badbg);color:var(--bad)}
+.xf-sentence{margin:0;font-size:calc(17px*var(--ts,1));line-height:2.4}
+.xf-blank{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;vertical-align:middle;line-height:1.3}
+.xf select{font:inherit;font-size:calc(15px*var(--ts,1));padding:8px 10px;border:1.5px solid var(--muted);border-radius:8px;background:var(--surface);color:var(--ink);max-width:100%;min-height:42px}
+.xf select.ok{border-color:var(--ok)}
+.xf select.no{border-color:var(--bad)}
+.xf select[disabled]{opacity:1}
+.xf-fix{font-size:calc(14px*var(--ts,1));color:var(--ink2);font-weight:600}
+.xf-opt{cursor:pointer;align-items:center}
+.xf-opt input{width:20px;height:20px;accent-color:var(--accent);flex:0 0 auto;margin:0}
+.xf-opt.picked{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.xf-opt.right{border-color:var(--ok);box-shadow:none}
+.xf-opt.wrong{border-color:var(--bad);box-shadow:none}
+.xf-opt .xf-mark{margin-left:auto}
+.xf-opt:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.xf-hint{margin:0;min-height:1.3em}
+.xf-pairs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.xf-pairs li{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:8px 16px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:10px}
+.xf-left{font-size:calc(16px*var(--ts,1));line-height:1.45}
+.xf-right{display:flex;align-items:center;gap:6px;min-width:0}
+.xf-right select{width:100%;min-width:0}
+.xf-pairs .xf-fix{grid-column:1/-1}
+.xf-need{color:var(--muted);font-size:calc(14px*var(--ts,1))}
+@media (max-width:640px){.xf-pairs li{grid-template-columns:minmax(0,1fr)}.xf-table thead th:not(:first-child),.xf-table td.xf-c{width:50px}}
+.mock-facts{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0;padding:0;list-style:none;font-size:calc(14px*var(--ts,1));color:var(--ink2)}
+.mock-facts li::before{content:"✓ ";color:var(--accent-ink)}
+/* ---------- 2.3.0: level steps ---------- */
+.lvl-path{container-type:inline-size}
+.lvl-path ol.many .lp-t small{display:none}
+.lvl-path ol.many .lp-t b{font-size:calc(14px*var(--ts,1));line-height:1.2}
+.lvl-path ol.many .lp-n{width:36px;height:36px;font-size:calc(15px*var(--ts,1))}
+.lvl-path ol.many li+li::before{top:18px}
+@container (max-width:640px){
+  .lvl-path ol.many{display:flex;flex-direction:column;gap:2px}
+  .lvl-path ol.many li+li::before{display:none}
+  .lvl-path ol.many button{flex-direction:row;align-items:center;gap:12px;text-align:left;padding:7px 10px}
+  .lvl-path ol.many .lp-t{align-items:flex-start;flex-direction:row;flex-wrap:wrap;gap:2px 10px;align-items:baseline}
+  .lvl-path ol.many .lp-t small{display:block}
+  .lvl-path ol.many .lp-t b{font-size:calc(15px*var(--ts,1))}
+  .lvl-path ol.many li.cur button{background:var(--accent-soft)}
+}
+@media (max-width:520px){.lvl-path ol.many .lp-t small{display:block}}
+.lvl-fold{border:1px solid var(--line);border-radius:var(--r-md,12px);background:var(--surface)}
+.lvl-fold>summary{display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;padding:10px 14px;cursor:pointer;list-style:none;border-radius:inherit}
+.lvl-fold>summary::-webkit-details-marker{display:none}
+.lf-dots{display:flex;gap:5px}
+.lf-dots i{width:12px;height:12px;border-radius:50%;border:2px solid var(--muted);background:var(--surface)}
+.lf-dots i.done{background:var(--accent);border-color:var(--accent)}
+.lf-dots i.cur{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 24%,transparent)}
+.lf-now{font-size:calc(15px*var(--ts,1))}
+.lf-more{margin-left:auto;color:var(--accent-ink);font-weight:600;font-size:calc(14px*var(--ts,1));text-decoration:underline}
+.lvl-fold[open]>summary{border-bottom:1px solid var(--line);border-radius:var(--r-md,12px) var(--r-md,12px) 0 0}
+.lvl-fold[open] .lf-more{visibility:hidden}
+.lvl-fold .lvl-path{padding:12px 10px 6px}
+.course-links{border-left:4px solid var(--sc);background:var(--scbg);border-radius:0 var(--r-sm,8px) var(--r-sm,8px) 0;padding:10px 14px;display:flex;flex-direction:column;gap:4px}
+.course-links .cl-h{margin:0;font:600 calc(13px*var(--ts,1)) var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--ink2)}
+.course-links ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.course-links a{font-weight:600;font-size:calc(15px*var(--ts,1));color:var(--ink);text-decoration:underline;text-underline-offset:2px}
+.course-links small{display:block;font-size:calc(13px*var(--ts,1));color:var(--ink2)}
+.course-links .meta{margin:2px 0 0}
+
 </style>
 <script>
 // Theme choice (Light / Dark / System). Applied before the page draws to avoid a flash.
@@ -1281,29 +1358,31 @@ label.btn:has(input:focus-visible){outline:2px solid var(--accent);outline-offse
   </footer>
 </div>
 
-<script src="data.js?v=2.2.5"></script>
-<script src="data-extra.js?v=2.2.5"></script>
-<script src="data-pack2.js?v=2.2.5"></script>
-<script src="data-pack3.js?v=2.2.5"></script>
-<script src="data-pack4-sc.js?v=2.2.5"></script>
-<script src="data-pack5-net.js?v=2.2.5"></script>
-<script src="data-acronyms.js?v=2.2.5"></script>
-<script src="data-patchnotes.js?v=2.2.5"></script>
-<script src="data-bosses.js?v=2.2.5"></script>
+<script src="data.js?v=2.3.0"></script>
+<script src="data-extra.js?v=2.3.0"></script>
+<script src="data-pack2.js?v=2.3.0"></script>
+<script src="data-pack3.js?v=2.3.0"></script>
+<script src="data-pack4-sc.js?v=2.3.0"></script>
+<script src="data-pack5-net.js?v=2.3.0"></script>
+<script src="data-acronyms.js?v=2.3.0"></script>
+<script src="data-patchnotes.js?v=2.3.0"></script>
+<script src="data-bosses.js?v=2.3.0"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=2.2.5"></script>
-<script src="data-campaign-flags.js?v=2.2.5"></script>
-<script src="data-campaign-endings.js?v=2.2.5"></script>
-<script src="data-fixes-01.js?v=2.2.5"></script>
-<script src="data-fixes-02.js?v=2.2.5"></script>
-<script src="data-fixes-03.js?v=2.2.5"></script>
-<script src="data-lessons.js?v=2.2.5"></script>
-<script src="data-lessons-2.js?v=2.2.5"></script>
-<script src="data-cn-sc.js?v=2.2.5"></script>
-<script src="data-cn-compare.js?v=2.2.5"></script>
-<script src="data-cn-sc-scenarios.js?v=2.2.5"></script>
-<script src="data-cn-sc-checks.js?v=2.2.5"></script>
-<script src="examhelp-effects.js?v=2.2.5"></script>
+<script src="data-daymissions.js?v=2.3.0"></script>
+<script src="data-campaign-flags.js?v=2.3.0"></script>
+<script src="data-campaign-endings.js?v=2.3.0"></script>
+<script src="data-fixes-01.js?v=2.3.0"></script>
+<script src="data-fixes-02.js?v=2.3.0"></script>
+<script src="data-fixes-03.js?v=2.3.0"></script>
+<script src="data-lessons.js?v=2.3.0"></script>
+<script src="data-lessons-2.js?v=2.3.0"></script>
+<script src="data-cn-sc.js?v=2.3.0"></script>
+<script src="data-cn-compare.js?v=2.3.0"></script>
+<script src="data-cn-sc-scenarios.js?v=2.3.0"></script>
+<script src="data-cn-sc-checks.js?v=2.3.0"></script>
+<script src="data-xf-sc.js?v=2.3.0"></script>
+<script src="data-links.js?v=2.3.0"></script>
+<script src="examhelp-effects.js?v=2.3.0"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -1372,7 +1451,127 @@ const CN=(()=>{
 // appear in Real-World Practice, review, weak spots, deck finishers and sprints.
 CN.scenarios.forEach(x=>{ const day=DAYS.find(d=>d.d===x.day); if(!day||Q[x.id]) return;
   Q[x.id]={k:x.id,d:x.day,track:x.cert||day.track,dom:x.dom||day.dom,q:x.q,ctx:x.s,o:x.o,a:0,why:x.why,rw:x}; });
-const coreQ=q=>!!q&&!q.rw;
+// ---------- 2.3.0: exam-style question formats ----------
+// Yes/No statement sets, drop-down completion, choose-N and matching, as used alongside multiple
+// choice on Microsoft exams. Content lives in data-xf-*.js (window.XF_PACKS). Each one is indexed
+// in Q with the usual fields (q, o, a, why) filled with a readable summary, so history, review,
+// missed lists and reports keep working; the real structure is in q.xf. They are kept out of the
+// core pools (coreQ) and added only where the multi-part widget can render: Think-mode level
+// quizzes, review, Exam-style practice and the mock exam. Each correct selection is one point.
+const XF_STEM={
+  yn:"For each statement, select Yes if it is true. Otherwise, select No. Each correct selection is worth one point.",
+  dd:"Select the answer that correctly completes each sentence. Each correct selection is worth one point.",
+  multi:"Each correct selection is worth one point.",
+  match:"Each option may be used once or not at all. Each correct match is worth one point."};
+function xfParts(x){ return x.type==="yn"?x.rows.length:x.type==="dd"?x.blanks.length:x.type==="multi"?x.n:x.pairs.length; }
+function xfQuestionText(x){
+  if(x.type==="yn") return "Yes or No: "+x.rows.map((r,i)=>"("+(i+1)+") "+r[0]).join(" ");
+  if(x.type==="dd") return x.text.replace(/\[(\d)\]/g,"____");
+  return x.q;
+}
+function xfAnswerText(x){
+  if(x.type==="yn") return x.rows.map((r,i)=>"("+(i+1)+") "+(r[1]?"Yes":"No")).join(", ");
+  if(x.type==="dd") return x.text.replace(/\[(\d)\]/g,(_,n)=>x.blanks[n-1][0]);
+  if(x.type==="multi") return x.o.slice(0,x.n).join("; ");
+  return x.pairs.map(p=>p[0]+" → "+p[1]).join("; ");
+}
+function xfWhyText(x){ return x.type==="yn"?x.rows.map(r=>r[2]).join(" ")+(x.why?" "+x.why:""):x.why||""; }
+(window.XF_PACKS||[]).forEach(p=>(p.items||[]).forEach(x=>{
+  const day=DAYS.find(d=>d.d===x.day); if(!day||Q[x.id]) return;
+  Q[x.id]={k:x.id,d:x.day,track:p.cert||day.track,dom:day.dom,q:xfQuestionText(x),o:[xfAnswerText(x)],a:0,why:xfWhyText(x),xf:x};
+}));
+const xfKeysFor=days=>Object.values(Q).filter(q=>q.xf&&days.includes(q.d)).map(q=>q.k);
+// Display order, fixed for one sitting of the question. Answers are always first in the data.
+function xfOrder(x){
+  const idx=n=>shuffle(Array.from({length:n},(_,i)=>i));
+  if(x.type==="yn") return {rows:idx(x.rows.length)};
+  if(x.type==="dd") return {blanks:x.blanks.map(b=>idx(b.length))};
+  if(x.type==="multi") return {o:idx(x.o.length)};
+  return {left:idx(x.pairs.length),right:idx(x.pairs.length+(x.extra||[]).length)};
+}
+function xfEmpty(x){ return x.type==="multi"?[]:Array.from({length:xfParts(x)},()=>null); }
+function xfComplete(x,sel){ return !!sel&&(x.type==="multi"?sel.length===x.n:sel.every(v=>v!==null&&v!==undefined)); }
+function xfTouched(x,sel){ return !!sel&&(x.type==="multi"?sel.length>0:sel.some(v=>v!==null&&v!==undefined)); }
+// parts[i] is true when that selection is right. ok is the fraction of points earned.
+function xfScore(x,sel){
+  sel=sel||xfEmpty(x);
+  const parts=x.type==="yn"?x.rows.map((r,i)=>sel[i]===r[1])
+    :x.type==="dd"?x.blanks.map((_,i)=>sel[i]===0)
+    :x.type==="multi"?Array.from({length:x.n},(_,i)=>sel.includes(i))
+    :x.pairs.map((_,i)=>sel[i]===i);
+  const got=parts.filter(Boolean).length, max=parts.length;
+  return {parts,got,max,ok:max?got/max:0};
+}
+const fmtPts=x=>Number.isInteger(x)?String(x):x.toFixed(1);
+// The widget mutates `sel` in place and calls onChange() without re-rendering, so focus stays put.
+// With `locked`, inputs are disabled; with `reveal`, each part is marked and explained.
+function xfWidget(q,order,sel,opt){
+  const x=q.xf, locked=!!opt.locked, reveal=!!opt.reveal, sc=reveal?xfScore(x,sel):null, uid="xf"+Math.random().toString(36).slice(2,7);
+  const mark=ok=>h("span",{class:"xf-mark "+(ok?"ok":"no")},svgIcon(ok?"check":"x"),h("span",{class:"sr-only"},ok?"correct":"not correct"));
+  const changed=()=>{ if(opt.onChange) opt.onChange(); };
+  let body;
+  if(x.type==="yn"){
+    body=h("div",{},h("table",{class:"xf-table"},
+      h("thead",{},h("tr",{},h("th",{scope:"col"},"Statements"),h("th",{scope:"col"},"Yes"),h("th",{scope:"col"},"No"))),
+      h("tbody",{},order.rows.map(i=>{ const r=x.rows[i];
+        const radio=v=>{ const inp=h("input",{type:"radio",name:uid+"-"+i,"aria-label":(v?"Yes: ":"No: ")+r[0],disabled:locked?true:null,onchange:()=>{ sel[i]=v; changed(); }}); inp.checked=sel[i]===v; return h("td",{class:"xf-c"+(reveal&&r[1]===v?" is-ans":"")},h("label",{class:"xf-hit"},inp)); };
+        return h("tr",{class:reveal?(sc.parts[i]?"ok":"no"):null},
+          h("th",{scope:"row"},h("span",{},r[0]),reveal?h("span",{class:"xf-rowwhy"},mark(sc.parts[i]),h("span",{},h("b",{},r[1]?"Yes. ":"No. "),r[2])):null),
+          radio(true),radio(false)); }))));
+  } else if(x.type==="dd"){
+    const bits=x.text.split(/\[(\d)\]/), kids=[];
+    bits.forEach((b,j)=>{
+      if(j%2===0){ if(b) kids.push(b); return; }
+      const i=+b-1, s=h("select",{"aria-label":"Blank "+(i+1),disabled:locked?true:null,class:reveal?(sc.parts[i]?"ok":"no"):null,onchange:e=>{ sel[i]=e.target.value===""?null:+e.target.value; changed(); }},
+        h("option",{value:""},"Select…"),order.blanks[i].map(oi=>h("option",{value:String(oi)},x.blanks[i][oi])));
+      s.value=sel[i]===null||sel[i]===undefined?"":String(sel[i]);
+      kids.push(h("span",{class:"xf-blank"},s,reveal?mark(sc.parts[i]):null,reveal&&!sc.parts[i]?h("span",{class:"xf-fix"},"Answer: "+x.blanks[i][0]):null));
+    });
+    body=h("p",{class:"xf-sentence"},kids);
+  } else if(x.type==="multi"){
+    body=h("div",{class:"opts xf-choices",role:"group","aria-label":"Choose "+x.n},order.o.map(oi=>{
+      const inp=h("input",{type:"checkbox",disabled:locked?true:null,onchange:e=>{
+        const at=sel.indexOf(oi);
+        if(e.target.checked){ if(sel.length>=x.n){ e.target.checked=false; const hint=document.getElementById(uid+"-hint"); if(hint) hint.textContent="You can choose "+x.n+". Clear one to pick another."; return; } if(at<0) sel.push(oi); }
+        else if(at>=0) sel.splice(at,1);
+        const hint=document.getElementById(uid+"-hint"); if(hint) hint.textContent="";
+        e.target.closest("label").classList.toggle("picked",e.target.checked); changed(); }});
+      inp.checked=sel.includes(oi);
+      const right=oi<x.n, picked=sel.includes(oi);
+      return h("label",{class:"opt xf-opt"+(picked?" picked":"")+(reveal?(right?" right":picked?" wrong":""):"")},inp,h("span",{},x.o[oi]),
+        reveal&&(right||picked)?mark(right):null); }),
+      h("p",{class:"meta xf-hint",id:uid+"-hint",role:"status","aria-live":"polite"}));
+  } else {
+    const rights=x.pairs.map(p=>p[1]).concat(x.extra||[]);
+    body=h("ul",{class:"xf-pairs"},order.left.map(i=>{
+      const s=h("select",{"aria-label":x.pairs[i][0],disabled:locked?true:null,class:reveal?(sc.parts[i]?"ok":"no"):null,onchange:e=>{ sel[i]=e.target.value===""?null:+e.target.value; changed(); }},
+        h("option",{value:""},"Select…"),order.right.map(ri=>h("option",{value:String(ri)},rights[ri])));
+      s.value=sel[i]===null||sel[i]===undefined?"":String(sel[i]);
+      return h("li",{},h("span",{class:"xf-left"},x.pairs[i][0]),h("span",{class:"xf-right"},s,reveal?mark(sc.parts[i]):null),
+        reveal&&!sc.parts[i]?h("span",{class:"xf-fix"},"Answer: "+x.pairs[i][1]):null); }));
+  }
+  return h("div",{class:"xf xf-"+x.type},
+    x.type==="multi"||x.type==="match"?h("div",{class:"qtext"},x.type==="multi"?x.q:x.q):null,
+    h("p",{class:"xf-stem"},XF_STEM[x.type]),
+    body);
+}
+function xfVerdict(s){ return s.ok===1?"Right. ":s.got>0?"Partly right: "+s.got+" of "+s.max+". ":"Not quite. "; }
+// --- in a quiz run ---
+function xfSel(){ const it=run.list[run.i]; return run.xsel&&run.xselK===it.k?run.xsel:(run.xselK=it.k,run.xsel=xfEmpty(it.q.xf)); }
+function xfSyncSubmit(){ const b=document.getElementById("xfsubmit"); if(!b||!run) return; const it=run.list[run.i]; const done=xfComplete(it.q.xf,xfSel()); b.disabled=!done; const n=document.getElementById("xfneed"); if(n) n.style.visibility=done?"hidden":""; }
+function answerXf(){
+  if(!run||run.answered) return;
+  const it=run.list[run.i], ms=Date.now()-run.qt, sel=xfSel();
+  if(!xfComplete(it.q.xf,sel)) return;
+  const s=xfScore(it.q.xf,sel);
+  run.answered={pick:null,ok:s.ok,ms,xf:s};
+  run.res.push([it.k,s.ok,ms]);
+  run.streak=s.ok===1?run.streak+1:0; run.best=Math.max(run.best,run.streak);
+  queueFx(s.ok===1?"correct":"incorrect","#view .xf");
+  stopTimer(); render();
+  const f=document.getElementById("xf-result"); if(f) f.focus({preventScroll:true});
+}
+const coreQ=q=>!!q&&!q.rw&&!q.xf;
 const ACRONYMS = window.ACRONYMS||[];
 const PATCHNOTES = window.PATCHNOTES||[];
 const keysFor = days => Object.values(Q).filter(x=>days.includes(x.d)&&coreQ(x)).map(x=>x.k);
@@ -1478,8 +1677,8 @@ let ui={tab:"home",studyTab:"plan",sel:null,quiz:{scope:"today",mode:rulesFor(st
         acr:{track:"both",dom:"All",n:20,timed:true},
         mock:{track:"sc"},
         cn:{view:"notes",deck:null,dir:"both",flashN:10,flashDeck:null,q:"",type:"all",sel:{},msg:null,focus:null,editNote:null,flashSetup:false}};
-try{const u=JSON.parse(localStorage.getItem(LS+".ui")||"null"); if(u){ui.tab=u.tab||ui.tab; Object.assign(ui.quiz,u.quiz||{}); if(u.acr) Object.assign(ui.acr,u.acr); if(u.cn) ["view","deck","dir","flashN"].forEach(k=>{ if(u.cn[k]!=null) ui.cn[k]=u.cn[k]; }); if(u.pilot&&typeof u.pilot==="object") ui.pilot=u.pilot; if(Number.isInteger(u.sel)) ui.sel=u.sel;}}catch(e){}
-function saveUI(){try{localStorage.setItem(LS+".ui",JSON.stringify({tab:ui.tab,quiz:ui.quiz,acr:ui.acr,cn:{view:ui.cn.view,deck:ui.cn.deck,dir:ui.cn.dir,flashN:ui.cn.flashN},pilot:ui.pilot||{},sel:ui.sel}));}catch(e){}}
+try{const u=JSON.parse(localStorage.getItem(LS+".ui")||"null"); if(u){ui.tab=u.tab||ui.tab; Object.assign(ui.quiz,u.quiz||{}); if(u.acr) Object.assign(ui.acr,u.acr); if(u.cn) ["view","deck","dir","flashN"].forEach(k=>{ if(u.cn[k]!=null) ui.cn[k]=u.cn[k]; }); if(u.pilot&&typeof u.pilot==="object") ui.pilot=u.pilot; if(u.steps&&typeof u.steps==="object") ui.steps=u.steps; if(Number.isInteger(u.sel)) ui.sel=u.sel;}}catch(e){}
+function saveUI(){try{localStorage.setItem(LS+".ui",JSON.stringify({tab:ui.tab,quiz:ui.quiz,acr:ui.acr,cn:{view:ui.cn.view,deck:ui.cn.deck,dir:ui.cn.dir,flashN:ui.cn.flashN},pilot:ui.pilot||{},steps:ui.steps||{},sel:ui.sel}));}catch(e){}}
 // ---------- 2.2.4: accessibility and focus ----------
 // Per-device settings (sprint.v2.a11y), included in backups. Applied as classes on <html> and
 // <body> so CSS does the work; a tiny inline script in <head> applies them before first paint.
@@ -1857,25 +2056,55 @@ function movedNote(){
     h("button",{class:"linklike",onclick:()=>{ try{ sessionStorage.removeItem(LS+".moved"); }catch(e){} render(); }},"Dismiss"));
 }
 
-// ---- "Start here": where you are in a level ----
-// Learn → Check yourself → Level quiz. Guidance only: unlocks still depend on the level quiz alone.
+// ---- "Start here": the steps for a level (2.3.0) ----
+// Lesson → course material → Pocket Notes → Flashcards → Check yourself → Exam-style → Level quiz.
+// A level shows only the steps it has, numbered in order. Guidance only: the level quiz alone
+// still unlocks the next level. Opening the course link and the notes is remembered per level
+// in ui.steps (saved with the view preferences, so it travels in backups).
+const COURSE_LINKS=window.COURSE_LINKS||{};
+const MESSER_URL="https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/";
+const STEP_CTA={learn:"Open the lesson",link:"Open the course material",notes:"Read the Pocket Notes",cards:"Study the flashcards",check:"Check yourself",xf:"Try the exam-style questions",quiz:"Take the level quiz"};
+function stepMarks(day){ ui.steps=ui.steps&&typeof ui.steps==="object"?ui.steps:{}; return ui.steps[day]||(ui.steps[day]={}); }
+function markStep(day,id){ const m=stepMarks(day); if(!m[id]){ m[id]=Date.now(); saveUI(); } }
+function courseLinks(d){
+  const L=COURSE_LINKS[d.d]; if(L&&L.length) return L;
+  if(d.track==="sec"&&!d.kind&&d.dom) return [{title:"Professor Messer SY0-701 videos: "+d.dom.replace(/^\d /,"Domain "+d.dom[0]+", "),url:MESSER_URL,focus:null,kind:"video"}];
+  return null;
+}
+function levelXfDays(d){ return d.kind==="review"?d.from:d.kind==="exam"?allTrackDays(d.track):[d.d]; }
 function levelSteps(d){
-  const L=LESSON_PILOTS[d.d], st=L?pilotState(d.d):null;
+  const L=LESSON_PILOTS[d.d], st=L?pilotState(d.d):null, m=(ui.steps||{})[d.d]||{};
   const checkI=L?L.sections.findIndex(s=>s.type==="check"):-1;
   const quizDone=!!state.done[d.d];
   const checkDone=attempts.some(a=>a.scopeId==="lesson-check-"+d.d&&!a.early);
   const anyQuiz=attempts.some(a=>a.scopeId==="day-"+d.d);
   const learnN=L?(checkI<0?L.sections.length:checkI):0;
-  const learnDone=quizDone||checkDone||anyQuiz||(L&&checkI>=0&&(st.sec|0)>=checkI);
-  const steps=[{id:"learn",name:"Learn",sub:L?learnN+" short sections":"Key points and terms",done:learnDone}];
-  if(L&&checkI>=0) steps.push({id:"check",name:"Check yourself",sub:"Scored, doesn't lock anything",done:checkDone});
+  const concepts=(CN.byDay[d.d]||[]).filter(cnInProgram), cards=concepts.flatMap(c=>(c.cards||[]).map(k=>k.id));
+  const links=courseLinks(d), xk=xfKeysFor(levelXfDays(d));
+  const steps=[{id:"learn",name:d.kind==="review"?"Guided review":d.kind==="exam"?"Exam day plan":"Lesson",
+    sub:L?learnN+(learnN===1?" part":" short sections"):d.kind?"What to do today":"Key points and terms",done:!!(L&&checkI>=0&&(st.sec|0)>=checkI)}];
+  if(links) steps.push({id:"link",name:links[0].kind==="video"?"Videos":"Microsoft Learn",sub:links.length===1?"1 "+(links[0].kind==="video"?"course":"module"):links.length+" links",done:!!m.link});
+  if(concepts.length) steps.push({id:"notes",name:"Pocket Notes",sub:concepts.length+" notes",done:!!m.notes});
+  if(cards.length) steps.push({id:"cards",name:"Flashcards",sub:cards.length+" cards",done:cards.every(id=>state.cards[id]&&state.cards[id].n>0)});
+  if(L&&checkI>=0) steps.push({id:"check",name:"Check yourself",sub:"New scenarios",done:checkDone});
+  if(xk.length) steps.push({id:"xf",name:"Exam-style",sub:xk.length+" questions",done:attempts.some(a=>a.scopeId==="xf-day-"+d.d&&!a.early)});
   steps.push({id:"quiz",name:"Level quiz",sub:quizDone?"Level complete":"Unlocks the next level",done:quizDone});
+  // A later step being done (or a quiz attempt) means the lesson was read.
+  if(anyQuiz||steps.slice(1).some(s=>s.done)) steps[0].done=true;
   const cur=quizDone?null:steps.find(s=>!s.done);
-  steps.forEach(s=>s.cur=s===cur);
-  return {steps,checkI,L,st};
+  steps.forEach((s,j)=>{ s.cur=s===cur; s.n=j+1; });
+  return {steps,checkI,L,st,links,cur};
 }
 function goLevelStep(d,id){
-  const {checkI,L,st}=levelSteps(d);
+  const {checkI,L,st,links}=levelSteps(d);
+  if(id==="link"){
+    if(links&&links.length===1){ markStep(d.d,"link"); window.open(links[0].url,"_blank","noopener"); render(); return; }
+    const row=document.querySelector(".course-links a"); if(row){ row.focus(); row.scrollIntoView({block:"center",behavior:reducedMotion()?"auto":"smooth"}); }
+    return;
+  }
+  if(id==="notes"){ markStep(d.d,"notes"); ui.cn.view="notes"; ui.cn.deck=d.d; saveUI(); goTab("cards"); window.scrollTo(0,0); return; }
+  if(id==="cards"){ ui.cn.flashSetup=false; startFlash("d"+d.d,999); window.scrollTo(0,0); return; }
+  if(id==="xf"){ startQuiz({id:"xf-day-"+d.d,label:"Level "+displayDay(d.d)+" exam-style",keys:xfKeysFor(levelXfDays(d))},"think",999); return; }
   ui.sel=d.d; ui.classicLesson=false;
   if(L){
     if(id==="learn") st.sec=checkI>=0&&(st.sec|0)>=checkI?0:(st.sec|0);
@@ -1888,14 +2117,36 @@ function goLevelStep(d,id){
     if(target){ target.setAttribute("tabindex","-1"); target.focus({preventScroll:true}); target.scrollIntoView({block:"center",behavior:reducedMotion()?"auto":"smooth"}); }
   },30);
 }
-function levelPath(d,compact){
-  const {steps}=levelSteps(d);
-  return h("nav",{class:"lvl-path"+(compact?" compact":""),"aria-label":"Steps for this level"},
-    h("ol",{},steps.map((s,j)=>h("li",{class:(s.done?"done":"")+(s.cur?" cur":"")},
-      h("button",{"aria-current":s.cur?"step":null,onclick:()=>goLevelStep(d,s.id)},
-        h("span",{class:"lp-n","aria-hidden":"true"},s.done?svgIcon("check"):String(j+1)),
-        h("span",{class:"lp-t"},h("b",{},s.name),h("small",{},s.sub)),
-        h("span",{class:"sr-only"},s.done?" (done)":s.cur?" (you are here)":""))))));
+function pathList(d,steps){
+  return h("ol",{class:steps.length>4?"many":null},steps.map(s=>h("li",{class:(s.done?"done":"")+(s.cur?" cur":"")},
+    h("button",{"aria-current":s.cur?"step":null,onclick:()=>goLevelStep(d,s.id)},
+      h("span",{class:"lp-n","aria-hidden":"true"},s.done?svgIcon("check"):String(s.n)),
+      h("span",{class:"lp-t"},h("b",{},s.name),h("small",{},s.sub)),
+      h("span",{class:"sr-only"},"Step "+s.n+(s.done?", done":s.cur?", you are here":""))))));
+}
+// mode "full": the whole path (Home, classic lessons). mode "fold": one line with dots that opens
+// to the full list (interactive lesson header, where the section tabs sit right below).
+function levelPath(d,mode){
+  const {steps,cur}=levelSteps(d), N=steps.length;
+  if(mode!=="fold") return h("nav",{class:"lvl-path","aria-label":"Steps for this level"},pathList(d,steps));
+  const at=cur||steps[N-1];
+  return h("details",{class:"lvl-fold",open:ui.pathOpen?true:null,ontoggle:e=>{ ui.pathOpen=e.target.open; }},
+    h("summary",{},
+      h("span",{class:"lf-dots","aria-hidden":"true"},steps.map(s=>h("i",{class:(s.done?"done":"")+(s.cur?" cur":"")}))),
+      h("span",{class:"lf-now"},cur?["Step "+at.n+" of "+N+": ",h("b",{},at.name)]:h("b",{},"All "+N+" steps done")),
+      h("span",{class:"lf-more"},"All steps")),
+    h("nav",{class:"lvl-path","aria-label":"Steps for this level"},pathList(d,steps)));
+}
+// The course material for a level, always in view next to the path.
+function courseLinksRow(d){
+  const links=courseLinks(d); if(!links) return null;
+  const sc=links[0].kind!=="video";
+  return h("div",{class:"course-links"},
+    h("p",{class:"cl-h"},sc?"Microsoft Learn for this level":"Course videos for this level"),
+    h("ul",{},links.map(l=>h("li",{},
+      h("a",{href:l.url,target:"_blank",rel:"noopener",onclick:()=>{ markStep(d.d,"link"); setTimeout(render,0); }},l.title,h("span",{class:"sr-only"}," (opens in a new tab)"),h("span",{"aria-hidden":"true"}," ↗")),
+      l.focus?h("small",{},l.focus):null))),
+    sc?h("p",{class:"meta"},"Free on Microsoft Learn. Opens in a new tab, and your place here is kept."):null);
 }
 // Sections left in an interactive lesson you've started. Null when not started or finished.
 function sectionsLeft(d){
@@ -2146,7 +2397,7 @@ function renderProgramPicker(){
     h("div",{class:"row",style:"gap:16px;flex-wrap:wrap;align-items:stretch"},
       card("SC-900","Microsoft Security, Compliance & Identity Fundamentals",
         [sc.days+" lessons + "+sc.checks+" checkpoints · "+sc.q+" questions · "+sc.dom+" domains · "+sc.boss+" bosses",
-         "Entry level, no prerequisites, 65 minutes, "+MOCK_SPEC.sc.n+" questions."],
+         "Entry level, no prerequisites. The real exam gives 45 minutes."],
         ()=>setProgram("sc")),
       card("Security+","CompTIA SY0-701",
         [sec.days+" lessons + "+sec.checks+" checkpoints · "+sec.q+" questions · "+sec.dom+" domains · "+sec.boss+" bosses",
@@ -2336,6 +2587,8 @@ function scopes(){
   if(inProgram("sec")) list.push({id:"sec",label:"Security+ unlocked",keys:Object.values(Q).filter(q=>coreQ(q)&&q.track==="sec"&&q.d<=t).map(q=>q.k)});
   const dueN=dueKeys().length;
   list.unshift({id:"review",label:dueN?"Review ("+dueN+" due)":"Review",keys:buildReviewSession(9999).keys});
+  const xk=Object.values(Q).filter(q=>q.xf&&inProgram(q.track)).map(q=>q.k);
+  if(xk.length) list.push({id:"xf",label:"Exam-style ("+xk.length+")",keys:xk});
   list.push({id:"weak",label:"Weak spots ("+weak.length+")",keys:weak});
   // Open practice: any domain in the program, locked levels included. Level gating still
   // applies to progression and mock exams, not to practice.
@@ -2372,10 +2625,11 @@ function renderQuizTab(){
     cur.id==="domain"?h("div",{style:"display:flex;flex-direction:column;gap:10px"},
       h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Domain (all levels, including locked ones)"),seg(programDomains().map(d=>[d,d]),cur.dom,v=>ui.quiz.dom=v)),
       h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Which questions"),seg([["all","All"],["unseen","Not seen yet"],["missed","Missed before"],["due","Due for review"]],ui.quiz.filter||"all",v=>ui.quiz.filter=v))):null,
-    h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Mode"),seg(modeChoices,ui.quiz.mode,v=>ui.quiz.mode=v),h("p",{class:"muted",style:"margin:6px 0 0;font-size:calc(13px*var(--ts,1))"},MODES[ui.quiz.mode].desc)),
+    cur.id==="xf"?h("p",{class:"muted",style:"margin:-4px 0 0;font-size:calc(13px*var(--ts,1));max-width:66ch"},"The multi-part formats Microsoft exams use alongside multiple choice: Yes/No statement sets, drop-down sentences, choose two, and matching. Each correct selection is worth one point. These always run untimed with the explanation after each answer. Original questions, not Microsoft's.")
+    :h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"Mode"),seg(modeChoices,ui.quiz.mode,v=>ui.quiz.mode=v),h("p",{class:"muted",style:"margin:6px 0 0;font-size:calc(13px*var(--ts,1))"},MODES[ui.quiz.mode].desc)),
     h("div",{},h("div",{class:"eyebrow",style:"margin-bottom:6px"},"How many"),seg([[5,"5"],[10,"10"],[20,"20"],[40,"40"],[999,"All"]],ui.quiz.n,v=>ui.quiz.n=v)),
     h("p",{class:"muted",style:"margin:0;font-size:calc(13px*var(--ts,1))"},avail+" questions in this pool"+(avail&&wantN>avail?" (so the session will be "+avail+"; nothing repeats)":"")+". Order and answer positions reshuffle every run, and questions you've missed or never seen come up more often."),
-    h("div",{class:"actions"},h("button",{class:"btn primary",disabled:avail?null:true,onclick:()=>startQuiz(cur,ui.quiz.mode,ui.quiz.n)},avail?"Start "+MODES[ui.quiz.mode].name+" · "+wantN+" questions":"Nothing here yet")));
+    h("div",{class:"actions"},h("button",{class:"btn primary",disabled:avail?null:true,onclick:()=>startQuiz(cur,cur.id==="xf"?"think":ui.quiz.mode,ui.quiz.n)},avail?"Start "+(cur.id==="xf"?"exam-style":MODES[ui.quiz.mode].name)+" · "+wantN+" questions":"Nothing here yet")));
 }
 
 // ---------- acronym drill ----------
@@ -2525,8 +2779,10 @@ function pick(keys,n){
 function startQuiz(scope,mode,n){
   stopTimer();
   const built=scope.id==="review"?buildReviewSession(n>=999?9999:n):null;
-  const keys=built?built.keys:pick(scope.keys,n);
-  run={scope:{id:scope.id,label:scope.label},mode,timedMs:mode==="blitz"?timeScaled(BLITZ_MS):0,timeScale:mode==="blitz"?a11y.time:null,list:keys.map(k=>{const q=Q[k];const order=shuffle([0,1,2,3].slice(0,q.o.length));return {k,q,order};}),i:0,res:[],t0:Date.now(),qt:Date.now(),answered:null,streak:0,best:0,finished:false,written:{text:"",revealed:false,ai:null,busy:false}};
+  // Exam-style (multi-part) questions only run in Think: they can't be timed per question or typed.
+  const keys=(built?built.keys:pick(mode==="think"?scope.keys:scope.keys.filter(k=>!Q[k].xf),n)).filter(k=>mode==="think"||!Q[k].xf);
+  if(!keys.length) return;
+  run={scope:{id:scope.id,label:scope.label},mode,timedMs:mode==="blitz"?timeScaled(BLITZ_MS):0,timeScale:mode==="blitz"?a11y.time:null,list:keys.map(k=>{const q=Q[k];const order=shuffle([0,1,2,3].slice(0,q.o.length));return {k,q,order,xo:q.xf?xfOrder(q.xf):null};}),i:0,res:[],t0:Date.now(),qt:Date.now(),answered:null,streak:0,best:0,finished:false,written:{text:"",revealed:false,ai:null,busy:false}};
   run.reasons=built?built.reasons:null;
   run.asked=n>=999?keys.length:n;   // what the learner asked for; list may be shorter if the pool is small
   ui.tab="quiz"; render(); window.scrollTo(0,0);
@@ -2670,10 +2926,21 @@ function renderRun(){
     why?h("span",{class:"chip "+(why==="Due for review"?"good":why==="Missed before"?"weak":""),style:why==="New to you"?"background:var(--scbg);color:var(--sc)":""},why):null,
     /^generated-/.test(it.k)?h("span",{class:"chip",style:"background:var(--sunk);color:var(--muted)"},"Your own question"):null));
   if(run.timedMs) kids.push(h("div",{class:"row",style:"gap:8px"},h("div",{class:"timer",id:"twrap",style:"flex:1"},h("i",{id:"tbar"})),h("span",{class:"eyebrow tabnum",id:"tlab",style:"width:32px;text-align:right"},Math.ceil(run.timedMs/1000)+"s")));
-  kids.push(speakBtn("q|"+run.scope.id+"|"+run.i+(a?"|a":""),"#view .qctx,#view .qtext,#view .opts"+(a?",#view .why":""),"question"));
+  kids.push(speakBtn("q|"+run.scope.id+"|"+run.i+(a?"|a":""),"#view .qctx,#view .qtext,#view .xf,#view .opts"+(a?",#view .why":""),"question"));
   if(q.ctx) kids.push(h("p",{class:"qctx"},q.ctx));
-  kids.push(h("div",{class:"qtext"},q.q));
-  if(run.mode==="written"){
+  if(!q.xf) kids.push(h("div",{class:"qtext"},q.q));
+  if(q.xf){
+    const now=rulesFor(state.prestige).explainTiming==="immediate", sel=xfSel();
+    kids.push(xfWidget(q,it.xo,sel,{locked:!!a,reveal:!!a&&now,onChange:xfSyncSubmit}));
+    if(!a) kids.push(h("div",{class:"actions"},h("button",{class:"btn primary",id:"xfsubmit",disabled:xfComplete(q.xf,sel)?null:true,onclick:answerXf},"Submit answer"),
+      h("span",{class:"xf-need",id:"xfneed",style:xfComplete(q.xf,sel)?"visibility:hidden":null},q.xf.type==="multi"?"Choose "+q.xf.n+" to submit.":"Answer every part to submit.")));
+    else {
+      if(now) kids.push(h("div",{class:"why"+(a.ok===1?"":" bad"),id:"xf-result",tabindex:"-1"},h("b",{},xfVerdict(a.xf)),q.xf.why||""));
+      kids.push(h("div",{class:"actions"},h("button",{class:"btn primary",id:"nextbtn",onclick:next},run.i<run.list.length-1?"Next →":"See results")));
+      kids.push(reportBlock(q,null));
+    }
+  }
+  else if(run.mode==="written"){
     const w=run.written;
     const ta=h("textarea",{id:"wans",placeholder:"Type your answer in your own words. Name the tool, term, or concept, and say why if you can.",disabled:w.revealed?true:null});
     ta.value=w.text; ta.addEventListener("input",e=>w.text=e.target.value);
@@ -2812,6 +3079,7 @@ document.addEventListener("keydown",e=>{
   if(!run||run.finished||ui.tab!=="quiz"||run.mode==="written") return;
   if(e.target&&e.target.tagName==="TEXTAREA") return;
   const it=run.list[run.i];
+  if(it.q.xf) return;   // multi-part questions use their own controls
   if(!run.answered&&/^[1-4]$/.test(e.key)){ const pos=+e.key-1; if(pos<it.order.length){ e.preventDefault(); answer(it.order[pos]); } }
   else if(run.answered&&(run.mode==="think"||run.mode==="acronym")&&e.key==="Enter"){ e.preventDefault(); next(); }
 });
@@ -3501,6 +3769,8 @@ function renderHome(){
   const resume=!state.done[t]&&pilotFor(t)?sectionsLeft(day):null;
   if(resume){ lesson.title="Pick up where you left off"; lesson.sub="Level "+displayDay(t)+": "+shortTitle(day.title)+". Next up is section "+(resume.at+1)+" of "+resume.n+", "+resume.next+". Your place is saved.";
     lesson.btn="Continue with "+resume.next; lesson.cover=null; }
+  const ls=levelSteps(day);
+  if(ls.cur&&!resume){ lesson.btn="Step "+ls.cur.n+": "+STEP_CTA[ls.cur.id]; if(ls.cur.id!=="learn") lesson.go=()=>goLevelStep(day,ls.cur.id); }
   let lead=lesson;
   if(paused) lead={meta:["Paused quiz"],title:"Resume your quiz",sub:run.scope.label+" · question "+(run.i+1)+" of "+run.list.length+". Your place is saved.",btn:"Resume quiz",go:()=>goTab("quiz")};
   else if(due) lead={meta:["Review","due today"],title:"Review "+Math.min(due,20)+" due question"+(Math.min(due,20)===1?"":"s"),
@@ -3511,14 +3781,14 @@ function renderHome(){
     h("p",{class:"meta"},lead.meta.join(" · ")),
     h("h1",{class:"hero-title"},lead.title),
     lead.sub?h("p",{class:"hero-sub"},lead.sub):null,
-    lead===lesson?h("div",{class:"lvl-path-wrap"},h("p",{class:"lp-h"},isNew?"Start here: how each level works":"Your steps for Level "+displayDay(t)),levelPath(day,true)):null,
+    lead===lesson?h("div",{class:"lvl-path-wrap"},h("p",{class:"lp-h"},isNew?"Start here: the steps for each level":"Your steps for Level "+displayDay(t)),levelPath(day,"full")):null,
+    lead===lesson?courseLinksRow(day):null,
     lead.cover&&lead.cover.length&&!a11y.focus?h("div",{class:"cover"},h("p",{class:"label"},"In this lesson"),h("ul",{},lead.cover.map(c=>h("li",{},c)))):null,
     h("div",{class:"actions"},
       h("button",{class:"btn primary lg",onclick:lead.go},lead.btn),
-      !a11y.focus&&lead===lesson&&notesHere?h("button",{class:"btn ghost",onclick:()=>{ui.cn.view="notes";ui.cn.deck=t;goTab("cards");}},"Read the Pocket Notes"):null,
       !a11y.focus&&lead===lesson&&isNew?h("button",{class:"btn ghost",onclick:()=>startQuiz({id:"diagnostic",label:"Diagnostic",keys:Object.values(Q).filter(q=>coreQ(q)&&inProgram(q.track)&&!/^generated-|^acr-/.test(q.k)).map(q=>q.k)},"think",10)},"Take a 10-question check first"):null,
       !a11y.focus&&lead===lesson&&!isNew?h("button",{class:"btn ghost",onclick:()=>{ui.quiz.scope="domain";goTab("quiz");}},"Practice any domain"):null),
-    lead!==lesson?h("div",{class:"upnext"},h("span",{class:"meta"},"Then"),h("b",{},"Level "+displayDay(t)+": "+shortTitle(day.title)),h("button",{class:"btn ghost small",onclick:lesson.go},"Open lesson")):null);
+    lead!==lesson?h("div",{class:"upnext"},h("span",{class:"meta"},"Then"),h("b",{},"Level "+displayDay(t)+": "+shortTitle(day.title)),h("button",{class:"btn ghost small",onclick:()=>{ui.sel=t;goTab("plan");}},"Open lesson")):null);
 
   const nb=nextBoss();
   const sprint=state.study.sprint&&!state.study.sprint.finished?state.study.sprint:null;
@@ -3788,7 +4058,8 @@ function renderLessonPilot(d,L){
     h("p",{class:"meta crumbs"},TRACK[d.track]," / ",d.dom||(d.kind==="review"?"Review checkpoint":"Checkpoint")," · Level "+displayDay(d.d)),
     h("h1",{tabindex:"-1"},L.title||shortTitle(d.title)),
     h("p",{class:"hero-sub"},L.subtitle),
-    h("div",{class:"lvl-path-wrap"},h("p",{class:"lp-h"},"This level"),levelPath(d,true)),
+    levelPath(d,"fold"),
+    courseLinksRow(d),
     h("nav",{class:"pilot-steps","aria-label":"Lesson sections"},h("ol",{},secs.map((s,j)=>h("li",{},
       h("button",{class:(j===i?"on":"")+(j<i?" past":""),"aria-current":j===i?"step":null,onclick:()=>pilotGo(d.d,j)},h("span",{class:"n"},j+1),h("span",{class:"t"},s.title)))))));
   let body;
@@ -3994,12 +4265,14 @@ function levelQuizSection(d,heading){
   if(d.kind==="review") scope={id:"day-"+d.d,label:"Level "+dd+" review",keys:keysFor(d.from)};
   else if(d.kind==="exam") scope={id:"day-"+d.d,label:TRACK[d.track]+" warmup",keys:keysFor(allTrackDays(d.track))};
   else scope={id:"day-"+d.d,label:"Level "+dd,keys:interleavedKeys([d.d])};
-  const mode=levelModeFor(d), info=MODES[mode], n=d.n||scope.keys.length;
+  const mode=levelModeFor(d);
+  if(mode==="think") scope.keys=scope.keys.concat(xfKeysFor(levelXfDays(d)));
+  const info=MODES[mode], n=d.n||scope.keys.length, xn=mode==="think"?scope.keys.filter(k=>Q[k].xf).length:0;
   const done=!!state.done[d.d], finished=modesCompleted(scope.id).has(mode);
   const why=d.kind==="review"&&mode==="written"&&rulesFor(state.prestige).levelMode!=="written"?"From the Shadow IT tier, review levels use Written.":
     state.prestige>=4?"Prestige 4 and up: level quizzes are Written.":state.prestige>=1?"From Prestige 1, level quizzes run in Blitz.":"Your first run uses Think mode. From Prestige 1 it's Blitz, and from Prestige 4 it's Written.";
   return h("section",{class:"check"},h("h2",{},heading||"Check yourself"),
-    h("p",{class:"meta"},n+" questions, shuffled. "+(done?"Level complete.":"Finish the level quiz to unlock the next level.")),
+    h("p",{class:"meta"},n+" questions, shuffled"+(xn&&!d.n?", including "+xn+" exam-style (Yes/No, drop-down, choose two, matching)":"")+". "+(done?"Level complete.":"Finish the level quiz to unlock the next level.")),
     h("div",{class:"actions"},h("button",{class:"btn modebtn"+(done?"":" primary"),onclick:()=>startQuiz(scope,mode,n)},
       h("span",{class:"row",style:"gap:6px;width:100%;justify-content:space-between"},"Level quiz · "+info.name,finished?h("span",{class:"chip good"},"✓"):null),
       h("small",{},info.desc))),
@@ -4014,7 +4287,8 @@ function lessonPanel(d){
     h("h1",{tabindex:"-1"},d.kind?d.title:shortTitle(d.title)),
     !d.kind&&topicsOf(d.title)?h("p",{class:"hero-sub"},topicsOf(d.title)):null,
     speakBtn("lesson|"+d.d,".lesson .lesson-head h1,.lesson .kp,.lesson .terms,.lesson .trap","lesson")),
-    h("div",{class:"lvl-path-wrap"},h("p",{class:"lp-h"},"This level"),levelPath(d))];
+    h("div",{class:"lvl-path-wrap"},h("p",{class:"lp-h"},"Steps for this level"),levelPath(d,"full")),
+    courseLinksRow(d)];
   if(LESSON_PILOTS[d.d]) kids.splice(1,0,h("p",{class:"lesson-switch"},h("span",{},"This lesson has a new interactive version."),h("button",{class:"btn small primary",onclick:()=>{ui.classicLesson=false;render();}},"Open the interactive lesson")));
   kids.push(h("div",{class:"kp"},d.pts.map(p=>{const [a,b]=p.split("|"), vis=LESSON_VISUALS[d.d]&&LESSON_VISUALS[d.d][a];return h("section",{class:"kp-item"},h("h3",{},a),h("p",{},b),vis?lessonVisual(vis):null);})));
   if(d.terms) kids.push(h("section",{},h("h2",{},d.d===31?"Ports to lock in":"Terms to lock in"),h("dl",{class:"terms"},d.terms.map(([a,b])=>h("div",{},h("dt",{},a),h("dd",{},b))))));
@@ -4024,8 +4298,7 @@ function lessonPanel(d){
     h("p",{},h("b",{},"Quick review: "),cs.length+" Pocket Notes and "+cs.reduce((n,c)=>n+c.cards.length,0)+" flashcards for this level."),
     h("div",{class:"actions"},h("button",{class:"btn small",onclick:()=>{ui.cn.view="notes";ui.cn.deck=d.d;goTab("cards");}},"Pocket Notes"),h("button",{class:"btn small",onclick:()=>{ui.cn.flashSetup=false;startFlash("d"+d.d,999);}},"Flashcards"))));
   kids.push(levelQuizSection(d));
-  if(d.track==="sc"&&!d.kind) kids.push(h("p",{class:"meta"},"Pair it with the matching Microsoft Learn module (linked at the bottom of the page), about 30 minutes."));
-  if(d.track==="sec"&&!d.kind) kids.push(h("p",{class:"meta"},"Pair it with the matching Professor Messer videos for "+d.dom.replace(/^\d /,"Domain "+d.dom[0]+": ")+", about 30–45 minutes at 1.25×."));
+  if(d.track==="sec"&&!d.kind) kids.push(h("p",{class:"meta"},"The matching Professor Messer videos take about 30–45 minutes at 1.25×."));
   return h("article",{class:"panel lesson"},kids);
 }
 
@@ -4432,7 +4705,9 @@ const STRICT_UNLOCK = false;
 const SC_UNLOCK_DAYS = [1,2,3,4,5,6,7,8,9,10,11];
 const SEC_UNLOCK_DAYS = [13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32];
 const MOCK_SPEC = {
-  sc:{n:60,minutes:65,mix:{"Concepts":7,"Entra":17,"Security solutions":23,"Compliance":13}},
+  // 45 minutes is Microsoft's exam time for fundamentals exams. The mix follows the skills-measured
+  // weights (10-15 / 25-30 / 35-40 / 20-25%). xf = how many of each domain are exam-style.
+  sc:{n:50,minutes:45,mix:{"Concepts":6,"Entra":14,"Security solutions":19,"Compliance":11},xf:{"Concepts":2,"Entra":6,"Security solutions":8,"Compliance":4}},
   sec:{n:90,minutes:90,mix:{"1 General concepts":11,"2 Threats & vulns":20,"3 Architecture":16,"4 Operations":25,"5 Program mgmt":18}}
 };
 let mockRun=null, mockTick=null;
@@ -4445,13 +4720,17 @@ function mockUnlockStatus(track){
 function mockPoolFor(track,dom){ return Object.values(Q).filter(q=>coreQ(q)&&q.track===track&&q.dom===dom).map(q=>q.k); }
 function buildMockList(track){
   const spec=MOCK_SPEC[track]; const shortfalls=[]; let keys=[];
+  const hist=qHistory();
   Object.entries(spec.mix).forEach(([dom,n])=>{
+    // exam-style first (unseen ones preferred), the rest multiple choice
+    const xfPool=shuffle(Object.values(Q).filter(q=>q.xf&&q.track===track&&q.dom===dom).map(q=>q.k)).sort((a,b)=>(hist[a]?1:0)-(hist[b]?1:0));
+    const xs=xfPool.slice(0,Math.min((spec.xf&&spec.xf[dom])||0,n));
     const pool=shuffle(mockPoolFor(track,dom));
-    if(pool.length<n) shortfalls.push({dom,have:pool.length,need:n});
-    keys=keys.concat(pool.slice(0,n));
+    if(pool.length+xs.length<n) shortfalls.push({dom,have:pool.length+xs.length,need:n});
+    keys=keys.concat(xs,pool.slice(0,n-xs.length));
   });
   keys=shuffle(keys);
-  return {list:keys.map(k=>{const q=Q[k];const order=shuffle([0,1,2,3].slice(0,q.o.length));return {k,q,order};}),shortfalls};
+  return {list:keys.map(k=>{const q=Q[k];const order=shuffle([0,1,2,3].slice(0,q.o.length));return {k,q,order,xo:q.xf?xfOrder(q.xf):null};}),shortfalls};
 }
 function startMock(track){
   const st=mockUnlockStatus(track); if(!st.unlocked) return;
@@ -4495,19 +4774,20 @@ function submitMock(auto){
   if(!auto&&!mockRun.confirmOpen){ mockRun.confirmOpen=true; render(); return; }
   stopMockTimer();
   mockRun.submitted=true; mockRun.confirmOpen=false;
-  const res=mockRun.list.map(it=>{
-    const pick=mockRun.answers[it.k]; const ok=pick===it.q.a?1:0;
-    return [it.k,ok,0];
-  });
+  // Points: one per multiple-choice question, one per correct selection in a multi-part question.
+  const okOf=it=>it.q.xf?xfScore(it.q.xf,mockRun.answers[it.k]).ok:(mockRun.answers[it.k]===it.q.a?1:0);
+  const ptsOf=it=>it.q.xf?xfParts(it.q.xf):1;
+  const res=mockRun.list.map(it=>[it.k,okOf(it),0]);
   const score=res.reduce((s,r)=>s+r[1],0), n=res.length;
   const spec=MOCK_SPEC[mockRun.track];
+  const earned=xs=>Math.round(xs.reduce((s,it)=>s+okOf(it)*ptsOf(it),0)), maxOf=xs=>xs.reduce((s,it)=>s+ptsOf(it),0);
+  const points=earned(mockRun.list), pointsMax=maxOf(mockRun.list);
   const perDomain={};
   Object.keys(spec.mix).forEach(dom=>{
     const xs=mockRun.list.filter(it=>it.q.dom===dom);
-    const c=xs.filter(it=>mockRun.answers[it.k]===it.q.a).length;
-    perDomain[dom]={correct:c,total:xs.length,pct:pct(c,xs.length)};
+    perDomain[dom]={correct:earned(xs),total:maxOf(xs),pct:pct(earned(xs),maxOf(xs))};
   });
-  mockRun.rec={ts:Date.now(),mode:"mock",scopeId:"mock-"+mockRun.track,scope:"Mock exam: "+TRACK[mockRun.track],track:mockRun.track,n,score,pct:pct(score,n),ms:Date.now()-mockRun.t0,durationLimitMs:mockRun.timeLimitMs,perDomain,items:res,unanswered,prestige:state.prestige};
+  mockRun.rec={ts:Date.now(),mode:"mock",scopeId:"mock-"+mockRun.track,scope:"Mock exam: "+TRACK[mockRun.track],track:mockRun.track,n,score,points,pointsMax,pct:pct(points,pointsMax),ms:Date.now()-mockRun.t0,durationLimitMs:mockRun.timeLimitMs,perDomain,items:res,unanswered,prestige:state.prestige};
   saveAttempt(mockRun.rec);
   recordReview(mockRun.rec.items); saveProgress();
   recordGameProgress(mockRun.rec);
@@ -4530,7 +4810,11 @@ function renderMockLaunch(){
         h("p",{class:"muted",style:"font-size:calc(13px*var(--ts,1))"},"Locked — finish "+(st.need-st.have)+" more level"+(st.need-st.have===1?"":"s")+" ("+st.have+" of "+st.need+" complete)"));
   });
   return h("div",{style:"display:flex;flex-direction:column;gap:14px"},
-    h("section",{class:"panel"},h("h2",{},"Mock exam"),h("p",{class:"muted",style:"margin:0"},"Full-length, timed, no feedback until you submit. Built to feel like the real thing.")),
+    h("section",{class:"panel"},h("h2",{},"Mock exam"),h("p",{class:"muted",style:"margin:0 0 8px"},"Full-length, timed, no feedback until you submit. Built to feel like the real thing."),
+      inProgram("sc")?h("ul",{class:"mock-facts","aria-label":"How the SC-900 mock matches the exam"},
+        h("li",{},"45 minutes, Microsoft's exam time"),h("li",{},"Domain mix follows the skills-measured weights"),
+        h("li",{},"Yes/No sets, drop-downs, choose two and matching, plus multiple choice"),h("li",{},"One point per correct selection"),h("li",{},"Flag questions and review before you submit")):null,
+      inProgram("sc")?h("p",{class:"muted",style:"margin:8px 0 0;font-size:calc(13px*var(--ts,1));max-width:70ch"},"These are original questions, not Microsoft's. For questions written by the exam team, use Microsoft's free practice assessment on the SC-900 exam page."):null),
     h("div",{class:"cols"},cards));
 }
 function renderMockNavigator(){
@@ -4555,10 +4839,15 @@ function renderMockExam(){
       h("button",{class:"btn small",onclick:()=>{mockRun.navOpen=!mockRun.navOpen;render();}},mockRun.navOpen?"Hide navigator":"Navigator")));
   const kids=[head];
   if(mockRun.navOpen) kids.push(renderMockNavigator());
-  kids.push(speakBtn("mock|"+mockRun.i,"#view .qtext,#view .opts","question"));
+  kids.push(speakBtn("mock|"+mockRun.i,"#view .qtext,#view .xf,#view .opts","question"));
+  if(q.xf){
+    const sel=mockRun.answers[it.k]||(mockRun.xdraft&&mockRun.xdraft.k===it.k?mockRun.xdraft.sel:(mockRun.xdraft={k:it.k,sel:xfEmpty(q.xf)}).sel);
+    kids.push(xfWidget(q,it.xo,sel,{onChange:()=>{ if(xfTouched(q.xf,sel)) mockRun.answers[it.k]=sel; else delete mockRun.answers[it.k]; }}));
+  } else {
   kids.push(h("div",{class:"qtext"},q.q));
   kids.push(h("div",{class:"opts"},it.order.map((oi,pos)=>
     h("button",{class:"opt"+(answered===oi?" mock-picked":""),onclick:()=>{mockAnswer(oi);render();}},h("span",{class:"k"},pos+1),h("span",{},q.o[oi])))));
+  }
   kids.push(h("div",{class:"actions",style:"justify-content:space-between"},
     h("div",{class:"row"},
       h("button",{class:"btn",disabled:mockRun.i===0?true:null,onclick:()=>mockGoto(mockRun.i-1)},"← Previous"),
@@ -4576,14 +4865,15 @@ function renderMockResult(){
   const domRows=Object.entries(r.perDomain).map(([dom,d])=>h("div",{class:"bar"},h("span",{},dom+(d.pct<80?" ⚠":"")),
     h("span",{class:"track"},h("i",{style:`width:${d.pct}%;background:var(--${mockRun.track})`})),
     h("span",{class:"tabnum",style:"text-align:right"},h("span",{class:"chip "+(d.pct>=80?"good":"weak")},d.correct+"/"+d.total+" · "+d.pct+"%"))));
-  const missed=mockRun.list.filter(it=>mockRun.answers[it.k]!==it.q.a);
+  const missed=mockRun.list.filter(it=>it.q.xf?xfScore(it.q.xf,mockRun.answers[it.k]).ok<1:mockRun.answers[it.k]!==it.q.a);
   const byDom={}; missed.forEach(it=>{ (byDom[it.q.dom]=byDom[it.q.dom]||[]).push(it); });
   const missBox=Object.entries(byDom).map(([dom,items])=>h("div",{},h("h3",{style:"margin:14px 0 8px"},dom),items.map(it=>
     h("div",{class:"miss"},h("div",{},it.q.q),h("div",{class:"ans"},h("b",{style:"color:var(--ok)"},"Answer: "),it.q.o[it.q.a]),h("div",{class:"muted",style:"font-size:calc(14px*var(--ts,1))"},it.q.why)))));
   return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
     h("section",{class:"panel"},
       h("div",{class:"eyebrow"},TRACK[mockRun.track]+" mock · saved"),
-      h("h2",{style:"margin:6px 0"},r.pct+"% · "+r.score+" / "+r.n+" correct"),
+      h("h2",{style:"margin:6px 0"},r.pointsMax&&r.pointsMax!==r.n?r.pct+"% · "+r.points+" of "+r.pointsMax+" points":r.pct+"% · "+fmtPts(r.score)+" / "+r.n+" correct"),
+      r.pointsMax&&r.pointsMax!==r.n?h("p",{class:"muted",style:"margin:0"},r.n+" questions. Multi-part questions score one point per correct selection, so there are more points than questions."):null,
       h("p",{class:"muted",style:"margin:0"},"Time used: "+Math.round(r.ms/60000)+(r.durationLimitMs?" of "+Math.round(r.durationLimitMs/60000)+" minutes":" minutes (no time limit)")+(r.unanswered?" · "+r.unanswered+" left unanswered":"")),
       h("p",{style:"font-weight:600;margin:10px 0 0"},mockVerdict(r.pct)),
       h("p",{class:"muted",style:"font-size:calc(13px*var(--ts,1));margin:6px 0 0;max-width:60ch"},"Official exams report a scaled score (Security+ 750/900, SC-900 700/1000). The conversion from raw score isn't published, so this is your raw percentage. Aim for 85%+ before you book."),
@@ -4715,6 +5005,7 @@ function cnEmpty(){
 }
 function renderCN(){
   const v=CN_VIEWS.some(([k])=>k===ui.cn.view)?ui.cn.view:"notes";
+  if(v==="notes"&&Number.isInteger(ui.cn.deck)&&BYDAY[ui.cn.deck]) markStep(ui.cn.deck,"notes");
   const nav=h("div",{class:"seg cn-seg","aria-label":"Notes and cards"},CN_VIEWS.map(([k,l])=>h("button",{"aria-pressed":String(k===v),onclick:()=>{ui.cn.view=k;saveUI();render();}},l,
     k==="sprint"&&state.study.sprint&&!state.study.sprint.finished?h("span",{class:"dot","aria-label":"in progress"}):null,
     k==="flash"&&state.study.flash&&!state.study.flash.done?h("span",{class:"dot","aria-label":"in progress"}):null)));

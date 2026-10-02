@@ -3,6 +3,16 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.3.0", date:"2026-10-02", title:"Exam-style questions and a fuller path for each level", tag:"feature", items:[
+  "New question formats that match what Microsoft exams use alongside multiple choice: Yes/No statement sets, drop-down sentences, choose two, and matching. There are 62 for SC-900, spread across every lesson level.",
+  "Each correct selection is worth one point, so a three-statement question can earn one, two or three. After you submit, every part is marked and explained.",
+  "Where they appear: in Think-mode level quizzes, in review, in a new Exam-style choice in Practice, and as their own step in each level. Blitz and Written quizzes stay multiple choice.",
+  "The SC-900 mock exam is closer to the real thing: 45 minutes (Microsoft's exam time), 50 questions weighted by the published skills outline, and 20 of them in the exam-style formats. Your extra-time setting still applies.",
+  "Each level's path now has up to seven numbered steps: Lesson, Microsoft Learn, Pocket Notes, Flashcards, Check yourself, Exam-style, Level quiz. Home's main button always names your next step. Only the level quiz unlocks the next level, as before.",
+  "Course material is up front: every SC-900 level links straight to its matching Microsoft Learn modules, on Home and at the top of the lesson. Security+ levels link to the Professor Messer videos.",
+  "All 62 questions were checked against Microsoft Learn on October 2 by an independent automated review, which also removed answer giveaways. They are original questions, not Microsoft's, and haven't had a human expert review."
+]},
+
 { v:"2.2.5", date:"2026-10-01", title:"Move your progress to another device", tag:"feature", items:[
   "New: Move to another device, in Progress and in Plan settings. Your computer shows a short loop of codes, and your phone scans them with its camera. Everything comes across: levels, XP, bosses, your campaign run, quiz history, notes and settings.",
   "No account and no upload. The codes are made and read on your own devices. Only show them to your own phone, since they contain your study history.",

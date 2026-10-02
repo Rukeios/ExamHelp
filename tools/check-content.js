@@ -6,7 +6,7 @@
 const fs=require("fs"), path=require("path");
 const ROOT=path.resolve(__dirname,"..");
 global.window=global;
-["data.js","data-cn-sc.js","data-cn-compare.js","data-cn-sc-scenarios.js","data-cn-sc-checks.js"].forEach(f=>{
+["data.js","data-cn-sc.js","data-cn-compare.js","data-cn-sc-scenarios.js","data-cn-sc-checks.js","data-xf-sc.js","data-links.js"].forEach(f=>{
   const p=path.join(ROOT,f); if(fs.existsSync(p)) eval(fs.readFileSync(p,"utf8"));
 });
 const packs=window.CN_PACKS||[], fail=[], warn=[];
@@ -109,6 +109,30 @@ function manifest(){
 console.log(`concepts ${concepts.length} · cards ${concepts.reduce((n,c)=>n+(c.cards||[]).length,0)} · comparisons ${comparisons.length} · scenarios ${scenarios.length} · correct-is-longest ${longPct}%`);
 ["sc","sec"].forEach(t=>{ const R=cert(t); console.log(`${t}: ${R.filter(r=>r.notes).length}/${R.length} lessons have notes, ${R.filter(r=>r.scen).length}/${R.length} have scenarios`); });
 if(warn.length) console.log(warn.length+" warning(s):\n  "+warn.slice(0,30).join("\n  "));
+
+// ---- exam-style questions (v2.3.0) ----
+(window.XF_PACKS||[]).forEach(p=>{
+  if(!DATE.test(p.reviewed||"")) fail.push(`xf pack ${p.id}: no review date`);
+  if(!(p.src||[]).length) fail.push(`xf pack ${p.id}: no sources`);
+  (p.items||[]).forEach(x=>{
+    reg(x.id,"exam-style"); const where="exam-style "+x.id;
+    if(!days.has(x.day)) fail.push(`${where}: day ${x.day} not in DAYS`); else if(days.get(x.day).track!==p.cert) fail.push(`${where}: day belongs to ${days.get(x.day).track}`);
+    if(!x.why) fail.push(`${where}: no explanation`);
+    if(x.type==="yn"){ if(!Array.isArray(x.rows)||x.rows.length<3) fail.push(`${where}: needs 3+ statements`);
+      (x.rows||[]).forEach((r,i)=>{ if(typeof r[0]!=="string"||typeof r[1]!=="boolean"||!r[2]) fail.push(`${where}: row ${i} is malformed`); }); }
+    else if(x.type==="dd"){ const marks=(x.text.match(/\[\d\]/g)||[]).length; if(marks!==(x.blanks||[]).length||!marks) fail.push(`${where}: ${marks} blanks in text, ${(x.blanks||[]).length} in data`);
+      (x.blanks||[]).forEach((b,i)=>{ if(b.length<3||new Set(b).size!==b.length) fail.push(`${where}: blank ${i+1} needs 3 distinct options`); }); }
+    else if(x.type==="multi"){ if(!(x.n>=2&&x.o&&x.o.length>=x.n+2)||new Set(x.o).size!==x.o.length) fail.push(`${where}: needs n>=2 and at least n+2 distinct options`); if(!x.q) fail.push(`${where}: no question`); }
+    else if(x.type==="match"){ const rights=(x.pairs||[]).map(q=>q[1]).concat(x.extra||[]); if((x.pairs||[]).length<3||new Set(rights).size!==rights.length) fail.push(`${where}: needs 3+ pairs with distinct options`); if(!x.q) fail.push(`${where}: no question`); }
+    else fail.push(`${where}: unknown type ${x.type}`);
+  });
+});
+// ---- course links (v2.3.0) ----
+Object.entries(window.COURSE_LINKS||{}).forEach(([d,links])=>{
+  if(!days.has(+d)) fail.push(`course links: level ${d} not in DAYS`);
+  links.forEach(l=>{ if(!l.title||!/^https:\/\/learn\.microsoft\.com\//.test(l.url||"")) fail.push(`course links: level ${d} has a bad link (${l.url})`); });
+});
+if(window.COURSE_LINKS&&!DATE.test(window.COURSE_LINKS_CHECKED||"")) fail.push("course links: no checked date");
 if(fail.length){ console.log(fail.length+" BLOCKING:\n  "+fail.join("\n  ")); }
 else console.log("all blocking checks passed");
 if(process.argv.includes("--manifest")) manifest();
