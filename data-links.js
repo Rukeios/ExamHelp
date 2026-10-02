@@ -8,7 +8,7 @@ const path=(slug,title)=>({title:title,url:P+slug+"/",focus:null,kind:"path"});
 const MS="https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/";
 const msr=(slug,title)=>({title:"Professor Messer: "+title,url:MS+slug+"/",focus:null,kind:"video"});
 const msc=()=>({title:"Professor Messer: SY0-701 full course index",url:MS+"sy0-701-comptia-security-plus-course/",focus:"Pick the videos for the objectives you are reviewing",kind:"video"});
-const obj=n=>({title:"CompTIA SY0-701 exam objectives (free PDF)",url:"https://partners.comptia.org/docs/default-source/resources/comptia-security-sy0-701-exam-objectives-(5-0).pdf",focus:/^all/.test(n)?"Read "+n:"Objectives "+n,kind:"guide"});
+const obj=n=>({title:"CompTIA Security+ SY0-701",url:"https://www.comptia.org/en-us/certifications/security/",focus:/^all/.test(n)?"Objectives: "+n+". Videos and notes follow CompTIA's objective numbers":"SY0-701 objectives "+n+". Videos and notes follow CompTIA's objective numbers",kind:"guide"});
 window.COURSE_LINKS={
   1:[mod("describe-security-concepts-methodologies","Describe security and compliance concepts","Units on shared responsibility, defense in depth and Zero Trust")],
   2:[mod("describe-security-concepts-methodologies","Describe security and compliance concepts","Units on encryption and hashing, and GRC"),
@@ -178,7 +178,6 @@ window.COURSE_LINKS={
   27:[msc(),obj("3.1 to 4.9 (Domains 3 and 4)")],
   32:[msc(),obj("all five domains")],
   33:[msr("how-to-pass-your-sy0-701-security-exam","How to pass your SY0-701 Security+ exam"),
-      {title:"CompTIA Security+ certification page",url:"https://www.comptia.org/en-us/certifications/security/",focus:"Exam details and the current practice options",kind:"exam"},
       obj("all objectives")]
 };
 window.COURSE_LINKS_CHECKED="2026-10-02";

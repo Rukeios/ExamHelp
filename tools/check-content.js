@@ -6,7 +6,8 @@
 const fs=require("fs"), path=require("path");
 const ROOT=path.resolve(__dirname,"..");
 global.window=global;
-["data.js","data-cn-sc.js","data-cn-compare.js","data-cn-sc-scenarios.js","data-cn-sc-checks.js","data-xf-sc.js","data-links.js"].forEach(f=>{
+const extra=fs.readdirSync(ROOT).filter(f=>/^data-(cn|xf)-sec-.*\.js$/.test(f)).sort();
+["data.js","data-extra.js","data-pack2.js","data-pack3.js","data-pack4-sc.js","data-pack5-net.js","data-lessons.js","data-lessons-2.js"].concat(fs.readdirSync(ROOT).filter(f=>/^data-lessons-sec-.*\.js$/.test(f)).sort(),["data-cn-sc.js","data-cn-compare.js","data-cn-sc-scenarios.js","data-cn-sc-checks.js","data-xf-sc.js"],extra,["data-links.js"]).forEach(f=>{
   const p=path.join(ROOT,f); if(fs.existsSync(p)) eval(fs.readFileSync(p,"utf8"));
 });
 const packs=window.CN_PACKS||[], fail=[], warn=[];
@@ -103,7 +104,7 @@ function manifest(){
   L.push("## Comparisons waiting on future batches","");
   const pend=comparisons.filter(k=>(k.pendingConcepts||[]).length);
   L.push(pend.length?pend.map(k=>`- ${k.id}: needs ${k.pendingConcepts.join(", ")}`).join("\n"):"None.","");
-  L.push("## Not started","","- Security+ (levels 13–30): no Pocket Notes, recall cards or Real-World scenarios yet. Planned as batches sec-1 (domains 1–2), sec-2 (domain 3), sec-3 (domain 4), sec-4 (domain 5).","- Review and exam-day levels have no concepts of their own by design; they draw on the lessons they review.","");
+  L.push("## Not started","","- Security+ content is status 'drafted': it still needs the independent source-check pass and a human expert review.","- Review and exam-day levels have no concepts of their own by design; they draw on the lessons they review.","");
   fs.writeFileSync(path.join(ROOT,"COVERAGE.md"),L.join("\n"));
 }
 console.log(`concepts ${concepts.length} · cards ${concepts.reduce((n,c)=>n+(c.cards||[]).length,0)} · comparisons ${comparisons.length} · scenarios ${scenarios.length} · correct-is-longest ${longPct}%`);
@@ -125,6 +126,22 @@ if(warn.length) console.log(warn.length+" warning(s):\n  "+warn.slice(0,30).join
     else if(x.type==="multi"){ if(!(x.n>=2&&x.o&&x.o.length>=x.n+2)||new Set(x.o).size!==x.o.length) fail.push(`${where}: needs n>=2 and at least n+2 distinct options`); if(!x.q) fail.push(`${where}: no question`); }
     else if(x.type==="match"){ const rights=(x.pairs||[]).map(q=>q[1]).concat(x.extra||[]); if((x.pairs||[]).length<3||new Set(rights).size!==rights.length) fail.push(`${where}: needs 3+ pairs with distinct options`); if(!x.q) fail.push(`${where}: no question`); }
     else fail.push(`${where}: unknown type ${x.type}`);
+  });
+});
+// ---- interactive lessons ----
+const LTYPES=new Set(["facets","models","layers","check","compare","map","steps","casebook"]);
+Object.entries(window.LESSON_PILOTS||{}).forEach(([k,L])=>{
+  const where="lesson "+k;
+  if(!days.has(+k)||L.day!==+k) fail.push(where+": day mismatch");
+  const secIds=new Set(), cmpAll=new Set(comparisons.map(c=>c.id));
+  (L.sections||[]).forEach(s=>{
+    const w=where+" section "+s.id;
+    if(secIds.has(s.id)) fail.push(w+": duplicate section id"); secIds.add(s.id);
+    if(!LTYPES.has(s.type)) fail.push(w+": unknown type "+s.type);
+    if(s.note&&!conceptIds.has(s.note)&&!cmpAll.has(s.note)) fail.push(w+": note "+s.note+" not found");
+    if(s.practice){ const o=s.practice.o||[]; if(o.length<3||o.filter(x=>x[1]).length!==1) fail.push(w+": practice needs 3+ options with exactly one correct"); }
+    if(s.type==="check"){ const n=scenarios.filter(x=>(s.from||[]).includes(x.day)).length; if(n<s.max) fail.push(w+": check wants "+s.max+" scenarios but levels "+(s.from||[])+" have "+n); }
+    if(s.type==="casebook") (s.cases||[]).forEach(c=>{ if((c.o||[]).filter(x=>x[1]).length!==1) fail.push(w+" case "+c.id+": needs exactly one correct option"); (c.links||[]).forEach(l=>{ if(l.concept&&!conceptIds.has(l.concept)) fail.push(w+" case "+c.id+": concept "+l.concept+" not found"); }); });
   });
 });
 // ---- course links (v2.3.0) ----

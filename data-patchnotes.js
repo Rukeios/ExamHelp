@@ -3,11 +3,12 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
-{ v:"2.3.1", date:"2026-10-02", title:"Security+ levels now link the exact Professor Messer videos", tag:"content", items:[
-  "Every Security+ lesson level (13-33) now lists the specific Professor Messer SY0-701 videos for that level's objectives, in order, instead of one link to the whole course. 119 video pages plus the exam-day guide are linked.",
-  "Each Security+ level also points to the matching objectives in CompTIA's free SY0-701 exam objectives PDF. Review levels link the course index and the objectives for the domains they cover.",
-  "Security+ levels 13-31 will get the same Pocket Notes, flashcards, comparisons, Real-World scenarios, interactive lessons and exam-style questions that SC-900 has, in four releases, one per exam domain group. Nothing about your progress changes.",
-  "Every video link was opened on October 2 and returned a working page. Professor Messer's videos are his own and free; they're linked, not copied."
+{ v:"2.3.1", date:"2026-10-02", title:"Security+ now has the full level path", tag:"content", items:[
+  "Every Security+ lesson level (13-31) now has what SC-900 has: an interactive lesson, Pocket Notes with recall flashcards, Don't Mix These Up comparisons, Real-World scenarios, a Check yourself step and exam-style questions. That's 94 notes (188 flashcards), 12 new comparisons, 166 scenarios and 73 exam-style questions.",
+  "The review levels (19, 27, 32) have a guided review and an independent check that draws on the levels they cover. Level 31's PBQ drills cover ports, log reading and firewall rule order, with matching and drop-down questions.",
+  "Each Security+ level lists the exact Professor Messer SY0-701 videos for its objectives, in order, plus the CompTIA objective numbers. Every video link opened on October 2.",
+  "Three comparison cards that were waiting for Security+ notes are now live: threat vs vulnerability vs risk, IDS vs IPS, and RTO vs RPO.",
+  "This content was drafted with AI help and has not had a human expert review or been checked line by line against CompTIA's objectives. If something looks wrong, tell us. Your progress and history are untouched."
 ]},
 
 { v:"2.3.0", date:"2026-10-02", title:"Exam-style questions and a fuller path for each level", tag:"feature", items:[
