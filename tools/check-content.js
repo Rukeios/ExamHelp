@@ -130,9 +130,10 @@ if(warn.length) console.log(warn.length+" warning(s):\n  "+warn.slice(0,30).join
 // ---- course links (v2.3.0) ----
 Object.entries(window.COURSE_LINKS||{}).forEach(([d,links])=>{
   if(!days.has(+d)) fail.push(`course links: level ${d} not in DAYS`);
-  links.forEach(l=>{ if(!l.title||!/^https:\/\/learn\.microsoft\.com\//.test(l.url||"")) fail.push(`course links: level ${d} has a bad link (${l.url})`); });
+  links.forEach(l=>{ if(!l.title||!/^https:\/\/(learn\.microsoft\.com|www\.professormesser\.com\/security-plus\/sy0-701|www\.comptia\.org|partners\.comptia\.org)\//.test(l.url||"")) fail.push(`course links: level ${d} has a bad link (${l.url})`); });
 });
 if(window.COURSE_LINKS&&!DATE.test(window.COURSE_LINKS_CHECKED||"")) fail.push("course links: no checked date");
+if(window.COURSE_LINKS&&!DATE.test(window.COURSE_LINKS_SEC_CHECKED||"")) fail.push("course links: no Security+ checked date");
 if(fail.length){ console.log(fail.length+" BLOCKING:\n  "+fail.join("\n  ")); }
 else console.log("all blocking checks passed");
 if(process.argv.includes("--manifest")) manifest();

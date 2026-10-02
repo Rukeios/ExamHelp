@@ -2062,13 +2062,11 @@ function movedNote(){
 // still unlocks the next level. Opening the course link and the notes is remembered per level
 // in ui.steps (saved with the view preferences, so it travels in backups).
 const COURSE_LINKS=window.COURSE_LINKS||{};
-const MESSER_URL="https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/";
 const STEP_CTA={learn:"Open the lesson",link:"Open the course material",notes:"Read the Pocket Notes",cards:"Study the flashcards",check:"Check yourself",xf:"Try the exam-style questions",quiz:"Take the level quiz"};
 function stepMarks(day){ ui.steps=ui.steps&&typeof ui.steps==="object"?ui.steps:{}; return ui.steps[day]||(ui.steps[day]={}); }
 function markStep(day,id){ const m=stepMarks(day); if(!m[id]){ m[id]=Date.now(); saveUI(); } }
 function courseLinks(d){
   const L=COURSE_LINKS[d.d]; if(L&&L.length) return L;
-  if(d.track==="sec"&&!d.kind&&d.dom) return [{title:"Professor Messer SY0-701 videos: "+d.dom.replace(/^\d /,"Domain "+d.dom[0]+", "),url:MESSER_URL,focus:null,kind:"video"}];
   return null;
 }
 function levelXfDays(d){ return d.kind==="review"?d.from:d.kind==="exam"?allTrackDays(d.track):[d.d]; }

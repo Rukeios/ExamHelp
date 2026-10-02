@@ -3,6 +3,13 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.3.1", date:"2026-10-02", title:"Security+ levels now link the exact Professor Messer videos", tag:"content", items:[
+  "Every Security+ lesson level (13-33) now lists the specific Professor Messer SY0-701 videos for that level's objectives, in order, instead of one link to the whole course. 119 video pages plus the exam-day guide are linked.",
+  "Each Security+ level also points to the matching objectives in CompTIA's free SY0-701 exam objectives PDF. Review levels link the course index and the objectives for the domains they cover.",
+  "Security+ levels 13-31 will get the same Pocket Notes, flashcards, comparisons, Real-World scenarios, interactive lessons and exam-style questions that SC-900 has, in four releases, one per exam domain group. Nothing about your progress changes.",
+  "Every video link was opened on October 2 and returned a working page. Professor Messer's videos are his own and free; they're linked, not copied."
+]},
+
 { v:"2.3.0", date:"2026-10-02", title:"Exam-style questions and a fuller path for each level", tag:"feature", items:[
   "New question formats that match what Microsoft exams use alongside multiple choice: Yes/No statement sets, drop-down sentences, choose two, and matching. There are 62 for SC-900, spread across every lesson level.",
   "Each correct selection is worth one point, so a three-statement question can earn one, two or three. After you submit, every part is marked and explained.",
