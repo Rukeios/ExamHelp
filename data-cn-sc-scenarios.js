@@ -2015,21 +2015,21 @@ const scenarios=[
   "type": "identify",
   "diff": 1,
   "setting": "school",
-  "s": "A school board member worries that Microsoft reads teachers' email to target advertising at staff. The IT director answers by pointing to one of Microsoft's published privacy principles that speaks directly to this concern.",
-  "q": "Which principle is the IT director citing?",
+  "s": "A school board asks whether the district can decide which region its Microsoft 365 data is stored in. The IT director says one of Microsoft's privacy commitments covers exactly that.",
+  "q": "Which commitment is the IT director citing?",
   "o": [
-   "No content-based targeting",
-   "Strong legal protections",
-   "Transparency",
-   "Benefits to you"
+   "Data location",
+   "Data control",
+   "Data security",
+   "Data defense"
   ],
-  "why": "No content-based targeting is Microsoft's commitment not to use email, chat, files or other personal content to target ads.",
+  "why": "Data location is the commitment that you can choose where your data is stored.",
   "no": [
-   "Strong legal protections is about respecting local privacy laws and defending privacy in legal requests.",
-   "Transparency is about being clear on what data is collected and how it's used.",
-   "Benefits to you is about data use improving the customer's own experience."
+   "Data control is about your data being yours to access, change or delete.",
+   "Data security is about encryption at rest and in transit.",
+   "Data defense is about how Microsoft responds when a government asks for your data."
   ],
-  "take": "Microsoft not using your email or files to target ads is the no content-based targeting principle."
+  "take": "Choosing where your data is stored is the data location commitment."
  },
  {
   "id": "rw.sc.trust-compliance.next",

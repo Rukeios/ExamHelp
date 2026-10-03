@@ -1,0 +1,297 @@
+// Rukeios Study interactive lessons, batch 3: SC-900 Levels 7-12 (Microsoft security solutions,
+// Microsoft Purview compliance, the full review and exam day). Same content model as
+// data-lessons-2.js. Guided practice asks something the scored scenarios for that level don't.
+// src/reviewed come from the source check recorded in docs/v2.3.2-lessons.md.
+(function(){
+const P=(s,q,o)=>({s,q,o});   // guided practice: o = [[answer, correct, feedback], ...]
+const L=window.LESSON_PILOTS=window.LESSON_PILOTS||{};
+
+// ---------------------------------------------------------------- Level 7
+L[7]={id:"lesson.sc.7", day:7, v:1, reviewed:"2026-10-03", src:["https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900", "https://learn.microsoft.com/en-us/training/modules/describe-basic-security-capabilities-azure/", "https://learn.microsoft.com/en-us/training/modules/describe-basic-security-capabilities-azure/2-describe-azure-ddos-protection", "https://learn.microsoft.com/en-us/training/modules/describe-basic-security-capabilities-azure/3-describe-what-azure-firewall", "https://learn.microsoft.com/en-us/training/modules/describe-basic-security-capabilities-azure/4-describe-web-application-firewall", "https://learn.microsoft.com/en-us/training/modules/describe-basic-security-capabilities-azure/5-describe-network-segmentation", "https://learn.microsoft.com/en-us/training/modules/describe-basic-security-capabilities-azure/6-describe-azure-network-security-groups", "https://learn.microsoft.com/en-us/training/modules/describe-basic-security-capabilities-azure/7-describe-azure-bastion-just-in-time-access", "https://learn.microsoft.com/en-us/training/modules/describe-basic-security-capabilities-azure/8-describe-ways-azure-encrypts-data", "https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview", "https://learn.microsoft.com/en-us/training/modules/describe-security-management-capabilities-of-azure/", "https://learn.microsoft.com/en-us/training/modules/describe-security-management-capabilities-of-azure/2-describe-defender-cloud", "https://learn.microsoft.com/en-us/training/modules/describe-security-management-capabilities-of-azure/3-baselines-for-azure", "https://learn.microsoft.com/en-us/training/modules/describe-security-management-capabilities-of-azure/4-describe-cloud-security-posture-management", "https://learn.microsoft.com/en-us/training/modules/describe-security-management-capabilities-of-azure/5a-describe-enhanced-security-defender-cloud", "https://learn.microsoft.com/en-us/training/modules/describe-security-management-capabilities-of-azure/6-describe-dev-ops-security-management"],
+  title:"Azure infrastructure security and Defender for Cloud",
+  subtitle:"Follow Calder Freight, a fictional shipping company, as it protects its network in Azure and then measures how well it's doing.",
+  sections:[
+    {id:"edge", type:"compare", title:"Four network controls", lead:"Each one looks at traffic differently. Select a control to see what it does and where it sits.", note:"cmp.nsg-firewall-waf",
+     cols:[
+      {id:"ddos", name:"DDoS Protection", say:"Defends against distributed denial-of-service (DDoS) attacks, which flood a service with traffic so real users can't reach it.", example:"During a sale, Calder's tracking site is hit with a flood of junk traffic. DDoS Protection absorbs it and the site stays up."},
+      {id:"fw", name:"Azure Firewall", say:"A managed, cloud-based network firewall. One central policy can cover many virtual networks, with rules based on IP addresses, ports and domain names.", example:"Calder lets its servers reach only its update site by name, and blocks all other outbound traffic."},
+      {id:"waf", name:"Web Application Firewall", say:"Protects web applications from common exploits such as SQL injection and cross-site scripting.", example:"Someone types database commands into the tracking site's search box. The Web Application Firewall blocks the request."},
+      {id:"nsg", name:"Network security group", say:"A list of rules that allow or deny traffic by source, destination, port and protocol. It attaches to a subnet or a network interface.", example:"The warehouse scanners' subnet may send traffic to the inventory server. Nothing else may."}],
+     rows:[["Looks at","Traffic volume","Addresses, ports and domain names","Web requests","Addresses, ports and protocol"],
+           ["Sits","On a virtual network or a public IP address","Centrally, across virtual networks","With Application Gateway, Front Door or Azure CDN","On a subnet or network interface"],
+           ["Mainly protects","Availability","Network traffic in and out","Web applications","Traffic between resources"]],
+     rowsNote:"DDoS Protection comes in two tiers: Network Protection for a whole virtual network and IP Protection for a single public IP address. It works at the network and transport layers, so floods of web requests need a Web Application Firewall as well.",
+     caution:"Network security groups and Azure Firewall both keep track of connections, so \"stateful\" doesn't tell them apart. What sets Azure Firewall apart is central policy, domain-name rules and threat intelligence.",
+     practice:P("Calder already has DDoS Protection turned on for its virtual network. The security lead says the tracking site still needs a Web Application Firewall.","Why is she right?",
+      [["DDoS Protection doesn't inspect what a web request contains",true,"DDoS Protection works at the network and transport layers. Attacks carried inside web requests, such as SQL injection, need a Web Application Firewall."],
+       ["DDoS Protection only covers virtual machines, not websites",false,"It protects public-facing resources in the virtual network, websites included. What it doesn't do is read the content of requests."],
+       ["A Web Application Firewall replaces network security groups",false,"They do different jobs. Network security groups filter by address, port and protocol. A Web Application Firewall inspects web requests."]])},
+    {id:"inside", type:"facets", title:"Inside the network", lead:"Once traffic is past the edge, these three keep resources separated, reachable only by the right people, and free of stored secrets.", note:"sc.vnet-segmentation",
+     facets:[
+      {id:"vnet", name:"Virtual networks", say:"An Azure virtual network is the basic building block of a private network. Resources in different virtual networks can't talk to each other unless you connect them, so splitting workloads across them is segmentation. Inside one virtual network you can divide further into subnets. Connecting two virtual networks is called peering.", example:"Calder keeps its payroll system in a separate virtual network from the public tracking site.", tags:["Segmentation","Private by default"]},
+      {id:"bastion", name:"Azure Bastion", say:"Lets administrators connect to virtual machines through the Azure portal, using the usual remote-access methods (RDP for Windows, SSH for Linux). The virtual machines don't need public IP addresses.", example:"An engineer fixes a server from the portal. The server was never exposed to the internet.", tags:["RDP and SSH","No public IP"]},
+      {id:"kv", name:"Azure Key Vault", say:"A secure store for secrets, encryption keys and certificates, so they aren't kept in code or configuration files.", example:"The tracking app reads its database password from Key Vault each time it starts.", tags:["Secrets","Keys","Certificates"]}],
+     practice:P("Calder's engineers now reach their servers through Azure Bastion. An auditor asks what internet-facing address each server needs for that access.","What's the accurate answer?",
+      [["None. The servers keep only private addresses",true,"Bastion connects to each virtual machine over its private address, so the machines need no public IP address."],
+       ["One public IP address each, guarded by Bastion",false,"The point of Bastion is that the virtual machines don't need a public IP address at all."],
+       ["One shared public IP address held in Key Vault",false,"Key Vault stores secrets, keys and certificates. It has nothing to do with how servers are addressed."]])},
+    {id:"mdc", type:"facets", title:"Microsoft Defender for Cloud", lead:"Defender for Cloud is what Microsoft calls a cloud-native application protection platform: one service that checks your cloud setup for weak settings and watches your workloads for attacks. It covers Azure, other clouds and on-premises resources.", note:"sc.defender-for-cloud",
+     facets:[
+      {id:"cspm", name:"Posture management", say:"Cloud security posture management (CSPM) continually assesses your resources, finds misconfigurations and tells you what to fix.", example:"Defender for Cloud reports that three of Calder's storage accounts allow public access.", tags:["Finds misconfigurations","Secure score"]},
+      {id:"cwp", name:"Workload protection", say:"Cloud workload protection adds threat detection for specific kinds of workload, such as servers, containers, storage and databases. You turn on the Defender plan for each.", example:"Calder enables the plan for its databases and gets an alert about an unusual query pattern.", tags:["Defender plans","Threat detection"]},
+      {id:"devsec", name:"DevOps security", say:"Brings security into the development process, so problems are found in code and in the automated build steps (pipelines) before anything is deployed.", example:"A scan flags a password committed to Calder's code repository.", tags:["Code and pipelines"]}],
+     caution:"For SC-900, focus on the first two: posture management tells you how secure your setup is, and workload protection watches for attacks on it.",
+     practice:P("Calder's manager asks for two things: a list of weak settings across its cloud resources, and alerts if someone attacks its container workloads.","Which pairing matches those two requests, in that order?",
+      [["Posture management, then workload protection",true,"Weak settings are found by posture management. Attacks on a specific workload are detected by workload protection."],
+       ["Workload protection, then posture management",false,"It's the other way round. Workload protection detects threats, and posture management finds misconfigurations."],
+       ["DevOps security for both",false,"DevOps security checks code and pipelines before deployment. Neither request is about the development process."]])},
+    {id:"posture", type:"steps", title:"How your secure score improves", lead:"Posture management works as a loop. Walk through it in order.", note:"sc.cspm",
+     steps:[
+      {id:"standard", name:"Standards", say:"Security policies and standards define what good looks like. By default, Defender for Cloud uses the Microsoft cloud security benchmark. You can add other standards, and the regulatory compliance dashboard shows how you measure up to each.", example:"The benchmark says storage accounts shouldn't allow public access."},
+      {id:"assess", name:"Assess", say:"Defender for Cloud continually compares your resources against those standards. This basic posture management is free and on by default. The paid Defender CSPM plan adds extras such as attack path analysis.", example:"It checks every one of Calder's storage accounts against the rule."},
+      {id:"recommend", name:"Recommend", say:"Where a resource falls short, you get a security recommendation with steps to fix it.", example:"\"Storage account public access should be disallowed\", with the three accounts listed."},
+      {id:"score", name:"Secure score", say:"The secure score sums up your posture as one number. The higher the score, the lower the risk found. Recommendations are grouped into security controls, and the score only rises when a resource meets every recommendation in a control.", example:"Once the three accounts meet every recommendation in their control, Calder's score rises."}],
+     caution:"Secure score belongs to Defender for Cloud and is about security posture. Compliance score belongs to Compliance Manager in Microsoft Purview and is about regulations.",
+     practice:P("A developer at Calder creates a new storage account that allows public access. Nobody tells the security team.","What happens in Defender for Cloud?",
+      [["The account is assessed and a recommendation appears",true,"Defender for Cloud keeps assessing resources against its standards. A resource that falls short produces a recommendation."],
+       ["Nothing, until someone starts a scan by hand",false,"Assessment is continual. Nobody has to start it."],
+       ["The account is deleted automatically",false,"Defender for Cloud recommends a fix. It doesn't delete resources."]])},
+    {id:"check", type:"check", title:"Check yourself", lead:"Scored scenarios on Azure network security, Key Vault, Bastion and Defender for Cloud.", from:[7], max:6}
+  ]};
+
+// ---------------------------------------------------------------- Level 8
+L[8]={id:"lesson.sc.8", day:8, v:1, reviewed:"2026-10-03", src:["https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900", "https://learn.microsoft.com/en-us/training/modules/describe-security-capabilities-of-azure-sentinel/", "https://learn.microsoft.com/en-us/training/modules/describe-security-capabilities-of-azure-sentinel/2-define-concepts-of-siem-soar", "https://learn.microsoft.com/en-us/training/modules/describe-security-capabilities-of-azure-sentinel/3-describe-sentinel-provide-integrated-threat-management", "https://learn.microsoft.com/en-us/azure/sentinel/overview", "https://learn.microsoft.com/en-us/training/modules/describe-threat-protection-with-microsoft-365-defender/", "https://learn.microsoft.com/en-us/training/modules/describe-threat-protection-with-microsoft-365-defender/2-describe-services", "https://learn.microsoft.com/en-us/training/modules/describe-threat-protection-with-microsoft-365-defender/3-describe-defender-office", "https://learn.microsoft.com/en-us/training/modules/describe-threat-protection-with-microsoft-365-defender/4-describe-defender-endpoint", "https://learn.microsoft.com/en-us/training/modules/describe-threat-protection-with-microsoft-365-defender/5-describe-microsoft-cloud-app-security", "https://learn.microsoft.com/en-us/training/modules/describe-threat-protection-with-microsoft-365-defender/6-describe-defender-identity", "https://learn.microsoft.com/en-us/training/modules/describe-threat-protection-with-microsoft-365-defender/6a-describe-defender-vulnerability-management", "https://learn.microsoft.com/en-us/training/modules/describe-threat-protection-with-microsoft-365-defender/6b-describe-defender-threat-intelligence", "https://learn.microsoft.com/en-us/training/modules/describe-threat-protection-with-microsoft-365-defender/7-describe-microsoft-defender-portal", "https://learn.microsoft.com/en-us/defender-for-identity/what-is"],
+  title:"Microsoft Sentinel and Defender XDR",
+  subtitle:"Calder Freight's security team learns how alerts are collected, connected and answered.",
+  sections:[
+    {id:"terms", type:"compare", title:"SIEM, SOAR and XDR", lead:"Three terms the exam expects you to tell apart. Select one.", note:"cmp.siem-soar",
+     cols:[
+      {id:"siem", name:"SIEM", say:"Security information and event management. Collects log data from across the organization and analyzes it to find threats.", example:"Sign-in logs, firewall logs and server logs all land in one place, where a pattern across them is spotted."},
+      {id:"soar", name:"SOAR", say:"Security orchestration, automation and response. Takes alerts and runs automated workflows to deal with them.", example:"When a risky sign-in alert arrives, the account is disabled and a ticket is opened without anyone clicking."},
+      {id:"xdr", name:"XDR", say:"Extended detection and response. Detects and responds to threats across several areas together, such as devices, email, identities and apps.", example:"A phishing email, a malicious download and an odd sign-in are tied together as one incident."}],
+     rows:[["Main job","Collect and analyze","Automate the response","Detect and respond across areas"],
+           ["Microsoft product","Microsoft Sentinel","Microsoft Sentinel","Microsoft Defender XDR"]],
+     rowsNote:"Microsoft Sentinel is both a SIEM and a SOAR.",
+     practice:P("Whenever Calder's SIEM flags a suspicious sign-in, an analyst separately looks the user up in the identity system and checks a threat feed for the IP address. The manager wants those lookups to happen together with nobody doing them by hand.","Which capability removes that manual work?",
+      [["SOAR",true,"Running the same steps across several systems for every alert is what orchestration and automation are for."],
+       ["SIEM",false,"A SIEM collects and analyzes data to find threats. It finds the alert; it doesn't carry out the response."],
+       ["Threat hunting",false,"Hunting is analysts searching the data for threats no alert has caught. It adds work for people; it doesn't automate the response."]])},
+    {id:"sentinel", type:"steps", title:"How Microsoft Sentinel works", lead:"Sentinel is cloud-native, so there are no servers to run. Walk through its four stages.", note:"sc.sentinel",
+     steps:[
+      {id:"collect", name:"Collect", say:"Data connectors bring in data from users, devices, applications and infrastructure, on-premises and in any cloud.", example:"Calder connects Microsoft 365, its firewalls and its Azure activity logs."},
+      {id:"detect", name:"Detect", say:"Analytics rules look through the data for threats and raise alerts, which are grouped into incidents.", example:"A rule fires when a server that never talks to the internet starts sending data to an unknown address."},
+      {id:"investigate", name:"Investigate", say:"Analysts investigate incidents, and can also hunt: searching the data for threats before any alert has fired.", example:"An analyst traces which devices the suspicious account touched."},
+      {id:"respond", name:"Respond", say:"Automation rules and playbooks respond to incidents. Playbooks are workflows built on Azure Logic Apps.", example:"A playbook blocks the account and posts the incident to the team's channel."}],
+     caution:"Workbooks are dashboards for viewing data. Playbooks take action. The names are close, so read carefully.",
+     practice:P("Calder's team suspects an attacker has been inside the network for weeks without setting off any alert.","Which Sentinel activity fits what they should do?",
+      [["Hunting",true,"Hunting is proactively searching the data for threats that no rule has caught yet."],
+       ["Adding a data connector",false,"Connectors bring data in. The data is already there; the team needs to search it."],
+       ["Running a playbook",false,"A playbook responds to an incident. There's no incident yet to respond to."]])},
+    {id:"xdr", type:"facets", title:"Know each Defender by what it guards", lead:"Microsoft Defender XDR brings these services together in the Microsoft Defender portal and joins related alerts into one incident.", note:"sc.defender-xdr",
+     facets:[
+      {id:"mdo", name:"Defender for Office 365", say:"Protects email and collaboration tools against threats such as phishing and malicious links and attachments.", example:"Safe Links checks a link in a Teams message when it's clicked.", tags:["Email","Teams","SharePoint"]},
+      {id:"mde", name:"Defender for Endpoint", say:"Protects devices such as laptops, phones and servers. It includes endpoint detection and response.", example:"A laptop starts encrypting files. Defender for Endpoint alerts the team and the device is isolated.", tags:["Devices","Detection and response"]},
+      {id:"mdca", name:"Defender for Cloud Apps", say:"A cloud access security broker (CASB): it gives visibility and control over the cloud apps people use. It can discover apps nobody approved, known as shadow IT.", example:"Calder sees which cloud apps its staff use most, and blocks the ones that fail its security checks.", tags:["Cloud apps","Shadow IT","CASB"]},
+      {id:"mdi", name:"Defender for Identity", say:"Watches identity signals, including on-premises Active Directory, to detect compromised identities and attackers moving through the network.", example:"It spots an account trying to read every other account's details on a domain controller, the server that runs Active Directory.", tags:["Active Directory","Identity attacks"]}],
+     practice:P("A Calder employee gets an email with a fake invoice attached. She opens it on her laptop and the attachment tries to install malware.","Which two services cover the two stages, in that order?",
+      [["Defender for Office 365, then Defender for Endpoint",true,"The malicious email is Defender for Office 365's area. What happens on the laptop is Defender for Endpoint's."],
+       ["Defender for Identity, then Defender for Cloud Apps",false,"Identity watches for compromised accounts and Cloud Apps watches cloud app use. Neither stage is about those."],
+       ["Defender for Endpoint, then Defender for Office 365",false,"Right services, wrong order. The email arrives first; the device is involved second."]])},
+    {id:"more", type:"facets", title:"Vulnerabilities, threat intelligence and the portal", lead:"Three more parts of Defender XDR that the skills outline names.", note:"sc.mdvm",
+     facets:[
+      {id:"mdvm", name:"Vulnerability Management", say:"Microsoft Defender Vulnerability Management finds weaknesses across your devices and ranks them by risk, so you fix what matters most first.", example:"Calder learns that 40 laptops run a browser version with a flaw attackers are actively using.", tags:["Find","Prioritize","Fix"]},
+      {id:"ti", name:"Threat intelligence", say:"Microsoft's knowledge of threat actors, their tools and their techniques, available in the Defender portal. Threat analytics reports explain a current threat and show whether it affects you, and intel profiles describe known threat actors.", example:"An analyst reads a report on the group behind a current phishing campaign and what to check for.", tags:["Threat actors","Context"]},
+      {id:"portal", name:"Defender portal", say:"The Microsoft Defender portal is the one place where the security team works: incidents, alerts, hunting and reports from all the Defender services, plus Microsoft Sentinel and Defender for Cloud.", example:"One incident page shows the email, the device and the account involved in the same attack.", tags:["One place","Incidents"]}],
+     practice:P("Calder's IT lead wants one list of the software installed across its laptops, showing the known weaknesses in each program.","Which capability provides that?",
+      [["Defender Vulnerability Management",true,"Its software inventory lists installed software with the weaknesses found and the devices exposed."],
+       ["Threat intelligence",false,"That describes threat actors and their techniques. It isn't an inventory of your own software."],
+       ["Defender for Cloud Apps",false,"That covers the cloud apps people use, not software installed on devices."]])},
+    {id:"trap", type:"compare", title:"Two that get swapped", lead:"The names sound alike and they both deal with identity. Select each to see the difference.", note:"cmp.mdi-idprotection",
+     cols:[
+      {id:"mdi", name:"Defender for Identity", say:"Part of Defender XDR. Detects attacks on identities, with sensors that read signals from on-premises identity servers such as domain controllers. It also takes identity signals from Microsoft Entra ID.", example:"An attacker inside the network tries to steal credentials from a domain controller."},
+      {id:"idp", name:"Entra ID Protection", say:"Part of Microsoft Entra. Detects risky sign-ins and risky users in the cloud, and can feed that risk into Conditional Access.", example:"An account signs in from two countries within minutes."}],
+     rows:[["Belongs to","Microsoft Defender XDR","Microsoft Entra"],
+           ["Clue in the question","Active Directory, domain controller, sensor","Sign-in risk, user risk, leaked credentials"]],
+     rowsNote:"ID Protection is a Microsoft Entra feature. Microsoft Learn also lists it among the services whose signals Defender XDR brings together.",
+     practice:P("Before any attack has happened, Calder's analysts want to know which sensitive accounts an intruder could reach by moving sideways from an ordinary account.","Which product reports that?",
+      [["Microsoft Defender for Identity",true,"It assesses identity posture, including sensitive accounts with the riskiest lateral movement paths."],
+       ["Microsoft Entra ID Protection",false,"ID Protection scores risky sign-ins and risky users. It doesn't map movement paths between accounts."],
+       ["Microsoft Defender Vulnerability Management",false,"That ranks weaknesses in software and devices, not paths between accounts."]])},
+    {id:"check", type:"check", title:"Check yourself", lead:"Scored scenarios on Sentinel and the Defender XDR services.", from:[8], max:6}
+  ]};
+
+// ---------------------------------------------------------------- Level 9
+L[9]={id:"lesson.sc.9", day:9, v:1, reviewed:"2026-10-03", src:["https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900", "https://learn.microsoft.com/en-us/training/modules/describe-compliance-management-capabilities-microsoft/", "https://learn.microsoft.com/en-us/training/modules/describe-compliance-management-capabilities-microsoft/2-describe-service-trust-portal", "https://learn.microsoft.com/en-us/training/modules/describe-compliance-management-capabilities-microsoft/3-describe-microsofts-privacy-principles", "https://learn.microsoft.com/en-us/training/modules/describe-purview-risk-compliance-governance/4-describe-compliance-manager", "https://learn.microsoft.com/en-us/purview/compliance-manager-scoring", "https://learn.microsoft.com/en-us/training/modules/describe-purview-data-solutions/", "https://learn.microsoft.com/en-us/training/modules/describe-purview-data-solutions/2-identify-sensitive-data", "https://learn.microsoft.com/en-us/training/modules/describe-purview-data-solutions/3-describe-sensitivity-labels-policies", "https://learn.microsoft.com/en-us/training/modules/describe-purview-data-solutions/4-describe-data-loss-prevention"],
+  title:"Microsoft Purview: trust, compliance and protecting data",
+  subtitle:"Juniper Legal Aid, a fictional nonprofit, has to show it handles client data properly.",
+  sections:[
+    {id:"trust", type:"facets", title:"Trust and privacy", lead:"Before using a cloud service for sensitive work, an organization asks two things: can we see the audit evidence, and how is our data treated?", note:"sc.stp", exampleLabel:"Example at Juniper",
+     facets:[
+      {id:"stp", name:"Service Trust Portal", say:"Microsoft's site for audit reports and other compliance documents about its cloud services. It's where you get evidence of how Microsoft meets standards.", example:"Juniper's funder asks for Microsoft's independent audit report. The team downloads it from the Service Trust Portal."},
+      {id:"control", name:"Data control", say:"Your data belongs to you. You can access it, change it or delete it at any time.", example:"Juniper closes a program and deletes that program's client files."},
+      {id:"location", name:"Data location", say:"You can choose where your data is stored.", example:"Juniper keeps its data in the region its funding agreement requires."},
+      {id:"security", name:"Data security", say:"Your data is encrypted when it's stored and when it's moving.", example:"Case files are encrypted on Microsoft's disks and on the way to a lawyer's laptop."},
+      {id:"defense", name:"Data defense", say:"Microsoft defends your data. If a government asks Microsoft for it, Microsoft sends the request to you where it can and challenges the request where the law allows.", example:"An agency asks Microsoft for Juniper's files. Microsoft tells the agency to ask Juniper, and doesn't hand them over unless the law requires it."}],
+     caution:"Microsoft Learn's current SC-900 unit describes Microsoft's commitment to privacy in the four areas shown here, and calls these four its privacy principles. So \"privacy principles\" on the exam means these four. Microsoft's earlier list of six principles, which is no longer on Microsoft Learn but still turns up in older practice questions, was: control, transparency, security, strong legal protections, no content-based targeting, and benefits to you. Recognize both.",
+     practice:P("A government agency contacts Microsoft and asks for Juniper's case files.","Which commitment covers what Microsoft does next?",
+      [["Data defense",true,"Microsoft directs the request to the customer where it can, and challenges government requests where it lawfully can."],
+       ["Data location",false,"That one is about choosing where your data is stored."],
+       ["Data security",false,"That one is about encryption at rest and in transit."]])},
+    {id:"cm", type:"steps", title:"Compliance Manager", lead:"The Microsoft Purview portal is the one place for Microsoft's compliance and data protection tools, including Compliance Manager, Audit, eDiscovery, data loss prevention, information protection and insider risk management. Compliance Manager helps you track how you're doing against regulations and standards. Walk through how it's organized.", note:"sc.compliance-manager",
+     steps:[
+      {id:"assess", name:"Assessment", say:"An assessment groups the controls for one regulation or standard. Ready-made templates exist for common ones.", example:"Juniper adds an assessment for a data protection regulation."},
+      {id:"controls", name:"Controls", say:"A control is a requirement of that regulation. Some are managed by Microsoft, some by you, and some are shared.", example:"Microsoft handles physical security of the datacenter. Juniper handles who can read case files."},
+      {id:"actions", name:"Improvement actions", say:"Improvement actions are the steps you take to meet your controls. Each one comes with guidance.", example:"\"Turn on multifactor authentication for all staff.\""},
+      {id:"score", name:"Compliance score", say:"The compliance score measures your progress in completing improvement actions.", example:"Juniper finishes five actions and its score rises."}],
+     caution:"A high compliance score shows progress. It doesn't prove you're compliant with the law. And it's a different number from the secure score in Defender for Cloud.",
+     practice:P("Juniper's director sees the compliance score rise to 80% and asks, \"So we're 80% legally compliant?\"","What's the accurate answer?",
+      [["No. It shows progress on improvement actions",true,"The score measures how much of the recommended work is done. It isn't a legal finding."],
+       ["Yes. The score is a legal measure",false,"Compliance Manager doesn't certify anything. Its recommendations aren't a guarantee of compliance, and you still have to evaluate and validate your own controls."],
+       ["No. That number is the secure score",false,"The secure score is in Defender for Cloud and measures security posture. This number is the compliance score."]])},
+    {id:"know", type:"facets", title:"Know your data", lead:"You can't protect data until you know what you have and where it is. These four features do that.", note:"sc.data-classification",
+     facets:[
+      {id:"sit", name:"Sensitive information types", say:"Detect data that follows a pattern, such as credit card numbers or national ID numbers.", example:"Every document containing a bank account number is found.", tags:["Pattern-based"]},
+      {id:"tc", name:"Trainable classifiers", say:"Use machine learning to recognize a kind of content from examples, where there's no fixed pattern to match.", example:"Purview learns what Juniper's client agreements look like and finds the rest.", tags:["Learns from examples"]},
+      {id:"content", name:"Content explorer", say:"Shows the items that have been classified or labeled, and where they are stored.", example:"Juniper sees that 300 items with ID numbers sit in one shared folder.", tags:["Where it is"]},
+      {id:"activity", name:"Activity explorer", say:"Shows what people have done with labeled content, such as changing or removing a label.", example:"Juniper sees how often labeled case files were printed last month.", tags:["What happened to it"]}],
+     practice:P("Juniper's data officer wants to know how many items containing national ID numbers the organization holds, and which sites they sit in.","Which feature shows that?",
+      [["Content explorer",true,"It shows the items that have been classified or labeled, and where they are stored."],
+       ["Activity explorer",false,"That shows what people did with labeled content. It doesn't count what is stored where."],
+       ["A trainable classifier",false,"That recognizes a kind of content. It isn't a view of what you hold."]])},
+    {id:"protect", type:"compare", title:"Sensitivity labels and data loss prevention", lead:"Both protect sensitive data, in different ways. Select each one.", note:"cmp.labels-dlp",
+     cols:[
+      {id:"label", name:"Sensitivity labels", say:"Classify an item and protect it. A label can encrypt the item and add a watermark, header or footer. The protection stays with the item wherever it goes.", example:"A case file labeled Confidential can only be opened by Juniper staff, even after it's emailed out."},
+      {id:"dlp", name:"Data loss prevention", say:"Policies that detect sensitive information and stop it being shared where it shouldn't be, in email, Teams, SharePoint, OneDrive and on devices.", example:"A volunteer starts to paste a client's bank details into a Teams chat with an outside guest. The message is blocked and a tip explains why."}],
+     rows:[["What it does","Marks and protects the item","Watches for risky sharing and blocks it"],
+           ["Follows the item?","Yes","No. It acts where the sharing happens"],
+           ["How users meet it","A label on the document or email","A policy tip or a blocked action"]],
+     caution:"Labels reach people through a sensitivity label policy. The policy chooses which users see which labels, and can set a default label, require a reason before a label is lowered or removed, or make labeling mandatory. An item can have only one sensitivity label at a time.",
+     practice:P("Juniper wants every document marked Confidential to carry a \"Confidential\" footer on each page.","Which feature does that?",
+      [["A sensitivity label",true,"A label can mark content with a header, footer or watermark as well as encrypting it."],
+       ["A data loss prevention policy",false,"That watches for sensitive information being shared. It doesn't mark documents."],
+       ["A retention label",false,"Retention labels decide how long an item is kept."]])},
+    {id:"check", type:"check", title:"Check yourself", lead:"Scored scenarios on the Service Trust Portal, privacy, Compliance Manager, classification, labels and data loss prevention.", from:[9], max:6}
+  ]};
+
+// ---------------------------------------------------------------- Level 10
+L[10]={id:"lesson.sc.10", day:10, v:1, reviewed:"2026-10-03", src:["https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900", "https://learn.microsoft.com/en-us/training/modules/describe-purview-risk-compliance-governance/", "https://learn.microsoft.com/en-us/training/modules/describe-purview-risk-compliance-governance/6-describe-data-lifecycle-management", "https://learn.microsoft.com/en-us/training/modules/describe-purview-risk-compliance-governance/7-describe-records-management", "https://learn.microsoft.com/en-us/purview/retention", "https://learn.microsoft.com/en-us/training/modules/describe-purview-data-solutions/5-describe-insider-risk-management", "https://learn.microsoft.com/en-us/purview/insider-risk-management", "https://learn.microsoft.com/en-us/purview/insider-risk-management-settings-privacy", "https://learn.microsoft.com/en-us/training/modules/describe-purview-risk-compliance-governance/3-describe-ediscovery", "https://learn.microsoft.com/en-us/purview/edisc", "https://learn.microsoft.com/en-us/training/modules/describe-purview-risk-compliance-governance/2-describe-audit", "https://learn.microsoft.com/en-us/purview/audit-solutions-overview"],
+  title:"Microsoft Purview: retention, insider risk, eDiscovery and audit",
+  subtitle:"Juniper Legal Aid decides what to keep, watches for risky activity and prepares for a legal request.",
+  sections:[
+    {id:"keep", type:"compare", title:"Keeping and deleting content", lead:"Data lifecycle management decides how long content is kept and when it's deleted. Select each option.", note:"cmp.retention-policy-label",
+     cols:[
+      {id:"policy", name:"Retention policy", say:"Applies the same keep-or-delete settings to whole locations, such as all mailboxes or a set of sites.", example:"Everything in Juniper's shared intake mailbox is kept for five years, then deleted."},
+      {id:"label", name:"Retention label", say:"Applies settings to an individual item, such as one document or one email. An item can have only one retention label at a time. Labels are published in a retention label policy, which makes them available in chosen locations, or applied automatically when conditions are met.", example:"Signed client agreements are labeled to be kept for seven years."},
+      {id:"record", name:"Record", say:"Records management lets an item be declared a record, which is done with a retention label. Restrictions then apply to it, such as blocking edits or deletion, and what happens to it is logged. At the end of the period a reviewer can be asked to approve disposal, and proof of disposal is kept. A regulatory record is stricter: nobody, not even an administrator, can remove the label.", example:"A court filing is declared a record and can no longer be changed."}],
+     rows:[["Applies to","Whole locations","Single items","Single items"],
+           ["Use it when","One rule fits everything in a place","Some items need a different rule","An item must be provably unchanged"]],
+     practice:P("Juniper moves a signed agreement that carries a seven-year retention label from one SharePoint site to another.","What happens to the label's settings?",
+      [["They stay with the document",true,"Retention settings from a retention label travel with the item when it moves within your Microsoft 365 organization."],
+       ["They're removed when it leaves the site",false,"That describes a retention policy, whose settings belong to the location. A label belongs to the item."],
+       ["They change to match the new site's policy",false,"The label stays on the item. An item can have only one retention label at a time."]])},
+    {id:"insider", type:"steps", title:"Insider risk management", lead:"Insider risk management detects risky activity by people inside the organization. Walk through how a case moves.", note:"sc.insider-risk",
+     steps:[
+      {id:"policy", name:"Policies", say:"Policies define which activities to watch for, such as data theft by someone who is leaving.", example:"Juniper sets up a policy for departing staff."},
+      {id:"alert", name:"Alerts", say:"When activity matches a policy, an alert is raised.", example:"A caseworker in their last week prints far more case files than usual."},
+      {id:"triage", name:"Triage", say:"Reviewers look at new alerts and decide which need a closer look.", example:"The reviewer confirms this one is unusual for that role."},
+      {id:"investigate", name:"Investigate", say:"A case is opened to look at the activity in detail.", example:"The case shows what was printed and when, alongside the person's other recent activity."},
+      {id:"action", name:"Action", say:"The outcome can be a reminder to the person, or the case can be passed on for further investigation.", example:"The case goes to the legal team."}],
+     caution:"Privacy is built in. By default, the people shown in alerts are pseudonymized, so reviewers don't see names unless that's allowed.",
+     practice:P("A reviewer at Juniper goes through the new alerts each morning. She dismisses two and opens a case for the third.","Which stage of the workflow is she carrying out?",
+      [["Triage",true,"Triage is where reviewers evaluate new alerts and decide what to do with each one: open a case, add it to an existing case, or dismiss it."],
+       ["Investigate",false,"Investigation happens inside the case, after triage has decided an alert needs one."],
+       ["Policies",false,"Policies define which activities to watch for. They come before any alert exists."]])},
+    {id:"ediscovery", type:"steps", title:"eDiscovery", lead:"eDiscovery is how an organization finds and hands over content for a legal case. Walk through it.", note:"sc.ediscovery",
+     steps:[
+      {id:"case", name:"Open a case", say:"A case holds everything about one legal matter and controls who can work on it.", example:"Juniper opens a case for a dispute with a former contractor."},
+      {id:"search", name:"Search", say:"Searches find the content that matters across mailboxes, sites and Teams.", example:"Juniper searches for messages that mention the contract number."},
+      {id:"hold", name:"Act on the results", say:"From the search results you can place a hold, which preserves the content so it can't be permanently deleted while the hold is in place. You can also add the items to a review set (a premium feature) or export them.", example:"The contractor's mailbox and project site are placed on hold."},
+      {id:"export", name:"Review and export", say:"Reviewers look through the collected items, tag what matters, and export it to hand over.", example:"The relevant messages are exported for Juniper's lawyers."}],
+     caution:"Microsoft Learn lists searching before holds. If content is at risk of being deleted, placing the hold is the urgent part.",
+     practice:P("Juniper's hold is in place and its searches have found 400 relevant messages. Its outside lawyers have no access to Juniper's Microsoft 365.","What does Juniper do with the results?",
+      [["Export them",true,"Export copies the items out of Microsoft 365 so people outside the investigation team can review them."],
+       ["Place a second hold on them",false,"A hold preserves content where it is. It doesn't hand anything to the lawyers."],
+       ["Search the audit log for them",false,"Audit records who did what. It doesn't deliver message content."]])},
+    {id:"audit", type:"compare", title:"Audit", lead:"Microsoft Purview Audit records what users and administrators did, so you can answer \"who did what, and when?\"", note:"sc.audit",
+     cols:[
+      {id:"std", name:"Audit (Standard)", say:"Records and lets you search audited activities. Records are kept for 180 days by default.", example:"Juniper checks which staff member changed the sharing settings on a client folder last month."},
+      {id:"prem", name:"Audit (Premium)", say:"Builds on Standard. Records from Microsoft Entra ID, Exchange, SharePoint and OneDrive are kept for one year by default, you can set your own retention policies, and more detailed events are available for investigations.", example:"During an investigation, Juniper looks back at activity from eleven months ago."}],
+     rows:[["Default retention","180 days","One year for Entra ID, Exchange, SharePoint and OneDrive records; 180 days for the rest"],
+           ["Good for","Everyday \"who did what\"","Longer investigations"]],
+     rowsNote:"Audit (Premium) can keep records for up to ten years with an add-on license.",
+     practice:P("Juniper needs to know which administrator changed a mailbox permission two weeks ago.","Which tool answers that?",
+      [["Audit",true,"Audit records administrator and user activities, and two weeks is well inside the default retention."],
+       ["eDiscovery",false,"eDiscovery finds content for legal cases. It isn't a log of who changed a setting."],
+       ["Insider risk management",false,"That raises alerts on risky activity under a policy. It isn't for looking up a single change."]])},
+    {id:"check", type:"check", title:"Check yourself", lead:"Scored scenarios on retention, records, insider risk, eDiscovery and audit.", from:[10], max:6}
+  ]};
+
+// ---------------------------------------------------------------- Level 11 (review checkpoint)
+L[11]={id:"lesson.sc.11", day:11, v:1, reviewed:"2026-10-03", src:["https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900", "https://learn.microsoft.com/en-us/training/modules/describe-basic-security-capabilities-azure/", "https://learn.microsoft.com/en-us/training/modules/describe-security-management-capabilities-of-azure/2-describe-defender-cloud", "https://learn.microsoft.com/en-us/training/modules/describe-security-capabilities-of-azure-sentinel/3-describe-sentinel-provide-integrated-threat-management", "https://learn.microsoft.com/en-us/training/modules/describe-threat-protection-with-microsoft-365-defender/2-describe-services", "https://learn.microsoft.com/en-us/training/modules/describe-purview-data-solutions/", "https://learn.microsoft.com/en-us/training/modules/describe-purview-risk-compliance-governance/", "https://learn.microsoft.com/en-us/training/modules/describe-security-concepts-methodologies/2-describe-shared-responsibility-model", "https://learn.microsoft.com/en-us/training/modules/describe-identity-principles-concepts/"],
+  title:"Full SC-900 review",
+  subtitle:"Short workplace cases weighted toward security solutions and compliance, plus two on core concepts. Then an independent check across every level.",
+  sections:[
+    {id:"cases", type:"casebook", title:"Guided review",
+     cases:[
+      {id:"c1", task:"Pick the control", s:"A retailer has Azure DDoS Protection on its virtual network. A consultant says the store is still open to floods of web requests aimed at its checkout page.", q:"What should be added?",
+       o:[["Web Application Firewall",true,"DDoS Protection covers the network and transport layers. Floods of web requests are an application-layer attack, which a Web Application Firewall handles."],["A network security group",false,"That allows or denies traffic by address, port and protocol. Web requests to the checkout page are traffic it's meant to allow."],["Azure Bastion",false,"Bastion gives administrators safe access to virtual machines."]],
+       links:[{day:7,sec:"edge",label:"Level 7: Four network controls"},{concept:"sc.ddos"}]},
+      {id:"c2", task:"Explain the change", s:"A cloud team's secure score went up overnight, although nobody on the team changed anything.", q:"What is the most likely reason?",
+       o:[["Someone fixed resources that had open recommendations",true,"Secure score rises when recommendations are fixed, whoever fixes them. Defender for Cloud reassesses continually."],["A regulation was added in Compliance Manager",false,"That affects the compliance score in Microsoft Purview, which is a different number."],["Fewer people signed in that day",false,"Sign-in activity doesn't feed the secure score. It measures how resources are configured."]],
+       links:[{day:7,sec:"posture",label:"Level 7: How your secure score improves"},{concept:"sc.cspm"}]},
+      {id:"c3", task:"Pick the product", s:"A hospital wants every security log in one place, searched for threats, with automatic responses to common alerts.", q:"Which product does both jobs?",
+       o:[["Microsoft Sentinel",true,"Sentinel is both a SIEM, which collects and analyzes, and a SOAR, which automates the response."],["Microsoft Defender for Endpoint",false,"That protects devices. It isn't the central place for all logs."],["Microsoft Purview Audit",false,"Audit records user and administrator activity for compliance. It isn't a SIEM."]],
+       links:[{day:8,sec:"sentinel",label:"Level 8: How Microsoft Sentinel works"},{concept:"sc.sentinel"}]},
+      {id:"c4", task:"Match the Defender", s:"An IT manager wants to stop staff downloading files from the company's approved cloud storage app onto personal devices the company doesn't manage.", q:"Which service can apply that control?",
+       o:[["Defender for Cloud Apps",true,"Defender for Cloud Apps can control what happens in cloud apps, such as blocking downloads to an unmanaged device."],["Defender for Office 365",false,"That protects email and collaboration tools from threats such as phishing."],["Defender for Identity",false,"That detects attacks on identities using signals such as on-premises Active Directory."]],
+       links:[{day:8,sec:"xdr",label:"Level 8: Know each Defender by what it guards"},{concept:"sc.mdca"}]},
+      {id:"c5", task:"Spot the swap", s:"An alert says an account on the office network is asking a domain controller for the members of every administrator group.", q:"Which service raised it?",
+       o:[["Microsoft Defender for Identity",true,"Reconnaissance against Active Directory is detected by Defender for Identity's sensors on domain controllers."],["Microsoft Entra ID Protection",false,"ID Protection scores risky sign-ins and risky users in Microsoft Entra. This activity is inside on-premises Active Directory."],["Microsoft Sentinel",false,"Sentinel could show the alert, but the detection itself comes from Defender for Identity."]],
+       links:[{day:8,sec:"trap",label:"Level 8: Two that get swapped"},{day:5,sec:"idp",label:"Level 5: ID Protection"}]},
+      {id:"c6", task:"Choose the tool", s:"A law firm wants a client's ID number hidden if someone pastes it into a Teams chat that includes an outside guest.", q:"Which feature does that?",
+       o:[["A data loss prevention policy",true,"Data loss prevention covers Teams chat and channel messages, and can stop sensitive information being displayed."],["A sensitivity label",false,"A label classifies and protects a document or email. It doesn't scan chat messages as they're sent."],["A retention policy",false,"Retention decides how long chats are kept."]],
+       links:[{day:9,sec:"protect",label:"Level 9: Sensitivity labels and data loss prevention"},{concept:"sc.dlp"}]},
+      {id:"c7", task:"Apply the rule", s:"A school wants one contract to carry a five-year retention label and a ten-year retention label at the same time.", q:"What is true?",
+       o:[["An item can have only one retention label at a time",true,"The school has to choose one label for the contract. More than one retention policy can apply to the same content, but not more than one label."],["Both labels apply and the longer one wins",false,"That is how several retention policies on the same content work out. Labels are different: an item carries only one."],["The second label makes the contract a record",false,"An item becomes a record only when its label is set up to declare it one."]],
+       links:[{day:10,sec:"keep",label:"Level 10: Keeping and deleting content"},{concept:"sc.retention"}]},
+      {id:"c8", task:"Choose the tool", s:"A charity needs to find out which administrator turned off a security setting last week.", q:"Where does it look?",
+       o:[["Microsoft Purview Audit",true,"Audit records what users and administrators did, and when."],["Insider risk management",false,"That raises alerts on risky activity under a policy. It isn't a lookup for one change."],["The Service Trust Portal",false,"That holds Microsoft's own audit reports and compliance documents."]],
+       links:[{day:10,sec:"audit",label:"Level 10: Audit"},{concept:"sc.audit"}]},
+      {id:"c9", task:"Decide what failed", s:"A contractor types the right password, but the sign-in is refused because the fingerprint check that follows doesn't match.", q:"Which step failed?",
+       o:[["Authentication",true,"Proving who you are is authentication. One of the two factors didn't match."],["Authorization",false,"Authorization decides what you may do after you've proved who you are. She never got that far."],["Auditing",false,"Auditing records what happened. It doesn't decide sign-ins."]],
+       links:[{day:2,sec:"aaa",label:"Level 2: Authentication, authorization and auditing"},{concept:"sc.authn"}]},
+      {id:"c10", task:"Apply the model", s:"A company moves its email to a software as a service product and asks what it's still responsible for.", q:"Which is always the customer's job?",
+       o:[["Its data and its user accounts",true,"Data and identities stay with the customer in every cloud model."],["The physical datacenter",false,"The provider always looks after the physical datacenter."],["Patching the email servers",false,"With software as a service, the provider runs and patches the application."]],
+       links:[{day:1,sec:"shared",label:"Level 1: Shared responsibility"},{concept:"sc.shared-resp"}]}
+     ]},
+    {id:"check", type:"check", title:"Independent check", lead:"Scored scenarios drawn from every SC-900 lesson level. The cases above stay hidden.", from:[1,2,3,4,5,7,8,9,10], max:10}
+  ]};
+
+// ---------------------------------------------------------------- Level 12 (exam day)
+L[12]={id:"lesson.sc.12", day:12, v:1, reviewed:"2026-10-03", src:["https://learn.microsoft.com/en-us/credentials/support/exam-duration-exam-experience", "https://learn.microsoft.com/en-us/credentials/certifications/exam-scoring-reports", "https://learn.microsoft.com/en-us/credentials/certifications/security-compliance-and-identity-fundamentals/", "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900"],
+  title:"SC-900 exam day",
+  subtitle:"What to do before, during and after. Nothing new to learn today.",
+  sections:[
+    {id:"plan", type:"steps", title:"Your exam day plan", lead:"Walk through the day in order.", exampleLabel:"What that looks like",
+     steps:[
+      {id:"before", name:"The day before", say:"Stop learning new material. Look over your Pocket Notes for the areas your practice assessment showed as weakest, then rest.", example:"Twenty minutes on your two weakest areas, then close the laptop."},
+      {id:"warm", name:"Warm up", say:"On the day, do one short warm-up to get your head into the wording. Then stop.", example:"Ten exam-style questions from Practice, and no more."},
+      {id:"during", name:"During the exam", say:"Answer every question. Mark any you're unsure about for review and come back at the end. Don't take a break before you've done that: after a break you can't return to questions you've already seen, and the clock keeps running. For most questions with several parts, each part you get right earns a point.", example:"A question with three parts: answer all three, even if you're only sure of two."},
+      {id:"after", name:"Afterward", say:"You see your result at the end. A score of 700 or more out of 1000 is a pass. If you don't pass, your score report shows which areas to work on before a retake.", example:"Pass: tell your instructor. Not yet: note the weak areas the same day, while you remember the questions."}],
+     caution:"The exam gives you 45 minutes to answer. Allow 65 minutes in all: the rest is for the instructions, the candidate agreement and optional comments at the end.",
+     practice:P("With five minutes left, you have three flagged questions you're not sure about.","What's the best use of the time?",
+      [["Give each your best answer and move on",true,"An unanswered question earns nothing, so a considered guess is always better than a blank."],
+       ["Leave them blank",false,"A blank can't earn a point. A guess can."],
+       ["Use the time to recheck questions you were confident about",false,"Changing answers you were sure of rarely helps, and the flagged ones would stay unanswered."]])},
+    {id:"clues", type:"facets", title:"Clue word to product", lead:"Most product questions turn on one clue. Select an exam area to see its clues.", exampleLabel:"Watch for this swap",
+     facets:[
+      {id:"entra", name:"Microsoft Entra", say:"Conditions on sign-in: Conditional Access. Just-in-time admin roles: Privileged Identity Management. Re-confirming who has access: access reviews. Risky sign-ins and risky users: ID Protection.", example:"Security defaults are the free baseline. Conditional Access is the tailored version."},
+      {id:"security", name:"Security solutions", say:"Devices: Defender for Endpoint. Email and phishing: Defender for Office 365. On-premises Active Directory: Defender for Identity. Unapproved cloud apps, shadow IT or CASB: Defender for Cloud Apps. SIEM and SOAR: Sentinel. Secure score: Defender for Cloud.", example:"Defender for Identity: sensors on domain controllers and attacks on Active Directory (it also reads Microsoft Entra ID signals). ID Protection: sign-in risk and user risk in Microsoft Entra."},
+      {id:"compliance", name:"Compliance", say:"Microsoft's audit reports: Service Trust Portal. Progress against regulations: Compliance Manager. Classify and encrypt: sensitivity labels. Stop data leaving: data loss prevention. Keep or delete: retention. Legal case: eDiscovery. Who did what: Audit.", example:"Compliance score is about regulations. Secure score is about security posture."}],
+     practice:P("A question mentions \"interactive dashboards and visual reports built from the data connected to Microsoft Sentinel\".","Which feature is it pointing at?",
+      [["Workbooks",true,"Workbooks are Sentinel's dashboards and visual reports."],
+       ["Playbooks",false,"Playbooks are automated workflows that respond to incidents. The names are close, which is why the exam uses them together."],
+       ["Analytics rules",false,"Analytics rules search the data and raise alerts. They don't display anything."]])},
+    {id:"check", type:"check", title:"Final warm-up", lead:"Ten scored scenarios from across SC-900. Do this once, then stop studying.", from:[1,2,3,4,5,7,8,9,10], max:10}
+  ]};
+})();
