@@ -83,8 +83,8 @@ const scenarios=[
   "o": [
    "Run a copy of the portal in a second region",
    "Encrypt the portal's database at rest",
-   "Require MFA for all portal administrators",
-   "Hash every permit record the portal stores"
+   "Require MFA for portal administrators",
+   "Store file hashes for the permit records"
   ],
   "why": "The requirement is availability, and a second region keeps the portal online if one datacenter fails.",
   "no": [
@@ -258,16 +258,16 @@ const scenarios=[
   "s": "A logistics company's drivers use tablets on the road, never inside an office network. Leadership wants access to the dispatch app decided at each sign-in using the user, the device's health and the location. The company already has Microsoft Entra ID P1 licenses.",
   "q": "Which option fits this requirement?",
   "o": [
-   "Conditional Access in Microsoft Entra ID",
-   "Security defaults for the Microsoft Entra tenant",
-   "A VPN back to the head office network",
-   "Network security group rules in Azure"
+   "A Conditional Access policy in Microsoft Entra ID",
+   "Security defaults for Microsoft Entra sign-ins",
+   "A VPN requirement before drivers open the dispatch app",
+   "Network security group rules on the app subnet"
   ],
   "why": "Conditional Access evaluates signals like user, device and location per sign-in, and the company's P1 licenses cover it.",
   "no": [
-   "Security defaults apply one fixed baseline and can't use device or location conditions.",
-   "A VPN trusts the network connection, not per-sign-in signals.",
-   "NSGs filter network traffic by IP and port, not by user or device health."
+   "Security defaults apply one baseline and can't evaluate device or location conditions.",
+   "A VPN adds a network path but doesn't evaluate user, device health or location at each sign-in.",
+   "NSGs filter network traffic by IP and port, not by user, device health or sign-in location."
   ],
   "take": "Per-sign-in decisions on user, device and location call for Conditional Access (Entra ID P1)."
  },
@@ -289,15 +289,15 @@ const scenarios=[
   "q": "What is the university using to protect these downloads?",
   "o": [
    "A hash of each installer file",
-   "Symmetric encryption of each file",
-   "A TLS certificate on the web server",
-   "Asymmetric encryption of each file"
+   "Symmetric encryption on each installer file",
+   "A TLS certificate for the download session",
+   "Asymmetric encryption on each installer file"
   ],
   "why": "A hash is a one-way, fixed-length value that changes if the file changes, so matching values prove integrity.",
   "no": [
-   "Symmetric encryption hides content; students would need a key to open the file.",
-   "TLS protects the connection in transit but doesn't give a value to compare afterward.",
-   "Asymmetric encryption also hides content rather than producing a value to compare."
+   "Symmetric encryption hides the installer contents; students would need a key to open the file.",
+   "TLS protects the download session in transit but doesn't give students a value to compare afterward.",
+   "Asymmetric encryption also hides the installer contents rather than producing a value to compare."
   ],
   "take": "Matching hash values prove a file hasn't been changed."
  },
@@ -318,15 +318,15 @@ const scenarios=[
   "s": "A retail chain copies customer database backups nightly to a storage location over a TLS connection. An audit found the backup files sit unencrypted once stored. The IT team must still be able to restore from them.",
   "q": "What should the team do first to close the gap the audit found?",
   "o": [
-   "Encrypt the stored backup files at rest",
-   "Hash the backup files so they can't be read",
-   "Renew the TLS certificate on the copy link",
+   "Encrypt the backups where they are stored",
+   "Hash the backups and store the hash beside them",
+   "Renew the TLS certificate on the backup transfer",
    "Move the backups to a faster storage tier"
   ],
   "why": "The gap is data at rest, and encryption protects it while still letting the key holders restore the data.",
   "no": [
-   "A hash can't be reversed, so the backups could never be restored.",
-   "TLS already protects data in transit, which isn't the gap.",
+   "A hash helps verify integrity, but it doesn't keep stored backup contents confidential.",
+   "TLS already protects the backup transfer in transit, which isn't the gap.",
    "A faster tier changes performance, not confidentiality."
   ],
   "take": "TLS covers data in transit; stored data needs encryption at rest."
@@ -348,7 +348,7 @@ const scenarios=[
   "q": "Which approach fits these constraints?",
   "o": [
    "Asymmetric encryption with the district's public key",
-   "Symmetric encryption with one key for all parents",
+   "Symmetric encryption with a shared key sent to parents",
    "Hashing each form before parents upload it",
    "Base64 encoding each form before upload"
   ],
@@ -437,7 +437,7 @@ const scenarios=[
    "Mitigate by isolating the kiosk on its own network",
    "Avoid by retiring the kiosk app immediately",
    "Accept the risk and leave the setup unchanged",
-   "Transfer the risk by buying cyber insurance only"
+   "Transfer the risk with a cyber insurance policy"
   ],
   "why": "Mitigation keeps the app in use while reducing impact, which matches both the budget and the goal.",
   "no": [
@@ -523,16 +523,16 @@ const scenarios=[
   "s": "A retail chain's store managers sign in on shared register tablets. Policy requires two different types of authentication factor, and personal phones aren't allowed on the sales floor. Every manager carries a company badge with a smart chip.",
   "q": "Which sign-in combination meets the policy?",
   "o": [
-   "A PIN plus the company smart badge",
-   "A password plus a security question",
-   "A password plus a personal phone app",
-   "Two separate passwords typed in turn"
+   "A PIN plus the issued smart badge",
+   "A password plus the smart badge's printed code",
+   "A phone approval prompt after badge sign-in",
+   "Two separate PINs typed on the shared tablet"
   ],
   "why": "A PIN is something you know and the badge is something you have, giving two factor types without personal phones.",
   "no": [
-   "A password and security question are both something you know.",
-   "Personal phones are banned on the sales floor.",
-   "Two passwords are the same factor type twice."
+   "A password and a badge's printed code are both something you know.",
+   "Personal phones are banned on the sales floor, even if the badge starts the sign-in.",
+   "Two PIN entries are still the same factor type twice."
   ],
   "take": "Multifactor means different factor types, not more of the same one."
  },
@@ -585,7 +585,7 @@ const scenarios=[
   "q": "What should the manufacturer do first?",
   "o": [
    "Sync AD DS users to Entra ID with Entra Connect",
-   "Recreate all 400 accounts by hand in Entra ID",
+   "Create 400 separate accounts by hand in Entra ID",
    "Invite each employee to Entra ID as a guest user",
    "Deploy Microsoft Entra Domain Services"
   ],
@@ -614,9 +614,9 @@ const scenarios=[
   "q": "Which approach meets the partners' requirements?",
   "o": [
    "Use Entra ID as the single sign-on provider",
-   "Give staff a password manager for all 12 apps",
+   "Give staff a password manager across the 12 apps",
    "Turn on self-service password reset per app",
-   "Enforce longer passwords inside every app"
+   "Enforce longer passwords across the apps"
   ],
   "why": "Entra ID acts as the identity provider and issues tokens the apps trust, so users sign in once and apps hold no passwords.",
   "no": [
@@ -760,15 +760,15 @@ const scenarios=[
   "s": "A city government runs on-premises Active Directory for 600 staff and is moving email to Microsoft 365. Leadership wants staff to keep using their existing domain username and password in the cloud. None of those accounts exist in Microsoft Entra ID yet.",
   "q": "What should IT set up first?",
   "o": [
-   "Synchronize AD accounts to Entra ID with Entra Connect",
-   "Invite every employee into the tenant as a B2B guest",
-   "Create new cloud-only accounts with fresh passwords",
-   "Turn on Conditional Access for Microsoft 365 apps"
+   "Synchronize the staff identities from AD into Entra ID",
+   "Invite the city's AD users into Entra ID as guests",
+   "Create separate Entra ID user accounts with new passwords",
+   "Turn on Conditional Access for Entra ID sign-ins"
   ],
   "why": "Staff keep one identity only if their AD accounts are synchronized to Entra ID, and nothing else can target them until they exist there.",
   "no": [
    "Guest accounts are for people outside the organization, not the city's own staff.",
-   "New cloud-only accounts break the goal of reusing existing domain credentials.",
+   "Separate cloud-only accounts break the goal of reusing existing domain credentials.",
    "Conditional Access policies need users in Entra ID to apply to, so it can't come first."
   ],
   "take": "Existing AD users in Microsoft 365 start with Entra Connect synchronization, a hybrid identity."
@@ -821,7 +821,7 @@ const scenarios=[
    "Microsoft Entra joined",
    "Microsoft Entra registered",
    "Microsoft Entra hybrid joined",
-   "Joined to on-premises AD only"
+   "Joined to the on-premises AD domain"
   ],
   "why": "Organization-owned Windows devices that sign in with an Entra account and no on-prem domain are Microsoft Entra joined.",
   "no": [
@@ -937,14 +937,14 @@ const scenarios=[
   "s": "A logistics company connected its new dispatch app to Microsoft Entra ID and wrote a policy that will require MFA for all drivers. The policy isn't switched on yet. Most drivers have never set up any second authentication method.",
   "q": "What should happen before the MFA requirement is enforced?",
   "o": [
-   "Drivers register an authentication method",
-   "Enforce the MFA policy for every driver",
+   "Drivers complete MFA registration first",
+   "Enforce MFA and let drivers register at sign-in",
    "Enable password writeback for the drivers",
-   "Turn on smart lockout for driver accounts"
+   "Turn on smart lockout for driver sign-ins"
   ],
   "why": "A user can only complete MFA with a method they've registered, so registration needs to come before enforcement.",
   "no": [
-   "Enforcing first makes drivers register at their next sign-in, so anyone who already has a driver's password could register their own second factor.",
+   "Enforcing first lets anyone with a driver's password try to register a second factor at that next sign-in.",
    "Password writeback is about SSPR updating on-premises AD, not second factors.",
    "Smart lockout slows password-guessing attacks; it doesn't give users a second factor."
   ],
@@ -1238,7 +1238,7 @@ const scenarios=[
   "o": [
    "Make admins eligible for the role in PIM",
    "Assign the role permanently and require MFA",
-   "Review the role's members every quarter",
+   "Review the role's members quarterly",
    "Give admins a custom role with fewer rights"
   ],
   "why": "Eligible assignments in PIM remove standing access and require approved, time-limited, audited activation, and P2 covers PIM.",
@@ -1296,16 +1296,16 @@ const scenarios=[
   "s": "A manufacturer is starting a 90-day project with a partner company. It has Microsoft Entra ID Governance and has already set up the partner as a connected organization. Partner staff should request a Teams team, a SharePoint site and an app themselves, with manager approval, and lose access when the project ends.",
   "q": "What should the manufacturer set up next?",
   "o": [
-   "An access package with approval and a 90-day expiry",
-   "Individual guest invitations sent by IT to each user",
-   "PIM eligible assignments for each partner user",
-   "A quarterly access review of the partner's guests"
+   "An access package with manager approval and expiry",
+   "Guest invitations with manager approval for each resource",
+   "PIM role activations for the partner users",
+   "A scheduled review of partner access near project end"
   ],
   "why": "Entitlement management access packages bundle resources, let connected-organization users request them with approval, and expire access automatically.",
   "no": [
-   "Manual invitations don't give self-service requests, approval, or automatic expiry.",
-   "PIM is for privileged roles, not a project bundle of Teams, SharePoint and apps.",
-   "A review re-checks access later but doesn't give partners a way to request it."
+   "Manual invitations don't give partners self-service requests, approval, or automatic expiry.",
+   "PIM is for privileged roles, not a project bundle of Teams, SharePoint, and apps.",
+   "A review re-checks guest access later but doesn't give partners a way to request it."
   ],
   "take": "Self-service request, approval and expiry for a bundle of access means an access package."
  },
@@ -1513,10 +1513,10 @@ const scenarios=[
   "s": "A logistics company runs apps for its warehouses across 12 Azure virtual networks. Servers may reach only a short list of internet domains, such as *.windowsupdate.com and a carrier's tracking API, and one team must manage a single policy for all 12 networks. Earlier rules based on IP addresses kept breaking because the vendors' IPs change often.",
   "q": "Which option meets all of these requirements?",
   "o": [
-   "Azure Firewall with FQDN-based application rules",
-   "Network security groups on each warehouse subnet",
-   "Web Application Firewall on Azure Front Door",
-   "An Azure DDoS Network Protection plan"
+   "Azure Firewall with central rules by domain name",
+   "Network security groups with copied rules on each warehouse network",
+   "Web Application Firewall with one policy for the warehouse apps",
+   "An Azure DDoS plan on the warehouse networks"
   ],
   "why": "Azure Firewall can filter outbound traffic by domain name (FQDN) and apply one central policy across many virtual networks.",
   "no": [
@@ -1609,9 +1609,9 @@ const scenarios=[
   "q": "Which control fits these requirements?",
   "o": [
    "A network security group on the database subnet",
-   "Azure Firewall placed between the two subnets",
-   "A Web Application Firewall on Application Gateway",
-   "Separate virtual networks joined by peering"
+   "Azure Firewall placed between the web and database subnets",
+   "A Web Application Firewall on the web tier",
+   "Separate virtual networks for the web and database tiers"
   ],
   "why": "An NSG filters by source, destination, port and protocol at no extra charge, which is exactly this rule.",
   "no": [
@@ -1675,7 +1675,7 @@ const scenarios=[
   "q": "What should the team do first to raise the score?",
   "o": [
    "Work through the security recommendations",
-   "Enable a paid Defender plan for every workload",
+   "Enable a paid Defender plan across the workloads",
    "Create a new assessment in Compliance Manager",
    "Connect the subscription to Microsoft Sentinel"
   ],
@@ -1895,9 +1895,9 @@ const scenarios=[
   "q": "Which option meets the requirement?",
   "o": [
    "Attack simulation training in Defender for Office 365",
-   "Safe Links policies in Defender for Office 365",
-   "Device isolation in Microsoft Defender for Endpoint",
-   "A separately purchased phishing simulation service"
+   "Safe Links policies with training messages in Defender for Office 365",
+   "Device isolation with user training in Defender for Endpoint",
+   "A separately licensed phishing simulation with training"
   ],
   "why": "Attack simulation training is included in Defender for Office 365 Plan 2 and runs phishing simulations with assigned training.",
   "no": [
@@ -2145,7 +2145,7 @@ const scenarios=[
   "q": "What should the team set up first?",
   "o": [
    "Sensitivity labels, with encryption on Confidential",
-   "A DLP policy that blocks all external email sharing",
+   "A DLP policy that blocks external email sharing",
    "A retention policy on the design library",
    "An insider risk policy for departing staff"
   ],
@@ -2241,15 +2241,15 @@ const scenarios=[
   "q": "What is the best first step?",
   "o": [
    "Apply a seven-year retention label to grant emails",
-   "Remove the three-year retention policy entirely",
-   "Place every mailbox on an eDiscovery hold",
-   "Mark all mailbox items as regulatory records"
+   "Remove the three-year retention policy for mailboxes",
+   "Place the organization's mailboxes on eDiscovery hold",
+   "Mark the mailbox items as regulatory records"
   ],
   "why": "When settings conflict, retention wins over deletion, so a seven-year label keeps grant emails while the policy still deletes other mail.",
   "no": [
    "Removing the policy stops the cleanup for all email, not just grant agreements.",
-   "A hold is for legal cases and would keep everything in every mailbox.",
-   "Regulatory records are locked far more strictly than needed and would cover all mail."
+   "A hold is for legal cases and would keep far more mail than the grant agreements in question.",
+   "Regulatory records are locked far more strictly than needed and would cover much more mail than required."
   ],
   "take": "When retention settings conflict, retention wins over deletion and the longest retention period wins."
  },
@@ -2336,7 +2336,7 @@ const scenarios=[
   "q": "What should the compliance admin do first?",
   "o": [
    "Create an eDiscovery case and place a hold",
-   "Export every mailbox to PST files",
+   "Export the relevant mailboxes to PST files",
    "Run an audit log search for deleted items",
    "Apply sensitivity labels to loan documents"
   ],

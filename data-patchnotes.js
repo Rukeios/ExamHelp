@@ -8,7 +8,8 @@ window.PATCHNOTES = [
   "The review levels (19, 27, 32) have a guided review and an independent check that draws on the levels they cover. Level 31's PBQ drills cover ports, log reading and firewall rule order, with matching and drop-down questions.",
   "Each Security+ level lists the exact Professor Messer SY0-701 videos for its objectives, in order, plus the CompTIA objective numbers. Every video link opened on October 2.",
   "Three comparison cards that were waiting for Security+ notes are now live: threat vs vulnerability vs risk, IDS vs IPS, and RTO vs RPO.",
-  "This content was drafted with AI help and has not had a human expert review or been checked line by line against CompTIA's objectives. If something looks wrong, tell us. Your progress and history are untouched."
+  "This content was drafted with AI help and has not had a human expert review or been checked line by line against CompTIA's objectives. If something looks wrong, tell us. Your progress and history are untouched.",
+  "Answer choices were rebalanced after feedback that many were easy giveaways: wrong options are now as long and specific as right ones, Yes/No sets are closer to half false, and right answers sit in varied positions. Applies to SC-900 and Security+."
 ]},
 
 { v:"2.3.0", date:"2026-10-02", title:"Exam-style questions and a fuller path for each level", tag:"feature", items:[
