@@ -7,7 +7,7 @@ const fs=require("fs"), path=require("path");
 const ROOT=path.resolve(__dirname,"..");
 global.window=global;
 const extra=fs.readdirSync(ROOT).filter(f=>/^data-(cn|xf)-sec-.*\.js$/.test(f)).sort();
-["data.js","data-extra.js","data-pack2.js","data-pack3.js","data-pack4-sc.js","data-pack5-net.js","data-lessons.js","data-lessons-2.js"].concat(fs.readdirSync(ROOT).filter(f=>/^data-lessons-sec-.*\.js$/.test(f)).sort(),["data-cn-sc.js","data-cn-compare.js","data-cn-sc-scenarios.js","data-cn-sc-checks.js","data-xf-sc.js"],extra,["data-links.js"]).forEach(f=>{
+["data.js","data-extra.js","data-pack2.js","data-pack3.js","data-pack4-sc.js","data-pack5-net.js","data-lessons.js","data-lessons-2.js","data-lessons-3.js"].concat(fs.readdirSync(ROOT).filter(f=>/^data-lessons-sec-.*\.js$/.test(f)).sort(),["data-cn-sc.js","data-cn-compare.js","data-cn-sc-scenarios.js","data-cn-sc-checks.js","data-cn-sc-checks-2.js","data-xf-sc.js"],extra,["data-links.js"]).forEach(f=>{
   const p=path.join(ROOT,f); if(fs.existsSync(p)) eval(fs.readFileSync(p,"utf8"));
 });
 const packs=window.CN_PACKS||[], fail=[], warn=[];

@@ -3,6 +3,15 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.3.2", date:"2026-10-03", title:"SC-900 Levels 7-12 are now interactive", tag:"content", items:[
+  "Every SC-900 level now has an interactive lesson. Levels 7-10 cover Azure network security and Defender for Cloud, Microsoft Sentinel and Defender XDR, and Microsoft Purview (trust, compliance, data protection, retention, insider risk, eDiscovery and audit). Each follows one fictional organization, with guided practice in every section and a scored Check yourself at the end.",
+  "Level 11 is a guided review of ten short cases, each linked back to the lesson section and Pocket Note it tests, followed by an independent check across every level. Level 12 is an exam day plan, a clue-word-to-product guide and a final warm-up.",
+  "Ten new check scenarios for Levels 7-10, so Check yourself isn't asking what the guided practice just showed you.",
+  "Level 9 correction: Microsoft Learn now describes its privacy principles as four areas (data control, data location, data security, data defense). The app taught an earlier list of six. Two questions, the Pocket Note and the lesson now teach the four, and mention the six so an older practice question doesn't catch you out.",
+  "Level 12 correction: the exam gives you 45 minutes to answer, inside a 65-minute appointment.",
+  "All of this was checked against Microsoft Learn twice by an automated review: once on the draft, and again on the final text after fixes. The lessons follow the SC-900 skills outline dated October 21, 2026. No human expert has reviewed it. If something looks wrong, tell us. Your progress, notes and history are untouched, and the classic lesson view is still one tap away."
+]},
+
 { v:"2.3.1", date:"2026-10-02", title:"Security+ now has the full level path", tag:"content", items:[
   "Every Security+ lesson level (13-31) now has what SC-900 has: an interactive lesson, Pocket Notes with recall flashcards, Don't Mix These Up comparisons, Real-World scenarios, a Check yourself step and exam-style questions. That's 94 notes (188 flashcards), 12 new comparisons, 166 scenarios and 73 exam-style questions.",
   "The review levels (19, 27, 32) have a guided review and an independent check that draws on the levels they cover. Level 31's PBQ drills cover ports, log reading and firewall rule order, with matching and drop-down questions.",
