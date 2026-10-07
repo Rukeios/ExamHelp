@@ -1268,6 +1268,11 @@ label.btn:has(input:focus-visible){outline:2px solid var(--accent);outline-offse
 @media (max-width:640px){.xf-pairs li{grid-template-columns:minmax(0,1fr)}.xf-table thead th:not(:first-child),.xf-table td.xf-c{width:50px}}
 .mock-facts{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0;padding:0;list-style:none;font-size:calc(14px*var(--ts,1));color:var(--ink2)}
 .mock-facts li::before{content:"✓ ";color:var(--accent-ink)}
+.mock-strict{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.mock-strict-row{display:flex;align-items:center;gap:10px;min-height:32px;cursor:pointer;width:fit-content}
+.mock-strict-row input{width:20px;height:20px;flex:0 0 auto;margin:0}
+.mock-strict-state{margin-left:8px;font-size:calc(13px*var(--ts,1));color:var(--ink2)}
+.mock-strict p{margin:0;font-size:calc(13px*var(--ts,1));max-width:72ch}
 /* ---------- 2.3.0: level steps ---------- */
 .lvl-path{container-type:inline-size}
 .lvl-path ol.many .lp-t small{display:none}
@@ -1364,54 +1369,54 @@ details.cl-fold{display:block}
   </footer>
 </div>
 
-<script src="data.js?v=2.3.2"></script>
-<script src="data-extra.js?v=2.3.2"></script>
-<script src="data-pack2.js?v=2.3.2"></script>
-<script src="data-pack3.js?v=2.3.2"></script>
-<script src="data-pack4-sc.js?v=2.3.2"></script>
-<script src="data-pack5-net.js?v=2.3.2"></script>
-<script src="data-acronyms.js?v=2.3.2"></script>
-<script src="data-patchnotes.js?v=2.3.2"></script>
-<script src="data-bosses.js?v=2.3.2"></script>
+<script src="data.js?v=2.3.3"></script>
+<script src="data-extra.js?v=2.3.3"></script>
+<script src="data-pack2.js?v=2.3.3"></script>
+<script src="data-pack3.js?v=2.3.3"></script>
+<script src="data-pack4-sc.js?v=2.3.3"></script>
+<script src="data-pack5-net.js?v=2.3.3"></script>
+<script src="data-acronyms.js?v=2.3.3"></script>
+<script src="data-patchnotes.js?v=2.3.3"></script>
+<script src="data-bosses.js?v=2.3.3"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=2.3.2"></script>
-<script src="data-campaign-flags.js?v=2.3.2"></script>
-<script src="data-campaign-endings.js?v=2.3.2"></script>
-<script src="data-fixes-01.js?v=2.3.2"></script>
-<script src="data-fixes-02.js?v=2.3.2"></script>
-<script src="data-fixes-03.js?v=2.3.2"></script>
-<script src="data-fixes-04.js?v=2.3.2"></script>
-<script src="data-lessons.js?v=2.3.2"></script>
-<script src="data-lessons-2.js?v=2.3.2"></script>
-<script src="data-lessons-3.js?v=2.3.2"></script>
-<script src="data-lessons-sec-1.js?v=2.3.2"></script>
-<script src="data-lessons-sec-2.js?v=2.3.2"></script>
-<script src="data-lessons-sec-3.js?v=2.3.2"></script>
-<script src="data-lessons-sec-4.js?v=2.3.2"></script>
-<script src="data-cn-sc.js?v=2.3.2"></script>
-<script src="data-cn-compare.js?v=2.3.2"></script>
-<script src="data-cn-sc-scenarios.js?v=2.3.2"></script>
-<script src="data-cn-sc-checks.js?v=2.3.2"></script>
-<script src="data-cn-sc-checks-2.js?v=2.3.2"></script>
-<script src="data-cn-sec-1.js?v=2.3.2"></script>
-<script src="data-cn-sec-1-cmp.js?v=2.3.2"></script>
-<script src="data-cn-sec-1-scen.js?v=2.3.2"></script>
-<script src="data-cn-sec-2.js?v=2.3.2"></script>
-<script src="data-cn-sec-2-cmp.js?v=2.3.2"></script>
-<script src="data-cn-sec-2-scen.js?v=2.3.2"></script>
-<script src="data-cn-sec-3.js?v=2.3.2"></script>
-<script src="data-cn-sec-3-cmp.js?v=2.3.2"></script>
-<script src="data-cn-sec-3-scen.js?v=2.3.2"></script>
-<script src="data-cn-sec-4.js?v=2.3.2"></script>
-<script src="data-cn-sec-4-cmp.js?v=2.3.2"></script>
-<script src="data-cn-sec-4-scen.js?v=2.3.2"></script>
-<script src="data-xf-sc.js?v=2.3.2"></script>
-<script src="data-xf-sec-1.js?v=2.3.2"></script>
-<script src="data-xf-sec-2.js?v=2.3.2"></script>
-<script src="data-xf-sec-3.js?v=2.3.2"></script>
-<script src="data-xf-sec-4.js?v=2.3.2"></script>
-<script src="data-links.js?v=2.3.2"></script>
-<script src="examhelp-effects.js?v=2.3.2"></script>
+<script src="data-daymissions.js?v=2.3.3"></script>
+<script src="data-campaign-flags.js?v=2.3.3"></script>
+<script src="data-campaign-endings.js?v=2.3.3"></script>
+<script src="data-fixes-01.js?v=2.3.3"></script>
+<script src="data-fixes-02.js?v=2.3.3"></script>
+<script src="data-fixes-03.js?v=2.3.3"></script>
+<script src="data-fixes-04.js?v=2.3.3"></script>
+<script src="data-lessons.js?v=2.3.3"></script>
+<script src="data-lessons-2.js?v=2.3.3"></script>
+<script src="data-lessons-3.js?v=2.3.3"></script>
+<script src="data-lessons-sec-1.js?v=2.3.3"></script>
+<script src="data-lessons-sec-2.js?v=2.3.3"></script>
+<script src="data-lessons-sec-3.js?v=2.3.3"></script>
+<script src="data-lessons-sec-4.js?v=2.3.3"></script>
+<script src="data-cn-sc.js?v=2.3.3"></script>
+<script src="data-cn-compare.js?v=2.3.3"></script>
+<script src="data-cn-sc-scenarios.js?v=2.3.3"></script>
+<script src="data-cn-sc-checks.js?v=2.3.3"></script>
+<script src="data-cn-sc-checks-2.js?v=2.3.3"></script>
+<script src="data-cn-sec-1.js?v=2.3.3"></script>
+<script src="data-cn-sec-1-cmp.js?v=2.3.3"></script>
+<script src="data-cn-sec-1-scen.js?v=2.3.3"></script>
+<script src="data-cn-sec-2.js?v=2.3.3"></script>
+<script src="data-cn-sec-2-cmp.js?v=2.3.3"></script>
+<script src="data-cn-sec-2-scen.js?v=2.3.3"></script>
+<script src="data-cn-sec-3.js?v=2.3.3"></script>
+<script src="data-cn-sec-3-cmp.js?v=2.3.3"></script>
+<script src="data-cn-sec-3-scen.js?v=2.3.3"></script>
+<script src="data-cn-sec-4.js?v=2.3.3"></script>
+<script src="data-cn-sec-4-cmp.js?v=2.3.3"></script>
+<script src="data-cn-sec-4-scen.js?v=2.3.3"></script>
+<script src="data-xf-sc.js?v=2.3.3"></script>
+<script src="data-xf-sec-1.js?v=2.3.3"></script>
+<script src="data-xf-sec-2.js?v=2.3.3"></script>
+<script src="data-xf-sec-3.js?v=2.3.3"></script>
+<script src="data-xf-sec-4.js?v=2.3.3"></script>
+<script src="data-links.js?v=2.3.3"></script>
+<script src="examhelp-effects.js?v=2.3.3"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -1685,6 +1690,7 @@ state.runStart=state.runStart||todayISO();
 state.lifetime=(state.lifetime&&typeof state.lifetime==="object")?state.lifetime:{runsCompleted:0,prestigeHistory:[]};
 state.lifetime.runsCompleted=state.lifetime.runsCompleted||0; state.lifetime.prestigeHistory=state.lifetime.prestigeHistory||[];
 state.examMode=!!state.examMode;
+state.mockStrict=!!state.mockStrict;   // 2.3.3: mock exams under exam conditions
 state.examDates=(state.examDates&&typeof state.examDates==="object")?state.examDates:{sc:null,sec:null};
 state.campaign=(state.campaign&&typeof state.campaign==="object"&&!("step" in state.campaign))?state.campaign:{};
 state.studyMode=(state.studyMode==="self"||state.studyMode==="campaign")?state.studyMode:null;
@@ -4779,7 +4785,7 @@ function startMock(track){
   const st=mockUnlockStatus(track); if(!st.unlocked) return;
   const {list,shortfalls}=buildMockList(track);
   const spec=MOCK_SPEC[track];
-  mockRun={track,list,i:0,flags:{},answers:{},t0:Date.now(),timeLimitMs:timeScaled(spec.minutes*60000),shortfalls,navOpen:false,confirmOpen:false,submitted:false,rec:null};
+  mockRun={track,list,strict:!!state.mockStrict,i:0,flags:{},answers:{},t0:Date.now(),timeLimitMs:timeScaled(spec.minutes*60000),shortfalls,navOpen:false,confirmOpen:false,submitted:false,rec:null};
   queueFx("challenge","#view .panel");
   render(); window.scrollTo(0,0); startMockTimer();
 }
@@ -4830,13 +4836,79 @@ function submitMock(auto){
     const xs=mockRun.list.filter(it=>it.q.dom===dom);
     perDomain[dom]={correct:earned(xs),total:maxOf(xs),pct:pct(earned(xs),maxOf(xs))};
   });
-  mockRun.rec={ts:Date.now(),mode:"mock",scopeId:"mock-"+mockRun.track,scope:"Mock exam: "+TRACK[mockRun.track],track:mockRun.track,n,score,points,pointsMax,pct:pct(points,pointsMax),ms:Date.now()-mockRun.t0,durationLimitMs:mockRun.timeLimitMs,perDomain,items:res,unanswered,prestige:state.prestige};
+  // Exam conditions: the saved attempt keeps the score and the per-domain numbers but not which
+  // questions were right, so nothing else in the app (Review, Most missed, question history) can
+  // show them. The full detail goes only into the results file.
+  const strict=!!mockRun.strict;
+  mockRun.rec={ts:Date.now(),mode:"mock",scopeId:"mock-"+mockRun.track,scope:"Mock exam: "+TRACK[mockRun.track],track:mockRun.track,n,score,points,pointsMax,pct:pct(points,pointsMax),ms:Date.now()-mockRun.t0,durationLimitMs:mockRun.timeLimitMs,perDomain,items:strict?[]:res,unanswered,prestige:state.prestige};
+  if(strict){
+    mockRun.rec.strict=true;
+    mockRun.weak=mockWeakLevels();
+    mockRun.file=buildMockFile();
+    try{ localStorage.setItem(MOCKFILE_KEY,JSON.stringify(mockRun.file)); }catch(e){}
+  }
   saveAttempt(mockRun.rec);
-  recordReview(mockRun.rec.items); saveProgress();
-  recordGameProgress(mockRun.rec);
+  if(!strict) recordReview(res);
+  saveProgress();
+  recordGameProgress(strict?Object.assign({},mockRun.rec,{items:res}):mockRun.rec);
   if(mockRun.rec&&mockRun.rec.pct>=80) queueFx("victory","#view .panel");
   render(); window.scrollTo(0,0);
 }
+// ---- 2.3.3: exam conditions ----
+// A setting on the mock exam. With it on, the result shows the score, the per-domain breakdown and
+// the levels where the most points were lost. No answers, explanations or list of missed questions
+// appear anywhere in the app. Every question, the answer given and the correct answer are written
+// to a results file instead, in an encoded section, so the detail has to be parsed to be read.
+const MOCKFILE_KEY=LS+".mockfile";
+const mockItemOk=it=>it.q.xf?xfScore(it.q.xf,mockRun.answers[it.k]).ok:(mockRun.answers[it.k]===it.q.a?1:0);
+const mockItemPts=it=>it.q.xf?xfParts(it.q.xf):1;
+function mockWeakLevels(){
+  const m={};
+  mockRun.list.forEach(it=>{ const d=it.q.d; if(!DAYS.some(x=>x.d===d)) return;
+    const r=m[d]||(m[d]={d,lost:0,total:0}), pts=mockItemPts(it); r.total+=pts; r.lost+=pts*(1-mockItemOk(it)); });
+  return Object.values(m).map(r=>({d:r.d,lost:Math.round(r.lost),total:r.total})).filter(r=>r.lost>=1)
+    .sort((a,b)=>b.lost-a.lost||(b.lost/b.total)-(a.lost/a.total)||a.d-b.d).slice(0,5);
+}
+function b64utf8(s){ const u=new TextEncoder().encode(s); let bin=""; for(let i=0;i<u.length;i+=0x8000) bin+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000)); return btoa(bin); }
+function mockItemDetail(it,i){
+  const q=it.q, a=mockRun.answers[it.k], day=DAYS.find(d=>d.d===q.d), pts=mockItemPts(it), ok=mockItemOk(it);
+  const base={n:i+1,key:it.k,level:q.d,levelTitle:day?day.title:null,domain:q.dom,flagged:!!mockRun.flags[it.k],answered:it.k in mockRun.answers,pointsEarned:Math.round(ok*pts*100)/100,pointsMax:pts};
+  if(!q.xf) return Object.assign(base,{type:"multiple-choice",question:q.q,options:q.o.slice(),yourAnswer:a===undefined?null:q.o[a],correctAnswer:q.o[q.a],correct:ok===1,why:q.why||null});
+  const x=q.xf, sel=a||xfEmpty(x), sc=xfScore(x,sel), none=v=>v===null||v===undefined;
+  let parts;
+  if(x.type==="yn") parts=x.rows.map((r,j)=>({prompt:r[0],yourAnswer:none(sel[j])?null:(sel[j]?"Yes":"No"),correctAnswer:r[1]?"Yes":"No",correct:sc.parts[j],why:r[2]}));
+  else if(x.type==="dd") parts=x.blanks.map((b,j)=>({prompt:"Blank "+(j+1),options:b.slice(),yourAnswer:none(sel[j])?null:b[sel[j]],correctAnswer:b[0],correct:sc.parts[j]}));
+  else if(x.type==="multi") parts=x.o.map((o,j)=>({prompt:o,yourAnswer:sel.includes(j)?"selected":"not selected",correctAnswer:j<x.n?"selected":"not selected",correct:sel.includes(j)===(j<x.n)}));
+  else { const rights=x.pairs.map(p=>p[1]).concat(x.extra||[]); parts=x.pairs.map((p,j)=>({prompt:p[0],options:rights.slice(),yourAnswer:none(sel[j])?null:rights[sel[j]],correctAnswer:p[1],correct:sc.parts[j]})); }
+  return Object.assign(base,{type:{yn:"yes-no",dd:"drop-down",multi:"choose-"+x.n,match:"matching"}[x.type],question:x.type==="dd"?x.text:x.type==="yn"?XF_STEM.yn:x.q,parts,correct:sc.ok===1,why:x.why||null});
+}
+function buildMockFile(){
+  const r=mockRun.rec, title=d=>{ const day=DAYS.find(x=>x.d===d); return day?day.title:null; };
+  const detail={items:mockRun.list.map(mockItemDetail)};
+  return { format:"rukeios-mock-result", v:1, app:BRAND.name, appVersion:(PATCHNOTES[0]&&PATCHNOTES[0].v)||null,
+    taken:new Date(r.ts).toISOString(), exam:TRACK[mockRun.track], track:mockRun.track, examConditions:true,
+    summary:{ percent:r.pct, points:r.points, pointsMax:r.pointsMax, questions:r.n, unanswered:r.unanswered,
+      minutesUsed:Math.round(r.ms/60000), minutesAllowed:r.durationLimitMs?Math.round(r.durationLimitMs/60000):null,
+      byDomain:r.perDomain, mostPointsLost:(mockRun.weak||[]).map(w=>({level:w.d,title:title(w.d),pointsLost:w.lost,pointsAvailable:w.total})) },
+    note:"The detail field holds every question, the answer given, the correct answer and the explanation. It is base64-encoded UTF-8 JSON so it isn't readable at a glance. Decode it to analyse the attempt.",
+    detailEncoding:"base64-utf8-json", detail:b64utf8(JSON.stringify(detail)) };
+}
+function mockFileName(f){ return BRAND.name.toLowerCase().replace(/\s+/g,"-")+"-"+f.track+"-mock-"+String(f.taken||"").slice(0,10)+".json"; }
+function downloadMockFile(f){
+  if(!f) return;
+  const blob=new Blob([JSON.stringify(f)],{type:"application/json"}), url=URL.createObjectURL(blob), a=document.createElement("a");
+  a.href=url; a.download=mockFileName(f); document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+async function shareMockFile(f){
+  if(!f) return;
+  const file=new File([JSON.stringify(f)],mockFileName(f),{type:"application/json"});
+  try{ if(navigator.canShare&&navigator.canShare({files:[file]})){ await navigator.share({files:[file],title:BRAND.name+" mock result"}); return; } }
+  catch(e){ if(e&&e.name==="AbortError") return; }
+  downloadMockFile(f);
+}
+function lastMockFile(){ try{ const f=JSON.parse(localStorage.getItem(MOCKFILE_KEY)||"null"); return f&&f.format==="rukeios-mock-result"?f:null; }catch(e){ return null; } }
+function setMockStrict(v){ state.mockStrict=!!v; saveProgress(); render(); }
 function mockVerdict(p){
   if(p>=85) return "Strong. Book the exam.";
   if(p>=80) return "On track. Tighten the weak domains below.";
@@ -4857,7 +4929,13 @@ function renderMockLaunch(){
       inProgram("sc")?h("ul",{class:"mock-facts","aria-label":"How the SC-900 mock matches the exam"},
         h("li",{},"45 minutes, Microsoft's exam time"),h("li",{},"Domain mix follows the skills-measured weights"),
         h("li",{},"Yes/No sets, drop-downs, choose two and matching, plus multiple choice"),h("li",{},"One point per correct selection"),h("li",{},"Flag questions and review before you submit")):null,
-      inProgram("sc")?h("p",{class:"muted",style:"margin:8px 0 0;font-size:calc(13px*var(--ts,1));max-width:70ch"},"These are original questions, not Microsoft's. For questions written by the exam team, use Microsoft's free practice assessment on the SC-900 exam page."):null),
+      inProgram("sc")?h("p",{class:"muted",style:"margin:8px 0 0;font-size:calc(13px*var(--ts,1));max-width:70ch"},"These are original questions, not Microsoft's. For questions written by the exam team, use Microsoft's free practice assessment on the SC-900 exam page."):null,
+      h("div",{class:"mock-strict"},
+        h("label",{class:"mock-strict-row"},
+          (()=>{ const inp=h("input",{type:"checkbox",id:"mockStrict","aria-describedby":"mockStrictHelp",onchange:e=>setMockStrict(e.target.checked)}); inp.checked=!!state.mockStrict; return inp; })(),
+          h("span",{},h("b",{},"Exam conditions"),h("span",{class:"mock-strict-state","aria-hidden":"true"},state.mockStrict?"On":"Off"))),
+        h("p",{class:"muted",id:"mockStrictHelp"},"Like the real exam: after you submit you get your score, the breakdown by domain and the levels where you lost the most points. No answers or explanations are shown, and missed questions aren't added to Review. The questions, your answers and the correct answers go into a results file you can download."),
+        (()=>{ const f=lastMockFile(); return f?h("p",{class:"muted"},"Last results file: "+f.exam+", "+String(f.taken).slice(0,10)+", "+f.summary.percent+"%. ",h("button",{class:"linklike",onclick:()=>downloadMockFile(f)},"Download it again")):null; })())),
     h("div",{class:"cols"},cards));
 }
 function renderMockNavigator(){
@@ -4876,7 +4954,7 @@ function renderMockExam(){
   const flagged=mockRun.flags[it.k];
   const head=h("div",{class:"qhead"},
     h("div",{class:"row"},h("span",{id:"mockTimer",class:"tabnum",style:"font:700 calc(20px*var(--ts,1)) var(--mono)"},"--:--"),
-      h("span",{class:"eyebrow"},TRACK[mockRun.track]+" mock · Q "+(mockRun.i+1)+" / "+mockRun.list.length)),
+      h("span",{class:"eyebrow"},TRACK[mockRun.track]+" mock"+(mockRun.strict?" · exam conditions":"")+" · Q "+(mockRun.i+1)+" / "+mockRun.list.length)),
     h("div",{class:"row"},
       h("button",{class:"btn small"+(flagged?" mock-flagged":""),onclick:mockFlag},flagged?"★ Flagged":"☆ Flag for review"),
       h("button",{class:"btn small",onclick:()=>{mockRun.navOpen=!mockRun.navOpen;render();}},mockRun.navOpen?"Hide navigator":"Navigator")));
@@ -4905,6 +4983,7 @@ function renderMockExam(){
 }
 function renderMockResult(){
   const r=mockRun.rec, spec=MOCK_SPEC[mockRun.track];
+  if(mockRun.strict) return renderMockResultStrict();
   const domRows=Object.entries(r.perDomain).map(([dom,d])=>h("div",{class:"bar"},h("span",{},dom+(d.pct<80?" ⚠":"")),
     h("span",{class:"track"},h("i",{style:`width:${d.pct}%;background:var(--${mockRun.track})`})),
     h("span",{class:"tabnum",style:"text-align:right"},h("span",{class:"chip "+(d.pct>=80?"good":"weak")},d.correct+"/"+d.total+" · "+d.pct+"%"))));
@@ -4927,6 +5006,40 @@ function renderMockResult(){
         h("button",{class:"btn",onclick:()=>{mockRun=null;render();}},"Back to mock exams"))),
     h("section",{class:"panel"},h("h3",{style:"margin-bottom:10px"},"Per-domain breakdown"),domRows,h("p",{class:"muted",style:"font-size:calc(13px*var(--ts,1));margin:10px 0 0"},"⚠ = under the 80% target.")),
     missed.length?h("section",{class:"panel"},h("h3",{},"Review what you missed"),missBox):null);
+}
+function renderMockResultStrict(){
+  const r=mockRun.rec, f=mockRun.file, weak=mockRun.weak||[];
+  const domRows=Object.entries(r.perDomain).map(([dom,d])=>h("div",{class:"bar"},h("span",{},dom+(d.pct<80?" ⚠":"")),
+    h("span",{class:"track"},h("i",{style:`width:${d.pct}%;background:var(--${mockRun.track})`})),
+    h("span",{class:"tabnum",style:"text-align:right"},h("span",{class:"chip "+(d.pct>=80?"good":"weak")},d.correct+"/"+d.total+" · "+d.pct+"%"))));
+  const openLesson=d=>{ ui.sel=d; ui.classicLesson=false; saveUI(); goTab("plan"); };
+  const weakBox=weak.map(w=>{ const day=DAYS.find(x=>x.d===w.d), notes=(CN.byDay[w.d]||[]).map(c=>c.title);
+    return h("div",{class:"miss"},
+      h("div",{},h("b",{},"Level "+displayDay(w.d)+" · "+day.title)),
+      h("div",{class:"muted",style:"font-size:calc(14px*var(--ts,1))"},w.lost+" of "+w.total+" point"+(w.total===1?"":"s")+" lost"),
+      notes.length?h("div",{class:"muted",style:"font-size:calc(14px*var(--ts,1))"},"Pocket Notes for this level: "+notes.join(" · ")):null,
+      h("div",{class:"actions",style:"margin-top:4px"},
+        h("button",{class:"btn small",onclick:()=>openLesson(w.d)},"Open the lesson"),
+        notes.length?h("button",{class:"btn small",onclick:()=>goLevelStep(day,"notes")},"Open its Pocket Notes"):null)); });
+  return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
+    h("section",{class:"panel"},
+      h("div",{class:"eyebrow"},TRACK[mockRun.track]+" mock · exam conditions · saved"),
+      h("h2",{style:"margin:6px 0"},r.pointsMax&&r.pointsMax!==r.n?r.pct+"% · "+r.points+" of "+r.pointsMax+" points":r.pct+"% · "+fmtPts(r.score)+" / "+r.n+" correct"),
+      r.pointsMax&&r.pointsMax!==r.n?h("p",{class:"muted",style:"margin:0"},r.n+" questions. Multi-part questions score one point per correct selection, so there are more points than questions."):null,
+      h("p",{class:"muted",style:"margin:0"},"Time used: "+Math.round(r.ms/60000)+(r.durationLimitMs?" of "+Math.round(r.durationLimitMs/60000)+" minutes":" minutes (no time limit)")+(r.unanswered?" · "+r.unanswered+" left unanswered":"")),
+      h("p",{style:"font-weight:600;margin:10px 0 0"},mockVerdict(r.pct)),
+      h("p",{class:"muted",style:"font-size:calc(13px*var(--ts,1));margin:6px 0 0;max-width:60ch"},"Official exams report a scaled score (Security+ 750/900, SC-900 700/1000). The conversion from raw score isn't published, so this is your raw percentage. Aim for 85%+ before you book."),
+      mockRun.shortfalls.length?h("p",{class:"muted",style:"font-size:calc(13px*var(--ts,1))"},"Note: your question bank came up short in "+mockRun.shortfalls.map(s=>s.dom+" ("+s.have+"/"+s.need+")").join(", ")+"."):null,
+      h("div",{class:"actions"},
+        h("button",{class:"btn primary",onclick:()=>downloadMockFile(f)},"Download results file"),
+        navigator.share?h("button",{class:"btn",onclick:()=>shareMockFile(f)},"Share results file"):null,
+        h("button",{class:"btn",onclick:()=>startMock(mockRun.track)},"Retake this mock"),
+        h("button",{class:"btn",onclick:()=>{mockRun=null;render();}},"Back to mock exams")),
+      h("p",{class:"muted",style:"font-size:calc(13px*var(--ts,1));margin:10px 0 0;max-width:70ch"},"Exam conditions: no answers or explanations are shown here, and nothing was added to Review. The results file holds every question, your answer and the correct answer in an encoded section, for you or a tutor to go through later. The most recent file stays available on the mock exam page.")),
+    h("section",{class:"panel"},h("h3",{style:"margin-bottom:10px"},"Per-domain breakdown"),domRows,h("p",{class:"muted",style:"font-size:calc(13px*var(--ts,1));margin:10px 0 0"},"⚠ = under the 80% target.")),
+    h("section",{class:"panel"},h("h3",{style:"margin-bottom:4px"},"Where you lost the most points"),
+      weak.length?h("p",{class:"muted",style:"margin:0 0 10px;font-size:calc(14px*var(--ts,1))"},"Ranked by points lost. These are the levels to go back to first."):null,
+      weak.length?h("div",{style:"display:flex;flex-direction:column;gap:10px"},weakBox):h("p",{class:"muted",style:"margin:0"},"You didn't lose a full point in any level.")));
 }
 function renderMock(){
   if(!mockRun) return renderMockLaunch();

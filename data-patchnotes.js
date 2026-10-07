@@ -3,6 +3,13 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.3.3", date:"2026-10-07", title:"Mock exams under exam conditions", tag:"feature", items:[
+  "New setting on the Mock exam page: Exam conditions. With it on, a mock ends the way a real exam does. You get your score, the breakdown by domain and the levels where you lost the most points. No answers or explanations are shown.",
+  "In that mode nothing else in the app shows which questions you missed: they aren't added to Review, Most missed or your question history.",
+  "The full detail goes into a results file instead: every question, your answer, the correct answer and the explanation. That part of the file is encoded, so it can't be read at a glance. Download or share it from the result screen and go through it later, alone or with a tutor. Your most recent file stays available on the Mock exam page.",
+  "The setting is off by default, so mocks work as before until you turn it on. Your progress and history are untouched."
+]},
+
 { v:"2.3.2", date:"2026-10-03", title:"SC-900 Levels 7-12 are now interactive", tag:"content", items:[
   "Every SC-900 level now has an interactive lesson. Levels 7-10 cover Azure network security and Defender for Cloud, Microsoft Sentinel and Defender XDR, and Microsoft Purview (trust, compliance, data protection, retention, insider risk, eDiscovery and audit). Each follows one fictional organization, with guided practice in every section and a scored Check yourself at the end.",
   "Level 11 is a guided review of ten short cases, each linked back to the lesson section and Pocket Note it tests, followed by an independent check across every level. Level 12 is an exam day plan, a clue-word-to-product guide and a final warm-up.",
