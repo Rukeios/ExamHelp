@@ -3,6 +3,14 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.3.4", date:"2026-10-08", title:"Instructor view", tag:"feature", items:[
+  "New in Plan settings: Instructor view. It opens every level, mock exam and boss without earning them, for a teacher reviewing the material or a class demo.",
+  "Nothing done in Instructor view is kept. Turning it off puts your progress, history, XP and Review back exactly as they were when you turned it on.",
+  "A banner on every page shows when it's on. Backups, device transfers, imports and summaries are paused until you turn it off, so they always carry your real progress.",
+  "It's available in self-paced mode and stays on this device only.",
+  "Fixed: on many phones the Plan settings panel ran off the left edge of the screen, hiding the labels and some buttons. It now stays on screen at every width."
+]},
+
 { v:"2.3.3", date:"2026-10-07", title:"Mock exams under exam conditions", tag:"feature", items:[
   "New setting on the Mock exam page: Exam conditions. With it on, a mock ends the way a real exam does. You get your score, the breakdown by domain and the levels where you lost the most points. No answers or explanations are shown.",
   "In that mode nothing else in the app shows which questions you missed: they aren't added to Review, Most missed or your question history.",
