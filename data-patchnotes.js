@@ -3,6 +3,13 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.3.5", date:"2026-10-09", title:"Pick your read-aloud voice", tag:"feature", items:[
+  "New in Accessibility, under Read aloud: Voice. Choose any voice installed on your device, and tap Try it to hear a sample first.",
+  "Automatic now picks the most natural-sounding English voice your device has, instead of whatever the browser defaults to. Voices named Natural, Neural, Online or Enhanced are listed first.",
+  "Voices come from your device, so the list is different on a phone, a laptop and each browser. If you restore a backup on a device that doesn't have the voice you picked, Read aloud uses Automatic until you choose again.",
+  "Speech still runs on your device. Nothing you read is sent anywhere. Your progress and history are untouched."
+]},
+
 { v:"2.3.4", date:"2026-10-08", title:"Instructor view", tag:"feature", items:[
   "New in Plan settings: Instructor view. It opens every level, mock exam and boss without earning them, for a teacher reviewing the material or a class demo.",
   "Nothing done in Instructor view is kept. Turning it off puts your progress, history, XP and Review back exactly as they were when you turned it on.",
