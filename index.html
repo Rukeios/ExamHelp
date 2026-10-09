@@ -1268,6 +1268,15 @@ label.btn:has(input:focus-visible){outline:2px solid var(--accent);outline-offse
 @media (max-width:640px){.xf-pairs li{grid-template-columns:minmax(0,1fr)}.xf-table thead th:not(:first-child),.xf-table td.xf-c{width:50px}}
 .mock-facts{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0;padding:0;list-style:none;font-size:calc(14px*var(--ts,1));color:var(--ink2)}
 .mock-facts li::before{content:"✓ ";color:var(--accent-ink)}
+.instr-banner{border:2px solid #c98a1f;background:var(--surface);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;font-size:calc(14px*var(--ts,1))}
+.instr-banner .instr-msg{margin:0;font-weight:600;color:var(--bad)}
+.instr-confirm{margin-top:10px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:calc(13px*var(--ts,1));max-width:440px}
+.instr-confirm p{margin:0 0 8px}
+.mock-strict{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.mock-strict-row{display:flex;align-items:center;gap:10px;min-height:32px;cursor:pointer;width:fit-content}
+.mock-strict-row input{width:20px;height:20px;flex:0 0 auto;margin:0}
+.mock-strict-state{margin-left:8px;font-size:calc(13px*var(--ts,1));color:var(--ink2)}
+.mock-strict p{margin:0;font-size:calc(13px*var(--ts,1));max-width:72ch}
 /* ---------- 2.3.0: level steps ---------- */
 .lvl-path{container-type:inline-size}
 .lvl-path ol.many .lp-t small{display:none}
@@ -1364,54 +1373,54 @@ details.cl-fold{display:block}
   </footer>
 </div>
 
-<script src="data.js?v=2.3.2"></script>
-<script src="data-extra.js?v=2.3.2"></script>
-<script src="data-pack2.js?v=2.3.2"></script>
-<script src="data-pack3.js?v=2.3.2"></script>
-<script src="data-pack4-sc.js?v=2.3.2"></script>
-<script src="data-pack5-net.js?v=2.3.2"></script>
-<script src="data-acronyms.js?v=2.3.2"></script>
-<script src="data-patchnotes.js?v=2.3.2"></script>
-<script src="data-bosses.js?v=2.3.2"></script>
+<script src="data.js?v=2.3.4"></script>
+<script src="data-extra.js?v=2.3.4"></script>
+<script src="data-pack2.js?v=2.3.4"></script>
+<script src="data-pack3.js?v=2.3.4"></script>
+<script src="data-pack4-sc.js?v=2.3.4"></script>
+<script src="data-pack5-net.js?v=2.3.4"></script>
+<script src="data-acronyms.js?v=2.3.4"></script>
+<script src="data-patchnotes.js?v=2.3.4"></script>
+<script src="data-bosses.js?v=2.3.4"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=2.3.2"></script>
-<script src="data-campaign-flags.js?v=2.3.2"></script>
-<script src="data-campaign-endings.js?v=2.3.2"></script>
-<script src="data-fixes-01.js?v=2.3.2"></script>
-<script src="data-fixes-02.js?v=2.3.2"></script>
-<script src="data-fixes-03.js?v=2.3.2"></script>
-<script src="data-fixes-04.js?v=2.3.2"></script>
-<script src="data-lessons.js?v=2.3.2"></script>
-<script src="data-lessons-2.js?v=2.3.2"></script>
-<script src="data-lessons-3.js?v=2.3.2"></script>
-<script src="data-lessons-sec-1.js?v=2.3.2"></script>
-<script src="data-lessons-sec-2.js?v=2.3.2"></script>
-<script src="data-lessons-sec-3.js?v=2.3.2"></script>
-<script src="data-lessons-sec-4.js?v=2.3.2"></script>
-<script src="data-cn-sc.js?v=2.3.2"></script>
-<script src="data-cn-compare.js?v=2.3.2"></script>
-<script src="data-cn-sc-scenarios.js?v=2.3.2"></script>
-<script src="data-cn-sc-checks.js?v=2.3.2"></script>
-<script src="data-cn-sc-checks-2.js?v=2.3.2"></script>
-<script src="data-cn-sec-1.js?v=2.3.2"></script>
-<script src="data-cn-sec-1-cmp.js?v=2.3.2"></script>
-<script src="data-cn-sec-1-scen.js?v=2.3.2"></script>
-<script src="data-cn-sec-2.js?v=2.3.2"></script>
-<script src="data-cn-sec-2-cmp.js?v=2.3.2"></script>
-<script src="data-cn-sec-2-scen.js?v=2.3.2"></script>
-<script src="data-cn-sec-3.js?v=2.3.2"></script>
-<script src="data-cn-sec-3-cmp.js?v=2.3.2"></script>
-<script src="data-cn-sec-3-scen.js?v=2.3.2"></script>
-<script src="data-cn-sec-4.js?v=2.3.2"></script>
-<script src="data-cn-sec-4-cmp.js?v=2.3.2"></script>
-<script src="data-cn-sec-4-scen.js?v=2.3.2"></script>
-<script src="data-xf-sc.js?v=2.3.2"></script>
-<script src="data-xf-sec-1.js?v=2.3.2"></script>
-<script src="data-xf-sec-2.js?v=2.3.2"></script>
-<script src="data-xf-sec-3.js?v=2.3.2"></script>
-<script src="data-xf-sec-4.js?v=2.3.2"></script>
-<script src="data-links.js?v=2.3.2"></script>
-<script src="examhelp-effects.js?v=2.3.2"></script>
+<script src="data-daymissions.js?v=2.3.4"></script>
+<script src="data-campaign-flags.js?v=2.3.4"></script>
+<script src="data-campaign-endings.js?v=2.3.4"></script>
+<script src="data-fixes-01.js?v=2.3.4"></script>
+<script src="data-fixes-02.js?v=2.3.4"></script>
+<script src="data-fixes-03.js?v=2.3.4"></script>
+<script src="data-fixes-04.js?v=2.3.4"></script>
+<script src="data-lessons.js?v=2.3.4"></script>
+<script src="data-lessons-2.js?v=2.3.4"></script>
+<script src="data-lessons-3.js?v=2.3.4"></script>
+<script src="data-lessons-sec-1.js?v=2.3.4"></script>
+<script src="data-lessons-sec-2.js?v=2.3.4"></script>
+<script src="data-lessons-sec-3.js?v=2.3.4"></script>
+<script src="data-lessons-sec-4.js?v=2.3.4"></script>
+<script src="data-cn-sc.js?v=2.3.4"></script>
+<script src="data-cn-compare.js?v=2.3.4"></script>
+<script src="data-cn-sc-scenarios.js?v=2.3.4"></script>
+<script src="data-cn-sc-checks.js?v=2.3.4"></script>
+<script src="data-cn-sc-checks-2.js?v=2.3.4"></script>
+<script src="data-cn-sec-1.js?v=2.3.4"></script>
+<script src="data-cn-sec-1-cmp.js?v=2.3.4"></script>
+<script src="data-cn-sec-1-scen.js?v=2.3.4"></script>
+<script src="data-cn-sec-2.js?v=2.3.4"></script>
+<script src="data-cn-sec-2-cmp.js?v=2.3.4"></script>
+<script src="data-cn-sec-2-scen.js?v=2.3.4"></script>
+<script src="data-cn-sec-3.js?v=2.3.4"></script>
+<script src="data-cn-sec-3-cmp.js?v=2.3.4"></script>
+<script src="data-cn-sec-3-scen.js?v=2.3.4"></script>
+<script src="data-cn-sec-4.js?v=2.3.4"></script>
+<script src="data-cn-sec-4-cmp.js?v=2.3.4"></script>
+<script src="data-cn-sec-4-scen.js?v=2.3.4"></script>
+<script src="data-xf-sc.js?v=2.3.4"></script>
+<script src="data-xf-sec-1.js?v=2.3.4"></script>
+<script src="data-xf-sec-2.js?v=2.3.4"></script>
+<script src="data-xf-sec-3.js?v=2.3.4"></script>
+<script src="data-xf-sec-4.js?v=2.3.4"></script>
+<script src="data-links.js?v=2.3.4"></script>
+<script src="examhelp-effects.js?v=2.3.4"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -1685,6 +1694,47 @@ state.runStart=state.runStart||todayISO();
 state.lifetime=(state.lifetime&&typeof state.lifetime==="object")?state.lifetime:{runsCompleted:0,prestigeHistory:[]};
 state.lifetime.runsCompleted=state.lifetime.runsCompleted||0; state.lifetime.prestigeHistory=state.lifetime.prestigeHistory||[];
 state.examMode=!!state.examMode;
+state.mockStrict=!!state.mockStrict;   // 2.3.3: mock exams under exam conditions
+// ---- 2.3.4: Instructor view ----
+// Opens every level, mock exam and boss without anyone earning them. It works as a sandbox: turning
+// it on stores a copy of the learner's state and attempts; turning it off puts that copy back and
+// reloads, so nothing done in Instructor view is kept. Stored per device, outside the learner state,
+// so it never travels in a backup or a device transfer. Backups, transfers, imports and summaries
+// are refused while it is on, because they would carry the sandbox instead of the real progress.
+const INSTR_KEY=LS+".instructor";
+let instr=(()=>{ try{ const s=JSON.parse(localStorage.getItem(INSTR_KEY)||"null"); return s&&s.on&&s.snap&&s.snap.state?s:null; }catch(e){ return null; } })();
+let instrConfirm=false, instrMsg=null;
+const instructorOn=()=>!!instr;
+function accessDay(){ if(!instructorOn()) return unlockedDay(); const pd=programDays(); return pd[pd.length-1].d; }
+function enableInstructor(){
+  if(db){ instrMsg="Instructor view isn't available while your progress syncs to an account."; render(); return; }
+  const rec={on:true,since:Date.now(),snap:{state:JSON.parse(JSON.stringify(state)),attempts:JSON.parse(JSON.stringify(attempts))}};
+  try{ localStorage.setItem(INSTR_KEY,JSON.stringify(rec)); }
+  catch(e){ instrMsg="This browser doesn't have room to keep a safe copy of your progress, so Instructor view stayed off."; render(); return; }
+  instr=rec; instrConfirm=false; instrMsg=null;
+  try{ if(typeof mockRun!=="undefined"&&mockRun&&!mockRun.submitted){ stopMockTimer(); mockRun=null; } }catch(e){}
+  const d=document.getElementById("settings"); if(d) d.open=false;
+  render(); window.scrollTo(0,0);
+}
+function disableInstructor(){
+  if(!instr) return;
+  try{ localStorage.setItem(LS,JSON.stringify({state:instr.snap.state,attempts:instr.snap.attempts||[]})); localStorage.removeItem(INSTR_KEY); }
+  catch(e){ instrMsg="Couldn't put your progress back: this browser refused to save. Instructor view is still on; try again."; render(); return; }
+  instr=null; location.reload();
+}
+function instrGuard(){
+  if(!instructorOn()) return false;
+  instrMsg="Turn off Instructor view first. Backups, transfers, imports and summaries would use the instructor copy, not your real progress.";
+  const d=document.getElementById("settings"); if(d) d.open=false;
+  render(); window.scrollTo(0,0); return true;
+}
+function instructorBanner(){
+  if(!instructorOn()) return null;
+  return h("section",{class:"instr-banner",role:"region","aria-label":"Instructor view"},
+    h("div",{},h("b",{},"Instructor view is on. "),"Every level, mock exam and boss is open. Nothing you do here is kept: turning it off puts your progress back exactly as it was on "+fmtD(new Date(instr.since))+"."),
+    instrMsg?h("p",{class:"instr-msg",role:"status"},instrMsg):null,
+    h("div",{},h("button",{class:"btn small",onclick:disableInstructor},"Turn off Instructor view")));
+}
 state.examDates=(state.examDates&&typeof state.examDates==="object")?state.examDates:{sc:null,sec:null};
 state.campaign=(state.campaign&&typeof state.campaign==="object"&&!("step" in state.campaign))?state.campaign:{};
 state.studyMode=(state.studyMode==="self"||state.studyMode==="campaign")?state.studyMode:null;
@@ -1893,7 +1943,7 @@ function siteLink(){ return location.origin+location.pathname+"#receive"; }
 
 let mv={open:false,tab:"send",frames:null,i:0,playing:true,timer:null,busy:false,err:null,
         scan:false,stream:null,raf:0,parts:null,meta:null,last:0,detector:null,preview:null,fileErr:null};
-function openMove(tab){ mv.open=true; mv.tab=tab||mv.tab; mv.err=null; mv.fileErr=null; render(); const d=document.querySelector("#moveModal .modal"); if(d) d.focus(); }
+function openMove(tab){ if(instrGuard()) return; mv.open=true; mv.tab=tab||mv.tab; mv.err=null; mv.fileErr=null; render(); const d=document.querySelector("#moveModal .modal"); if(d) d.focus(); }
 function closeMove(){ stopFrames(); stopScan(); mv.open=false; mv.frames=null; mv.preview=null; mv.parts=null; mv.meta=null; render(); }
 function moveTab(t){ if(t===mv.tab) return; stopFrames(); stopScan(); mv.tab=t; mv.err=null; render(); const b=document.getElementById("mv-tab-"+t); if(b) b.focus(); }
 // --- sending ---
@@ -1914,6 +1964,7 @@ async function startSend(){
 }
 function stepFrame(d){ mv.playing=false; stopFrames(); mv.i=(mv.i+d+mv.frames.length)%mv.frames.length; render(); paintFrame(); }
 async function shareBackup(){
+  if(instrGuard()) return;
   const name=BRAND.name.toLowerCase().replace(/\s+/g,"-")+"-backup-"+todayISO()+".json";
   const file=new File([JSON.stringify(buildBackup())],name,{type:"application/json"});
   try{ if(navigator.canShare&&navigator.canShare({files:[file]})){ await navigator.share({files:[file],title:BRAND.name+" backup"}); return; } }
@@ -2395,8 +2446,14 @@ function renderProgramToggle(){
       h("div",{class:"setrow"},h("span",{class:"setlabel"},"Devices"),h("button",{class:"linklike",onclick:()=>{ const d=document.getElementById("settings"); if(d) d.open=false; openMove("send"); }},"Move to another device")),
       h("div",{class:"setrow"},h("span",{class:"setlabel"},"Program"),h("span",{},PROGRAM_LABEL[state.program]),
         h("button",{class:"linklike",onclick:()=>{programFormOpen=true;render();}},"Change")),
+      state.studyMode==="self"&&!db?h("div",{class:"setrow"},h("span",{class:"setlabel"},"Instructor"),
+        h("span",{},instructorOn()?"On":"Off"),
+        instructorOn()?h("button",{class:"linklike",onclick:disableInstructor},"Turn off"):h("button",{class:"linklike","aria-expanded":String(instrConfirm),onclick:()=>{instrConfirm=!instrConfirm;render();}},"Turn on")):"",
+      instrConfirm&&!instructorOn()?h("div",{class:"instr-confirm"},
+        h("p",{},"Instructor view opens every level, mock exam and boss without earning them, for a teacher or a demo. Nothing done in it is kept: when you turn it off, your progress goes back exactly as it is now. Backups and transfers are paused while it's on."),
+        h("div",{class:"actions"},h("button",{class:"btn small primary",onclick:enableInstructor},"Turn on Instructor view"),h("button",{class:"btn small",onclick:()=>{instrConfirm=false;render();}},"Cancel"))):"",
       state.studyMode?h("div",{class:"setrow"},h("span",{class:"setlabel"},"Study mode"),h("span",{},STUDY_MODE_LABEL[state.studyMode]),
-        h("button",{class:"linklike",onclick:()=>setStudyMode(state.studyMode==="campaign"?"self":"campaign")},state.studyMode==="campaign"?"Switch to self-paced":"Switch to campaign")):null);
+        h("button",{class:"linklike",onclick:()=>setStudyMode(state.studyMode==="campaign"?"self":"campaign")},state.studyMode==="campaign"?"Switch to self-paced":"Switch to campaign")):"");
     return;
   }
   mount.append(h("div",{class:"panel",style:"display:flex;flex-direction:column;gap:8px;max-width:420px"},
@@ -2826,8 +2883,8 @@ function startQuiz(scope,mode,n){
 function startBoss(track,dom){
   const isFinal=track==="final";
   const keys=isFinal
-    ? Object.values(Q).filter(q=>coreQ(q)&&q.d<=unlockedDay()&&inProgram(q.track)).map(q=>q.k)
-    : Object.values(Q).filter(q=>coreQ(q)&&q.track===track&&q.dom===dom&&q.d<=unlockedDay()).map(q=>q.k);
+    ? Object.values(Q).filter(q=>coreQ(q)&&q.d<=accessDay()&&inProgram(q.track)).map(q=>q.k)
+    : Object.values(Q).filter(q=>coreQ(q)&&q.track===track&&q.dom===dom&&q.d<=accessDay()).map(q=>q.k);
   if(!keys.length) return;
   const boss=isFinal?FINAL_BOSS:bossFor(track,dom);
   startQuiz({id:"boss-"+track+"-"+dom,label:dom+" boss",keys,boss:true},"think",15);
@@ -3231,7 +3288,7 @@ async function generateQuestions(){
   if(ui.genBusy) return;
   const hist=qHistory(), scores=["sc","sec"].filter(inProgram).flatMap(track=>DOMS[track].map(dom=>{const qs=Object.values(Q).filter(q=>q.track===track&&q.dom===dom);const seen=qs.map(q=>hist[q.k]).filter(Boolean);const accuracy=seen.length?seen.reduce((n,r)=>n+r.ok/r.seen,0)/seen.length:0;return {track,dom,accuracy};})).sort((a,b)=>a.accuracy-b.accuracy);
   const target=scores[0];
-  const dayCandidates=Object.values(Q).filter(q=>q.track===target.track&&q.dom===target.dom&&q.d<=unlockedDay()).map(q=>q.d);
+  const dayCandidates=Object.values(Q).filter(q=>q.track===target.track&&q.dom===target.dom&&q.d<=accessDay()).map(q=>q.d);
   const day=dayCandidates.length?Math.min(...dayCandidates):(target.track==="sc"?1:13);
   ui.generated=[]; ui.genErr=null; ui.genBusy=true; render();
   const prompt="Create exactly 3 original multiple-choice practice questions for CompTIA Security+ SY0-701 or Microsoft SC-900. Target domain: "+target.dom+" for "+TRACK[target.track]+". Return only JSON array. Each item must have q (question), o (exactly 4 plausible short answers), a (zero-based correct index), and why (one concise explanation). Avoid copied exam questions, ambiguity, and trivia. Ensure the answer is defensible.";
@@ -3766,8 +3823,9 @@ const encStyle=b=>"--boss:"+b.color+";--edge:"+(BOSS_EDGE[b.img]||"#000");
 const bossKeyOf=b=>(b.final?"final":b.track)+"|"+b.domain;
 const domainBossOrder=()=>["sc","sec"].filter(inProgram).flatMap(t=>(DOMS[t]||[]).map(d=>bossFor(t,d)).filter(Boolean));
 function bossOpen(b){
+  if(instructorOn()) return true;
   if(b.final) return domainBossOrder().every(x=>state.bosses[bossKeyOf(x)]);
-  return Object.values(Q).some(q=>coreQ(q)&&q.track===b.track&&q.dom===b.domain&&q.d<=unlockedDay());
+  return Object.values(Q).some(q=>coreQ(q)&&q.track===b.track&&q.dom===b.domain&&q.d<=accessDay());
 }
 function bossState(b){ return state.bosses[bossKeyOf(b)]?"won":bossOpen(b)?"open":"locked"; }
 function bossUnlockText(b){
@@ -3938,8 +3996,8 @@ function renderCampaign(){
 
 // ---------- Lessons ----------
 function renderPlan(){
-  const current=unlockedDay();
-  if(ui.sel==null||ui.sel>current||!BYDAY[ui.sel]||!inProgram(BYDAY[ui.sel].track)) ui.sel=current;
+  const current=unlockedDay(), reach=accessDay();
+  if(ui.sel==null||ui.sel>reach||!BYDAY[ui.sel]||!inProgram(BYDAY[ui.sel].track)) ui.sel=current;
   const pd=programDays(), disp=displayDayMap();
   const groups=[], seen=new Set();
   pd.forEach(d=>{
@@ -3956,7 +4014,7 @@ function renderPlan(){
     navKids.push(h("details",{class:"lvl-group",open:open?true:null},
       h("summary",{},h("span",{class:"lg-name"},gp.label),h("span",{class:"lg-meta"},doneN+" of "+gp.days.length)),
       h("ol",{},gp.days.map(d=>{
-        const locked=d.d>current, done=!!state.done[d.d], isCur=d.d===current;
+        const locked=d.d>reach, done=!!state.done[d.d], isCur=d.d===current;
         return h("li",{},h("button",{class:"lvl "+d.track+(d.d===ui.sel?" sel":"")+(done?" done":"")+(isCur?" current":""),"aria-current":d.d===ui.sel?"true":null,disabled:locked?true:null,
           title:locked?"Finish Level "+disp[current]+" to unlock":null,
           onclick:()=>{ ui.sel=d.d; ui.lvlOpen=false; render(); const a=document.querySelector(".lesson,.pilot"); if(a&&window.innerWidth<=860) a.scrollIntoView({block:"start"}); const t=document.querySelector(".lesson h1,.pilot h1"); if(t) t.focus({preventScroll:true}); }},
@@ -4320,7 +4378,7 @@ function levelQuizSection(d,heading){
       h("span",{class:"row",style:"gap:6px;width:100%;justify-content:space-between"},"Level quiz · "+info.name,finished?h("span",{class:"chip good"},"✓"):null),
       h("small",{},info.desc))),
     h("p",{class:"muted",style:"margin:6px 0 0;font-size:calc(13px*var(--ts,1))"},why+" Other modes stay available in Practice."),
-    done&&d.d<unlockedDay()?h("div",{class:"actions",style:"margin-top:12px"},h("button",{class:"btn",onclick:()=>{ui.sel=d.d+1;render();window.scrollTo(0,0);}},"Next level")):null);
+    (done||instructorOn())&&d.d<accessDay()?h("div",{class:"actions",style:"margin-top:12px"},h("button",{class:"btn",onclick:()=>{ui.sel=d.d+1;render();window.scrollTo(0,0);}},"Next level")):null);
 }
 function lessonPanel(d){
   const pilot=pilotFor(d.d); if(pilot) return renderLessonPilot(d,pilot);
@@ -4416,6 +4474,7 @@ function buildBackup(){
     state:JSON.parse(JSON.stringify(state)), attempts:JSON.parse(JSON.stringify(attempts)), prefs:{ui:uiPrefs,theme,a11y:a11yPrefs} };
 }
 function downloadBackup(){
+  if(instrGuard()) return;
   const blob=new Blob([JSON.stringify(buildBackup(),null,2)],{type:"application/json"});
   const url=URL.createObjectURL(blob), a=document.createElement("a");
   a.href=url; a.download=BRAND.name.toLowerCase().replace(/\s+/g,"-")+"-backup-"+todayISO()+".json"; document.body.appendChild(a); a.click(); a.remove();
@@ -4472,6 +4531,7 @@ function undoLastImport(){
   location.reload();
 }
 function restoreBackup(p){
+  if(instrGuard()) return;
   const problems=validateBackup(p);
   if(problems.length){ statsIO.importError="Nothing was changed. This backup can't be restored: "+problems.join("; ")+"."; render(); return; }
   if(!snapshotBeforeImport()){ statsIO.importError="Nothing was changed. This browser won't let "+BRAND.name+" save a safety copy first."; render(); return; }
@@ -4506,6 +4566,7 @@ function buildSummaryText(){
   return lines.join("\n");
 }
 function downloadStatsExport(){
+  if(instrGuard()) return;
   const payload=buildExportPayload();
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
   const url=URL.createObjectURL(blob);
@@ -4514,6 +4575,7 @@ function downloadStatsExport(){
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 async function copyStatsSummary(){
+  if(instrGuard()) return;
   const text=buildSummaryText();
   try{
     if(!navigator.clipboard||!navigator.clipboard.writeText) throw new Error("no clipboard api");
@@ -4529,6 +4591,7 @@ async function copyStatsSummary(){
   setTimeout(()=>{ statsIO.copied=false; render(); },2000);
 }
 function handleStatsImportFile(file){
+  if(instrGuard()) return;
   statsIO.importError=null; statsIO.importPreview=null;
   if(!file) return;
   const reader=new FileReader();
@@ -4757,6 +4820,7 @@ let mockRun=null, mockTick=null;
 function mockUnlockDays(track){ return track==="sc"?SC_UNLOCK_DAYS:SEC_UNLOCK_DAYS; }
 function mockUnlockStatus(track){
   const need=STRICT_UNLOCK?DAYS.map(d=>d.d):mockUnlockDays(track);
+  if(instructorOn()) return {unlocked:true,have:need.length,need:need.length};
   const have=need.filter(d=>state.done[d]).length;
   return {unlocked:have===need.length,have,need:need.length};
 }
@@ -4779,7 +4843,7 @@ function startMock(track){
   const st=mockUnlockStatus(track); if(!st.unlocked) return;
   const {list,shortfalls}=buildMockList(track);
   const spec=MOCK_SPEC[track];
-  mockRun={track,list,i:0,flags:{},answers:{},t0:Date.now(),timeLimitMs:timeScaled(spec.minutes*60000),shortfalls,navOpen:false,confirmOpen:false,submitted:false,rec:null};
+  mockRun={track,list,strict:!!state.mockStrict,i:0,flags:{},answers:{},t0:Date.now(),timeLimitMs:timeScaled(spec.minutes*60000),shortfalls,navOpen:false,confirmOpen:false,submitted:false,rec:null};
   queueFx("challenge","#view .panel");
   render(); window.scrollTo(0,0); startMockTimer();
 }
@@ -4830,13 +4894,79 @@ function submitMock(auto){
     const xs=mockRun.list.filter(it=>it.q.dom===dom);
     perDomain[dom]={correct:earned(xs),total:maxOf(xs),pct:pct(earned(xs),maxOf(xs))};
   });
-  mockRun.rec={ts:Date.now(),mode:"mock",scopeId:"mock-"+mockRun.track,scope:"Mock exam: "+TRACK[mockRun.track],track:mockRun.track,n,score,points,pointsMax,pct:pct(points,pointsMax),ms:Date.now()-mockRun.t0,durationLimitMs:mockRun.timeLimitMs,perDomain,items:res,unanswered,prestige:state.prestige};
+  // Exam conditions: the saved attempt keeps the score and the per-domain numbers but not which
+  // questions were right, so nothing else in the app (Review, Most missed, question history) can
+  // show them. The full detail goes only into the results file.
+  const strict=!!mockRun.strict;
+  mockRun.rec={ts:Date.now(),mode:"mock",scopeId:"mock-"+mockRun.track,scope:"Mock exam: "+TRACK[mockRun.track],track:mockRun.track,n,score,points,pointsMax,pct:pct(points,pointsMax),ms:Date.now()-mockRun.t0,durationLimitMs:mockRun.timeLimitMs,perDomain,items:strict?[]:res,unanswered,prestige:state.prestige};
+  if(strict){
+    mockRun.rec.strict=true;
+    mockRun.weak=mockWeakLevels();
+    mockRun.file=buildMockFile();
+    try{ localStorage.setItem(MOCKFILE_KEY,JSON.stringify(mockRun.file)); }catch(e){}
+  }
   saveAttempt(mockRun.rec);
-  recordReview(mockRun.rec.items); saveProgress();
-  recordGameProgress(mockRun.rec);
+  if(!strict) recordReview(res);
+  saveProgress();
+  recordGameProgress(strict?Object.assign({},mockRun.rec,{items:res}):mockRun.rec);
   if(mockRun.rec&&mockRun.rec.pct>=80) queueFx("victory","#view .panel");
   render(); window.scrollTo(0,0);
 }
+// ---- 2.3.3: exam conditions ----
+// A setting on the mock exam. With it on, the result shows the score, the per-domain breakdown and
+// the levels where the most points were lost. No answers, explanations or list of missed questions
+// appear anywhere in the app. Every question, the answer given and the correct answer are written
+// to a results file instead, in an encoded section, so the detail has to be parsed to be read.
+const MOCKFILE_KEY=LS+".mockfile";
+const mockItemOk=it=>it.q.xf?xfScore(it.q.xf,mockRun.answers[it.k]).ok:(mockRun.answers[it.k]===it.q.a?1:0);
+const mockItemPts=it=>it.q.xf?xfParts(it.q.xf):1;
+function mockWeakLevels(){
+  const m={};
+  mockRun.list.forEach(it=>{ const d=it.q.d; if(!DAYS.some(x=>x.d===d)) return;
+    const r=m[d]||(m[d]={d,lost:0,total:0}), pts=mockItemPts(it); r.total+=pts; r.lost+=pts*(1-mockItemOk(it)); });
+  return Object.values(m).map(r=>({d:r.d,lost:Math.round(r.lost),total:r.total})).filter(r=>r.lost>=1)
+    .sort((a,b)=>b.lost-a.lost||(b.lost/b.total)-(a.lost/a.total)||a.d-b.d).slice(0,5);
+}
+function b64utf8(s){ const u=new TextEncoder().encode(s); let bin=""; for(let i=0;i<u.length;i+=0x8000) bin+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000)); return btoa(bin); }
+function mockItemDetail(it,i){
+  const q=it.q, a=mockRun.answers[it.k], day=DAYS.find(d=>d.d===q.d), pts=mockItemPts(it), ok=mockItemOk(it);
+  const base={n:i+1,key:it.k,level:q.d,levelTitle:day?day.title:null,domain:q.dom,flagged:!!mockRun.flags[it.k],answered:it.k in mockRun.answers,pointsEarned:Math.round(ok*pts*100)/100,pointsMax:pts};
+  if(!q.xf) return Object.assign(base,{type:"multiple-choice",question:q.q,options:q.o.slice(),yourAnswer:a===undefined?null:q.o[a],correctAnswer:q.o[q.a],correct:ok===1,why:q.why||null});
+  const x=q.xf, sel=a||xfEmpty(x), sc=xfScore(x,sel), none=v=>v===null||v===undefined;
+  let parts;
+  if(x.type==="yn") parts=x.rows.map((r,j)=>({prompt:r[0],yourAnswer:none(sel[j])?null:(sel[j]?"Yes":"No"),correctAnswer:r[1]?"Yes":"No",correct:sc.parts[j],why:r[2]}));
+  else if(x.type==="dd") parts=x.blanks.map((b,j)=>({prompt:"Blank "+(j+1),options:b.slice(),yourAnswer:none(sel[j])?null:b[sel[j]],correctAnswer:b[0],correct:sc.parts[j]}));
+  else if(x.type==="multi") parts=x.o.map((o,j)=>({prompt:o,yourAnswer:sel.includes(j)?"selected":"not selected",correctAnswer:j<x.n?"selected":"not selected",correct:sel.includes(j)===(j<x.n)}));
+  else { const rights=x.pairs.map(p=>p[1]).concat(x.extra||[]); parts=x.pairs.map((p,j)=>({prompt:p[0],options:rights.slice(),yourAnswer:none(sel[j])?null:rights[sel[j]],correctAnswer:p[1],correct:sc.parts[j]})); }
+  return Object.assign(base,{type:{yn:"yes-no",dd:"drop-down",multi:"choose-"+x.n,match:"matching"}[x.type],question:x.type==="dd"?x.text:x.type==="yn"?XF_STEM.yn:x.q,parts,correct:sc.ok===1,why:x.why||null});
+}
+function buildMockFile(){
+  const r=mockRun.rec, title=d=>{ const day=DAYS.find(x=>x.d===d); return day?day.title:null; };
+  const detail={items:mockRun.list.map(mockItemDetail)};
+  return { format:"rukeios-mock-result", v:1, app:BRAND.name, appVersion:(PATCHNOTES[0]&&PATCHNOTES[0].v)||null,
+    taken:new Date(r.ts).toISOString(), exam:TRACK[mockRun.track], track:mockRun.track, examConditions:true,
+    summary:{ percent:r.pct, points:r.points, pointsMax:r.pointsMax, questions:r.n, unanswered:r.unanswered,
+      minutesUsed:Math.round(r.ms/60000), minutesAllowed:r.durationLimitMs?Math.round(r.durationLimitMs/60000):null,
+      byDomain:r.perDomain, mostPointsLost:(mockRun.weak||[]).map(w=>({level:w.d,title:title(w.d),pointsLost:w.lost,pointsAvailable:w.total})) },
+    note:"The detail field holds every question, the answer given, the correct answer and the explanation. It is base64-encoded UTF-8 JSON so it isn't readable at a glance. Decode it to analyse the attempt.",
+    detailEncoding:"base64-utf8-json", detail:b64utf8(JSON.stringify(detail)) };
+}
+function mockFileName(f){ return BRAND.name.toLowerCase().replace(/\s+/g,"-")+"-"+f.track+"-mock-"+String(f.taken||"").slice(0,10)+".json"; }
+function downloadMockFile(f){
+  if(!f) return;
+  const blob=new Blob([JSON.stringify(f)],{type:"application/json"}), url=URL.createObjectURL(blob), a=document.createElement("a");
+  a.href=url; a.download=mockFileName(f); document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+async function shareMockFile(f){
+  if(!f) return;
+  const file=new File([JSON.stringify(f)],mockFileName(f),{type:"application/json"});
+  try{ if(navigator.canShare&&navigator.canShare({files:[file]})){ await navigator.share({files:[file],title:BRAND.name+" mock result"}); return; } }
+  catch(e){ if(e&&e.name==="AbortError") return; }
+  downloadMockFile(f);
+}
+function lastMockFile(){ try{ const f=JSON.parse(localStorage.getItem(MOCKFILE_KEY)||"null"); return f&&f.format==="rukeios-mock-result"?f:null; }catch(e){ return null; } }
+function setMockStrict(v){ state.mockStrict=!!v; saveProgress(); render(); }
 function mockVerdict(p){
   if(p>=85) return "Strong. Book the exam.";
   if(p>=80) return "On track. Tighten the weak domains below.";
@@ -4857,7 +4987,13 @@ function renderMockLaunch(){
       inProgram("sc")?h("ul",{class:"mock-facts","aria-label":"How the SC-900 mock matches the exam"},
         h("li",{},"45 minutes, Microsoft's exam time"),h("li",{},"Domain mix follows the skills-measured weights"),
         h("li",{},"Yes/No sets, drop-downs, choose two and matching, plus multiple choice"),h("li",{},"One point per correct selection"),h("li",{},"Flag questions and review before you submit")):null,
-      inProgram("sc")?h("p",{class:"muted",style:"margin:8px 0 0;font-size:calc(13px*var(--ts,1));max-width:70ch"},"These are original questions, not Microsoft's. For questions written by the exam team, use Microsoft's free practice assessment on the SC-900 exam page."):null),
+      inProgram("sc")?h("p",{class:"muted",style:"margin:8px 0 0;font-size:calc(13px*var(--ts,1));max-width:70ch"},"These are original questions, not Microsoft's. For questions written by the exam team, use Microsoft's free practice assessment on the SC-900 exam page."):null,
+      h("div",{class:"mock-strict"},
+        h("label",{class:"mock-strict-row"},
+          (()=>{ const inp=h("input",{type:"checkbox",id:"mockStrict","aria-describedby":"mockStrictHelp",onchange:e=>setMockStrict(e.target.checked)}); inp.checked=!!state.mockStrict; return inp; })(),
+          h("span",{},h("b",{},"Exam conditions"),h("span",{class:"mock-strict-state","aria-hidden":"true"},state.mockStrict?"On":"Off"))),
+        h("p",{class:"muted",id:"mockStrictHelp"},"Like the real exam: after you submit you get your score, the breakdown by domain and the levels where you lost the most points. No answers or explanations are shown, and missed questions aren't added to Review. The questions, your answers and the correct answers go into a results file you can download."),
+        (()=>{ const f=lastMockFile(); return f?h("p",{class:"muted"},"Last results file: "+f.exam+", "+String(f.taken).slice(0,10)+", "+f.summary.percent+"%. ",h("button",{class:"linklike",onclick:()=>downloadMockFile(f)},"Download it again")):null; })())),
     h("div",{class:"cols"},cards));
 }
 function renderMockNavigator(){
@@ -4876,7 +5012,7 @@ function renderMockExam(){
   const flagged=mockRun.flags[it.k];
   const head=h("div",{class:"qhead"},
     h("div",{class:"row"},h("span",{id:"mockTimer",class:"tabnum",style:"font:700 calc(20px*var(--ts,1)) var(--mono)"},"--:--"),
-      h("span",{class:"eyebrow"},TRACK[mockRun.track]+" mock · Q "+(mockRun.i+1)+" / "+mockRun.list.length)),
+      h("span",{class:"eyebrow"},TRACK[mockRun.track]+" mock"+(mockRun.strict?" · exam conditions":"")+" · Q "+(mockRun.i+1)+" / "+mockRun.list.length)),
     h("div",{class:"row"},
       h("button",{class:"btn small"+(flagged?" mock-flagged":""),onclick:mockFlag},flagged?"★ Flagged":"☆ Flag for review"),
       h("button",{class:"btn small",onclick:()=>{mockRun.navOpen=!mockRun.navOpen;render();}},mockRun.navOpen?"Hide navigator":"Navigator")));
@@ -4905,6 +5041,7 @@ function renderMockExam(){
 }
 function renderMockResult(){
   const r=mockRun.rec, spec=MOCK_SPEC[mockRun.track];
+  if(mockRun.strict) return renderMockResultStrict();
   const domRows=Object.entries(r.perDomain).map(([dom,d])=>h("div",{class:"bar"},h("span",{},dom+(d.pct<80?" ⚠":"")),
     h("span",{class:"track"},h("i",{style:`width:${d.pct}%;background:var(--${mockRun.track})`})),
     h("span",{class:"tabnum",style:"text-align:right"},h("span",{class:"chip "+(d.pct>=80?"good":"weak")},d.correct+"/"+d.total+" · "+d.pct+"%"))));
@@ -4927,6 +5064,40 @@ function renderMockResult(){
         h("button",{class:"btn",onclick:()=>{mockRun=null;render();}},"Back to mock exams"))),
     h("section",{class:"panel"},h("h3",{style:"margin-bottom:10px"},"Per-domain breakdown"),domRows,h("p",{class:"muted",style:"font-size:calc(13px*var(--ts,1));margin:10px 0 0"},"⚠ = under the 80% target.")),
     missed.length?h("section",{class:"panel"},h("h3",{},"Review what you missed"),missBox):null);
+}
+function renderMockResultStrict(){
+  const r=mockRun.rec, f=mockRun.file, weak=mockRun.weak||[];
+  const domRows=Object.entries(r.perDomain).map(([dom,d])=>h("div",{class:"bar"},h("span",{},dom+(d.pct<80?" ⚠":"")),
+    h("span",{class:"track"},h("i",{style:`width:${d.pct}%;background:var(--${mockRun.track})`})),
+    h("span",{class:"tabnum",style:"text-align:right"},h("span",{class:"chip "+(d.pct>=80?"good":"weak")},d.correct+"/"+d.total+" · "+d.pct+"%"))));
+  const openLesson=d=>{ ui.sel=d; ui.classicLesson=false; saveUI(); goTab("plan"); };
+  const weakBox=weak.map(w=>{ const day=DAYS.find(x=>x.d===w.d), notes=(CN.byDay[w.d]||[]).map(c=>c.title);
+    return h("div",{class:"miss"},
+      h("div",{},h("b",{},"Level "+displayDay(w.d)+" · "+day.title)),
+      h("div",{class:"muted",style:"font-size:calc(14px*var(--ts,1))"},w.lost+" of "+w.total+" point"+(w.total===1?"":"s")+" lost"),
+      notes.length?h("div",{class:"muted",style:"font-size:calc(14px*var(--ts,1))"},"Pocket Notes for this level: "+notes.join(" · ")):null,
+      h("div",{class:"actions",style:"margin-top:4px"},
+        h("button",{class:"btn small",onclick:()=>openLesson(w.d)},"Open the lesson"),
+        notes.length?h("button",{class:"btn small",onclick:()=>goLevelStep(day,"notes")},"Open its Pocket Notes"):null)); });
+  return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
+    h("section",{class:"panel"},
+      h("div",{class:"eyebrow"},TRACK[mockRun.track]+" mock · exam conditions · saved"),
+      h("h2",{style:"margin:6px 0"},r.pointsMax&&r.pointsMax!==r.n?r.pct+"% · "+r.points+" of "+r.pointsMax+" points":r.pct+"% · "+fmtPts(r.score)+" / "+r.n+" correct"),
+      r.pointsMax&&r.pointsMax!==r.n?h("p",{class:"muted",style:"margin:0"},r.n+" questions. Multi-part questions score one point per correct selection, so there are more points than questions."):null,
+      h("p",{class:"muted",style:"margin:0"},"Time used: "+Math.round(r.ms/60000)+(r.durationLimitMs?" of "+Math.round(r.durationLimitMs/60000)+" minutes":" minutes (no time limit)")+(r.unanswered?" · "+r.unanswered+" left unanswered":"")),
+      h("p",{style:"font-weight:600;margin:10px 0 0"},mockVerdict(r.pct)),
+      h("p",{class:"muted",style:"font-size:calc(13px*var(--ts,1));margin:6px 0 0;max-width:60ch"},"Official exams report a scaled score (Security+ 750/900, SC-900 700/1000). The conversion from raw score isn't published, so this is your raw percentage. Aim for 85%+ before you book."),
+      mockRun.shortfalls.length?h("p",{class:"muted",style:"font-size:calc(13px*var(--ts,1))"},"Note: your question bank came up short in "+mockRun.shortfalls.map(s=>s.dom+" ("+s.have+"/"+s.need+")").join(", ")+"."):null,
+      h("div",{class:"actions"},
+        h("button",{class:"btn primary",onclick:()=>downloadMockFile(f)},"Download results file"),
+        navigator.share?h("button",{class:"btn",onclick:()=>shareMockFile(f)},"Share results file"):null,
+        h("button",{class:"btn",onclick:()=>startMock(mockRun.track)},"Retake this mock"),
+        h("button",{class:"btn",onclick:()=>{mockRun=null;render();}},"Back to mock exams")),
+      h("p",{class:"muted",style:"font-size:calc(13px*var(--ts,1));margin:10px 0 0;max-width:70ch"},"Exam conditions: no answers or explanations are shown here, and nothing was added to Review. The results file holds every question, your answer and the correct answer in an encoded section, for you or a tutor to go through later. The most recent file stays available on the mock exam page.")),
+    h("section",{class:"panel"},h("h3",{style:"margin-bottom:10px"},"Per-domain breakdown"),domRows,h("p",{class:"muted",style:"font-size:calc(13px*var(--ts,1));margin:10px 0 0"},"⚠ = under the 80% target.")),
+    h("section",{class:"panel"},h("h3",{style:"margin-bottom:4px"},"Where you lost the most points"),
+      weak.length?h("p",{class:"muted",style:"margin:0 0 10px;font-size:calc(14px*var(--ts,1))"},"Ranked by points lost. These are the levels to go back to first."):null,
+      weak.length?h("div",{style:"display:flex;flex-direction:column;gap:10px"},weakBox):h("p",{class:"muted",style:"margin:0"},"You didn't lose a full point in any level.")));
 }
 function renderMock(){
   if(!mockRun) return renderMockLaunch();
@@ -5466,7 +5637,7 @@ function renderCore(){
   if(inCampaign){
     // Self-contained: no tabs, no plan or quiz pages. Quizzes and boss fights run here.
     document.body.classList.toggle("scene-arena",!!(run&&run.boss)||["boss","final"].includes(G().phase));
-    v.replaceChildren(renameNotice()||"",run?renderRun():renderGuided());
+    v.replaceChildren(instructorBanner()||"",renameNotice()||"",run?renderRun():renderGuided());
     if(run&&!run.finished&&run.timedMs&&!run.answered&&!tick) startTimer();
     return;
   }
@@ -5474,11 +5645,20 @@ function renderCore(){
   if(STUDY_TABS.includes(ui.tab)) ui.studyTab=ui.tab==="quiz"&&ui.quiz.mode==="acronym"?"acr":ui.tab;
   if(ui.tab==="acr"){ ui.tab="quiz"; if(ui.quiz.mode!=="acronym"){ ui.lastMode=ui.quiz.mode; ui.quiz.mode="acronym"; } }
   const main=ui.tab==="home"?renderHome():ui.tab==="plan"?renderPlan():ui.tab==="cards"?renderCN():ui.tab==="quiz"?renderQuizTab():ui.tab==="stats"?renderStats():ui.tab==="game"?renderGame():ui.tab==="pbq"?renderPBQ():ui.tab==="lab"?renderLab():ui.tab==="mock"?renderMock():renderCampaign();
-  v.replaceChildren(ui.tab==="home"&&renameNotice()||"",STUDY_TABS.includes(ui.tab)?h("div",{style:"display:flex;flex-direction:column;gap:16px"},renderStudyNav(),main):main);
+  v.replaceChildren(instructorBanner()||"",ui.tab==="home"&&renameNotice()||"",STUDY_TABS.includes(ui.tab)?h("div",{style:"display:flex;flex-direction:column;gap:16px"},renderStudyNav(),main):main);
   document.body.classList.toggle("wide-lesson",!!v.querySelector(".pilot"));
   if(run&&!run.finished&&run.timedMs&&!run.answered&&!tick&&ui.tab==="quiz") startTimer();
 }
 try{ catchUpLevels(); }catch(e){}
+// 2.3.4: keep the Plan settings panel on screen. It opens right-aligned to its button; where the
+// header wraps and the button sits further left, that pushed the panel off the left edge of phones.
+function fitSettings(){
+  const d=document.getElementById("settings"), b=d&&d.querySelector(".settings-body"); if(!b||!d.open) return;
+  b.style.left=""; b.style.right="";
+  const r=b.getBoundingClientRect(), W=document.documentElement.clientWidth, m=16;
+  if(r.left<m||r.right>W-m){ const dl=d.getBoundingClientRect().left; b.style.right="auto"; b.style.left=Math.round(Math.max(m,Math.min(W-m-r.width,r.left))-dl)+"px"; }
+}
+(()=>{ const d=document.getElementById("settings"); if(d) d.addEventListener("toggle",fitSettings); window.addEventListener("resize",fitSettings); })();
 applyA11y();
 if(["#home","#quiz","#stats","#plan","#cards"].includes(location.hash)) ui.tab=location.hash.slice(1);
 render();
