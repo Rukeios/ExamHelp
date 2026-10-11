@@ -3,6 +3,13 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.3.6", date:"2026-10-10", title:"Shorter level quizzes", tag:"balance", items:[
+  "Level quizzes now have at most 25 questions. Before this, a level quiz asked every question written for that level, so Levels 7 and 8 were 61 questions long.",
+  "In Think mode, up to 5 of the 25 are exam-style (Yes/No, drop-down, choose two, matching).",
+  "Each try draws a fresh set from the level's full pool, favouring questions you've missed or haven't seen yet, so retakes don't repeat the same 25.",
+  "Passing works the same way as before, and every question is still in Practice if you want the full set. Review levels and exam-day levels keep their own sizes. Your progress and history are untouched."
+]},
+
 { v:"2.3.5", date:"2026-10-09", title:"Pick your read-aloud voice", tag:"feature", items:[
   "New in Accessibility, under Read aloud: Voice. Choose any voice installed on your device, and tap Try it to hear a sample first.",
   "Automatic now picks the most natural-sounding English voice your device has, instead of whatever the browser defaults to. Voices named Natural, Neural, Online or Enhanced are listed first.",
