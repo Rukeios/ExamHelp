@@ -4394,8 +4394,8 @@ function pilotSteps(d,sec){
       h("h3",{},"Example in the workplace"),h("p",{class:"ex"},cur.example),
       ci<sec.steps.length-1?h("button",{class:"btn small",onclick:()=>pilotPick(d.d,sec.id,sec.steps[ci+1].id)},"Next step: "+sec.steps[ci+1].name):null)];
 }
-// ---------- 2.3.7 beta: base-defense map and retrieval drills ----------
-// fieldmap: zones of a base, each piece pairs a familiar job with the Azure product, its exam
+// ---------- 2.3.7 beta: field map and retrieval drills ----------
+// fieldmap: zones of a familiar place (Level 7: an office building), each piece pairs a familiar job with the Azure product, its exam
 // clue words and where the comparison stops. drill: a run of short situations; pick, get the why,
 // move on, see the misses at the end. Like guided practice, drills live in memory only.
 function pilotFieldmap(d,sec){
@@ -4408,11 +4408,11 @@ function pilotFieldmap(d,sec){
         h("div",{class:"fm-zh"},h("h3",{},z.name),h("p",{class:"meta"},z.desc)),
         h("div",{class:"fm-items"},sec.items.filter(x=>x.zone===z.id).map(btn))))),
     h("div",{class:"pilot-panel fm-panel",role:"region","aria-live":"polite","aria-label":"Selected: "+cur.name},
-      h("p",{class:"fm-row"},h("span",{class:"fm-lbl"},"On base"),h("span",{},h("b",{},cur.kind+". "),cur.base)),
+      h("p",{class:"fm-row"},h("span",{class:"fm-lbl"},sec.hookLabel||"Familiar job"),h("span",{},h("b",{},cur.kind+". "),cur.base)),
       h("p",{class:"fm-row fm-az"},h("span",{class:"fm-lbl"},"In Azure"),h("span",{},h("b",{},cur.name+". "),cur.azure)),
       h("div",{class:"fm-row"},h("span",{class:"fm-lbl"},"Clue words"),h("ul",{class:"tagrow","aria-label":"Exam clue words"},cur.clues.map(c=>h("li",{},c)))),
       h("p",{class:"fm-row fm-watch"},h("span",{class:"fm-lbl"},"Watch out"),h("span",{},cur.watch))),
-    sec.path?h("details",{class:"fm-path"},h("summary",{},"Follow one request through the base"),h("p",{},sec.path)):null];
+    sec.path?h("details",{class:"fm-path"},h("summary",{},sec.pathLabel||"Follow one request all the way in"),h("p",{},sec.path)):null];
 }
 let pilotDrills={};   // {day|secId: {order, i, picks:{itemId:optIndex}, opt:{itemId:[order]}}}, memory only
 function drillState(d,sec,reset){
