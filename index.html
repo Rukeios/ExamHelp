@@ -1059,6 +1059,58 @@ body.wide-lesson .study-lessons{grid-template-columns:232px minmax(0,1fr);gap:32
   .pilot-steps button.on{padding-right:12px}
 }
 @media (prefers-reduced-motion:reduce){.pilot-card,.pilot-panel{animation:none}}
+/* 2.3.7 beta: fieldmap and drills */
+.beta-chip{margin-left:8px;vertical-align:middle;font:700 calc(11px*var(--ts,1)) var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--accent-soft);color:var(--accent-ink);padding:2px 8px;border-radius:999px}
+.beta-note{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:calc(13px*var(--ts,1))}
+.beta-note .beta-chip{margin-left:0}
+.fieldmap{display:flex;flex-direction:column;gap:8px}
+.fm-outside{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border:1.5px dashed var(--line);border-radius:12px;color:var(--muted)}
+.fm-outside b{color:var(--ink);font-size:calc(15px*var(--ts,1))}
+.fm-zone{border:1.5px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0;position:relative}
+.fm-zone::before{content:"";position:absolute;left:50%;top:-9px;width:2px;height:8px;background:var(--line)}
+.fmz-gate{border-color:color-mix(in srgb,#c98a1f 55%,var(--line))}
+.fmz-inside{border-color:var(--accent);background:color-mix(in srgb,var(--accent-soft) 40%,transparent)}
+.fmz-watch{border-style:double;border-width:3px}
+.fm-zh h3{margin:0;font-size:calc(15px*var(--ts,1))}
+.fm-zh .meta{margin:2px 0 0;font-size:calc(13px*var(--ts,1))}
+.fm-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+.fm-item{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:9px 11px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);min-width:0;min-height:44px}
+.fm-item:hover{border-color:var(--ink)}
+.fm-item.on{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}
+.fm-kind{font:600 calc(13px*var(--ts,1)) var(--body);color:var(--muted)}
+.fm-name{font:700 calc(15px*var(--ts,1))/1.2 var(--display);overflow-wrap:anywhere}
+.fm-panel{border-top:1px solid var(--line);padding-top:12px}
+.fm-row{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;margin:0;align-items:baseline}
+.fm-lbl{font:700 calc(12px*var(--ts,1)) var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.fm-az{font-size:calc(17px*var(--ts,1))}
+.fm-row.fm-watch{border-left:3px solid #c98a1f;padding-left:10px;grid-template-columns:86px minmax(0,1fr)}
+.fm-path summary{cursor:pointer;font-weight:600}
+@media (max-width:520px){.fm-row,.fm-row.fm-watch{grid-template-columns:minmax(0,1fr);gap:2px}.fm-items{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.drill{display:flex;flex-direction:column;gap:12px}
+.drill-top{display:flex;align-items:center;gap:12px}
+.drill-bar{flex:1;height:6px;border-radius:999px;background:var(--line);overflow:hidden}
+.drill-bar i{display:block;height:100%;background:var(--accent);transition:width .2s}
+.drill-pair{margin:0;font:700 calc(13px*var(--ts,1)) var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--accent-ink)}
+.drill-q{margin:0;font:600 calc(19px*var(--ts,1))/1.4 var(--body)}
+.drill-q:focus{outline:none}
+.drill-opts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+.drill-opt{display:flex;justify-content:space-between;align-items:center;gap:8px;text-align:left;padding:12px 14px;min-height:48px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:600 calc(15px*var(--ts,1))/1.3 var(--body)}
+.drill-opt:hover:not([disabled]){border-color:var(--ink)}
+.drill-opt.right{border-color:#2e9e62;background:color-mix(in srgb,#2e9e62 14%,var(--surface))}
+.drill-opt.wrong{border-color:#d0564b;background:color-mix(in srgb,#d0564b 12%,var(--surface))}
+.drill-opt.dim{opacity:.72}
+.drill-fb:empty{display:none}
+.drill-fb{border-left:3px solid var(--line);padding-left:12px;display:flex;flex-direction:column;gap:6px}
+.drill-fb p{margin:0}
+.drill-fb.right{border-left-color:#2e9e62}.drill-fb.wrong{border-left-color:#d0564b}
+.drill-next{align-self:flex-start}
+.drill-done{display:flex;flex-direction:column;gap:10px}
+.drill-done:focus{outline:none}
+.drill-score{margin:0;font-size:calc(18px*var(--ts,1))}
+.drill-miss{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px}
+.drill-miss li{display:flex;flex-direction:column;gap:2px}
+@media (max-width:520px){.drill-opts{grid-template-columns:minmax(0,1fr)}}
+
 
 /* ---------- 2.2.3: lesson section types ---------- */
 .pilot-grid.no-practice{grid-template-columns:minmax(0,1fr);grid-template-areas:"card" "note" "nav"}
@@ -1376,54 +1428,55 @@ details.cl-fold{display:block}
   </footer>
 </div>
 
-<script src="data.js?v=2.3.6"></script>
-<script src="data-extra.js?v=2.3.6"></script>
-<script src="data-pack2.js?v=2.3.6"></script>
-<script src="data-pack3.js?v=2.3.6"></script>
-<script src="data-pack4-sc.js?v=2.3.6"></script>
-<script src="data-pack5-net.js?v=2.3.6"></script>
-<script src="data-acronyms.js?v=2.3.6"></script>
-<script src="data-patchnotes.js?v=2.3.6"></script>
-<script src="data-bosses.js?v=2.3.6"></script>
+<script src="data.js?v=2.3.7"></script>
+<script src="data-extra.js?v=2.3.7"></script>
+<script src="data-pack2.js?v=2.3.7"></script>
+<script src="data-pack3.js?v=2.3.7"></script>
+<script src="data-pack4-sc.js?v=2.3.7"></script>
+<script src="data-pack5-net.js?v=2.3.7"></script>
+<script src="data-acronyms.js?v=2.3.7"></script>
+<script src="data-patchnotes.js?v=2.3.7"></script>
+<script src="data-bosses.js?v=2.3.7"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=2.3.6"></script>
-<script src="data-campaign-flags.js?v=2.3.6"></script>
-<script src="data-campaign-endings.js?v=2.3.6"></script>
-<script src="data-fixes-01.js?v=2.3.6"></script>
-<script src="data-fixes-02.js?v=2.3.6"></script>
-<script src="data-fixes-03.js?v=2.3.6"></script>
-<script src="data-fixes-04.js?v=2.3.6"></script>
-<script src="data-lessons.js?v=2.3.6"></script>
-<script src="data-lessons-2.js?v=2.3.6"></script>
-<script src="data-lessons-3.js?v=2.3.6"></script>
-<script src="data-lessons-sec-1.js?v=2.3.6"></script>
-<script src="data-lessons-sec-2.js?v=2.3.6"></script>
-<script src="data-lessons-sec-3.js?v=2.3.6"></script>
-<script src="data-lessons-sec-4.js?v=2.3.6"></script>
-<script src="data-cn-sc.js?v=2.3.6"></script>
-<script src="data-cn-compare.js?v=2.3.6"></script>
-<script src="data-cn-sc-scenarios.js?v=2.3.6"></script>
-<script src="data-cn-sc-checks.js?v=2.3.6"></script>
-<script src="data-cn-sc-checks-2.js?v=2.3.6"></script>
-<script src="data-cn-sec-1.js?v=2.3.6"></script>
-<script src="data-cn-sec-1-cmp.js?v=2.3.6"></script>
-<script src="data-cn-sec-1-scen.js?v=2.3.6"></script>
-<script src="data-cn-sec-2.js?v=2.3.6"></script>
-<script src="data-cn-sec-2-cmp.js?v=2.3.6"></script>
-<script src="data-cn-sec-2-scen.js?v=2.3.6"></script>
-<script src="data-cn-sec-3.js?v=2.3.6"></script>
-<script src="data-cn-sec-3-cmp.js?v=2.3.6"></script>
-<script src="data-cn-sec-3-scen.js?v=2.3.6"></script>
-<script src="data-cn-sec-4.js?v=2.3.6"></script>
-<script src="data-cn-sec-4-cmp.js?v=2.3.6"></script>
-<script src="data-cn-sec-4-scen.js?v=2.3.6"></script>
-<script src="data-xf-sc.js?v=2.3.6"></script>
-<script src="data-xf-sec-1.js?v=2.3.6"></script>
-<script src="data-xf-sec-2.js?v=2.3.6"></script>
-<script src="data-xf-sec-3.js?v=2.3.6"></script>
-<script src="data-xf-sec-4.js?v=2.3.6"></script>
-<script src="data-links.js?v=2.3.6"></script>
-<script src="examhelp-effects.js?v=2.3.6"></script>
+<script src="data-daymissions.js?v=2.3.7"></script>
+<script src="data-campaign-flags.js?v=2.3.7"></script>
+<script src="data-campaign-endings.js?v=2.3.7"></script>
+<script src="data-fixes-01.js?v=2.3.7"></script>
+<script src="data-fixes-02.js?v=2.3.7"></script>
+<script src="data-fixes-03.js?v=2.3.7"></script>
+<script src="data-fixes-04.js?v=2.3.7"></script>
+<script src="data-lessons.js?v=2.3.7"></script>
+<script src="data-lessons-2.js?v=2.3.7"></script>
+<script src="data-lessons-3.js?v=2.3.7"></script>
+<script src="data-lessons-beta-7.js?v=2.3.7"></script>
+<script src="data-lessons-sec-1.js?v=2.3.7"></script>
+<script src="data-lessons-sec-2.js?v=2.3.7"></script>
+<script src="data-lessons-sec-3.js?v=2.3.7"></script>
+<script src="data-lessons-sec-4.js?v=2.3.7"></script>
+<script src="data-cn-sc.js?v=2.3.7"></script>
+<script src="data-cn-compare.js?v=2.3.7"></script>
+<script src="data-cn-sc-scenarios.js?v=2.3.7"></script>
+<script src="data-cn-sc-checks.js?v=2.3.7"></script>
+<script src="data-cn-sc-checks-2.js?v=2.3.7"></script>
+<script src="data-cn-sec-1.js?v=2.3.7"></script>
+<script src="data-cn-sec-1-cmp.js?v=2.3.7"></script>
+<script src="data-cn-sec-1-scen.js?v=2.3.7"></script>
+<script src="data-cn-sec-2.js?v=2.3.7"></script>
+<script src="data-cn-sec-2-cmp.js?v=2.3.7"></script>
+<script src="data-cn-sec-2-scen.js?v=2.3.7"></script>
+<script src="data-cn-sec-3.js?v=2.3.7"></script>
+<script src="data-cn-sec-3-cmp.js?v=2.3.7"></script>
+<script src="data-cn-sec-3-scen.js?v=2.3.7"></script>
+<script src="data-cn-sec-4.js?v=2.3.7"></script>
+<script src="data-cn-sec-4-cmp.js?v=2.3.7"></script>
+<script src="data-cn-sec-4-scen.js?v=2.3.7"></script>
+<script src="data-xf-sc.js?v=2.3.7"></script>
+<script src="data-xf-sec-1.js?v=2.3.7"></script>
+<script src="data-xf-sec-2.js?v=2.3.7"></script>
+<script src="data-xf-sec-3.js?v=2.3.7"></script>
+<script src="data-xf-sec-4.js?v=2.3.7"></script>
+<script src="data-links.js?v=2.3.7"></script>
+<script src="examhelp-effects.js?v=2.3.7"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -4230,7 +4283,7 @@ function pilotTabs(day,secId,items,cur,cls){
 }
 function pilotCard(d,sec){
   const st=pilotState(d.d);
-  const kids=[h("h2",{},sec.title),speakBtn("card|"+d.d+"|"+sec.id+"|"+(st.pick[sec.id]||""),".pilot-card",sec.title),h("p",{class:"pilot-lead"},sec.lead)];
+  const kids=[h("h2",{},sec.title,sec.beta?h("span",{class:"chip beta-chip"},"Beta"):null),speakBtn("card|"+d.d+"|"+sec.id+"|"+(st.pick[sec.id]||""),".pilot-card",sec.title),h("p",{class:"pilot-lead"},sec.lead)];
   if(sec.type==="facets"){
     const cur=(sec.facets.find(f=>f.id===st.pick[sec.id])||sec.facets[0]);
     kids.push(pilotTabs(d.d,sec.id,sec.facets,cur.id,"facet-tabs"+(sec.facets.some(f=>f.icon)?"":" text")),
@@ -4261,6 +4314,9 @@ function pilotCard(d,sec){
   else if(sec.type==="compare") kids.push(...pilotCompare(d,sec));
   else if(sec.type==="map") kids.push(...pilotMap(d,sec));
   else if(sec.type==="steps") kids.push(...pilotSteps(d,sec));
+  else if(sec.type==="fieldmap") kids.push(...pilotFieldmap(d,sec));
+  else if(sec.type==="drill") kids.push(...pilotDrill(d,sec));
+  if(sec.beta) kids.push(h("p",{class:"meta beta-note"},h("span",{class:"chip beta-chip"},"Beta"),"A new way of teaching this level. Tell us if it helps you remember, or if it doesn't."));
   if(sec.caution) kids.push(pilotCaution(sec));
   if(sec.careers&&sec.careers.length) kids.push(h("details",{class:"careers"},h("summary",{},"Where this skill is used"),
     h("ul",{},sec.careers.map(c=>h("li",{},c.text," ",h("a",{href:c.src,target:"_blank",rel:"noopener"},"Source"))))));
@@ -4337,6 +4393,58 @@ function pilotSteps(d,sec){
       h("p",{class:"say"},h("b",{},"Step "+(ci+1)+": "+cur.name+". "),cur.say),
       h("h3",{},"Example in the workplace"),h("p",{class:"ex"},cur.example),
       ci<sec.steps.length-1?h("button",{class:"btn small",onclick:()=>pilotPick(d.d,sec.id,sec.steps[ci+1].id)},"Next step: "+sec.steps[ci+1].name):null)];
+}
+// ---------- 2.3.7 beta: field map and retrieval drills ----------
+// fieldmap: zones of a familiar place (Level 7: an office building), each piece pairs a familiar job with the Azure product, its exam
+// clue words and where the comparison stops. drill: a run of short situations; pick, get the why,
+// move on, see the misses at the end. Like guided practice, drills live in memory only.
+function pilotFieldmap(d,sec){
+  const st=pilotState(d.d), cur=(sec.items.find(x=>x.id===st.pick[sec.id])||sec.items[0]);
+  const btn=x=>h("button",{class:"fm-item"+(x.id===cur.id?" on":""),"aria-pressed":String(x.id===cur.id),"data-pday":d.d,"data-psec":sec.id,"data-pkey":x.id,
+    onclick:()=>pilotPick(d.d,sec.id,x.id)},h("span",{class:"fm-kind"},x.kind),h("span",{class:"fm-name"},x.name));
+  return [h("div",{class:"fieldmap"},
+      h("div",{class:"fm-outside"},h("b",{},sec.outside.name),h("span",{class:"meta"},sec.outside.desc)),
+      sec.zones.map(z=>h("section",{class:"fm-zone fmz-"+z.id,"aria-label":z.name},
+        h("div",{class:"fm-zh"},h("h3",{},z.name),h("p",{class:"meta"},z.desc)),
+        h("div",{class:"fm-items"},sec.items.filter(x=>x.zone===z.id).map(btn))))),
+    h("div",{class:"pilot-panel fm-panel",role:"region","aria-live":"polite","aria-label":"Selected: "+cur.name},
+      h("p",{class:"fm-row"},h("span",{class:"fm-lbl"},sec.hookLabel||"Familiar job"),h("span",{},h("b",{},cur.kind+". "),cur.base)),
+      h("p",{class:"fm-row fm-az"},h("span",{class:"fm-lbl"},"In Azure"),h("span",{},h("b",{},cur.name+". "),cur.azure)),
+      h("div",{class:"fm-row"},h("span",{class:"fm-lbl"},"Clue words"),h("ul",{class:"tagrow","aria-label":"Exam clue words"},cur.clues.map(c=>h("li",{},c)))),
+      h("p",{class:"fm-row fm-watch"},h("span",{class:"fm-lbl"},"Watch out"),h("span",{},cur.watch))),
+    sec.path?h("details",{class:"fm-path"},h("summary",{},sec.pathLabel||"Follow one request all the way in"),h("p",{},sec.path)):null];
+}
+let pilotDrills={};   // {day|secId: {order, i, picks:{itemId:optIndex}, opt:{itemId:[order]}}}, memory only
+function drillState(d,sec,reset){
+  const k=d.d+"|"+sec.id;
+  if(reset||!pilotDrills[k]) pilotDrills[k]={order:shuffle(sec.items.map(x=>x.id)),i:0,picks:{},opt:{}};
+  return pilotDrills[k];
+}
+function drillFocus(sel){ const f=document.querySelector(sel); if(f) f.focus({preventScroll:true}); }
+function pilotDrill(d,sec){
+  const ds=drillState(d,sec), n=ds.order.length;
+  if(ds.i>=n){
+    const items=ds.order.map(id=>sec.items.find(x=>x.id===id)), right=items.filter(x=>x.o[ds.picks[x.id]]&&x.o[ds.picks[x.id]][1]), miss=items.filter(x=>!right.includes(x));
+    const again=(only)=>{ const fresh=drillState(d,sec,true); if(only&&only.length) fresh.order=shuffle(only.map(x=>x.id)); render(); drillFocus(".drill-q"); };
+    return [h("div",{class:"drill-done",role:"status",tabindex:"-1"},
+      h("p",{class:"drill-score"},h("b",{},right.length+" of "+n),miss.length?" right. Here's what to look at again:":" right. Clean."),
+      miss.length?h("ul",{class:"drill-miss"},miss.map(x=>{ const ok=x.o.find(o=>o[1]); return h("li",{},h("span",{class:"meta"},x.s),h("span",{},h("b",{},ok[0]+". "),ok[2])); })):null,
+      h("div",{class:"actions"},miss.length?h("button",{class:"btn primary",onclick:()=>again(miss)},"Redo my "+miss.length+" miss"+(miss.length===1?"":"es")):null,
+        h("button",{class:"btn"+(miss.length?"":" primary"),onclick:()=>again()},"Run it again (new order)")))];
+  }
+  const it=sec.items.find(x=>x.id===ds.order[ds.i]), ord=ds.opt[it.id]||(ds.opt[it.id]=shuffle(it.o.map((_,j)=>j)));
+  const ans=ds.picks[it.id], fb=ans!=null?it.o[ans]:null, right=it.o.find(o=>o[1]);
+  const pickIt=j=>{ if(ds.picks[it.id]!=null) return; ds.picks[it.id]=j; render(); drillFocus(".drill-next"); };
+  return [h("div",{class:"drill"},
+    h("div",{class:"drill-top"},h("span",{class:"meta"},"Question "+(ds.i+1)+" of "+n),h("span",{class:"drill-bar","aria-hidden":"true"},h("i",{style:"width:"+Math.round(100*ds.i/n)+"%"}))),
+    it.pair?h("p",{class:"drill-pair"},it.pair):null,
+    h("p",{class:"drill-q",id:"dq-"+sec.id,tabindex:"-1"},it.s),
+    h("div",{class:"drill-opts"+(it.o.length===2?" two":""),role:"group","aria-labelledby":"dq-"+sec.id},ord.map(j=>{ const o=it.o[j], picked=ans===j, show=ans!=null&&(picked||o[1]);
+      return h("button",{class:"drill-opt"+(show?(o[1]?" right":" wrong"):"")+(ans!=null&&!show?" dim":""),"aria-pressed":String(picked),disabled:ans!=null&&!picked?true:null,onclick:()=>pickIt(j)},
+        h("span",{},o[0]),show?h("span",{class:"pp-mark"},o[1]?svgIcon("check"):svgIcon("x"),h("span",{class:"sr-only"},o[1]?"correct":"not correct")):null); })),
+    h("div",{class:"drill-fb"+(fb?(fb[1]?" right":" wrong"):""),role:"status","aria-live":"polite"},
+      fb?[h("p",{},h("b",{},fb[1]?"Right. ":"Not this one. "),fb[2]),fb[1]?null:h("p",{},h("b",{},right[0]+": "),right[2])]:""),
+    fb?h("button",{class:"btn primary drill-next",onclick:()=>{ ds.i++; render(); drillFocus(ds.i>=n?".drill-done":".drill-q"); }},ds.i+1<n?"Next":"See how you did"):null)];
 }
 function pilotLinkTo(day,secId){
   const L=LESSON_PILOTS[day]; if(!L) return;

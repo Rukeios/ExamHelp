@@ -3,6 +3,14 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.3.7", date:"2026-10-14", title:"Beta: new ways to learn Level 7", tag:"feature", items:[
+  "Level 7 (Azure infrastructure security and Defender for Cloud) is where SC-900 turns into a list of look-alike products. This beta tries three new ways to make them stick. They're marked Beta in the lesson.",
+  "Level 7 as an office building: a map that places each product where it would sit in a secured office building. DDoS Protection is crowd control at the entrance, Azure Firewall is the lobby security desk, the Web Application Firewall is mailroom screening, a network security group is a door's badge reader, Bastion is IT going through the front office to reach the server room, Key Vault is the locked key cabinet, and Defender for Cloud is the safety inspector, the inspection grade and the guards on the cameras. Each piece shows the Azure facts, the clue words the exam uses and where the comparison stops being true.",
+  "Clue-word drill: 12 short situations, the way the exam asks. Pick the product, see why, then redo only the ones you missed.",
+  "Pick the right one: 10 quick choices between the pairs people mix up most, such as network security group or Azure Firewall, posture management or workload protection, and secure score or compliance score.",
+  "The drills are practice only, like guided practice: nothing is scored or saved. The original Level 7 sections, Check yourself and the level quiz haven't changed. If you were partway through the Level 7 lesson, it may open one section earlier than where you left off. Your progress and history are untouched."
+]},
+
 { v:"2.3.6", date:"2026-10-10", title:"Shorter level quizzes", tag:"balance", items:[
   "Level quizzes now have at most 25 questions. Before this, a level quiz asked every question written for that level, so Levels 7 and 8 were 61 questions long.",
   "In Think mode, up to 5 of the 25 are exam-style (Yes/No, drop-down, choose two, matching).",
