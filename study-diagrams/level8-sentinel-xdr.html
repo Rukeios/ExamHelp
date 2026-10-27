@@ -1,0 +1,48 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=1700"><title>Level 8: Microsoft Sentinel and Defender XDR</title><style>
+:root{--bg:#0d1117;--ink:#e6edf3;--mut:#8b949e;--line:#30363d;--blue:#58a6ff;--pur:#b48cff;--grn:#4cc38a;--red:#ff6b5b;--gold:#e3b341;--org:#f0883e}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.35 system-ui,Segoe UI,Arial,sans-serif;width:1700px;padding:28px 34px}
+h1{margin:0;font-size:30px}.sub{color:var(--mut);margin:6px 0 18px;font-size:16px}
+.colh{font-weight:800;font-size:17px;padding:6px 10px;border-radius:8px;margin-bottom:10px}
+.box{border:2px solid var(--line);border-radius:10px;padding:10px 12px}
+.box h3{margin:0 0 4px;font-size:16px}.box p{margin:3px 0}.box ul{margin:4px 0 0;padding-left:18px}.box li{margin:2px 0}
+.m{color:var(--mut);font-size:13.5px}.small{font-size:13.5px}
+.c-blue{--c:var(--blue)}.c-pur{--c:var(--pur)}.c-grn{--c:var(--grn)}.c-red{--c:var(--red)}.c-gold{--c:var(--gold)}.c-org{--c:var(--org)}
+.box[class*=c-]{border-color:var(--c)}.box[class*=c-] h3{color:var(--c)}
+.colh[class*=c-]{color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
+.pipe{display:flex;align-items:stretch;gap:0}.pipe>.box{flex:1}.ar{display:flex;align-items:center;padding:0 6px;color:var(--mut);font-size:24px}
+.hook{background:#161b22;border-left:4px solid var(--gold);border-radius:8px;padding:9px 12px;font-size:14px}.hook b{color:var(--gold)}
+.chain{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px}.chain span{padding:6px 14px;border-radius:999px;border:2px solid var(--c)}
+.tag{display:inline-block;font:700 11px ui-monospace,monospace;padding:1px 6px;border-radius:999px;border:1px solid currentColor;margin-left:6px;vertical-align:2px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}td,th{border:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top}th{color:var(--mut);font-weight:700}
+.g{display:grid;gap:14px}
+</style></head><body><a class="backlink" href="./" style="color:#8b949e;font:14px system-ui,sans-serif;text-decoration:none;display:inline-block;margin-bottom:10px">← All study diagrams</a><h1>Level 8: Microsoft Sentinel and Defender XDR</h1><p class="sub">Two products, one security team. Sentinel collects everything and automates the response; Defender XDR guards email, devices, identities and apps and joins their alerts into one incident.</p>
+<div class="g" style="grid-template-columns:1fr 1fr 1fr;align-items:center;margin-bottom:16px">
+ <div class="chain"><span class="c-blue" style="--c:var(--blue)">Events</span>➜<span style="--c:var(--gold)">Alerts</span>➜<span style="--c:var(--red)">Incidents</span></div>
+ <div class="m">Raw activity → something a rule flagged → related alerts grouped together. <b style="color:var(--ink)">An incident is a collection of correlated alerts.</b></div>
+ <div class="hook"><b>Workbooks = LOOK</b> (dashboards). <b>Playbooks = ACT</b> (automated response on Azure Logic Apps).</div>
+</div>
+<div class="colh c-blue">MICROSOFT SENTINEL: cloud-native SIEM + SOAR, no servers to run</div>
+<div class="pipe" style="margin-bottom:18px">
+ <div class="box c-blue"><h3>1. Collect</h3><p class="small"><b>Data connectors</b> bring in logs from users, devices, apps and infrastructure, on-premises and in any cloud.</p></div><div class="ar">➜</div>
+ <div class="box c-gold"><h3>2. Detect</h3><p class="small"><b>Analytics rules</b> search the data and raise alerts, which are grouped into incidents.</p></div><div class="ar">➜</div>
+ <div class="box c-org"><h3>3. Investigate</h3><p class="small">Analysts dig into incidents. <b>Hunting</b> means searching for threats before any alert fires.</p></div><div class="ar">➜</div>
+ <div class="box c-red"><h3>4. Respond</h3><p class="small"><b>Automation rules</b> and <b>playbooks</b> act on incidents. Playbooks are built on <b>Azure Logic Apps</b>.</p></div>
+ <div style="width:16px"></div>
+ <div class="box c-pur" style="flex:.8"><h3>Workbooks</h3><p class="small">Dashboards for viewing data, with built-in templates (Azure Monitor workbooks) for quick insights.</p></div>
+</div>
+<div class="colh c-grn">MICROSOFT DEFENDER XDR: each Defender guards one area; the Defender portal joins related alerts into one incident</div>
+<div class="g" style="grid-template-columns:repeat(4,1fr) 1.15fr;margin-bottom:18px">
+ <div class="box c-grn"><h3>Defender for Office 365</h3><p class="small">Email and collaboration: phishing, malicious links and attachments.</p></div>
+ <div class="box c-grn"><h3>Defender for Endpoint</h3><p class="small">Devices: laptops, phones, servers. Includes endpoint detection and response (EDR).</p></div>
+ <div class="box c-grn"><h3>Defender for Cloud Apps</h3><p class="small">A <b>CASB</b>: visibility and control over cloud apps. Finds unapproved apps (<b>shadow IT</b>).</p></div>
+ <div class="box c-grn"><h3>Defender for Identity</h3><p class="small">Sensors on <b>on-prem domain controllers</b>. Spots compromised identities and attackers moving sideways.</p></div>
+ <div class="box c-gold"><h3>Also in the Defender portal</h3><ul class="small"><li><b>Vulnerability Management</b>: finds weaknesses and ranks them by risk</li><li><b>Threat intelligence</b>: threat analytics reports and intel profiles of known attackers</li><li>One portal for incidents, hunting, Sentinel and Defender for Cloud</li></ul></div>
+</div>
+<div class="g" style="grid-template-columns:1.1fr 1fr 1fr">
+ <div class="box"><h3>SIEM vs SOAR vs XDR</h3><table><tr><th></th><th>Job</th><th>Microsoft product</th></tr>
+ <tr><td><b>SIEM</b></td><td>Collect and analyze logs</td><td>Sentinel</td></tr><tr><td><b>SOAR</b></td><td>Automate the response</td><td>Sentinel</td></tr><tr><td><b>XDR</b></td><td>Detect and respond across devices, email, identities, apps</td><td>Defender XDR</td></tr></table></div>
+ <div class="box"><h3>Two that get swapped</h3><table><tr><th>Defender for Identity</th><th>Entra ID Protection</th></tr>
+ <tr><td>Part of Defender XDR</td><td>Part of Microsoft Entra</td></tr><tr><td>Clues: <b>Active Directory, domain controller, sensor</b></td><td>Clues: <b>sign-in risk, user risk, leaked credentials</b></td></tr></table></div>
+ <div class="g" style="gap:8px"><div class="hook"><b>Clue → product:</b> "logs from everywhere" = Sentinel · "automated response" = playbook · "phishing email" = Defender for Office 365 · "laptop malware" = Defender for Endpoint · "shadow IT" = Defender for Cloud Apps</div>
+ <div class="hook"><b>Not the same as Level 7:</b> Defender for <b>Cloud</b> protects Azure resources. Defender for <b>Cloud Apps</b> watches SaaS apps people use.</div></div>
+</div></body></html>

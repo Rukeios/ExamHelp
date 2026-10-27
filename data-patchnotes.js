@@ -3,6 +3,13 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.3.8", date:"2026-10-27", title:"Study diagrams", tag:"content", items:[
+  "New: a set of one-page study diagrams at /study-diagrams/. Each one shows a topic as a flow you can redraw from memory, with every exam clue word on it.",
+  "SC-900: the Entra ID sign-in flow (Levels 3–5), one web request through Azure's network defenses (Level 7), Sentinel and Defender XDR (Level 8), and two Purview pages (Levels 9 and 10).",
+  "Security+: the seven incident response steps, with the NIST four-phase grouping and the \"what comes next?\" trap.",
+  "The SC-900 facts match the lessons, which were checked against Microsoft Learn on 3 October 2026. No human expert has reviewed the diagrams. Nothing in the app itself changed, and your progress and history are untouched."
+]},
+
 { v:"2.3.7", date:"2026-10-14", title:"Beta: new ways to learn Level 7", tag:"feature", items:[
   "Level 7 (Azure infrastructure security and Defender for Cloud) is where SC-900 turns into a list of look-alike products. This beta tries three new ways to make them stick. They're marked Beta in the lesson.",
   "Level 7 as an office building: a map that places each product where it would sit in a secured office building. DDoS Protection is crowd control at the entrance, Azure Firewall is the lobby security desk, the Web Application Firewall is mailroom screening, a network security group is a door's badge reader, Bastion is IT going through the front office to reach the server room, Key Vault is the locked key cabinet, and Defender for Cloud is the safety inspector, the inspection grade and the guards on the cameras. Each piece shows the Azure facts, the clue words the exam uses and where the comparison stops being true.",

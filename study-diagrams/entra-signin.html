@@ -1,0 +1,87 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=1700"><title>Entra sign-in flow</title><style>
+:root{--bg:#0d1117;--ink:#e6edf3;--mut:#8b949e;--blue:#58a6ff;--pur:#b48cff;--grn:#4cc38a;--red:#ff6b5b;--gold:#e3b341;--line:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.35 system-ui,Segoe UI,Arial,sans-serif;width:1700px;padding:28px 34px}
+h1{margin:0;font-size:30px}.sub{color:var(--mut);margin:6px 0 18px;font-size:16px}
+.flow{display:grid;grid-template-columns:250px 34px 400px 34px 400px 34px 1fr;align-items:stretch}
+.arrow{display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--mut)}
+.col{display:flex;flex-direction:column;gap:10px}
+.colh{font-weight:800;font-size:17px;letter-spacing:.02em;padding:6px 10px;border-radius:8px}
+.box{border:2px solid var(--line);border-radius:10px;padding:10px 12px}
+.box h3{margin:0 0 4px;font-size:16px}.box p{margin:3px 0}.box ul{margin:4px 0 0;padding-left:18px}.box li{margin:2px 0}
+.m{color:var(--mut);font-size:13.5px}.tag{display:inline-block;font:700 11px ui-monospace,monospace;padding:1px 6px;border-radius:999px;border:1px solid currentColor;margin-left:6px;vertical-align:2px}
+.blue{border-color:var(--blue)}.blue h3,.blue.colh{color:var(--blue)}
+.pur{border-color:var(--pur)}.pur h3,.pur.colh{color:var(--pur)}
+.grn{border-color:var(--grn)}.grn h3,.grn.colh{color:var(--grn)}
+.red{border-color:var(--red)}.red h3{color:var(--red)}
+.gold{border-color:var(--gold)}.gold h3,.gold.colh{color:var(--gold)}
+.colh.blue{background:#0f2033}.colh.pur{background:#1d1630}.colh.grn{background:#0f2219}.colh.gold{background:#241d0c}
+.no{color:var(--red);font-weight:700}.yes{color:var(--grn);font-weight:700}
+.hook{background:#161b22;border-left:4px solid var(--gold);padding:6px 10px;border-radius:6px;font-size:13.5px}
+.audit{margin-top:16px;border:2px dashed var(--gold);border-radius:12px;padding:10px 16px;display:flex;gap:30px;align-items:center}
+.pillars{display:flex;gap:8px}.pill{padding:4px 10px;border-radius:999px;border:1px solid var(--line);font-weight:700;font-size:13px}
+.pill.on{border-color:var(--gold);color:var(--gold)}
+.dec{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:6px}.dec div{border:1px solid var(--line);border-radius:8px;padding:6px;text-align:center;font-weight:700;font-size:13px}
+</style></head><body><a class="backlink" href="./" style="color:#8b949e;font:14px system-ui,sans-serif;text-decoration:none;display:inline-block;margin-bottom:10px">← All study diagrams</a>
+<h1>Entra ID: what happens when someone signs in</h1>
+<p class="sub">Levels 3–5. Read left to right: who signs in → prove who you are → Conditional Access decides → what you're allowed to do. Everything gets logged.</p>
+<div class="flow">
+ <!-- WHO -->
+ <div class="col">
+  <div class="colh grn">0. WHO signs in</div>
+  <div class="box grn"><h3>Identity types</h3><ul>
+   <li><b>Users</b>: employees</li>
+   <li><b>External identities</b>: guests from other companies (B2B)</li>
+   <li><b>Devices</b>: registered or joined laptops and phones</li>
+   <li><b>Workload identities</b>: apps and services. Managed identities, service principals</li>
+   <li><b>Groups</b>: assign access to many at once. <b>Dynamic groups</b> add and remove members by rules (e.g. department = Sales)</li></ul></div>
+  <div class="box red"><h3>On-premises: AD DS</h3><p class="m">The old in-house directory. Holds <b>objects</b>: users, <b>computers</b>, printers, servers. Kerberos, group policy.</p>
+   <p><b>Entra Connect</b> syncs it up to Entra ID (hybrid identity).</p><p class="m">Modern auth and SaaS apps live in <b>Entra ID</b>, not AD DS.</p></div>
+ </div>
+ <div class="arrow">➜</div>
+ <!-- AUTHN -->
+ <div class="col">
+  <div class="colh blue">1. AUTHENTICATION: prove who you are</div>
+  <div class="box blue"><h3>Password + MFA</h3>
+   <p class="m">MFA = two or more of: something you <b>know</b> (password, PIN), <b>have</b> (phone, key), <b>are</b> (face, fingerprint).</p>
+   <p>Second factors: Authenticator push with <b>number matching</b> (stops MFA fatigue), SMS, voice, OATH tokens.</p>
+   <p class="m"><b>Password protection</b>: blocks banned and weak passwords. <b>SSPR</b>: users reset their own password; <b>writeback</b> sends it to on-prem AD.</p></div>
+  <div class="box pur"><h3>Passwordless: no password at all</h3><ul>
+   <li><b>Windows Hello for Business</b>: PIN, face or fingerprint. The key is <b>bound to that one device</b>. It doesn't sync to other devices and doesn't use the Authenticator app.</li>
+   <li><b>Microsoft Authenticator</b>: phone sign-in</li>
+   <li><b>FIDO2 security keys / passkeys</b></li>
+   <li><b>Certificate-based authentication</b></li></ul>
+   <p><span class="no">NOT passwordless:</span> SMS, voice calls, OATH software/hardware tokens. Those are MFA second factors.</p></div>
+  <div class="box"><h3>Security defaults</h3><p class="m">Free. One switch turns on MFA for everyone and blocks legacy sign-ins. Use it if you don't have Conditional Access.</p></div>
+ </div>
+ <div class="arrow">➜</div>
+ <!-- CA -->
+ <div class="col">
+  <div class="colh gold">2. CONDITIONAL ACCESS: if… then… <span class="tag">P1</span></div>
+  <div class="box gold"><h3>IF: signals</h3><ul>
+   <li>User or group</li><li>Location / IP address</li><li>Device: is it compliant (Intune)?</li><li>Which app</li>
+   <li><b>Sign-in risk</b> and <b>user risk</b> from ID Protection</li></ul></div>
+  <div class="box gold"><h3>THEN: decision</h3>
+   <div class="dec"><div style="color:var(--red)">Block</div><div style="color:var(--grn)">Allow</div><div style="color:var(--gold)">Allow if…</div></div>
+   <p class="m" style="margin-top:6px">"Allow if" = require <b>MFA</b>, a <b>compliant device</b>, <b>accepting terms of use</b> (acceptance is recorded), or a <b>password change</b>.</p></div>
+  <div class="box red"><h3>ID Protection <span class="tag">P2</span></h3><p class="m">Detects risky sign-ins (leaked credentials, impossible travel, anonymous IPs) and risky users. Feeds the risk level into Conditional Access.</p></div>
+  <div class="hook">Conditional Access is <b>signal → decision → enforcement</b>. Location and device are <b>signals</b>; "require MFA" is a <b>decision</b>.</div>
+ </div>
+ <div class="arrow">➜</div>
+ <!-- AUTHZ -->
+ <div class="col">
+  <div class="colh grn">3. AUTHORIZATION: what you can do</div>
+  <div class="box grn"><h3>Access granted</h3><p class="m">Entra issues a token. <b>Single sign-on</b>: sign in once, reach many apps.</p></div>
+  <div class="box grn"><h3>Roles (RBAC)</h3><p class="m">Give the least privilege that does the job. Built-in or custom roles.</p></div>
+  <div class="box grn"><h3>PIM: Privileged Identity Management <span class="tag">P2</span></h3><p class="m"><b>Just-in-time</b> admin rights: time-limited, can require approval and MFA, every activation is logged.</p></div>
+  <div class="box grn"><h3>Identity governance</h3><ul>
+   <li><b>Access reviews</b>: does this person still need this?</li>
+   <li><b>Entitlement management</b>: access packages people request</li>
+   <li><b>Lifecycle</b>: joiners, movers, leavers. Dynamic groups automate the <b>access lifecycle</b></li></ul></div>
+ </div>
+</div>
+<div class="audit">
+ <div><b style="color:var(--gold);font-size:17px">4. AUDITING</b><span class="m">: sign-in logs and audit logs record who did what, when. Tracking what a user accessed = auditing.</span></div>
+ <div class="pillars"><span class="pill">Administration</span><span class="pill">Authentication</span><span class="pill">Authorization</span><span class="pill on">Auditing</span></div>
+ <div class="m">The four pillars of identity</div>
+</div>
+</body></html>

@@ -1,0 +1,50 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=1700"><title>Incident response</title><style>
+:root{--bg:#0d1117;--ink:#e6edf3;--mut:#8b949e;--line:#30363d;--a:#58a6ff;--b:#e3b341;--c:#ff6b5b;--d:#4cc38a;--e:#b48cff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.35 system-ui,Segoe UI,Arial,sans-serif;width:1700px;padding:28px 34px}
+h1{margin:0;font-size:30px}.sub{color:var(--mut);margin:6px 0 20px;font-size:16px}
+.row{display:grid;grid-template-columns:repeat(7,1fr);gap:14px;position:relative}
+.step{border:2px solid var(--c1);border-radius:12px;padding:12px;background:color-mix(in srgb,var(--c1) 9%,transparent);display:flex;flex-direction:column;gap:6px;position:relative}
+.step:not(:last-child)::after{content:"➜";position:absolute;right:-15px;top:22px;color:var(--mut);font-size:18px}
+.n{font:800 13px ui-monospace,monospace;color:var(--c1)}.t{font-size:19px;font-weight:800;color:var(--c1)}
+.q{font-size:14px;font-weight:700}.d{font-size:13.5px;color:#c9d1d9}.ex{font-size:12.5px;color:var(--mut);border-top:1px solid var(--line);padding-top:6px;margin-top:auto}
+.loops{display:grid;grid-template-columns:repeat(7,1fr);gap:14px;margin-top:10px}
+.loop{border:2px dashed var(--mut);border-top:none;border-radius:0 0 14px 14px;height:34px;position:relative}
+.loop span{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:13px;color:var(--mut);background:var(--bg);padding:0 6px}
+.nist{display:grid;grid-template-columns:1fr 2fr 3fr 1fr;gap:14px;margin-top:44px}
+.ph{border:2px solid var(--line);border-radius:10px;padding:10px;text-align:center}.ph b{display:block;font-size:15px}.ph small{color:var(--mut)}
+.lbl{margin:28px 0 8px;font-weight:800;font-size:16px;color:var(--mut);letter-spacing:.04em}
+.hooks{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+.hook{background:#161b22;border-left:4px solid var(--b);border-radius:8px;padding:10px 12px;font-size:14px}.hook b{color:var(--b)}
+</style></head><body><a class="backlink" href="./" style="color:#8b949e;font:14px system-ui,sans-serif;text-decoration:none;display:inline-block;margin-bottom:10px">← All study diagrams</a>
+<h1>Incident response: the order matters</h1>
+<p class="sub">Security+ (SY0-701) uses these seven steps. Exam questions ask "what comes next?" or "what should you do FIRST?", so learn the order and the one-line job of each step.</p>
+<div class="row">
+ <div class="step" style="--c1:#58a6ff"><div class="n">1</div><div class="t">Preparation</div><div class="q">Get ready before anything happens.</div><div class="d">Write the IR plan and playbooks, pick the team, set up tools and logging, train and run exercises.</div><div class="ex">e.g. a tabletop exercise on "what if ransomware hits payroll?"</div></div>
+ <div class="step" style="--c1:#79c0ff"><div class="n">2</div><div class="t">Detection</div><div class="q">Notice that something's wrong.</div><div class="d">Alerts, logs, a SIEM, an IDS, or a user reporting something strange.</div><div class="ex">e.g. the SIEM flags 500 failed logins in a minute.</div></div>
+ <div class="step" style="--c1:#e3b341"><div class="n">3</div><div class="t">Analysis</div><div class="q">Is it real, and how bad is it?</div><div class="d">Confirm it isn't a false positive, find its scope and impact, and prioritize. Start preserving evidence.</div><div class="ex">e.g. three laptops have the same malware.</div></div>
+ <div class="step" style="--c1:#ff6b5b"><div class="n">4</div><div class="t">Containment</div><div class="q">Stop it from spreading.</div><div class="d">Isolate infected hosts, disable compromised accounts, segment the network. Limit the damage first.</div><div class="ex">e.g. pull the three laptops off the network.</div></div>
+ <div class="step" style="--c1:#f0883e"><div class="n">5</div><div class="t">Eradication</div><div class="q">Get rid of the cause.</div><div class="d">Remove the malware, close the hole that let it in, and reset stolen credentials.</div><div class="ex">e.g. reimage the laptops and patch the exploited flaw.</div></div>
+ <div class="step" style="--c1:#4cc38a"><div class="n">6</div><div class="t">Recovery</div><div class="q">Get back to normal, safely.</div><div class="d">Restore from clean backups, bring systems back online, and watch closely in case it returns.</div><div class="ex">e.g. laptops return; monitoring stays heightened for two weeks.</div></div>
+ <div class="step" style="--c1:#b48cff"><div class="n">7</div><div class="t">Lessons learned</div><div class="q">What would we do differently?</div><div class="d">Root cause, a written report, and updates to the plan, tools and training.</div><div class="ex">e.g. "add MFA to VPN" goes into the plan.</div></div>
+</div>
+<div class="loops">
+ <div style="grid-column:2 / 7" class="loop"><span>↺ Recovery can loop back to Detection if it comes back</span></div>
+</div>
+<div class="loops" style="margin-top:34px">
+ <div style="grid-column:1 / 8" class="loop"><span>↺ Lessons learned feed back into Preparation: the cycle never really ends</span></div>
+</div>
+
+<div class="lbl">THE SAME PROCESS IN NIST SP 800-61 (an older 4-phase grouping you'll also see)</div>
+<div class="nist">
+ <div class="ph" style="border-color:#58a6ff"><b style="color:#58a6ff">Preparation</b><small>step 1</small></div>
+ <div class="ph" style="border-color:#e3b341"><b style="color:#e3b341">Detection &amp; Analysis</b><small>steps 2–3</small></div>
+ <div class="ph" style="border-color:#ff6b5b"><b style="color:#ff6b5b">Containment, Eradication &amp; Recovery</b><small>steps 4–6 · can loop back to Detection &amp; Analysis</small></div>
+ <div class="ph" style="border-color:#b48cff"><b style="color:#b48cff">Post-Incident Activity</b><small>step 7</small></div>
+</div>
+
+<div class="hooks">
+ <div class="hook"><b>Memory line:</b> "<b>P</b>lease <b>D</b>on't <b>A</b>ttack, <b>C</b>an <b>E</b>veryone <b>R</b>elax <b>L</b>ater?" Preparation, Detection, Analysis, Containment, Eradication, Recovery, Lessons learned.</div>
+ <div class="hook"><b>The trap:</b> after you confirm an infection, the next step is <b>containment</b>, not cleanup. Stop the spread first, then remove it. Wiping a machine before containing and preserving evidence is the wrong answer.</div>
+ <div class="hook"><b>Clue words:</b> "isolate, disconnect, quarantine" = containment · "remove, reimage, patch the hole" = eradication · "restore, bring back online" = recovery · "root cause, update the plan" = lessons learned.</div>
+</div>
+</body></html>
