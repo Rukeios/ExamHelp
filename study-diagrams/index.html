@@ -1,0 +1,37 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Study diagrams · Rukeios Study</title>
+<meta name="description" content="Free one-page study diagrams for SC-900 and Security+.">
+<style>
+:root{--bg:#0d1117;--card:#161b22;--ink:#e6edf3;--mut:#8b949e;--line:#30363d;--acc:#2FB3AA}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,Segoe UI,Arial,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:28px 16px 48px}
+a{color:var(--acc)}h1{margin:6px 0 4px;font-size:clamp(26px,4vw,36px)}h2{margin:34px 0 12px;font-size:20px}
+.lead{color:var(--mut);margin:0;max-width:70ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:var(--ink)}
+.card:hover{border-color:var(--acc)}.card img{width:100%;aspect-ratio:17/9;object-fit:cover;object-position:top;border-bottom:1px solid var(--line);background:#0d1117}
+.card div{padding:12px 14px}.card b{display:block;font-size:17px}.card span{color:var(--mut);font-size:14px}
+.how{background:var(--card);border:1px solid var(--line);border-left:4px solid #e3b341;border-radius:10px;padding:12px 16px;margin-top:20px;font-size:15px}
+footer{color:var(--mut);font-size:13.5px;margin-top:36px;border-top:1px solid var(--line);padding-top:14px}
+</style></head><body><main>
+<a href="../">← Back to Rukeios Study</a>
+<h1>Study diagrams</h1>
+<p class="lead">One page per topic: every exam clue word, shown as a flow you can redraw from memory. Free, like the rest of Rukeios Study.</p>
+<div class="how"><b>How to use them:</b> study one for 10 minutes, close it, redraw it from memory on paper, then compare. If you can draw it, you can answer the questions about it.</div>
+
+<h2>SC-900</h2>
+<div class="grid">
+ <a class="card" href="entra-signin.html"><img src="img/entra-signin.png" alt="" loading="lazy"><div><b>Entra ID sign-in flow</b><span>Levels 3–5 · identity types, MFA, passwordless, Conditional Access, PIM, auditing</span></div></a>
+ <a class="card" href="level7-network.html"><img src="img/level7-network.png" alt="" loading="lazy"><div><b>One request, all the way in</b><span>Level 7 · DDoS, Azure Firewall, WAF, VNets, NSG, Bastion, Key Vault, Defender for Cloud</span></div></a>
+ <a class="card" href="level8-sentinel-xdr.html"><img src="img/level8-sentinel-xdr.png" alt="" loading="lazy"><div><b>Sentinel and Defender XDR</b><span>Level 8 · events → alerts → incidents, workbooks vs playbooks, the Defender family</span></div></a>
+ <a class="card" href="level9-purview-protect.html"><img src="img/level9-purview-protect.png" alt="" loading="lazy"><div><b>Purview: trust, compliance, protecting data</b><span>Level 9 · Service Trust Portal, Compliance Manager, labels vs DLP</span></div></a>
+ <a class="card" href="level10-purview-lifecycle.html"><img src="img/level10-purview-lifecycle.png" alt="" loading="lazy"><div><b>Purview: retention, insider risk, eDiscovery, audit</b><span>Level 10 · retention vs holds, Audit Standard vs Premium</span></div></a>
+</div>
+
+<h2>Security+</h2>
+<div class="grid">
+ <a class="card" href="secplus-incident-response.html"><img src="img/secplus-incident-response.png" alt="" loading="lazy"><div><b>Incident response: the order matters</b><span>The 7 steps, the NIST 4-phase grouping, and the "what comes next?" trap</span></div></a>
+</div>
+
+<footer>Made from Microsoft Learn, the CompTIA SY0-701 exam objectives and NIST SP 800-61. The SC-900 facts match the Rukeios Study lessons, which were checked against Microsoft Learn on 3 October 2026. No human expert has reviewed these diagrams; if something looks wrong, tell us. The Level 7 diagram started as a student's own hand sketch (<a href="img/level7-rj-original-sketch.png">see the original</a>).</footer>
+</main></body></html>

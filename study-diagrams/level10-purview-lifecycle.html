@@ -1,0 +1,61 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=1700"><title>Level 10: Microsoft Purview: retention, insider risk, eDiscovery and audit</title><style>
+:root{--bg:#0d1117;--ink:#e6edf3;--mut:#8b949e;--line:#30363d;--blue:#58a6ff;--pur:#b48cff;--grn:#4cc38a;--red:#ff6b5b;--gold:#e3b341;--org:#f0883e}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.35 system-ui,Segoe UI,Arial,sans-serif;width:1700px;padding:28px 34px}
+h1{margin:0;font-size:30px}.sub{color:var(--mut);margin:6px 0 18px;font-size:16px}
+.colh{font-weight:800;font-size:17px;padding:6px 10px;border-radius:8px;margin-bottom:10px}
+.box{border:2px solid var(--line);border-radius:10px;padding:10px 12px}
+.box h3{margin:0 0 4px;font-size:16px}.box p{margin:3px 0}.box ul{margin:4px 0 0;padding-left:18px}.box li{margin:2px 0}
+.m{color:var(--mut);font-size:13.5px}.small{font-size:13.5px}
+.c-blue{--c:var(--blue)}.c-pur{--c:var(--pur)}.c-grn{--c:var(--grn)}.c-red{--c:var(--red)}.c-gold{--c:var(--gold)}.c-org{--c:var(--org)}
+.box[class*=c-]{border-color:var(--c)}.box[class*=c-] h3{color:var(--c)}
+.colh[class*=c-]{color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
+.pipe{display:flex;align-items:stretch;gap:0}.pipe>.box{flex:1}.ar{display:flex;align-items:center;padding:0 6px;color:var(--mut);font-size:24px}
+.hook{background:#161b22;border-left:4px solid var(--gold);border-radius:8px;padding:9px 12px;font-size:14px}.hook b{color:var(--gold)}
+.chain{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px}.chain span{padding:6px 14px;border-radius:999px;border:2px solid var(--c)}
+.tag{display:inline-block;font:700 11px ui-monospace,monospace;padding:1px 6px;border-radius:999px;border:1px solid currentColor;margin-left:6px;vertical-align:2px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}td,th{border:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top}th{color:var(--mut);font-weight:700}
+.g{display:grid;gap:14px}
+</style></head><body><a class="backlink" href="./" style="color:#8b949e;font:14px system-ui,sans-serif;text-decoration:none;display:inline-block;margin-bottom:10px">← All study diagrams</a><h1>Level 10: Microsoft Purview: retention, insider risk, eDiscovery and audit</h1><p class="sub">Four jobs, one Purview portal: keep or delete data on schedule, catch risky insiders, find content for legal cases, and record who did what.</p>
+<div class="g" style="grid-template-columns:1fr 1fr;gap:16px">
+ <div>
+  <div class="colh c-blue">1. DATA LIFECYCLE: how long to keep it, and when to delete it</div>
+  <table style="font-size:14px"><tr><th></th><th>Retention policy</th><th>Retention label</th><th>Record</th></tr>
+   <tr><th>Applies to</th><td><b>Whole locations</b> (all mailboxes, a set of sites)</td><td><b>Single items</b> (one document or email). One retention label per item</td><td>A single item declared a record with a retention label</td></tr>
+   <tr><th>Use it when</th><td>One rule fits everything in a place</td><td>Some items need a different rule</td><td>An item must be <b>provably unchanged</b>: edits and deletion blocked, disposal reviewed and logged</td></tr></table>
+  <p class="m">A <b>regulatory record</b> is stricter: nobody, not even an admin, can remove the label.</p>
+ </div>
+ <div>
+  <div class="colh c-red">2. INSIDER RISK MANAGEMENT: risky activity by people inside</div>
+  <div class="pipe">
+   <div class="box c-red"><h3>Policies</h3><p class="small">What to watch, e.g. data theft by a departing employee</p></div><div class="ar">➜</div>
+   <div class="box c-red"><h3>Alerts</h3><p class="small">Activity matches a policy</p></div><div class="ar">➜</div>
+   <div class="box c-red"><h3>Triage</h3><p class="small">Which alerts need a closer look?</p></div><div class="ar">➜</div>
+   <div class="box c-red"><h3>Investigate</h3><p class="small">Open a case</p></div><div class="ar">➜</div>
+   <div class="box c-red"><h3>Action</h3><p class="small">A reminder, or escalate</p></div>
+  </div>
+  <p class="m"><b>Privacy built in:</b> users in alerts are <b>pseudonymized</b> by default, so reviewers don't see names unless allowed.</p>
+ </div>
+ <div>
+  <div class="colh c-gold">3. eDISCOVERY: find and hand over content for a legal case</div>
+  <div class="pipe">
+   <div class="box c-gold"><h3>Open a case</h3><p class="small">One legal matter; controls who can work on it</p></div><div class="ar">➜</div>
+   <div class="box c-gold"><h3>Search</h3><p class="small">Mailboxes, sites and Teams</p></div><div class="ar">➜</div>
+   <div class="box c-gold"><h3>Act on results</h3><p class="small"><b>Hold</b> (preserve it, can't be permanently deleted), <b>review set</b> (premium), or export</p></div><div class="ar">➜</div>
+   <div class="box c-gold"><h3>Review &amp; export</h3><p class="small">Tag what matters, hand it over</p></div>
+  </div>
+  <p class="m">If content might be deleted, placing the <b>hold</b> is the urgent part.</p>
+ </div>
+ <div>
+  <div class="colh c-grn">4. AUDIT: who did what, and when?</div>
+  <div class="g" style="grid-template-columns:1fr 1fr">
+   <div class="box c-grn"><h3>Audit (Standard)</h3><p class="small">Records and searches user and admin activity. Kept <b>180 days</b> by default.</p></div>
+   <div class="box c-grn"><h3>Audit (Premium)</h3><p class="small"><b>One year</b> by default for Entra ID, Exchange, SharePoint and OneDrive records. Custom retention policies and more detailed events. Up to <b>10 years</b> with an add-on licence.</p></div>
+  </div>
+ </div>
+</div>
+<div class="g" style="grid-template-columns:repeat(4,1fr);margin-top:18px">
+ <div class="hook"><b>Retention</b> = keep or delete <b>on a schedule</b>, for everyone.</div>
+ <div class="hook"><b>Hold</b> = <b>freeze it for a legal case</b> (eDiscovery). Different from retention.</div>
+ <div class="hook"><b>Insider risk</b> = <b>employees</b> doing risky things. Not outside attackers.</div>
+ <div class="hook"><b>Audit</b> = the <b>log</b>. "Who deleted this file?" = Audit.</div>
+</div></body></html>

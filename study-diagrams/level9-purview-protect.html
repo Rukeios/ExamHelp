@@ -1,0 +1,54 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=1700"><title>Level 9: Microsoft Purview: trust, compliance and protecting data</title><style>
+:root{--bg:#0d1117;--ink:#e6edf3;--mut:#8b949e;--line:#30363d;--blue:#58a6ff;--pur:#b48cff;--grn:#4cc38a;--red:#ff6b5b;--gold:#e3b341;--org:#f0883e}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.35 system-ui,Segoe UI,Arial,sans-serif;width:1700px;padding:28px 34px}
+h1{margin:0;font-size:30px}.sub{color:var(--mut);margin:6px 0 18px;font-size:16px}
+.colh{font-weight:800;font-size:17px;padding:6px 10px;border-radius:8px;margin-bottom:10px}
+.box{border:2px solid var(--line);border-radius:10px;padding:10px 12px}
+.box h3{margin:0 0 4px;font-size:16px}.box p{margin:3px 0}.box ul{margin:4px 0 0;padding-left:18px}.box li{margin:2px 0}
+.m{color:var(--mut);font-size:13.5px}.small{font-size:13.5px}
+.c-blue{--c:var(--blue)}.c-pur{--c:var(--pur)}.c-grn{--c:var(--grn)}.c-red{--c:var(--red)}.c-gold{--c:var(--gold)}.c-org{--c:var(--org)}
+.box[class*=c-]{border-color:var(--c)}.box[class*=c-] h3{color:var(--c)}
+.colh[class*=c-]{color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
+.pipe{display:flex;align-items:stretch;gap:0}.pipe>.box{flex:1}.ar{display:flex;align-items:center;padding:0 6px;color:var(--mut);font-size:24px}
+.hook{background:#161b22;border-left:4px solid var(--gold);border-radius:8px;padding:9px 12px;font-size:14px}.hook b{color:var(--gold)}
+.chain{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px}.chain span{padding:6px 14px;border-radius:999px;border:2px solid var(--c)}
+.tag{display:inline-block;font:700 11px ui-monospace,monospace;padding:1px 6px;border-radius:999px;border:1px solid currentColor;margin-left:6px;vertical-align:2px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}td,th{border:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top}th{color:var(--mut);font-weight:700}
+.g{display:grid;gap:14px}
+</style></head><body><a class="backlink" href="./" style="color:#8b949e;font:14px system-ui,sans-serif;text-decoration:none;display:inline-block;margin-bottom:10px">← All study diagrams</a><h1>Level 9: Microsoft Purview: trust, compliance and protecting data</h1><p class="sub">Three questions an organization asks: can we trust Microsoft with our data? How compliant are we? And how do we stop our sensitive data from leaking?</p>
+<div class="g" style="grid-template-columns:1fr 1.15fr 1.6fr">
+ <div>
+  <div class="colh c-blue">1. TRUST: can we trust Microsoft?</div>
+  <div class="g" style="gap:10px">
+   <div class="box c-blue"><h3>Service Trust Portal</h3><p class="small">Microsoft's audit reports and compliance documents about its cloud. Clue: <b>"evidence," "audit reports," "how Microsoft meets standards."</b></p></div>
+   <div class="box c-blue"><h3>Privacy principles (the 4 areas)</h3><ul class="small"><li><b>Data control</b>: it's your data; access, change or delete it</li><li><b>Data location</b>: you choose where it's stored</li><li><b>Data security</b>: encrypted at rest and in transit</li><li><b>Data defense</b>: government requests go back to you where possible, and get challenged where the law allows</li></ul>
+   <p class="m">Older practice questions may list the earlier six: control, transparency, security, strong legal protections, no content-based targeting, benefits to you.</p></div>
+  </div>
+ </div>
+ <div>
+  <div class="colh c-gold">2. COMPLIANCE MANAGER: how are we doing?</div>
+  <div class="g" style="gap:6px">
+   <div class="box c-gold"><h3>Assessment</h3><p class="small">The controls for one regulation or standard. Ready-made templates exist.</p></div><div class="ar" style="justify-content:center;padding:0">⬇</div>
+   <div class="box c-gold"><h3>Controls</h3><p class="small">Each requirement. Managed by <b>Microsoft</b>, by <b>you</b>, or <b>shared</b>.</p></div><div class="ar" style="justify-content:center;padding:0">⬇</div>
+   <div class="box c-gold"><h3>Improvement actions</h3><p class="small">The steps you take to meet your controls, with guidance.</p></div><div class="ar" style="justify-content:center;padding:0">⬇</div>
+   <div class="box c-gold"><h3>Compliance score</h3><p class="small">Your progress on improvement actions. <b>Progress, not proof</b> that you're legally compliant.</p></div>
+  </div>
+ </div>
+ <div>
+  <div class="colh c-grn">3. PROTECT THE DATA: know it → label it → stop it leaking</div>
+  <div class="box c-grn" style="margin-bottom:10px"><h3>Know your data</h3><table>
+   <tr><td><b>Sensitive information types</b></td><td>Pattern matches: credit card numbers, national ID numbers</td></tr>
+   <tr><td><b>Trainable classifiers</b></td><td>Machine learning trained on examples, when there's no fixed pattern</td></tr>
+   <tr><td><b>Content explorer</b></td><td>Which items are classified or labeled, and where they are</td></tr>
+   <tr><td><b>Activity explorer</b></td><td>What people did with labeled content (e.g. removed a label)</td></tr></table></div>
+  <div class="g" style="grid-template-columns:1fr 1fr">
+   <div class="box c-pur"><h3>Sensitivity labels</h3><p class="small">Classify <b>and protect</b> an item: encryption, watermark, header or footer. <b>The protection travels with the item.</b></p><p class="m">One sensitivity label per item. A <b>label policy</b> decides who sees which labels, can set a default, and can require a reason to lower one.</p></div>
+   <div class="box c-red"><h3>Data loss prevention (DLP)</h3><p class="small">Policies that spot sensitive info and <b>block risky sharing</b> in email, Teams, SharePoint, OneDrive and on devices.</p><p class="m">Acts <b>where the sharing happens</b>. Users see a policy tip or a blocked action.</p></div>
+  </div>
+ </div>
+</div>
+<div class="g" style="grid-template-columns:1fr 1fr 1fr;margin-top:16px">
+ <div class="hook"><b>Score swap:</b> <b>compliance score</b> = regulations, in Purview's Compliance Manager. <b>Secure score</b> = security posture, in Defender for Cloud (Level 7).</div>
+ <div class="hook"><b>Label vs DLP:</b> the label is a <b>stamp on the document</b> that goes wherever it goes. DLP is the <b>checkpoint</b> that stops it leaving.</div>
+ <div class="hook"><b>One portal:</b> the <b>Microsoft Purview portal</b> holds Compliance Manager, information protection, DLP, insider risk, eDiscovery and Audit.</div>
+</div></body></html>
