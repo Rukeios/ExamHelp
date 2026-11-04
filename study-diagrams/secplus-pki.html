@@ -1,0 +1,42 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=1700"><title>PKI trust chain</title><style>
+:root{--bg:#0d1117;--ink:#e6edf3;--mut:#8b949e;--line:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.35 system-ui,Segoe UI,Arial,sans-serif;width:1700px;padding:28px 34px}
+h1{margin:0;font-size:30px}.sub{color:var(--mut);margin:6px 0 20px;font-size:16px}
+.cols{display:grid;grid-template-columns:1.05fr 1fr 1fr;gap:22px}
+.col h2{margin:0 0 10px;font-size:15px;letter-spacing:.06em;color:var(--mut)}
+.card{border:2px solid var(--c);border-radius:12px;padding:12px 14px;background:color-mix(in srgb,var(--c) 8%,transparent);margin-bottom:10px;position:relative}
+.card .t{font-size:18px;font-weight:800;color:var(--c)}.card .k{font-size:13px;color:var(--mut);margin:2px 0 6px}.card .d{font-size:14px;color:#c9d1d9}
+.down{text-align:center;color:var(--mut);font-size:13px;margin:-4px 0 6px}
+.hooks{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+.hook{background:#161b22;border-left:4px solid #e3b341;border-radius:8px;padding:10px 12px;font-size:14px}.hook b{color:#e3b341}
+</style></head><body><a class="backlink" href="./" style="color:#8b949e;font:14px system-ui,sans-serif;text-decoration:none;display:inline-block;margin-bottom:10px">← All study diagrams</a>
+<h1>PKI: how a certificate gets trusted</h1>
+<p class="sub">Security+ (SY0-701). Read the left column top to bottom: who signs whom. The middle column is how a browser checks it. The right column is how you find out a certificate was cancelled early.</p>
+<div class="cols">
+ <div class="col"><h2>ISSUING · WHO SIGNS WHOM</h2>
+  <div class="card" style="--c:#b48cff"><div class="t">Root CA</div><div class="k">Like the state office that authorizes DMV branches</div><div class="d">Top of trust. Its certificate is self-signed and sits in every browser's trust store. Kept offline.</div></div>
+  <div class="down">signs ↓</div>
+  <div class="card" style="--c:#58a6ff"><div class="t">Intermediate CA</div><div class="k">The local DMV branch</div><div class="d">Does the day-to-day signing. If it's compromised, revoke it without touching the root.</div></div>
+  <div class="down">signs ↓</div>
+  <div class="card" style="--c:#4cc38a"><div class="t">Your certificate</div><div class="k">The license itself</div><div class="d">Holds your public key, the names it covers, dates and the CA's signature. You got it by sending a CSR that holds your <b>public</b> key. Your private key never left your server.</div></div>
+ </div>
+ <div class="col"><h2>TRUSTING · WHAT THE BROWSER CHECKS</h2>
+  <div class="card" style="--c:#4cc38a"><div class="t">1. Signature chain</div><div class="d">Your certificate → intermediate → a root already in the trust store. A missing intermediate breaks the chain.</div></div>
+  <div class="card" style="--c:#4cc38a"><div class="t">2. Name match</div><div class="d">The site name must match the certificate. <b>Wildcard</b> *.example.com covers one level of subdomains. A <b>SAN</b> certificate lists several exact names, even other domains.</div></div>
+  <div class="card" style="--c:#4cc38a"><div class="t">3. Dates</div><div class="d">Not before / not after. An expired certificate fails even if nothing else is wrong.</div></div>
+  <div class="card" style="--c:#4cc38a"><div class="t">4. Not revoked</div><div class="d">Checked with a CRL or OCSP (right column).</div></div>
+  <div class="card" style="--c:#8b949e"><div class="t">Self-signed</div><div class="d">Signed by its own key, so no trusted CA vouches for it. Browsers warn. Fine for a lab.</div></div>
+ </div>
+ <div class="col"><h2>CHECKING · STILL GOOD?</h2>
+  <div class="card" style="--c:#ff6b5b"><div class="t">CRL</div><div class="k">The printed list of cancelled licenses</div><div class="d">A signed list of revoked serial numbers. Clients download it every so often, so it can be a bit stale.</div></div>
+  <div class="card" style="--c:#f0883e"><div class="t">OCSP</div><div class="k">Calling the DMV about one license</div><div class="d">Asks about one certificate in real time.</div></div>
+  <div class="card" style="--c:#e3b341"><div class="t">OCSP stapling</div><div class="k">Carrying a fresh signed note from the DMV</div><div class="d">The <b>server</b> fetches a recent OCSP answer and attaches it to the TLS handshake. Faster and more private.</div></div>
+  <div class="card" style="--c:#b48cff"><div class="t">Pinning · Escrow · HSM</div><div class="d"><b>Pinning:</b> the app accepts only one specific certificate or key. <b>Key escrow:</b> a trusted party keeps a copy of keys for recovery. <b>HSM:</b> tamper-resistant hardware that stores keys and uses them without letting them out.</div></div>
+ </div>
+</div>
+<div class="hooks">
+ <div class="hook"><b>The trap:</b> the CSR carries the public key. Any answer that sends the private key to the CA is wrong.</div>
+ <div class="hook"><b>Clue words:</b> "real-time, one certificate" = OCSP · "server attaches status" = stapling · "list, downloaded" = CRL · "all subdomains" = wildcard · "several names" = SAN.</div>
+ <div class="hook"><b>Why an offline root?</b> If the root's private key leaks, every certificate under it is untrustworthy. Keeping it off the network and letting intermediates do the work limits the damage.</div>
+</div>
+</body></html>

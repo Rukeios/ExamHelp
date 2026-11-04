@@ -3,6 +3,15 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.4.1", date:"2026-11-04", title:"Security+ networking: maps and drills", tag:"content", items:[
+  "Level 21 opens with a new click-through map: the network as an office building. Firewall, WAF, IDS vs IPS, load balancer, proxy, screened subnet, segmentation, jump server, 802.1X, VPN and SASE each get a familiar job, the exam version, clue words and a Watch out line.",
+  "Level 14 opens with PKI as getting a driver's license: CSR, CA, root vs intermediate, chain of trust, self-signed, wildcard vs SAN, CRL, OCSP and stapling, pinning, key escrow and HSMs.",
+  "New clue-word and pairs drills before Check yourself in Levels 14, 17, 21 and 23: 54 questions on look-alikes like IDS vs IPS, AH vs ESP, CRL vs OCSP, ARP vs DNS poisoning, CSRF vs SSRF and evil twin vs rogue AP.",
+  "Level 31 gets a 12-question port drill and an 8-question firewall rule drill built like the PBQs: first match wins, shadowed rules, implicit deny and secure replacements.",
+  "Three new study diagrams: ports and protocols grouped by job, how a certificate gets trusted, and where attacks hit along the path from Wi-Fi to the web app.",
+  "Drills aren't scored or saved, and only the level quiz unlocks the next level. This is new Security+ material and, like the rest of the track, an AI draft no human expert has reviewed."
+]},
+
 { v:"2.4.0", date:"2026-11-03", title:"Security+ content cleanup", tag:"content", items:[
   "Every Security+ level (13-32) has been through a full review, and all 156 issues it found are now fixed.",
   "Three factually wrong answers are corrected. The biggest: a screened subnet is the more exposed zone, not the safer one.",
@@ -10,6 +19,8 @@ window.PATCHNOTES = [
   "Seven ambiguous questions are clarified. For example, an open cloud storage bucket is now taught as a misconfiguration, matching how CompTIA and Professor Messer classify it.",
   "Guided practice in the lessons no longer repeats the exact questions in Check yourself, so the scored check really tests what you learned.",
   "RTO and RPO now sit under objective 5.2 (risk management), where CompTIA lists them.",
+  "New: already passed an exam? Plan settings now has an \"I passed it\" option for SC-900 and Security+. Pick the date you passed and every level of that exam is marked complete, so you're no longer held at its last levels. The levels stay open for practice. Marking an exam date as Passed offers the same thing.",
+  "Undo removes only the levels this option marked. Levels you finished yourself stay complete.",
   "The Security+ content is still labelled as an AI draft that no human expert has reviewed. Your progress and history are untouched."
 ]},
 

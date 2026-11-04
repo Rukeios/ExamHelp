@@ -1,0 +1,62 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=1700"><title>Ports and protocols</title><style>
+:root{--bg:#0d1117;--ink:#e6edf3;--mut:#8b949e;--line:#30363d;--bad:#ff6b5b;--good:#4cc38a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.35 system-ui,Segoe UI,Arial,sans-serif;width:1700px;padding:28px 34px}
+h1{margin:0;font-size:30px}.sub{color:var(--mut);margin:6px 0 20px;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.box{border:2px solid var(--c);border-radius:12px;padding:12px 14px;background:color-mix(in srgb,var(--c) 8%,transparent)}
+.box h2{margin:0 0 4px;font-size:19px;color:var(--c)}.box p{margin:0 0 10px;color:var(--mut);font-size:13.5px}
+.r{display:grid;grid-template-columns:84px 1fr;gap:4px 10px;align-items:baseline;padding:5px 0;border-top:1px solid var(--line)}
+.p{font:800 18px ui-monospace,monospace;color:var(--c)}.p.bad{color:var(--bad);text-decoration:line-through;text-decoration-thickness:2px}
+.n{font-weight:700}.n small{display:block;font-weight:400;color:#c9d1d9;font-size:13px}
+.swap{margin-top:24px;display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.sw{border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center;font-size:14px}
+.sw .a{color:var(--bad);font:800 16px ui-monospace,monospace}.sw .b{color:var(--good);font:800 16px ui-monospace,monospace}
+.lbl{margin:28px 0 8px;font-weight:800;font-size:16px;color:var(--mut);letter-spacing:.04em}
+.hooks{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+.hook{background:#161b22;border-left:4px solid #e3b341;border-radius:8px;padding:10px 12px;font-size:14px}.hook b{color:#e3b341}
+</style></head><body><a class="backlink" href="./" style="color:#8b949e;font:14px system-ui,sans-serif;text-decoration:none;display:inline-block;margin-bottom:10px">← All study diagrams</a>
+<h1>Ports and protocols, grouped by job</h1>
+<p class="sub">Security+ (SY0-701) PBQs and questions ask which port a job uses, and which secure protocol replaces an old one. Learn them by job, not as one long list. Crossed-out ports are the insecure ones you replace.</p>
+<div class="grid">
+ <div class="box" style="--c:#58a6ff"><h2>Managing devices</h2><p>Logging in to servers and network gear.</p>
+  <div class="r"><span class="p">22</span><span class="n">SSH<small>Encrypted command line. SFTP and SCP ride on it too.</small></span></div>
+  <div class="r"><span class="p bad">23</span><span class="n">Telnet<small>Clear text, passwords visible. Replace with SSH.</small></span></div>
+  <div class="r"><span class="p">3389</span><span class="n">RDP<small>Windows remote desktop.</small></span></div>
+  <div class="r"><span class="p">161 / 162</span><span class="n">SNMP<small>161 queries, 162 traps. Use SNMPv3 for encryption.</small></span></div>
+ </div>
+ <div class="box" style="--c:#4cc38a"><h2>Web and email</h2><p>Browsing, sending and reading mail.</p>
+  <div class="r"><span class="p bad">80</span><span class="n">HTTP<small>Clear text web.</small></span></div>
+  <div class="r"><span class="p">443</span><span class="n">HTTPS<small>Web over TLS.</small></span></div>
+  <div class="r"><span class="p">25 / 587</span><span class="n">SMTP<small>25 server to server, 587 submission with STARTTLS. 465 is SMTPS.</small></span></div>
+  <div class="r"><span class="p">993 / 995</span><span class="n">IMAPS / POP3S<small>Encrypted mail reading. Plain IMAP is 143, POP3 is 110.</small></span></div>
+ </div>
+ <div class="box" style="--c:#e3b341"><h2>Network plumbing</h2><p>The services everything else depends on.</p>
+  <div class="r"><span class="p">53</span><span class="n">DNS<small>Names to addresses. UDP mostly, TCP for zone transfers.</small></span></div>
+  <div class="r"><span class="p">67 / 68</span><span class="n">DHCP<small>Server 67, client 68. Hands out IP addresses.</small></span></div>
+  <div class="r"><span class="p">123</span><span class="n">NTP<small>Time. Wrong time breaks Kerberos and log timelines.</small></span></div>
+  <div class="r"><span class="p">514</span><span class="n">Syslog<small>Logs to a collector or SIEM. 6514 over TLS.</small></span></div>
+ </div>
+ <div class="box" style="--c:#b48cff"><h2>Identity and files</h2><p>Signing in, directories, file shares.</p>
+  <div class="r"><span class="p">88</span><span class="n">Kerberos<small>Ticket-based sign-in in Active Directory.</small></span></div>
+  <div class="r"><span class="p bad">389</span><span class="n">LDAP<small>Directory lookups in clear text.</small></span></div>
+  <div class="r"><span class="p">636</span><span class="n">LDAPS<small>LDAP over TLS.</small></span></div>
+  <div class="r"><span class="p">445</span><span class="n">SMB<small>Windows file sharing. Never expose it to the internet.</small></span></div>
+  <div class="r"><span class="p bad">20 / 21</span><span class="n">FTP<small>Clear text. Use SFTP (22) or FTPS (989/990).</small></span></div>
+  <div class="r"><span class="p bad">69</span><span class="n">TFTP<small>No sign-in at all. Used for device boot images.</small></span></div>
+ </div>
+</div>
+<div class="lbl">THE SECURE SWAP: WHAT REPLACES WHAT</div>
+<div class="swap">
+ <div class="sw"><span class="a">Telnet 23</span> → <span class="b">SSH 22</span></div>
+ <div class="sw"><span class="a">HTTP 80</span> → <span class="b">HTTPS 443</span></div>
+ <div class="sw"><span class="a">FTP 21</span> → <span class="b">SFTP 22</span></div>
+ <div class="sw"><span class="a">LDAP 389</span> → <span class="b">LDAPS 636</span></div>
+ <div class="sw"><span class="a">IMAP 143</span> → <span class="b">IMAPS 993</span></div>
+ <div class="sw"><span class="a">SNMPv1/v2c</span> → <span class="b">SNMPv3</span></div>
+</div>
+<div class="hooks">
+ <div class="hook"><b>Firewall tables:</b> rules are read top to bottom, the first match wins, and traffic that matches nothing is dropped by the implicit deny. A broad deny placed above a narrow allow hides the allow.</div>
+ <div class="hook"><b>The trap:</b> SFTP is SSH on 22. FTPS is FTP with TLS on 989/990. Same goal, different protocols and ports.</div>
+ <div class="hook"><b>Pattern:</b> the secure version usually gets a different number: 80→443, 389→636, 143→993, 110→995. The exception is SFTP, which shares SSH's 22 because it runs inside SSH.</div>
+</div>
+</body></html>
