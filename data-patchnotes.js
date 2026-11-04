@@ -10,6 +10,8 @@ window.PATCHNOTES = [
   "Seven ambiguous questions are clarified. For example, an open cloud storage bucket is now taught as a misconfiguration, matching how CompTIA and Professor Messer classify it.",
   "Guided practice in the lessons no longer repeats the exact questions in Check yourself, so the scored check really tests what you learned.",
   "RTO and RPO now sit under objective 5.2 (risk management), where CompTIA lists them.",
+  "New: already passed an exam? Plan settings now has an \"I passed it\" option for SC-900 and Security+. Pick the date you passed and every level of that exam is marked complete, so you're no longer held at its last levels. The levels stay open for practice. Marking an exam date as Passed offers the same thing.",
+  "Undo removes only the levels this option marked. Levels you finished yourself stay complete.",
   "The Security+ content is still labelled as an AI draft that no human expert has reviewed. Your progress and history are untouched."
 ]},
 
