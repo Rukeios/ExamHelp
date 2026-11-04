@@ -8,7 +8,7 @@
 <meta property="og:title" content="Rukeios Study">
 <meta property="og:image" content="assets/brand/social-preview.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0F2340">
+<meta name="theme-color" content="#080B10">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png">
 <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
@@ -1372,6 +1372,46 @@ details.cl-fold{display:block}
 .cl-fold .cl-n{font-size:calc(14px*var(--ts,1));font-weight:600;color:var(--accent-ink);text-decoration:underline;white-space:nowrap}
 .cl-fold[open]>summary{margin-bottom:6px}
 
+/* 2.5.0 Port Lab and Attack & Defense */
+.lab{display:flex;flex-direction:column;gap:16px}
+.lab-head{display:flex;flex-direction:column;gap:6px}.lab-head h2{margin:0}.lab-head p{margin:0;max-width:70ch}
+.lab-start h3{margin:0 0 6px}.lab-start p{margin:0 0 8px}
+.lab-card{display:flex;flex-direction:column;gap:14px}
+.lab-type{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.lab-port{width:9ch;font:700 calc(28px*var(--ts,1))/1 var(--mono);padding:10px 14px;border:1.5px solid var(--line);border-radius:var(--r-sm,8px);background:var(--sunk);color:var(--ink);letter-spacing:.04em;text-align:center}
+.lab-port:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.lab-table-wrap{overflow-x:auto;margin-top:12px}
+.lab-table{width:100%;border-collapse:collapse;font-size:calc(14px*var(--ts,1))}
+.lab-table th{text-align:left;font:600 calc(12px*var(--ts,1)) var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line)}
+.lab-table td{padding:8px 10px;border-bottom:1px solid var(--line2,var(--line));vertical-align:top}
+.lab-table td:first-child b{font-family:var(--mono);font-size:calc(16px*var(--ts,1))}
+.lab-table tr.is-sec td:first-child b{color:var(--ok)}.lab-table tr.is-insec td:first-child b{color:var(--bad)}
+.sim-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.sim-card{display:flex;flex-direction:column;gap:6px;text-align:left;padding:16px;border:1px solid var(--line);border-radius:var(--r-md,10px);background:var(--surface);color:var(--ink);transition:border-color .15s,box-shadow .15s}
+.sim-card:hover{border-color:var(--accent)}.sim-card b{font-size:calc(17px*var(--ts,1))}.sim-card .muted{font-size:calc(14px*var(--ts,1))}
+.sim-tag{align-self:flex-start;font:600 calc(11px*var(--ts,1)) var(--mono);text-transform:uppercase;letter-spacing:.08em;padding:3px 7px;border-radius:4px;background:var(--badbg);color:var(--bad)}
+.sim-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.sim-stage{padding:16px}.sim-title{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.sim-map{width:100%;height:auto;display:block;max-height:340px}
+.sim-link{stroke:var(--line);stroke-width:2}
+.sim-link.live{stroke:var(--bad);stroke-width:3;stroke-dasharray:8 6;animation:simflow 0.9s linear infinite}
+.sim-link.ok{stroke:var(--ok);stroke-width:3}
+@keyframes simflow{to{stroke-dashoffset:-14}}
+.sim-node rect.sim-under{fill:var(--surface)!important;stroke:none!important;filter:none!important}
+.sim-node rect{fill:var(--sunk);stroke:var(--line);stroke-width:1.5}
+.sim-node text{fill:var(--ink);font:600 13px var(--body)}
+.sim-node.k-atk rect{stroke:color-mix(in srgb,var(--bad) 60%,var(--line))}
+.sim-node.k-cloud rect{stroke-dasharray:4 3}
+.sim-node.hot rect{stroke:var(--bad);stroke-width:2.5;fill:var(--badbg);filter:drop-shadow(0 0 6px color-mix(in srgb,var(--bad) 60%,transparent))}
+.sim-node.ok rect{stroke:var(--ok);stroke-width:2.5;fill:var(--okbg);filter:drop-shadow(0 0 6px color-mix(in srgb,var(--ok) 60%,transparent))}
+.sim-legend{display:flex;gap:14px;margin-top:6px}.sim-legend .lg::before{content:"";display:inline-block;width:18px;height:3px;margin-right:6px;vertical-align:middle;border-radius:2px}
+.sim-legend .hot::before{background:var(--bad)}.sim-legend .ok::before{background:var(--ok)}
+.sim-step{display:flex;flex-direction:column;gap:10px}.sim-step h3{margin:0;text-transform:none;letter-spacing:0;font-size:calc(19px*var(--ts,1));line-height:1.35}
+.sim-tell{margin:0;padding:10px 12px;border-left:3px solid var(--sec);background:var(--secbg);border-radius:0 6px 6px 0}
+.sim-q{display:flex;flex-direction:column;gap:10px}
+.sim-done h3{margin:0 0 6px;text-transform:none}
+@media (prefers-reduced-motion:reduce){.sim-link.live{animation:none}}
+
 /* ===== 2.5.0 "Ops" skin: dark operations-console look. Applied with data-skin="ops" on top of
    the dark theme, so every dark-mode rule still holds and this block only refines it. ===== */
 :root[data-skin="ops"]{
@@ -1414,6 +1454,7 @@ details.cl-fold{display:block}
 :root[data-skin="ops"] nav.tabs button{font-family:var(--mono);font-size:calc(14px*var(--ts,1));text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
 :root[data-skin="ops"] nav.tabs button:hover{color:var(--ink)}
 :root[data-skin="ops"] nav.tabs button[aria-selected="true"]{color:var(--accent-ink);border-bottom-color:var(--accent);box-shadow:0 8px 14px -12px var(--accent)}
+:root[data-skin="ops"] .seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent-ink);border-color:rgba(46,230,197,.55);box-shadow:inset 0 0 0 1px rgba(46,230,197,.25)}
 :root[data-skin="ops"] .subnav button{border-radius:6px;background:transparent;font-family:var(--mono);font-size:calc(13px*var(--ts,1));letter-spacing:.04em}
 :root[data-skin="ops"] .subnav button[aria-selected="true"]{background:var(--accent-soft);color:var(--accent-ink);border-color:rgba(46,230,197,.5)}
 /* Buttons */
@@ -1445,7 +1486,7 @@ details.cl-fold{display:block}
 </style>
 <script>
 // Theme choice (Light / Dark / System). Applied before the page draws to avoid a flash.
-(function(){ try{ var t=localStorage.getItem("sprint.v2.theme"); if(t==="ops"){ document.documentElement.setAttribute("data-theme","dark"); document.documentElement.setAttribute("data-skin","ops"); } else if(t==="light"||t==="dark") document.documentElement.setAttribute("data-theme",t); }catch(e){} })();
+(function(){ try{ var t=localStorage.getItem("sprint.v2.theme"); if(!t||t==="ops"){ document.documentElement.setAttribute("data-theme","dark"); document.documentElement.setAttribute("data-skin","ops"); } else if(t==="light"||t==="dark") document.documentElement.setAttribute("data-theme",t); }catch(e){} })();
 (function(){ try{ var a=JSON.parse(localStorage.getItem("sprint.v2.a11y")||"null"), r=document.documentElement; if(!a) return;
   if(a.text==="l"||a.text==="xl") r.setAttribute("data-text",a.text); if(a.calm===true) r.classList.add("a11y-calm");
   if(a.roomy===true) r.classList.add("a11y-roomy"); if(a.font==="hyper") r.classList.add("a11y-hyper"); }catch(e){} })();
@@ -1498,56 +1539,58 @@ details.cl-fold{display:block}
   </footer>
 </div>
 
-<script src="data.js?v=2.4.1"></script>
-<script src="data-extra.js?v=2.4.1"></script>
-<script src="data-pack2.js?v=2.4.1"></script>
-<script src="data-pack3.js?v=2.4.1"></script>
-<script src="data-pack4-sc.js?v=2.4.1"></script>
-<script src="data-pack5-net.js?v=2.4.1"></script>
-<script src="data-acronyms.js?v=2.4.1"></script>
-<script src="data-patchnotes.js?v=2.4.1"></script>
-<script src="data-bosses.js?v=2.4.1"></script>
+<script src="data.js?v=2.5.0"></script>
+<script src="data-extra.js?v=2.5.0"></script>
+<script src="data-pack2.js?v=2.5.0"></script>
+<script src="data-pack3.js?v=2.5.0"></script>
+<script src="data-pack4-sc.js?v=2.5.0"></script>
+<script src="data-pack5-net.js?v=2.5.0"></script>
+<script src="data-acronyms.js?v=2.5.0"></script>
+<script src="data-patchnotes.js?v=2.5.0"></script>
+<script src="data-bosses.js?v=2.5.0"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=2.4.1"></script>
-<script src="data-campaign-flags.js?v=2.4.1"></script>
-<script src="data-campaign-endings.js?v=2.4.1"></script>
-<script src="data-fixes-01.js?v=2.4.1"></script>
-<script src="data-fixes-02.js?v=2.4.1"></script>
-<script src="data-fixes-03.js?v=2.4.1"></script>
-<script src="data-fixes-04.js?v=2.4.1"></script>
-<script src="data-lessons.js?v=2.4.1"></script>
-<script src="data-lessons-2.js?v=2.4.1"></script>
-<script src="data-lessons-3.js?v=2.4.1"></script>
-<script src="data-lessons-beta-7.js?v=2.4.1"></script>
-<script src="data-lessons-sec-1.js?v=2.4.1"></script>
-<script src="data-lessons-sec-2.js?v=2.4.1"></script>
-<script src="data-lessons-sec-3.js?v=2.4.1"></script>
-<script src="data-lessons-sec-4.js?v=2.4.1"></script>
-<script src="data-lessons-beta-sec-net.js?v=2.4.1"></script>
-<script src="data-cn-sc.js?v=2.4.1"></script>
-<script src="data-cn-compare.js?v=2.4.1"></script>
-<script src="data-cn-sc-scenarios.js?v=2.4.1"></script>
-<script src="data-cn-sc-checks.js?v=2.4.1"></script>
-<script src="data-cn-sc-checks-2.js?v=2.4.1"></script>
-<script src="data-cn-sec-1.js?v=2.4.1"></script>
-<script src="data-cn-sec-1-cmp.js?v=2.4.1"></script>
-<script src="data-cn-sec-1-scen.js?v=2.4.1"></script>
-<script src="data-cn-sec-2.js?v=2.4.1"></script>
-<script src="data-cn-sec-2-cmp.js?v=2.4.1"></script>
-<script src="data-cn-sec-2-scen.js?v=2.4.1"></script>
-<script src="data-cn-sec-3.js?v=2.4.1"></script>
-<script src="data-cn-sec-3-cmp.js?v=2.4.1"></script>
-<script src="data-cn-sec-3-scen.js?v=2.4.1"></script>
-<script src="data-cn-sec-4.js?v=2.4.1"></script>
-<script src="data-cn-sec-4-cmp.js?v=2.4.1"></script>
-<script src="data-cn-sec-4-scen.js?v=2.4.1"></script>
-<script src="data-xf-sc.js?v=2.4.1"></script>
-<script src="data-xf-sec-1.js?v=2.4.1"></script>
-<script src="data-xf-sec-2.js?v=2.4.1"></script>
-<script src="data-xf-sec-3.js?v=2.4.1"></script>
-<script src="data-xf-sec-4.js?v=2.4.1"></script>
-<script src="data-links.js?v=2.4.1"></script>
-<script src="examhelp-effects.js?v=2.4.1"></script>
+<script src="data-daymissions.js?v=2.5.0"></script>
+<script src="data-campaign-flags.js?v=2.5.0"></script>
+<script src="data-campaign-endings.js?v=2.5.0"></script>
+<script src="data-fixes-01.js?v=2.5.0"></script>
+<script src="data-fixes-02.js?v=2.5.0"></script>
+<script src="data-fixes-03.js?v=2.5.0"></script>
+<script src="data-fixes-04.js?v=2.5.0"></script>
+<script src="data-lessons.js?v=2.5.0"></script>
+<script src="data-lessons-2.js?v=2.5.0"></script>
+<script src="data-lessons-3.js?v=2.5.0"></script>
+<script src="data-lessons-beta-7.js?v=2.5.0"></script>
+<script src="data-lessons-sec-1.js?v=2.5.0"></script>
+<script src="data-lessons-sec-2.js?v=2.5.0"></script>
+<script src="data-lessons-sec-3.js?v=2.5.0"></script>
+<script src="data-lessons-sec-4.js?v=2.5.0"></script>
+<script src="data-lessons-beta-sec-net.js?v=2.5.0"></script>
+<script src="data-cn-sc.js?v=2.5.0"></script>
+<script src="data-cn-compare.js?v=2.5.0"></script>
+<script src="data-cn-sc-scenarios.js?v=2.5.0"></script>
+<script src="data-cn-sc-checks.js?v=2.5.0"></script>
+<script src="data-cn-sc-checks-2.js?v=2.5.0"></script>
+<script src="data-cn-sec-1.js?v=2.5.0"></script>
+<script src="data-cn-sec-1-cmp.js?v=2.5.0"></script>
+<script src="data-cn-sec-1-scen.js?v=2.5.0"></script>
+<script src="data-cn-sec-2.js?v=2.5.0"></script>
+<script src="data-cn-sec-2-cmp.js?v=2.5.0"></script>
+<script src="data-cn-sec-2-scen.js?v=2.5.0"></script>
+<script src="data-cn-sec-3.js?v=2.5.0"></script>
+<script src="data-cn-sec-3-cmp.js?v=2.5.0"></script>
+<script src="data-cn-sec-3-scen.js?v=2.5.0"></script>
+<script src="data-cn-sec-4.js?v=2.5.0"></script>
+<script src="data-cn-sec-4-cmp.js?v=2.5.0"></script>
+<script src="data-cn-sec-4-scen.js?v=2.5.0"></script>
+<script src="data-xf-sc.js?v=2.5.0"></script>
+<script src="data-xf-sec-1.js?v=2.5.0"></script>
+<script src="data-xf-sec-2.js?v=2.5.0"></script>
+<script src="data-xf-sec-3.js?v=2.5.0"></script>
+<script src="data-xf-sec-4.js?v=2.5.0"></script>
+<script src="data-links.js?v=2.5.0"></script>
+<script src="data-portlab.js?v=2.5.0"></script>
+<script src="data-sims.js?v=2.5.0"></script>
+<script src="examhelp-effects.js?v=2.5.0"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -2602,9 +2645,9 @@ function renderExamToggle(){
 let programFormOpen=false;
 const PROGRAM_LABEL={sc:"SC-900 only",sec:"Security+ only",both:"Both (33-level camp)"};
 function setProgram(p){ state.program=p; programFormOpen=false; saveProgress(); render(); }
-function themeChoice(){ try{ const t=localStorage.getItem(LS+".theme"); return t==="light"||t==="dark"||t==="ops"?t:"system"; }catch(e){ return "system"; } }
+function themeChoice(){ try{ const t=localStorage.getItem(LS+".theme"); return t==="light"||t==="dark"||t==="system"?t:"ops"; }catch(e){ return "ops"; } }
 function setTheme(t){
-  try{ if(t==="system") localStorage.removeItem(LS+".theme"); else localStorage.setItem(LS+".theme",t); }catch(e){}
+  try{ localStorage.setItem(LS+".theme",t); }catch(e){}  // 2.5.0: no saved choice means Ops, so System is stored explicitly
   const de=document.documentElement;
   if(t==="ops"){ de.setAttribute("data-theme","dark"); de.setAttribute("data-skin","ops"); }
   else { de.removeAttribute("data-skin"); if(t==="system") de.removeAttribute("data-theme"); else de.setAttribute("data-theme",t); }
@@ -3992,8 +4035,8 @@ function guidedResultBlock(){
   return null;
 }
 // ---------- navigation: Home / Study / Campaign / Arena / Progress ----------
-const STUDY_TABS=["plan","cards","quiz","acr","pbq","mock","lab"];
-const STUDY_VIEWS=[["plan","Lessons"],["cards","Notes & cards"],["quiz","Practice"],["acr","Acronyms"],["pbq","PBQs"],["mock","Mock exam"],["lab","Question Lab"]];
+const STUDY_TABS=["plan","cards","quiz","acr","pbq","ports","sims","mock","lab"];
+const STUDY_VIEWS=[["plan","Lessons"],["cards","Notes & cards"],["quiz","Practice"],["acr","Acronyms"],["pbq","PBQs"],["ports","Port Lab"],["sims","Attack & Defense"],["mock","Mock exam"],["lab","Question Lab"]];
 function topTab(){ return STUDY_TABS.includes(ui.tab)?"study":ui.tab; }
 // Leaving a quiz pauses it rather than throwing it away; coming back resumes it.
 function goTab(t){
@@ -4002,7 +4045,7 @@ function goTab(t){
   ui.tab=t; saveUI(); queueFx("panel","#view"); render(); window.scrollTo(0,0);
 }
 function resumeRun(){ if(run&&run.pauseAt){ run.qt+=Date.now()-run.pauseAt; run.pauseAt=null; } }
-const STUDY_GROUPS=[["Learn",["plan","cards"]],["Practice",["quiz","acr","pbq","mock"]],["Build",["lab"]]];
+const STUDY_GROUPS=[["Learn",["plan","cards"]],["Practice",["quiz","acr","pbq","ports","sims","mock"]],["Build",["lab"]]];
 function renderStudyNav(){
   const cur=ui.tab==="quiz"&&ui.quiz.mode==="acronym"?"acr":ui.tab, label=Object.fromEntries(STUDY_VIEWS);
   const kids=[];
@@ -4012,6 +4055,149 @@ function renderStudyNav(){
       k==="quiz"&&run&&!run.finished&&run.pauseAt?h("span",{class:"dot","aria-label":"quiz paused"}):null))));
   });
   return h("div",{class:"subnav",role:"tablist","aria-label":"Study"},kids);
+}
+// ---------- 2.5.0: Port Lab ----------
+// Practice tab for Security+ ports. Four modes: type the port for a real task, name the service
+// on a port, pick the secure replacement, or browse the reference. Memory only, like the drills;
+// your best score per mode is kept in state.portlab so you can see progress.
+const PL=window.PORTLAB||{ports:[],tasks:[],swaps:[]};
+let plab={mode:"task",round:null};
+const PL_MODES=[["task","Task → port"],["port","Port → service"],["swap","Secure swap"],["ref","Reference"]];
+function plItems(mode){
+  if(mode==="task") return PL.tasks.map(t=>({id:t.id,kind:"type",q:t.task,ok:t.ok,a:t.a,why:t.why}));
+  if(mode==="port") return PL.ports.map(p=>{ const others=shuffle(PL.ports.filter(x=>x.p!==p.p&&x.s!==p.s)).slice(0,3);
+    return {id:"p"+p.p,kind:"pick",q:"Port "+p.p+" ("+p.t+")",o:[[p.s,true,p.n]].concat(others.map(x=>[x.s,false,x.s+" is port "+x.p+"."]))}; });
+  return PL.swaps.map(w=>({id:w.id,kind:"pick",q:"Replace "+w.old+" with…",o:[[w.ok,true,w.why]].concat(w.bad.map(b=>[b,false,w.why]))}));
+}
+function plStart(mode,only){
+  const all=plItems(mode), pool=only?all.filter(x=>only.includes(x.id)):all;
+  const items=shuffle(pool).slice(0,mode==="swap"?pool.length:Math.min(10,pool.length));
+  items.forEach(it=>{ if(it.o) it.ord=shuffle(it.o.map((_,j)=>j)); });
+  plab.round={mode,items,i:0,res:{},typed:""};
+}
+function plBest(mode){ return state.portlab&&state.portlab.best&&state.portlab.best[mode]; }
+function plSaveBest(mode,right,n){
+  state.portlab=state.portlab&&typeof state.portlab==="object"?state.portlab:{};
+  state.portlab.best=state.portlab.best||{};
+  const prev=state.portlab.best[mode], pct=Math.round(100*right/n);
+  if(!prev||pct>prev.pct){ state.portlab.best[mode]={pct,right,n,at:Date.now()}; saveProgress(); }
+}
+function plFocus(sel){ setTimeout(()=>{ const f=document.querySelector(sel); if(f) f.focus({preventScroll:true}); },0); }
+function renderPortLab(){
+  const tabs=h("div",{class:"seg",role:"group","aria-label":"Port Lab mode"},PL_MODES.map(([id,label])=>h("button",{"aria-pressed":String(plab.mode===id),onclick:()=>{plab.mode=id;plab.round=null;render();}},label)));
+  const head=h("div",{class:"lab-head"},
+    h("p",{class:"eyebrow"},"Security+ · Port Lab"),
+    h("h2",{},"Which port does the job?"),
+    h("p",{class:"muted"},"Ports show up in multiple-choice questions and in the firewall PBQs. Practice them as real jobs, not a list. Nothing here affects your levels."));
+  if(plab.mode==="ref") return h("div",{class:"lab"},head,tabs,plRef());
+  const R=plab.round&&plab.round.mode===plab.mode?plab.round:null;
+  if(!R){
+    const best=plBest(plab.mode), n=plab.mode==="task"?Math.min(10,PL.tasks.length):plab.mode==="port"?10:PL.swaps.length;
+    const desc={task:"You get a real task. Type the port number it uses.",port:"You get a port number. Pick the service that uses it.",swap:"You get an insecure protocol. Pick what replaces it."}[plab.mode];
+    return h("div",{class:"lab"},head,tabs,h("section",{class:"panel lab-start"},
+      h("h3",{},PL_MODES.find(m=>m[0]===plab.mode)[1]),h("p",{},desc),
+      h("p",{class:"muted tabnum"},n+" questions"+(best?" · Your best: "+best.pct+"%":"")),
+      h("div",{class:"actions"},h("button",{class:"btn primary",onclick:()=>{plStart(plab.mode);render();plFocus(".lab-q");}},"Start"))));
+  }
+  const n=R.items.length;
+  if(R.i>=n){
+    const right=R.items.filter(it=>R.res[it.id]&&R.res[it.id].ok), miss=R.items.filter(it=>!(R.res[it.id]&&R.res[it.id].ok));
+    if(!R.saved){ R.saved=true; plSaveBest(R.mode,right.length,n); }
+    return h("div",{class:"lab"},head,tabs,h("section",{class:"panel drill-done",role:"status",tabindex:"-1"},
+      h("p",{class:"drill-score"},h("b",{class:"tabnum"},right.length+" of "+n),miss.length?" right. Go over these:":" right. Clean sweep."),
+      miss.length?h("ul",{class:"drill-miss"},miss.map(it=>h("li",{},h("span",{class:"meta"},it.q),h("span",{},h("b",{},(it.a||it.o[0][0])+". "),it.why||it.o[0][2])))):null,
+      h("div",{class:"actions"},miss.length?h("button",{class:"btn primary",onclick:()=>{plStart(R.mode,miss.map(x=>x.id));render();plFocus(".lab-q");}},"Redo my "+miss.length+" miss"+(miss.length===1?"":"es")):null,
+        h("button",{class:"btn"+(miss.length?"":" primary"),onclick:()=>{plStart(R.mode);render();plFocus(".lab-q");}},"New round"))));
+  }
+  const it=R.items[R.i], res=R.res[it.id];
+  const next=()=>{ R.i++; R.typed=""; render(); plFocus(R.i>=n?".drill-done":".lab-q"); };
+  let body;
+  if(it.kind==="type"){
+    const check=()=>{ const v=parseInt(String(R.typed).trim(),10); if(!Number.isFinite(v)) return; R.res[it.id]={ok:it.ok.includes(v),v}; render(); plFocus(".drill-next"); };
+    body=[h("form",{class:"lab-type",onsubmit:e=>{e.preventDefault(); if(!res) check();}},
+        h("label",{for:"plin",class:"sr-only"},"Port number"),
+        h("input",{id:"plin",class:"lab-port",type:"text",inputmode:"numeric",autocomplete:"off",maxlength:"5",placeholder:"Port",value:R.typed,disabled:res?true:null,
+          oninput:e=>{R.typed=e.target.value.replace(/[^0-9]/g,""); e.target.value=R.typed;}}),
+        res?null:h("button",{class:"btn primary",type:"submit"},"Check")),
+      h("div",{class:"drill-fb"+(res?(res.ok?" right":" wrong"):""),role:"status","aria-live":"polite"},
+        res?h("p",{},h("b",{},res.ok?"Right. ":"Not "+res.v+". "),h("b",{},it.a+". "),it.why):"")];
+    if(!res) plFocus("#plin");
+  } else {
+    const pick=j=>{ if(res) return; R.res[it.id]={ok:it.o[j][1],j}; render(); plFocus(".drill-next"); };
+    body=[h("div",{class:"drill-opts",role:"group","aria-label":"Answers"},it.ord.map(j=>{ const o=it.o[j], picked=res&&res.j===j, show=res&&(picked||o[1]);
+        return h("button",{class:"drill-opt"+(show?(o[1]?" right":" wrong"):"")+(res&&!show?" dim":""),"aria-pressed":String(!!picked),disabled:res&&!picked?true:null,onclick:()=>pick(j)},
+          h("span",{},o[0]),show?h("span",{class:"pp-mark"},o[1]?svgIcon("check"):svgIcon("x"),h("span",{class:"sr-only"},o[1]?"correct":"not correct")):null); })),
+      h("div",{class:"drill-fb"+(res?(res.ok?" right":" wrong"):""),role:"status","aria-live":"polite"},
+        res?h("p",{},h("b",{},res.ok?"Right. ":"Not this one. "),res.ok?it.o[0][2]:h("span",{},it.o[res.j][2]+" ",h("b",{},"Answer: "+it.o[0][0]+". "),it.o[0][2])):"")];
+  }
+  return h("div",{class:"lab"},head,tabs,h("section",{class:"panel drill lab-card"},
+    h("div",{class:"drill-top"},h("span",{class:"meta tabnum"},"Question "+(R.i+1)+" of "+n),h("span",{class:"drill-bar","aria-hidden":"true"},h("i",{style:"width:"+Math.round(100*R.i/n)+"%"}))),
+    h("p",{class:"drill-q lab-q",tabindex:"-1"},it.q),
+    ...body,
+    res?h("button",{class:"btn primary drill-next",onclick:next},R.i+1<n?"Next":"See how you did"):null));
+}
+function plRef(){
+  const f=plab.refFilter||"all";
+  const rows=PL.ports.filter(p=>f==="all"||(f==="sec"?p.sec:!p.sec));
+  return h("section",{class:"panel"},
+    h("div",{class:"seg seg-sm",role:"group","aria-label":"Filter"},[["all","All"],["sec","Secure"],["insec","Clear text / insecure"]].map(([k,l])=>h("button",{"aria-pressed":String(f===k),onclick:()=>{plab.refFilter=k;render();}},l))),
+    h("div",{class:"lab-table-wrap"},h("table",{class:"lab-table"},
+      h("thead",{},h("tr",{},h("th",{},"Port"),h("th",{},"Service"),h("th",{},"Transport"),h("th",{},"Notes"))),
+      h("tbody",{},rows.map(p=>h("tr",{class:p.sec?"is-sec":"is-insec"},h("td",{class:"tabnum"},h("b",{},String(p.p))),h("td",{},p.s),h("td",{class:"meta"},p.t),h("td",{},p.n)))))));
+}
+
+// ---------- 2.5.0: Attack & Defense sims ----------
+const SIMS=window.SIMS||[];
+let simUI={id:null,mode:"attack",i:0,ans:{}};
+function svgEl(tag,attrs,kids){ const e=document.createElementNS("http://www.w3.org/2000/svg",tag); Object.entries(attrs||{}).forEach(([k,v])=>{ if(v!=null) e.setAttribute(k,v); }); (kids||[]).forEach(c=>{ if(c) e.appendChild(typeof c==="string"?document.createTextNode(c):c); }); return e; }
+function simMap(sim,step,blocked){
+  const N=Object.fromEntries(sim.nodes.map(n=>[n.id,n])), hl=new Set(step?step.hl:[]);
+  const onPath=(a,b)=>step&&step.path.some(([x,y])=>(x===a&&y===b)||(x===b&&y===a));
+  const ys=sim.nodes.map(n=>n.y), y0=Math.min(...ys)-34, hgt=Math.max(...ys)-y0+34;
+  const svg=svgEl("svg",{viewBox:"0 "+y0+" 640 "+hgt,class:"sim-map",role:"img","aria-label":"Network map: "+sim.nodes.map(n=>n.label).join(", ")});
+  sim.links.forEach(([a,b])=>{ const A=N[a],B=N[b], live=onPath(a,b);
+    svg.appendChild(svgEl("line",{x1:A.x,y1:A.y,x2:B.x,y2:B.y,class:"sim-link"+(live?(blocked?" ok":" live"):"")})); });
+  sim.nodes.forEach(n=>{ const on=hl.has(n.id), w=Math.max(96,n.label.length*7.2+24);
+    svg.appendChild(svgEl("g",{class:"sim-node k-"+n.k+(on?(blocked?" ok":" hot"):""),transform:"translate("+n.x+","+n.y+")"},[
+      svgEl("rect",{x:-w/2,y:-19,width:w,height:38,rx:7,class:"sim-under"}),
+      svgEl("rect",{x:-w/2,y:-19,width:w,height:38,rx:7}),
+      svgEl("text",{x:0,y:5,"text-anchor":"middle"},[n.label])])); });
+  return svg;
+}
+function renderSims(){
+  const head=h("div",{class:"lab-head"},h("p",{class:"eyebrow"},"Security+ · Attack & Defense"),h("h2",{},"Watch it happen, then stop it"),
+    h("p",{class:"muted"},"Each sim walks one attack across a small network. Attack mode shows every step and the clue defenders would see. Defense mode asks you to pick the control that stops each step. Nothing here affects your levels."));
+  const sim=SIMS.find(s=>s.id===simUI.id);
+  if(!sim) return h("div",{class:"lab"},head,h("div",{class:"sim-list"},SIMS.map(s=>h("button",{class:"sim-card",onclick:()=>{simUI={id:s.id,mode:"attack",i:0,ans:{}};render();window.scrollTo(0,0);}},
+    h("span",{class:"sim-tag"},s.tag),h("b",{},s.title),h("span",{class:"muted"},s.brief),h("span",{class:"meta"},"Level "+s.level+" · "+s.steps.length+" steps")))));
+  const n=sim.steps.length, done=simUI.i>=n, step=done?null:sim.steps[simUI.i], def=simUI.mode==="defense";
+  const ans=step?simUI.ans[simUI.i]:null, blocked=def&&ans!=null&&step.o[ans][1];
+  const go=i=>{ simUI.i=i; render(); const f=document.querySelector(".sim-step h3,.sim-done"); if(f){ f.setAttribute("tabindex","-1"); f.focus({preventScroll:true}); } };
+  const modeSeg=h("div",{class:"seg",role:"group","aria-label":"Sim mode"},[["attack","Attack"],["defense","Defense"]].map(([k,l])=>h("button",{"aria-pressed":String(simUI.mode===k),onclick:()=>{simUI.mode=k;simUI.i=0;simUI.ans={};render();}},l)));
+  const top=h("div",{class:"sim-top"},h("button",{class:"btn small",onclick:()=>{simUI.id=null;render();}},"← All sims"),modeSeg);
+  let panel;
+  if(done){
+    const right=def?sim.steps.filter((s,i)=>simUI.ans[i]!=null&&s.o[simUI.ans[i]][1]).length:null;
+    panel=h("section",{class:"panel sim-done",role:"status"},h("h3",{},def?"Defended "+right+" of "+n+" steps":"Attack complete"),h("p",{},sim.debrief),
+      h("div",{class:"actions"},h("button",{class:"btn primary",onclick:()=>{simUI.mode=def?"attack":"defense";simUI.i=0;simUI.ans={};render();}},def?"Watch the attack again":"Now defend against it"),
+        h("button",{class:"btn",onclick:()=>{simUI.i=0;simUI.ans={};render();}},"Restart"),
+        h("button",{class:"btn",onclick:()=>pilotLinkTo(sim.level,null)},"Open Level "+sim.level)));
+  } else {
+    const ord=step._ord||(step._ord=shuffle(step.o.map((_,j)=>j)));
+    panel=h("section",{class:"panel sim-step"},
+      h("p",{class:"meta tabnum"},"Step "+(simUI.i+1)+" of "+n+(def?" · Defense":" · Attack")),
+      h("h3",{},step.act),
+      h("p",{class:"sim-tell"},h("b",{},"What defenders see: "),step.tell),
+      def?h("div",{class:"sim-q"},h("p",{class:"drill-q"},step.q),
+        h("div",{class:"drill-opts",role:"group","aria-label":"Pick a control"},ord.map(j=>{ const o=step.o[j], picked=ans===j, show=ans!=null&&(picked||o[1]);
+          return h("button",{class:"drill-opt"+(show?(o[1]?" right":" wrong"):"")+(ans!=null&&!show?" dim":""),"aria-pressed":String(picked),disabled:ans!=null&&!picked?true:null,onclick:()=>{ if(ans==null){ simUI.ans[simUI.i]=j; render(); } }},
+            h("span",{},o[0]),show?h("span",{class:"pp-mark"},o[1]?svgIcon("check"):svgIcon("x")):null); })),
+        ans!=null?h("div",{class:"drill-fb "+(step.o[ans][1]?"right":"wrong"),role:"status"},h("p",{},h("b",{},step.o[ans][1]?"Blocked. ":"That won't stop it. "),step.o[ans][2]),step.o[ans][1]?null:h("p",{},h("b",{},step.o[0][0]+": "),step.o[0][2])):null):null,
+      h("div",{class:"actions"},simUI.i>0?h("button",{class:"btn",onclick:()=>go(simUI.i-1)},"Back"):null,
+        (!def||ans!=null)?h("button",{class:"btn primary",onclick:()=>go(simUI.i+1)},simUI.i+1<n?"Next step":"Finish"):null));
+  }
+  return h("div",{class:"lab"},head,top,h("section",{class:"panel sim-stage"},h("div",{class:"sim-title"},h("span",{class:"sim-tag"},sim.tag),h("b",{},sim.title)),simMap(sim,step,blocked),
+    h("div",{class:"sim-legend meta"},h("span",{class:"lg hot"},"attack path"),h("span",{class:"lg ok"},"blocked"))),panel);
 }
 // ---------- 2.2: shared bits for bosses and icons ----------
 function svgIcon(name){
@@ -5915,7 +6101,7 @@ function renderCore(){
   if(tabs) tabs.style.display="";
   if(STUDY_TABS.includes(ui.tab)) ui.studyTab=ui.tab==="quiz"&&ui.quiz.mode==="acronym"?"acr":ui.tab;
   if(ui.tab==="acr"){ ui.tab="quiz"; if(ui.quiz.mode!=="acronym"){ ui.lastMode=ui.quiz.mode; ui.quiz.mode="acronym"; } }
-  const main=ui.tab==="home"?renderHome():ui.tab==="plan"?renderPlan():ui.tab==="cards"?renderCN():ui.tab==="quiz"?renderQuizTab():ui.tab==="stats"?renderStats():ui.tab==="game"?renderGame():ui.tab==="pbq"?renderPBQ():ui.tab==="lab"?renderLab():ui.tab==="mock"?renderMock():renderCampaign();
+  const main=ui.tab==="home"?renderHome():ui.tab==="plan"?renderPlan():ui.tab==="cards"?renderCN():ui.tab==="quiz"?renderQuizTab():ui.tab==="stats"?renderStats():ui.tab==="game"?renderGame():ui.tab==="pbq"?renderPBQ():ui.tab==="ports"?renderPortLab():ui.tab==="sims"?renderSims():ui.tab==="lab"?renderLab():ui.tab==="mock"?renderMock():renderCampaign();
   v.replaceChildren(instructorBanner()||"",ui.tab==="home"&&renameNotice()||"",STUDY_TABS.includes(ui.tab)?h("div",{style:"display:flex;flex-direction:column;gap:16px"},renderStudyNav(),main):main);
   document.body.classList.toggle("wide-lesson",!!v.querySelector(".pilot"));
   if(run&&!run.finished&&run.timedMs&&!run.answered&&!tick&&ui.tab==="quiz") startTimer();
