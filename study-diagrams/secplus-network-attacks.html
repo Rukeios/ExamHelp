@@ -1,0 +1,49 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=1700"><title>Network and wireless attacks</title><style>
+:root{--bg:#0d1117;--ink:#e6edf3;--mut:#8b949e;--line:#30363d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.35 system-ui,Segoe UI,Arial,sans-serif;width:1700px;padding:28px 34px}
+h1{margin:0;font-size:30px}.sub{color:var(--mut);margin:6px 0 18px;font-size:16px}
+.path{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.hop{border:2px solid var(--c);border-radius:12px;padding:12px;background:color-mix(in srgb,var(--c) 8%,transparent);position:relative;display:flex;flex-direction:column;gap:8px}
+.hop:not(:last-child)::after{content:"➜";position:absolute;right:-15px;top:18px;color:var(--mut);font-size:18px}
+.hop h2{margin:0;font-size:18px;color:var(--c)}.hop .w{font-size:13px;color:var(--mut)}
+.atk{border-top:1px solid var(--line);padding-top:7px}.atk b{color:#ff8b7b}.atk span{display:block;font-size:13.5px;color:#c9d1d9}.atk i{display:block;font-style:normal;font-size:13px;color:#4cc38a;margin-top:2px}
+.hooks{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+.hook{background:#161b22;border-left:4px solid #e3b341;border-radius:8px;padding:10px 12px;font-size:14px}.hook b{color:#e3b341}
+</style></head><body><a class="backlink" href="./" style="color:#8b949e;font:14px system-ui,sans-serif;text-decoration:none;display:inline-block;margin-bottom:10px">← All study diagrams</a>
+<h1>Where attacks hit along the path</h1>
+<p class="sub">Security+ (SY0-701). Follow a user's request from their laptop to a web app. Each stop shows the attacks that happen there (red), what gives them away, and the control that stops them (green).</p>
+<div class="path">
+ <div class="hop" style="--c:#b48cff"><h2>1. The airwaves</h2><div class="w">Laptop to access point</div>
+  <div class="atk"><b>Evil twin</b><span>Fake AP copying your network name.</span><i>Stop: WPA3-Enterprise / 802.1X, user training, wireless IDS</i></div>
+  <div class="atk"><b>Rogue AP</b><span>Unapproved AP plugged into your network.</span><i>Stop: 802.1X on ports, wireless scans</i></div>
+  <div class="atk"><b>Deauthentication</b><span>Clients kicked off so the handshake can be captured.</span><i>Stop: WPA3 (protected management frames)</i></div>
+  <div class="atk"><b>Jamming</b><span>Radio noise blocks everyone.</span><i>Stop: find the source; it's an availability attack</i></div>
+ </div>
+ <div class="hop" style="--c:#58a6ff"><h2>2. The local network</h2><div class="w">Switches, the gateway</div>
+  <div class="atk"><b>ARP poisoning</b><span>Fake IP-to-MAC answers make traffic flow through the attacker.</span><i>Stop: dynamic ARP inspection, segmentation</i></div>
+  <div class="atk"><b>MAC flooding</b><span>Switch table overflows, so it floods traffic everywhere.</span><i>Stop: port security</i></div>
+  <div class="atk"><b>On-path</b><span>Attacker reads or changes traffic between two parties.</span><i>Stop: encryption (TLS, VPN), certificate checks</i></div>
+ </div>
+ <div class="hop" style="--c:#e3b341"><h2>3. Name lookup</h2><div class="w">DNS</div>
+  <div class="atk"><b>DNS poisoning</b><span>Resolver cache holds a fake answer, so the right name leads to the wrong server.</span><i>Stop: DNSSEC</i></div>
+  <div class="atk"><b>Domain hijacking</b><span>Control of the domain registration is stolen.</span><i>Stop: registrar lock, MFA on the registrar account</i></div>
+  <div class="atk"><b>Typosquatting</b><span>Lookalike names catch typos.</span><i>Stop: user training, register common misspellings</i></div>
+ </div>
+ <div class="hop" style="--c:#ff6b5b"><h2>4. The internet edge</h2><div class="w">Your public address</div>
+  <div class="atk"><b>DDoS</b><span>A flood from many sources. <b>Reflected:</b> forged source so replies hit the victim. <b>Amplified:</b> tiny request, huge reply (DNS, NTP).</span><i>Stop: DDoS protection service, rate limiting, CDN</i></div>
+  <div class="atk"><b>Replay</b><span>Captured traffic resent later.</span><i>Stop: timestamps, nonces, session tokens</i></div>
+  <div class="atk"><b>Credential replay</b><span>Stolen hash or token reused (pass-the-hash).</span><i>Stop: MFA, Kerberos, short-lived tokens</i></div>
+ </div>
+ <div class="hop" style="--c:#4cc38a"><h2>5. The web app</h2><div class="w">Requests and the database</div>
+  <div class="atk"><b>SQL injection</b><span>Database commands typed into input fields.</span><i>Stop: parameterized queries, input validation, WAF</i></div>
+  <div class="atk"><b>XSS</b><span>Attacker's script runs in other users' browsers.</span><i>Stop: output encoding, input validation, WAF</i></div>
+  <div class="atk"><b>CSRF / SSRF</b><span>CSRF: the user's browser sends a forged request. SSRF: the server is tricked into making requests.</span><i>Stop: anti-CSRF tokens · allow-list outbound requests</i></div>
+  <div class="atk"><b>Directory traversal</b><span>../../ to reach files outside the web folder.</span><i>Stop: input validation, least privilege</i></div>
+ </div>
+</div>
+<div class="hooks">
+ <div class="hook"><b>ARP vs DNS poisoning:</b> ARP fakes the hardware address and stays on the local network. DNS fakes the name answer and can reach users anywhere.</div>
+ <div class="hook"><b>Evil twin vs rogue AP:</b> an evil twin pretends to be your network to lure users. A rogue AP is a real but unapproved access point on your network.</div>
+ <div class="hook"><b>CSRF vs SSRF:</b> look at who sends the bad request. The user's browser means CSRF. The server means SSRF.</div>
+</div>
+</body></html>
