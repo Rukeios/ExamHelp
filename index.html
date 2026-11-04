@@ -1372,10 +1372,80 @@ details.cl-fold{display:block}
 .cl-fold .cl-n{font-size:calc(14px*var(--ts,1));font-weight:600;color:var(--accent-ink);text-decoration:underline;white-space:nowrap}
 .cl-fold[open]>summary{margin-bottom:6px}
 
+/* ===== 2.5.0 "Ops" skin: dark operations-console look. Applied with data-skin="ops" on top of
+   the dark theme, so every dark-mode rule still holds and this block only refines it. ===== */
+:root[data-skin="ops"]{
+  color-scheme:dark;
+  --bg:#080B10;--surface:#0E141B;--sunk:#0B1016;--ink:#E7EEF5;--ink2:#BAC6D3;--muted:#7F8DA0;--line:#1C2734;--line2:#141D28;
+  --accent:#2EE6C5;--accent-ink:#62F2D8;--accent-fill:#1CCDAD;--accent-soft:rgba(46,230,197,.09);--on-accent:#03140F;
+  --sc:#7EA8FF;--scbg:rgba(126,168,255,.10);--sec:#FFB547;--secbg:rgba(255,181,71,.10);--violet:#7EA8FF;
+  --ok:#3DDC97;--okbg:rgba(61,220,151,.10);--bad:#FF6B6B;--badbg:rgba(255,107,107,.10);
+  --display:"Outfit","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono","SF Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r-lg:10px;--r-md:8px;--r-sm:6px;
+  --glow:0 0 0 1px rgba(46,230,197,.35),0 0 18px -4px rgba(46,230,197,.45);
+  --lift:0 1px 0 rgba(255,255,255,.03) inset,0 14px 34px -18px rgba(0,0,0,.9);
+  --navbg:rgba(8,11,16,.82);--scene:none;--veil:none;
+  --mark:url("assets/brand/mark-dark-96.png");
+}
+:root[data-skin="ops"] body{
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(1200px 500px at 70% -10%,rgba(46,230,197,.07),transparent 60%),
+    linear-gradient(rgba(126,168,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(126,168,255,.035) 1px,transparent 1px);
+  background-size:auto,40px 40px,40px 40px;background-attachment:fixed;
+  font-feature-settings:"ss01","cv11";
+}
+:root[data-skin="ops"] body.scene-arena,:root[data-skin="ops"] body.campaign-mode{background-image:var(--scene,none)}
+/* Headings: tighter, cleaner, no shouting */
+:root[data-skin="ops"] h1{letter-spacing:-.02em;text-transform:none;font-weight:700}
+:root[data-skin="ops"] h2{letter-spacing:-.01em}
+:root[data-skin="ops"] h3{letter-spacing:.02em}
+:root[data-skin="ops"] .eyebrow,:root[data-skin="ops"] .fm-lbl,:root[data-skin="ops"] .pp-kicker{font-family:var(--mono);letter-spacing:.06em}
+/* Brand */
+:root[data-skin="ops"] .brand-name{letter-spacing:-.01em}
+:root[data-skin="ops"] .brand-sub{font-family:var(--mono);font-size:calc(12px*var(--ts,1));text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+/* Panels and cards: hairline borders, a lit top edge */
+:root[data-skin="ops"] .panel,:root[data-skin="ops"] .pilot-panel{background:linear-gradient(180deg,rgba(255,255,255,.025),transparent 120px),var(--surface);border:1px solid var(--line);box-shadow:var(--lift);position:relative;backdrop-filter:none;-webkit-backdrop-filter:none}
+:root[data-skin="ops"] .panel::before{content:"";position:absolute;inset:-1px -1px auto -1px;height:1px;border-radius:inherit;background:linear-gradient(90deg,transparent,rgba(46,230,197,.55),transparent);pointer-events:none}
+/* Main nav: monospace, glowing underline */
+:root[data-skin="ops"] nav.tabs{border-bottom:1px solid var(--line);background:var(--navbg)}
+:root[data-skin="ops"] nav.tabs button{font-family:var(--mono);font-size:calc(14px*var(--ts,1));text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+:root[data-skin="ops"] nav.tabs button:hover{color:var(--ink)}
+:root[data-skin="ops"] nav.tabs button[aria-selected="true"]{color:var(--accent-ink);border-bottom-color:var(--accent);box-shadow:0 8px 14px -12px var(--accent)}
+:root[data-skin="ops"] .subnav button{border-radius:6px;background:transparent;font-family:var(--mono);font-size:calc(13px*var(--ts,1));letter-spacing:.04em}
+:root[data-skin="ops"] .subnav button[aria-selected="true"]{background:var(--accent-soft);color:var(--accent-ink);border-color:rgba(46,230,197,.5)}
+/* Buttons */
+:root[data-skin="ops"] .btn{background:rgba(255,255,255,.02);border-color:var(--line);color:var(--ink);transition:border-color .15s,box-shadow .15s,background-color .15s}
+:root[data-skin="ops"] .btn:hover{border-color:rgba(46,230,197,.6);background:var(--accent-soft)}
+:root[data-skin="ops"] .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent);box-shadow:0 0 22px -8px var(--accent)}
+:root[data-skin="ops"] .btn.primary:hover{background:var(--accent-ink);box-shadow:var(--glow)}
+:root[data-skin="ops"] .linklike{color:var(--accent-ink)}
+:root[data-skin="ops"] :focus-visible{outline-color:var(--accent)}
+/* Lesson step chips and progress */
+:root[data-skin="ops"] .pilot-steps button{border-radius:6px;font-family:var(--body)}
+:root[data-skin="ops"] .pilot-steps button[aria-current="step"],:root[data-skin="ops"] .pilot-steps button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent-ink);background:var(--accent-soft);box-shadow:var(--glow)}
+:root[data-skin="ops"] .pilot-steps .n{border-radius:4px;font-family:var(--mono);background:var(--sunk);color:var(--ink2)}
+:root[data-skin="ops"] .pilot-steps button[aria-current="step"] .n,:root[data-skin="ops"] .pilot-steps button[aria-pressed="true"] .n{background:var(--accent);color:var(--on-accent)}
+:root[data-skin="ops"] header summary,:root[data-skin="ops"] header .btn{white-space:nowrap}
+:root[data-skin="ops"] .drill-opt.wrong,:root[data-skin="ops"] .drill-opt.wrong:hover{border-color:var(--bad)!important}
+:root[data-skin="ops"] .drill-opt.right,:root[data-skin="ops"] .drill-opt.right:hover{border-color:var(--ok)!important}
+/* Answer buttons */
+:root[data-skin="ops"] .drill-opt,:root[data-skin="ops"] .fm-item{border-radius:8px;transition:border-color .15s,box-shadow .15s}
+:root[data-skin="ops"] .drill-opt:hover:not([disabled]),:root[data-skin="ops"] .fm-item:hover{border-color:rgba(46,230,197,.6)}
+:root[data-skin="ops"] .fm-item.on{border-color:var(--accent);box-shadow:var(--glow);background:var(--accent-soft)}
+:root[data-skin="ops"] .drill-bar i{background:var(--accent);box-shadow:0 0 10px var(--accent)}
+:root[data-skin="ops"] .fm-zone{border-width:1px;border-radius:10px}
+:root[data-skin="ops"] .tagrow li{font-family:var(--mono);font-size:calc(12px*var(--ts,1));border-radius:4px}
+/* Numbers read like readouts */
+:root[data-skin="ops"] .tabnum,:root[data-skin="ops"] .drill-score b{font-family:var(--mono);letter-spacing:-.01em}
+:root[data-skin="ops"] ::selection{background:rgba(46,230,197,.3)}
+@media (prefers-reduced-motion:reduce){:root[data-skin="ops"] *{transition:none!important}}
 </style>
 <script>
 // Theme choice (Light / Dark / System). Applied before the page draws to avoid a flash.
-(function(){ try{ var t=localStorage.getItem("sprint.v2.theme"); if(t==="light"||t==="dark") document.documentElement.setAttribute("data-theme",t); }catch(e){} })();
+(function(){ try{ var t=localStorage.getItem("sprint.v2.theme"); if(t==="ops"){ document.documentElement.setAttribute("data-theme","dark"); document.documentElement.setAttribute("data-skin","ops"); } else if(t==="light"||t==="dark") document.documentElement.setAttribute("data-theme",t); }catch(e){} })();
 (function(){ try{ var a=JSON.parse(localStorage.getItem("sprint.v2.a11y")||"null"), r=document.documentElement; if(!a) return;
   if(a.text==="l"||a.text==="xl") r.setAttribute("data-text",a.text); if(a.calm===true) r.classList.add("a11y-calm");
   if(a.roomy===true) r.classList.add("a11y-roomy"); if(a.font==="hyper") r.classList.add("a11y-hyper"); }catch(e){} })();
@@ -2532,10 +2602,12 @@ function renderExamToggle(){
 let programFormOpen=false;
 const PROGRAM_LABEL={sc:"SC-900 only",sec:"Security+ only",both:"Both (33-level camp)"};
 function setProgram(p){ state.program=p; programFormOpen=false; saveProgress(); render(); }
-function themeChoice(){ try{ const t=localStorage.getItem(LS+".theme"); return t==="light"||t==="dark"?t:"system"; }catch(e){ return "system"; } }
+function themeChoice(){ try{ const t=localStorage.getItem(LS+".theme"); return t==="light"||t==="dark"||t==="ops"?t:"system"; }catch(e){ return "system"; } }
 function setTheme(t){
   try{ if(t==="system") localStorage.removeItem(LS+".theme"); else localStorage.setItem(LS+".theme",t); }catch(e){}
-  if(t==="system") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme",t);
+  const de=document.documentElement;
+  if(t==="ops"){ de.setAttribute("data-theme","dark"); de.setAttribute("data-skin","ops"); }
+  else { de.removeAttribute("data-skin"); if(t==="system") de.removeAttribute("data-theme"); else de.setAttribute("data-theme",t); }
   render();
 }
 // 2.4.0: "I passed this exam". Marks a track's levels complete so a learner who already holds the
@@ -2574,7 +2646,7 @@ function renderProgramToggle(){
   if(!state.program) return; // first-run picker owns the decision until one is made
   if(!programFormOpen){
     mount.append(h("div",{class:"setrow"},h("span",{class:"setlabel"},"Theme"),
-        h("div",{class:"seg seg-sm",role:"group","aria-label":"Theme"},[["light","Light"],["dark","Dark"],["system","System"]].map(([k,l])=>h("button",{"aria-pressed":String(themeChoice()===k),onclick:()=>setTheme(k)},l))),null),
+        h("div",{class:"seg seg-sm",role:"group","aria-label":"Theme"},[["ops","Ops"],["light","Light"],["dark","Dark"],["system","System"]].map(([k,l])=>h("button",{"aria-pressed":String(themeChoice()===k),onclick:()=>setTheme(k)},l))),null),
       h("div",{class:"setrow"},h("span",{class:"setlabel"},"Devices"),h("button",{class:"linklike",onclick:()=>{ const d=document.getElementById("settings"); if(d) d.open=false; openMove("send"); }},"Move to another device")),
       h("div",{class:"setrow"},h("span",{class:"setlabel"},"Program"),h("span",{},PROGRAM_LABEL[state.program]),
         h("button",{class:"linklike",onclick:()=>{programFormOpen=true;render();}},"Change")),
