@@ -3,6 +3,16 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.4.0", date:"2026-11-03", title:"Security+ content cleanup", tag:"content", items:[
+  "Every Security+ level (13-32) has been through a full review, and all 156 issues it found are now fixed.",
+  "Three factually wrong answers are corrected. The biggest: a screened subnet is the more exposed zone, not the safer one.",
+  "84 questions could be answered by ruling out obviously off-topic options. Their wrong answers now come from the same topic, so you have to know the material to pick the right one. Yes/No sets also no longer always have two true statements and one false.",
+  "Seven ambiguous questions are clarified. For example, an open cloud storage bucket is now taught as a misconfiguration, matching how CompTIA and Professor Messer classify it.",
+  "Guided practice in the lessons no longer repeats the exact questions in Check yourself, so the scored check really tests what you learned.",
+  "RTO and RPO now sit under objective 5.2 (risk management), where CompTIA lists them.",
+  "The Security+ content is still labelled as an AI draft that no human expert has reviewed. Your progress and history are untouched."
+]},
+
 { v:"2.3.8", date:"2026-10-27", title:"Study diagrams", tag:"content", items:[
   "New: a set of one-page study diagrams at /study-diagrams/. Each one shows a topic as a flow you can redraw from memory, with every exam clue word on it.",
   "SC-900: the Entra ID sign-in flow (Levels 3–5), one web request through Azure's network defenses (Level 7), Sentinel and Defender XDR (Level 8), and two Purview pages (Levels 9 and 10).",

@@ -61,9 +61,9 @@ C("zero-trust",13,"1.2","Architecture","Zero Trust",[
   "Zero Trust assumes no user, device, or network is trusted by default.",
   "Verify explicitly with identity, device, and context.",
   "Use least privilege to shrink blast radius.",
-  "Assume breach and segment access."
+  "The control plane (policy engine and policy administrator) decides; the data plane's policy enforcement point allows or blocks each request."
 ],"Inside the network is never enough to trust a request.",[
-  ["term","Name a Zero Trust principle.","Verify explicitly, use least privilege, or assume breach."],
+  ["term","In Zero Trust, what does the policy enforcement point (PEP) do?","It is the gatekeeper in the data plane that allows or blocks each request based on the control plane's decision."],
   ["use","A request is reevaluated by user, device health, and risk. What model is this?","Zero Trust."]
 ],["zero-trust"]),
 C("physical-deception-controls",13,"1.2","Facilities","Physical, deception, and disruption controls",[
@@ -80,7 +80,7 @@ C("change-management",14,"1.3","Change control","Change management process",[
   "Approval happens before implementation.",
   "Testing and maintenance windows reduce surprise outages.",
   "A backout plan restores the last known good state."
-],"Request, review, test, approve, schedule, implement, document.",[
+],"Request, analyze impact, approve, test with a backout plan, schedule the window, implement, document.",[
   ["term","Why is a backout plan important?","It lets the team quickly return to the prior state if the change fails."],
   ["use","A firewall update waits for CAB approval before production. What process is this?","Change management."]
 ],["change-management"]),
@@ -149,12 +149,12 @@ C("attack-surfaces",15,"2.2","Exposure","Threat vectors and attack surfaces",[
 ],["common-threat-vectors"]),
 C("phishing",15,"2.2","Social engineering","Phishing variants",[
   "Phishing uses trusted-looking messages to steal action or data.",
-  "Spear phishing is targeted.",
-  "Whaling targets executives.",
-  "Smishing and vishing use SMS or voice instead of email."
+  "Spear phishing is targeted; whaling targets executives. These are older terms that can still appear as answer choices.",
+  "Smishing and vishing use SMS or voice instead of email.",
+  "Business email compromise uses a spoofed or taken-over business email account to request payments or data."
 ],"Same social trick, different channel or target.",[
   ["term","How is spear phishing different from phishing?","It is tailored to a specific person, role, or organization."],
-  ["use","A CFO gets a tailored email about an acquisition. What variant is likely?","Whaling, a form of spear phishing."]
+  ["use","A text message says a package is held until you confirm your card number. What variant is this?","Smishing."]
 ],["phishing"]),
 C("impersonation-pretexting",15,"2.2","Social engineering","Impersonation and pretexting",[
   "Impersonation claims a false identity to gain trust.",
@@ -164,7 +164,7 @@ C("impersonation-pretexting",15,"2.2","Social engineering","Impersonation and pr
 ],"The fake identity is impersonation; the story behind it is pretexting.",[
   ["term","What is a pretext in social engineering?","A made-up scenario used to justify a request or bypass doubt."],
   ["use","Someone posing as payroll asks for direct-deposit updates. Which tactic stands out?","Impersonation supported by a pretext."]
-],["impersonation","other-social-engineering-attacks"]),
+],["impersonation","phishing"]),
 C("watering-hole-brand-abuse",15,"2.2","Social engineering","Watering holes, typosquatting, and brand abuse",[
   "A watering hole attack compromises a site the target already trusts.",
   "Typosquatting relies on mistyped or look-alike names.",
@@ -173,7 +173,7 @@ C("watering-hole-brand-abuse",15,"2.2","Social engineering","Watering holes, typ
 ],"Trusted site means watering hole; look-alike name means typosquatting.",[
   ["term","What makes a watering hole attack distinct?","The attacker waits on a site the victim already visits."],
   ["use","Staff mistype the payroll address and land on payrol-portal.example, which copies the real site. What technique is this?","Typosquatting using a look-alike name."]
-],["watering-hole-attacks","other-social-engineering-attacks"]),
+],["watering-hole-attacks","phishing","other-social-engineering-attacks"]),
 C("vulnerability",16,"2.3","Vulnerabilities","What a vulnerability is",[
   "A vulnerability is a weakness that can be exploited.",
   "Weak code, weak configuration, weak process, or weak design can all qualify.",
@@ -211,7 +211,7 @@ C("platform-vulnerabilities",16,"2.3","Vulnerabilities","Platform and environmen
   ["use","A phone runs apps from outside the official store. What risk increased?","Mobile platform exposure from sideloading."]
 ],["operating-system-vulnerabilities","hardware-vulnerabilities","virtualization-vulnerabilities","cloud-specific-vulnerabilities","mobile-device-vulnerabilities"]),
 C("misconfiguration-supply-chain-vulnerabilities",16,"2.3","Vulnerabilities","Misconfiguration, malicious updates, and supply chain issues",[
-  "Default credentials, open ports, and broad permissions are misconfigurations.",
+  "Default credentials, open ports, and open permissions (such as a public storage bucket) are misconfigurations.",
   "Weak algorithms and poor key handling are cryptographic weaknesses.",
   "A malicious update abuses trusted delivery paths.",
   "Supply chain risk comes from vendors, libraries, tools, and providers."
@@ -258,7 +258,7 @@ C("cryptographic-password-attacks",17,"2.4","Malicious activity","Cryptographic 
 C("indicators-of-compromise",17,"2.4","Malicious activity","Indicators of compromise",[
   "IOC clues include lockouts, impossible travel, missing logs, and unexplained spikes.",
   "Concurrent sessions can suggest token theft or account sharing.",
-  "Blocked content or out-of-cycle logging can signal containment or evasion.",
+  "Blocked content (security sites or updates suddenly unreachable) and out-of-cycle logging (activity logged at unexpected times) suggest an attacker protecting a foothold.",
   "An indicator is evidence, not proof by itself."
 ],"Odd behavior, not root cause, is the IOC trigger.",[
   ["term","What does impossible travel suggest?","A sign-in pattern too fast to be legitimate, often indicating compromise."],
@@ -290,7 +290,7 @@ C("application-allow-listing",18,"2.5","Mitigation","Application allow listing",
 ],"Only known-good software may run: that is allow listing.",[
   ["term","Why is allow listing stronger than deny listing?","Because everything not explicitly approved is blocked by default."],
   ["use","A kiosk should run only the browser and payment app. What helps most?","Application allow listing."]
-],["mitigation-techniques"]),
+],["segmentation-and-access-control"]),
 C("isolation-decommissioning",18,"2.5","Mitigation","Isolation and decommissioning",[
   "Isolation quarantines affected systems before damage spreads.",
   "Containment usually comes before deep investigation.",
@@ -299,7 +299,7 @@ C("isolation-decommissioning",18,"2.5","Mitigation","Isolation and decommissioni
 ],"Actively compromised host? Isolate first.",[
   ["term","Why isolate an infected host quickly?","To stop spread, command traffic, or evidence loss while response begins."],
   ["use","A retired web server still has DNS records and open ports. What failed?","Proper decommissioning."]
-],["mitigation-techniques"]),
+],["segmentation-and-access-control","mitigation-techniques"]),
 C("hardening-monitoring",18,"2.5","Mitigation","Hardening, patching, encryption, and monitoring",[
   "Hardening removes defaults, unused services, and weak settings.",
   "Patching closes known flaws before attackers reuse them.",
