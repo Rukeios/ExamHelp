@@ -3,6 +3,13 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.5.0", date:"2026-11-04", title:"New look, Port Lab, Attack & Defense", tag:"feature", items:[
+  "A new look across the whole site: Ops, a dark operations-console style with sharper panels, monospace labels and teal highlights. It's the new default. Light, Dark and System are still in Plan settings → Theme.",
+  "New Port Lab tab under Study. Type the port for a real task, name the service on a port, pick the secure replacement for an old protocol, or browse a reference of 30 Security+ ports. Your best score in each mode is saved.",
+  "New Attack & Defense tab with five sims: ARP poisoning, an evil twin hotspot, SQL injection, an amplified DDoS and phishing to ransomware. Watch each attack move across a network map, then replay it in Defense mode and pick the control that stops every step.",
+  "Port Lab and the sims are practice only. They don't change your levels, and only the level quiz unlocks the next one. Like the rest of the Security+ track, they're an AI draft no human expert has reviewed."
+]},
+
 { v:"2.4.1", date:"2026-11-04", title:"Security+ networking: maps and drills", tag:"content", items:[
   "Level 21 opens with a new click-through map: the network as an office building. Firewall, WAF, IDS vs IPS, load balancer, proxy, screened subnet, segmentation, jump server, 802.1X, VPN and SASE each get a familiar job, the exam version, clue words and a Watch out line.",
   "Level 14 opens with PKI as getting a driver's license: CSR, CA, root vs intermediate, chain of trust, self-signed, wildcard vs SAN, CRL, OCSP and stapling, pinning, key escrow and HSMs.",
