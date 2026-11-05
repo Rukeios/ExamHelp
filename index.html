@@ -1574,7 +1574,6 @@ nav.tabs .tab-ic svg{width:22px;height:22px}
     </div>
     <nav class="tabs" role="tablist" aria-label="Main">
       <button role="tab" data-tab="library" aria-selected="true">Library</button>
-      <button role="tab" data-tab="home" aria-selected="false">Home</button>
       <button role="tab" data-tab="study" aria-selected="false">Study</button>
       <button role="tab" data-tab="campaign" aria-selected="false">Campaign</button>
       <button role="tab" data-tab="game" aria-selected="false">Arena</button>
@@ -1981,7 +1980,7 @@ function catchUpLevels(){
     if(!got) break; state.done[d.d]=Date.now(); changed=true; }
   state.levelRuleV2=true; lsSet();
 }
-let ui={tab:"home",studyTab:"plan",sel:null,quiz:{scope:"today",mode:rulesFor(state.prestige).defaultMode,n:10},pbq:"firewall",generated:[],teachesBoss:null,
+let ui={tab:"library",studyTab:"plan",sel:null,quiz:{scope:"today",mode:rulesFor(state.prestige).defaultMode,n:10},pbq:"firewall",generated:[],teachesBoss:null,
         acr:{track:"both",dom:"All",n:20,timed:true},
         mock:{track:"sc"},
         lib:{exam:"sec",topic:"all",on:false},
@@ -3789,7 +3788,7 @@ const RICH_CAMPAIGN={
 const STUDY_MODE_LABEL={self:"Self-paced",campaign:"Campaign"};
 function setStudyMode(m){
   if(run){ stopTimer(); run=null; }
-  state.studyMode=m; ui.tab=m==="campaign"?"campaign":"home";
+  state.studyMode=m; ui.tab=m==="campaign"?"campaign":"library";
   saveUI(); saveProgress(); render(); window.scrollTo(0,0);
 }
 function renderCampaignChrome(on){
@@ -4321,7 +4320,13 @@ function libTools(tr,dom){
   return G.filter(Boolean).map(([g,t])=>[g,t.filter(Boolean)]);
 }
 function libResume(){
-  const out=[], f=state.study.flash;
+  const out=[], f=state.study.flash, row=(ic,title,sub,go)=>h("button",{class:"lib-resume",onclick:go},libIcon(ic),h("span",{},h("b",{},title),h("small",{},sub)),h("span",{class:"lib-go","aria-hidden":"true"},"→"));
+  const t=unlockedDay(), day=BYDAY[t];
+  if(day&&!programDays().every(d=>state.done[d.d])) out.push(row("study","Continue Level "+displayDay(t)+": "+shortTitle(day.title),"Your guided path in Study. Only the level quiz unlocks the next one.",()=>{ ui.lib.on=false; ui.sel=t; goTab("plan"); }));
+  const dueQ=dueKeys().length;
+  if(dueQ) out.push(row("redo","Review "+Math.min(dueQ,20)+" due question"+(Math.min(dueQ,20)===1?"":"s"),"Questions come back on a schedule. Due today.",()=>libGo(()=>startQuiz({id:"review",label:"Review",keys:[]},"think",Math.min(dueQ,20)))));
+  const sp=state.study.sprint&&!state.study.sprint.finished?state.study.sprint:null;
+  if(sp) out.push(row("bolt","Resume your five-minute sprint","Step "+(sp.i+1)+" of "+sp.steps.length,()=>libGo(()=>{ ui.cn.view="sprint"; goTab("cards"); })));
   if(run&&!run.finished&&!run.boss) out.push(h("button",{class:"lib-resume",onclick:()=>libGo(()=>goTab("quiz"))},libIcon("quiz"),
     h("span",{},h("b",{},"Resume your quiz"),h("small",{},(run.scope.label||"Quiz")+" · question "+(run.i+1)+" of "+run.list.length)),h("span",{class:"lib-go","aria-hidden":"true"},"→")));
   if(f&&!f.done&&f.ids&&f.ids.length) out.push(h("button",{class:"lib-resume",onclick:()=>libGo(()=>{ ui.cn.view="flash"; goTab("cards"); })},libIcon("cards"),
@@ -4344,7 +4349,7 @@ function renderLibrary(){
   const groups=libTools(tr,L.topic).map(([g,tools])=>h("section",{class:"lib-group"},h("h2",{class:"lib-lbl"},g),
     h("div",{class:"lib-tools"},tools.map(t=>h("button",{class:"lib-tool","data-tool":t.id,disabled:t.ok?null:true,onclick:t.go},
       h("span",{class:"lib-ic"},libIcon(t.icon)),h("span",{class:"lib-tx"},h("b",{},t.name),h("small",{},t.sub)),h("span",{class:"lib-count"},t.count))))));
-  return h("div",{class:"lib"},
+  return h("div",{class:"lib"},movedNote()||"",
     h("section",{class:"lib-head"},h("p",{class:"eyebrow"},"Library"),h("h1",{},"Study anything"),
       h("p",{class:"muted"},"No levels, no steps. Pick an exam, a topic and a tool. Locked levels' material is open here too, and nothing here changes your levels.")),
     libResume(),
@@ -6101,7 +6106,7 @@ function renderSprint(){
   const step=s.steps[s.i], dots=h("ol",{class:"sprint-dots","aria-label":"Step "+(s.i+1)+" of "+s.steps.length},s.steps.map((x,i)=>h("li",{class:(i<s.i?"done":i===s.i?"now":"")+" "+x.t,"aria-hidden":"true"})));
   const top=h("div",{class:"row",style:"justify-content:space-between;flex-wrap:wrap;gap:8px"},
     h("span",{class:"eyebrow tabnum"},"Step "+(s.i+1)+" of "+s.steps.length+" · "+({note:"Read a note",card:"Recall it",scen:"Apply it"})[step.t]),
-    h("button",{class:"btn small",onclick:()=>{ui.tab="home";saveUI();cnSay("Sprint paused. Resume it from Home or Notes & cards.");}},"Stop for now"));
+    h("button",{class:"btn small",onclick:()=>{ui.tab="library";saveUI();cnSay("Sprint paused. Resume it from the Library or Notes & cards.");}},"Stop for now"));
   let body;
   if(step.t==="note"){ body=[noteCard(CN.C[step.id],{compact:true}),h("div",{class:"actions"},h("button",{class:"btn primary",onclick:sprintNext},"Next"),saveBtn(step.id))]; }
   else if(step.t==="card"){
@@ -6258,11 +6263,12 @@ function renderCore(){
     return;
   }
   if(tabs) tabs.style.display="";
+  if(ui.tab==="home") ui.tab="library";
   if(!STUDY_TABS.includes(ui.tab)&&ui.tab!=="acr") ui.lib.on=false;
   if(STUDY_TABS.includes(ui.tab)&&!ui.lib.on) ui.studyTab=ui.tab==="quiz"&&ui.quiz.mode==="acronym"?"acr":ui.tab;
   if(ui.tab==="acr"){ ui.tab="quiz"; if(ui.quiz.mode!=="acronym"){ ui.lastMode=ui.quiz.mode; ui.quiz.mode="acronym"; } }
   const main=ui.tab==="library"?renderLibrary():ui.tab==="home"?renderHome():ui.tab==="plan"?renderPlan():ui.tab==="cards"?renderCN():ui.tab==="quiz"?renderQuizTab():ui.tab==="stats"?renderStats():ui.tab==="game"?renderGame():ui.tab==="pbq"?renderPBQ():ui.tab==="ports"?renderPortLab():ui.tab==="sims"?renderSims():ui.tab==="lab"?renderLab():ui.tab==="mock"?renderMock():renderCampaign();
-  v.replaceChildren(instructorBanner()||"",ui.tab==="home"&&renameNotice()||"",STUDY_TABS.includes(ui.tab)?h("div",{style:"display:flex;flex-direction:column;gap:16px"},ui.lib.on?libBar():renderStudyNav(),main):main);
+  v.replaceChildren(instructorBanner()||"",ui.tab==="library"&&renameNotice()||"",STUDY_TABS.includes(ui.tab)?h("div",{style:"display:flex;flex-direction:column;gap:16px"},ui.lib.on?libBar():renderStudyNav(),main):main);
   document.body.classList.toggle("wide-lesson",!!v.querySelector(".pilot"));
   if(run&&!run.finished&&run.timedMs&&!run.answered&&!tick&&ui.tab==="quiz") startTimer();
 }
@@ -6277,10 +6283,10 @@ function fitSettings(){
 }
 (()=>{ const d=document.getElementById("settings"); if(d) d.addEventListener("toggle",fitSettings); window.addEventListener("resize",fitSettings); })();
 applyA11y();
-if(["#home","#quiz","#stats","#plan","#cards","#library","#ports","#sims","#pbq","#mock","#lab","#game"].includes(location.hash)) ui.tab=location.hash.slice(1);
+if(["#quiz","#stats","#plan","#cards","#library","#ports","#sims","#pbq","#mock","#lab","#game"].includes(location.hash)) ui.tab=location.hash.slice(1);
 else if(state.studyMode!=="campaign"){ ui.tab="library"; ui.lib.on=false; }
 render();
-try{ if(sessionStorage.getItem(LS+".moved")&&ui.tab!=="home"){ ui.tab="home"; render(); } }catch(e){}
+try{ if(sessionStorage.getItem(LS+".moved")&&ui.tab!=="library"){ ui.tab="library"; render(); } }catch(e){}
 if(location.hash==="#receive"){ try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){} openMove("receive"); }
 })();
 </script>
