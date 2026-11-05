@@ -12,6 +12,7 @@ window.PATCHNOTES = [
   "On phones the main tabs move to a bar at the bottom of the screen, like an app.",
   "New users can pick \"Just study\" to go straight to the Library. Nothing in the Library unlocks levels; only the level quiz does. The mock exam still opens after its levels are done.",
   "The step circles in each level no longer show check marks. They were ticking off unreliably, so for now they just show the step number. Levels still show Done once you pass the level quiz.",
+  "Install it like an app: on iPhone, open the site in Safari, tap Share, then Add to Home Screen. On Android, open it in Chrome, tap the menu, then Add to Home screen or Install app. It opens full screen with its own icon, and pages you've already visited work offline.",
   "CCST Networking shows in the Library as coming in 3.0."
 ]},
 

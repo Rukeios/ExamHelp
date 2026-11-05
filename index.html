@@ -12,6 +12,11 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png">
 <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Rukeios">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="preload" href="assets/fonts/outfit-var.woff" as="font" type="font/woff" crossorigin>
 <link rel="preload" href="assets/fonts/plex-sans-var.woff" as="font" type="font/woff" crossorigin>
 <meta property="og:description" content="Free SC-900 and Security+ study: learn a short note, recall it, apply it at work, review it later.">
@@ -6292,5 +6297,6 @@ try{ if(sessionStorage.getItem(LS+".moved")&&ui.tab!=="library"){ ui.tab="librar
 if(location.hash==="#receive"){ try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){} openMove("receive"); }
 })();
 </script>
+<script>if("serviceWorker" in navigator&&location.protocol!=="file:") window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));</script>
 </body>
 </html>
