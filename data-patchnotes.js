@@ -3,6 +3,16 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.6.0", date:"2026-11-05", title:"The Library: study anything", tag:"feature", items:[
+  "New Library tab, and the app now opens on it. Pick an exam, a topic and a tool, with no levels or steps in the way.",
+  "Tools: flashcards, notes, acronyms, a quick quiz, a timed speed round, written recall, workplace scenarios, exam-style sets and a My misses round with only questions you've gotten wrong. Security+ also has Port Lab, Attack & Defense and the PBQs.",
+  "Pick a topic to narrow any tool to one exam domain, like Security+ Architecture. Material from locked levels is open in the Library.",
+  "A Library back button sits above any tool you open from it. The Study tab and its levels work exactly as before.",
+  "On phones the main tabs move to a bar at the bottom of the screen, like an app.",
+  "New users can pick \"Just study\" to go straight to the Library. Nothing in the Library unlocks levels; only the level quiz does. The mock exam still opens after its levels are done.",
+  "CCST Networking shows in the Library as coming in 3.0."
+]},
+
 { v:"2.5.0", date:"2026-11-04", title:"New look, Port Lab, Attack & Defense", tag:"feature", items:[
   "A new look across the whole site: Ops, a dark operations-console style with sharper panels, monospace labels and teal highlights. It's the new default. Light, Dark and System are still in Plan settings → Theme.",
   "New Port Lab tab under Study. Type the port for a real task, name the service on a port, pick the secure replacement for an old protocol, or browse a reference of 30 Security+ ports. Your best score in each mode is saved.",
