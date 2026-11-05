@@ -2471,11 +2471,13 @@ function goLevelStep(d,id){
   },30);
 }
 function pathList(d,steps){
-  return h("ol",{class:steps.length>4?"many":null},steps.map(s=>h("li",{class:(s.done?"done":"")+(s.cur?" cur":"")},
-    h("button",{"aria-current":s.cur?"step":null,onclick:()=>goLevelStep(d,s.id)},
-      h("span",{class:"lp-n","aria-hidden":"true"},s.done?svgIcon("check"):String(s.n)),
+  // 2.6.0: no check marks or "you are here" for now. The done tracking was unreliable, so every
+  // step shows its plain number until there's a simpler way to tick them off.
+  return h("ol",{class:steps.length>4?"many":null},steps.map(s=>h("li",{},
+    h("button",{onclick:()=>goLevelStep(d,s.id)},
+      h("span",{class:"lp-n","aria-hidden":"true"},String(s.n)),
       h("span",{class:"lp-t"},h("b",{},s.name),h("small",{},s.sub)),
-      h("span",{class:"sr-only"},"Step "+s.n+(s.done?", done":s.cur?", you are here":""))))));
+      h("span",{class:"sr-only"},"Step "+s.n)))));
 }
 // mode "full": the whole path (Home, classic lessons). mode "fold": one line with dots that opens
 // to the full list (interactive lesson header, where the section tabs sit right below).
@@ -2485,8 +2487,8 @@ function levelPath(d,mode){
   const at=cur||steps[N-1];
   return h("details",{class:"lvl-fold",open:ui.pathOpen?true:null,ontoggle:e=>{ ui.pathOpen=e.target.open; }},
     h("summary",{},
-      h("span",{class:"lf-dots","aria-hidden":"true"},steps.map(s=>h("i",{class:(s.done?"done":"")+(s.cur?" cur":"")}))),
-      h("span",{class:"lf-now"},cur?["Step "+at.n+" of "+N+": ",h("b",{},at.name)]:h("b",{},"All "+N+" steps done")),
+      h("span",{class:"lf-dots","aria-hidden":"true"},steps.map(()=>h("i",{}))),
+      h("span",{class:"lf-now"},h("b",{},N+" steps for this level")),
       h("span",{class:"lf-more"},"All steps")),
     h("nav",{class:"lvl-path","aria-label":"Steps for this level"},pathList(d,steps)));
 }

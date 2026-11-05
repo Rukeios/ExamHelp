@@ -11,6 +11,7 @@ window.PATCHNOTES = [
   "A Library back button sits above any tool you open from it. The Study tab and its levels work exactly as before.",
   "On phones the main tabs move to a bar at the bottom of the screen, like an app.",
   "New users can pick \"Just study\" to go straight to the Library. Nothing in the Library unlocks levels; only the level quiz does. The mock exam still opens after its levels are done.",
+  "The step circles in each level no longer show check marks. They were ticking off unreliably, so for now they just show the step number. Levels still show Done once you pass the level quiz.",
   "CCST Networking shows in the Library as coming in 3.0."
 ]},
 
