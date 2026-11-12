@@ -3,6 +3,18 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.7.0", date:"2026-11-12", title:"Three looks and XP ranks", tag:"feature", items:[
+  "Each exam has its own look now, and the whole app changes to it when you switch exams. SC-900 is Night Arcade (violet and teal, rounded), Security+ is Field Manual (olive and sand, stenciled capitals) and CCST is Signal (warm paper with an amber accent).",
+  "Every look has a light and a dark version. Plan settings → Theme is now System, Light or Dark; System follows your phone or computer. If you used Ops, you're on Dark.",
+  "A level always shows its own exam's look, so a Security+ level looks like Security+ even if the Library is on SC-900.",
+  "XP and ranks are front and center in the Library: your rank, a progress bar to the next one, XP earned today and your study streak. The ladder runs 16 ranks from Recruit to Cyber All-Star, so a new rank comes every few study days.",
+  "How you earn XP: 10 for each right answer in a quiz (more in Speed round and Written recall), 5 a flashcard (up to 150 a day), 2 for each right answer in a Port Lab round, 50 for clearing a level, 100 for finishing a mock exam, and a 10 XP bonus for your first study of the day.",
+  "A small note pops up when you earn XP, and a bigger one when you rank up.",
+  "XP is a reward only. It never unlocks a level; the level quiz still does that.",
+  "CCST Networking can be picked in the Library to preview its look. Its notes, flashcards and quizzes arrive in 3.0.",
+  "Installing the site as an app on your phone (from 2.6.0's notes) is live now, and it works offline after your first visit."
+]},
+
 { v:"2.6.0", date:"2026-11-05", title:"The Library: study anything", tag:"feature", items:[
   "New Library tab, and the app now opens on it. Pick an exam, a topic and a tool, with no levels or steps in the way.",
   "The Home tab is gone. The Library is the front door now, and it shows your next level, due reviews, a paused quiz or sprint, and due flashcards at the top. Your levels are still in Study.",

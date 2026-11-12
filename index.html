@@ -8,7 +8,7 @@
 <meta property="og:title" content="Rukeios Study">
 <meta property="og:image" content="assets/brand/social-preview.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#080B10">
+<meta name="theme-color" content="#12140D">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png">
 <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
@@ -1457,96 +1457,129 @@ nav.tabs .tab-ic svg{width:22px;height:22px}
 .sim-done h3{margin:0 0 6px;text-transform:none}
 @media (prefers-reduced-motion:reduce){.sim-link.live{animation:none}}
 
-/* ===== 2.5.0 "Ops" skin: dark operations-console look. Applied with data-skin="ops" on top of
-   the dark theme, so every dark-mode rule still holds and this block only refines it. ===== */
-:root[data-skin="ops"]{
-  color-scheme:dark;
-  --bg:#080B10;--surface:#0E141B;--sunk:#0B1016;--ink:#E7EEF5;--ink2:#BAC6D3;--muted:#7F8DA0;--line:#1C2734;--line2:#141D28;
-  --accent:#2EE6C5;--accent-ink:#62F2D8;--accent-fill:#1CCDAD;--accent-soft:rgba(46,230,197,.09);--on-accent:#03140F;
-  --sc:#7EA8FF;--scbg:rgba(126,168,255,.10);--sec:#FFB547;--secbg:rgba(255,181,71,.10);--violet:#7EA8FF;
-  --ok:#3DDC97;--okbg:rgba(61,220,151,.10);--bad:#FF6B6B;--badbg:rgba(255,107,107,.10);
-  --display:"Outfit","Avenir Next","Segoe UI",system-ui,sans-serif;
-  --mono:"JetBrains Mono","SF Mono",ui-monospace,Menlo,Consolas,monospace;
-  --r-lg:10px;--r-md:8px;--r-sm:6px;
-  --glow:0 0 0 1px rgba(46,230,197,.35),0 0 18px -4px rgba(46,230,197,.45);
-  --lift:0 1px 0 rgba(255,255,255,.03) inset,0 14px 34px -18px rgba(0,0,0,.9);
-  --navbg:rgba(8,11,16,.82);--scene:none;--veil:none;
-  --mark:url("assets/brand/mark-dark-96.png");
-}
-:root[data-skin="ops"] body{
-  background-color:var(--bg);
-  background-image:
-    radial-gradient(1200px 500px at 70% -10%,rgba(46,230,197,.07),transparent 60%),
-    linear-gradient(rgba(126,168,255,.035) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(126,168,255,.035) 1px,transparent 1px);
-  background-size:auto,40px 40px,40px 40px;background-attachment:fixed;
-  font-feature-settings:"ss01","cv11";
-}
-:root[data-skin="ops"] body.scene-arena,:root[data-skin="ops"] body.campaign-mode{background-image:var(--scene,none)}
-/* Headings: tighter, cleaner, no shouting */
-:root[data-skin="ops"] h1{letter-spacing:-.02em;text-transform:none;font-weight:700}
-:root[data-skin="ops"] h2{letter-spacing:-.01em}
-:root[data-skin="ops"] h3{letter-spacing:.02em}
-:root[data-skin="ops"] .eyebrow,:root[data-skin="ops"] .fm-lbl,:root[data-skin="ops"] .pp-kicker{font-family:var(--mono);letter-spacing:.06em}
-/* Brand */
-:root[data-skin="ops"] .brand-name{letter-spacing:-.01em}
-:root[data-skin="ops"] .brand-sub{font-family:var(--mono);font-size:calc(12px*var(--ts,1));text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-/* Panels and cards: hairline borders, a lit top edge */
-:root[data-skin="ops"] .panel,:root[data-skin="ops"] .pilot-panel{background:linear-gradient(180deg,rgba(255,255,255,.025),transparent 120px),var(--surface);border:1px solid var(--line);box-shadow:var(--lift);position:relative;backdrop-filter:none;-webkit-backdrop-filter:none}
-:root[data-skin="ops"] .panel::before{content:"";position:absolute;inset:-1px -1px auto -1px;height:1px;border-radius:inherit;background:linear-gradient(90deg,transparent,rgba(46,230,197,.55),transparent);pointer-events:none}
-/* Main nav: monospace, glowing underline */
-:root[data-skin="ops"] nav.tabs{border-bottom:1px solid var(--line);background:var(--navbg)}
-:root[data-skin="ops"] nav.tabs button{font-family:var(--mono);font-size:calc(14px*var(--ts,1));text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
-:root[data-skin="ops"] nav.tabs button:hover{color:var(--ink)}
-:root[data-skin="ops"] nav.tabs button[aria-selected="true"]{color:var(--accent-ink);border-bottom-color:var(--accent);box-shadow:0 8px 14px -12px var(--accent)}
-:root[data-skin="ops"] .seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent-ink);border-color:rgba(46,230,197,.55);box-shadow:inset 0 0 0 1px rgba(46,230,197,.25)}
-:root[data-skin="ops"] .subnav button{border-radius:6px;background:transparent;font-family:var(--mono);font-size:calc(13px*var(--ts,1));letter-spacing:.04em}
-:root[data-skin="ops"] .subnav button[aria-selected="true"]{background:var(--accent-soft);color:var(--accent-ink);border-color:rgba(46,230,197,.5)}
-/* Buttons */
-:root[data-skin="ops"] .btn{background:rgba(255,255,255,.02);border-color:var(--line);color:var(--ink);transition:border-color .15s,box-shadow .15s,background-color .15s}
-:root[data-skin="ops"] .btn:hover{border-color:rgba(46,230,197,.6);background:var(--accent-soft)}
-:root[data-skin="ops"] .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent);box-shadow:0 0 22px -8px var(--accent)}
-:root[data-skin="ops"] .btn.primary:hover{background:var(--accent-ink);box-shadow:var(--glow)}
-:root[data-skin="ops"] .linklike{color:var(--accent-ink)}
-:root[data-skin="ops"] :focus-visible{outline-color:var(--accent)}
-/* Lesson step chips and progress */
-:root[data-skin="ops"] .pilot-steps button{border-radius:6px;font-family:var(--body)}
-:root[data-skin="ops"] .pilot-steps button[aria-current="step"],:root[data-skin="ops"] .pilot-steps button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent-ink);background:var(--accent-soft);box-shadow:var(--glow)}
-:root[data-skin="ops"] .pilot-steps .n{border-radius:4px;font-family:var(--mono);background:var(--sunk);color:var(--ink2)}
-:root[data-skin="ops"] .pilot-steps button[aria-current="step"] .n,:root[data-skin="ops"] .pilot-steps button[aria-pressed="true"] .n{background:var(--accent);color:var(--on-accent)}
-:root[data-skin="ops"] header summary,:root[data-skin="ops"] header .btn{white-space:nowrap}
-:root[data-skin="ops"] .drill-opt.wrong,:root[data-skin="ops"] .drill-opt.wrong:hover{border-color:var(--bad)!important}
-:root[data-skin="ops"] .drill-opt.right,:root[data-skin="ops"] .drill-opt.right:hover{border-color:var(--ok)!important}
-/* Answer buttons */
-:root[data-skin="ops"] .drill-opt,:root[data-skin="ops"] .fm-item{border-radius:8px;transition:border-color .15s,box-shadow .15s}
-:root[data-skin="ops"] .drill-opt:hover:not([disabled]),:root[data-skin="ops"] .fm-item:hover{border-color:rgba(46,230,197,.6)}
-:root[data-skin="ops"] .fm-item.on{border-color:var(--accent);box-shadow:var(--glow);background:var(--accent-soft)}
-:root[data-skin="ops"] .drill-bar i{background:var(--accent);box-shadow:0 0 10px var(--accent)}
-:root[data-skin="ops"] .fm-zone{border-width:1px;border-radius:10px}
-:root[data-skin="ops"] .tagrow li{font-family:var(--mono);font-size:calc(12px*var(--ts,1));border-radius:4px}
-/* Numbers read like readouts */
-:root[data-skin="ops"] .tabnum,:root[data-skin="ops"] .drill-score b{font-family:var(--mono);letter-spacing:-.01em}
-:root[data-skin="ops"] ::selection{background:rgba(46,230,197,.3)}
-@media (prefers-reduced-motion:reduce){:root[data-skin="ops"] *{transition:none!important}}
+/* 2.7.0 XP card and toast */
+.xp-card{display:flex;gap:14px;align-items:center;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r-lg,14px);background:var(--surface)}
+.xp-badge{flex:none;width:58px;height:58px;border-radius:var(--r-md,10px);background:var(--accent-fill,var(--accent));color:var(--on-accent,#fff);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;gap:2px}
+.xp-badge small{font:800 10px/1 var(--body);letter-spacing:.08em}
+.xp-badge b{font:700 27px/1 var(--display)}
+.xp-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px}
+.xp-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.xp-name{font:700 calc(19px*var(--ts,1))/1.15 var(--display)}
+.xp-num{font-size:calc(13px*var(--ts,1));font-weight:600;color:var(--muted)}
+.xp-bar{height:10px;border-radius:999px;background:var(--sunk);overflow:hidden}
+.xp-bar i{display:block;height:100%;border-radius:inherit;background:var(--xp,var(--accent))}
+.xp-sub{display:flex;justify-content:space-between;gap:4px 12px;flex-wrap:wrap;font-size:calc(12.5px*var(--ts,1));color:var(--muted)}
+:root[data-skin="field"] .xp-name{text-transform:uppercase;letter-spacing:.04em;font-weight:800;font-size:calc(21px*var(--ts,1))}
+:root[data-skin="field"] .xp-bar{border-radius:0;height:12px;background:transparent;
+  background-image:repeating-linear-gradient(90deg,var(--sunk) 0 calc(10% - 3px),transparent calc(10% - 3px) 10%)}
+:root[data-skin="field"] .xp-bar i{border-radius:0;-webkit-mask:repeating-linear-gradient(90deg,#000 0 calc(10% - 3px),transparent calc(10% - 3px) 10%);mask:repeating-linear-gradient(90deg,#000 0 calc(10% - 3px),transparent calc(10% - 3px) 10%);-webkit-mask-size:calc(10000% / var(--p,100)) 100%;mask-size:calc(10000% / var(--p,100)) 100%}
+:root[data-skin="arcade"] .xp-card{background:var(--accent-fill);border-color:var(--accent-fill);color:var(--on-accent)}
+:root[data-skin="arcade"] .xp-badge{background:var(--on-accent);color:var(--accent-fill);border-radius:18px;width:64px;height:64px}
+:root[data-skin="arcade"] .xp-num,:root[data-skin="arcade"] .xp-sub{color:inherit;opacity:.9}
+:root[data-skin="arcade"] .xp-bar{height:14px;background:color-mix(in srgb,var(--on-accent) 22%,transparent)}
+.lib-soon{display:flex;flex-direction:column;gap:6px;padding:16px;border:1px dashed var(--line);border-radius:var(--r-lg,12px);background:var(--surface)}
+.lib-soon p{margin:0}
+.xp-toast{position:fixed;left:50%;bottom:24px;z-index:90;display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:var(--r-lg,14px);
+  background:var(--ink);color:var(--bg);box-shadow:0 12px 30px -12px rgba(0,0,0,.5);opacity:0;transform:translate(-50%,16px);transition:opacity .2s,transform .2s;pointer-events:none;max-width:calc(100% - 32px)}
+.xp-toast.show{opacity:1;transform:translate(-50%,0)}
+.xp-toast b{display:block;font:700 calc(16px*var(--ts,1))/1.2 var(--display)}
+.xp-toast small{display:block;font-size:calc(12px*var(--ts,1));opacity:.85}
+.xt-badge{flex:none;width:36px;height:36px;border-radius:var(--r-md,10px);background:var(--xp,var(--accent));color:var(--on-xp,#fff);display:flex;align-items:center;justify-content:center;font:700 18px/1 var(--display)}
+@media (max-width:720px){.xp-toast{bottom:calc(84px + env(safe-area-inset-bottom))}}
+@media (prefers-reduced-motion:reduce){.xp-toast{transition:none}}
+/* ===== 2.7.0 per-exam looks. data-skin follows the exam you are studying: SC-900 = "arcade",
+   Security+ = "field", CCST = "signal". Each has a light and a dark set; data-theme picks one,
+   or the device setting does when it is unset (System). Replaces the 2.5.0 Ops skin. ===== */
+@font-face{font-family:"Chakra Petch";src:url("assets/fonts/chakra-petch-semibold.woff") format("woff");font-weight:600;font-display:swap}
+@font-face{font-family:"Chakra Petch";src:url("assets/fonts/chakra-petch-bold.woff") format("woff");font-weight:700 800;font-display:swap}
+@font-face{font-family:"Manrope";src:url("assets/fonts/manrope-var.woff") format("woff");font-weight:400 800;font-display:swap}
+@font-face{font-family:"Saira Condensed";src:url("assets/fonts/saira-condensed-semibold.woff") format("woff");font-weight:600;font-display:swap}
+@font-face{font-family:"Saira Condensed";src:url("assets/fonts/saira-condensed-bold.woff") format("woff");font-weight:700;font-display:swap}
+@font-face{font-family:"Saira Condensed";src:url("assets/fonts/saira-condensed-extrabold.woff") format("woff");font-weight:800;font-display:swap}
+@font-face{font-family:"Public Sans";src:url("assets/fonts/public-sans-var.woff") format("woff");font-weight:400 700;font-display:swap}
+@font-face{font-family:"Space Grotesk";src:url("assets/fonts/space-grotesk-var.woff") format("woff");font-weight:500 700;font-display:swap}
+@font-face{font-family:"Inter";src:url("assets/fonts/inter-var.woff") format("woff");font-weight:400 700;font-display:swap}
+:root[data-skin="arcade"]{--bg:#F4F2FB;--surface:#FFFFFF;--sunk:#ECE8F8;--ink:#1A1530;--ink2:#3A3456;--muted:#5D5878;--line:#DDD8F0;--line2:#E8E4F6;--accent:#5B3FD9;--accent-ink:#4A2FC0;--accent-fill:#5B3FD9;--accent-soft:rgba(91,63,217,.09);--on-accent:#FFFFFF;--xp:#0B8574;--on-xp:#FFFFFF;--ok:#0B7A5E;--okbg:#D8F3EA;--bad:#B3261E;--badbg:#FBE4E2;--sc:#5B3FD9;--scbg:rgba(91,63,217,.09);--sec:#4A5A23;--secbg:rgba(74,90,35,.10);--ccst:#9A4A08;--ccstbg:rgba(180,83,10,.09);--gold:#5B3FD9;--violet:#5B3FD9;--display:"Chakra Petch","Avenir Next","Segoe UI",system-ui,sans-serif;--body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--r-lg:20px;--r-md:14px;--r-sm:10px;--glow:0 0 0 1px color-mix(in srgb,#5B3FD9 45%,transparent),0 0 16px -6px color-mix(in srgb,#5B3FD9 55%,transparent);--navbg:color-mix(in srgb,#F4F2FB 86%,transparent);--scene:none;--veil:none;color-scheme:light;--lift:0 1px 2px rgba(20,20,30,.05),0 10px 24px -16px rgba(20,20,30,.22);--mark:url("assets/brand/mark-light-96.png")}
+@media (prefers-color-scheme: dark){:root[data-skin="arcade"]:not([data-theme="light"]){--bg:#0D0B17;--surface:#171427;--sunk:#120F20;--ink:#EEEBFA;--ink2:#CFC8EA;--muted:#A39DC0;--line:#2A2542;--line2:#1F1B33;--accent:#9D85FF;--accent-ink:#B9A8FF;--accent-fill:#8B6FFF;--accent-soft:rgba(157,133,255,.13);--on-accent:#130F24;--xp:#2EE6C5;--on-xp:#062A24;--ok:#4FD8A7;--okbg:rgba(79,216,167,.12);--bad:#FF7B7B;--badbg:rgba(255,123,123,.12);--sc:#B9A8FF;--scbg:rgba(157,133,255,.13);--sec:#B5C46E;--secbg:rgba(181,196,110,.12);--ccst:#F5A524;--ccstbg:rgba(245,165,36,.11);--gold:#9D85FF;--violet:#B9A8FF;--display:"Chakra Petch","Avenir Next","Segoe UI",system-ui,sans-serif;--body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--r-lg:20px;--r-md:14px;--r-sm:10px;--glow:0 0 0 1px color-mix(in srgb,#9D85FF 45%,transparent),0 0 16px -6px color-mix(in srgb,#9D85FF 55%,transparent);--navbg:color-mix(in srgb,#0D0B17 86%,transparent);--scene:none;--veil:none;color-scheme:dark;--lift:0 1px 0 rgba(255,255,255,.03) inset,0 14px 34px -18px rgba(0,0,0,.85);--mark:url("assets/brand/mark-dark-96.png")}}
+:root[data-skin="arcade"][data-theme="dark"]{--bg:#0D0B17;--surface:#171427;--sunk:#120F20;--ink:#EEEBFA;--ink2:#CFC8EA;--muted:#A39DC0;--line:#2A2542;--line2:#1F1B33;--accent:#9D85FF;--accent-ink:#B9A8FF;--accent-fill:#8B6FFF;--accent-soft:rgba(157,133,255,.13);--on-accent:#130F24;--xp:#2EE6C5;--on-xp:#062A24;--ok:#4FD8A7;--okbg:rgba(79,216,167,.12);--bad:#FF7B7B;--badbg:rgba(255,123,123,.12);--sc:#B9A8FF;--scbg:rgba(157,133,255,.13);--sec:#B5C46E;--secbg:rgba(181,196,110,.12);--ccst:#F5A524;--ccstbg:rgba(245,165,36,.11);--gold:#9D85FF;--violet:#B9A8FF;--display:"Chakra Petch","Avenir Next","Segoe UI",system-ui,sans-serif;--body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--r-lg:20px;--r-md:14px;--r-sm:10px;--glow:0 0 0 1px color-mix(in srgb,#9D85FF 45%,transparent),0 0 16px -6px color-mix(in srgb,#9D85FF 55%,transparent);--navbg:color-mix(in srgb,#0D0B17 86%,transparent);--scene:none;--veil:none;color-scheme:dark;--lift:0 1px 0 rgba(255,255,255,.03) inset,0 14px 34px -18px rgba(0,0,0,.85);--mark:url("assets/brand/mark-dark-96.png")}
+:root[data-skin="field"]{--bg:#EFEBDF;--surface:#FAF8F2;--sunk:#E6E0CF;--ink:#1D2114;--ink2:#353B28;--muted:#555B47;--line:#D6CFB9;--line2:#E2DCC9;--accent:#4A5A23;--accent-ink:#3B4819;--accent-fill:#4A5A23;--accent-soft:rgba(74,90,35,.10);--on-accent:#F6F3E8;--xp:#C2410C;--on-xp:#FFFFFF;--ok:#3F6B2E;--okbg:#DCE8D2;--bad:#A8261B;--badbg:#F6E0DA;--sc:#5B3FD9;--scbg:rgba(91,63,217,.09);--sec:#4A5A23;--secbg:rgba(74,90,35,.10);--ccst:#9A4A08;--ccstbg:rgba(180,83,10,.09);--gold:#4A5A23;--violet:#5B3FD9;--display:"Saira Condensed","Arial Narrow",Arial,sans-serif;--body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--r-lg:6px;--r-md:4px;--r-sm:3px;--glow:0 0 0 1px color-mix(in srgb,#4A5A23 45%,transparent),0 0 16px -6px color-mix(in srgb,#4A5A23 55%,transparent);--navbg:color-mix(in srgb,#EFEBDF 86%,transparent);--scene:none;--veil:none;color-scheme:light;--lift:0 1px 2px rgba(20,20,30,.05),0 10px 24px -16px rgba(20,20,30,.22);--mark:url("assets/brand/mark-light-96.png")}
+@media (prefers-color-scheme: dark){:root[data-skin="field"]:not([data-theme="light"]){--bg:#12140D;--surface:#1B1E14;--sunk:#161910;--ink:#ECE8DA;--ink2:#CFCBB8;--muted:#A7A893;--line:#303422;--line2:#24271A;--accent:#B5C46E;--accent-ink:#CFDB8E;--accent-fill:#A3B45A;--accent-soft:rgba(181,196,110,.12);--on-accent:#171A0E;--xp:#FB8A3C;--on-xp:#1A0F05;--ok:#8FCB72;--okbg:rgba(143,203,114,.12);--bad:#FF8A7A;--badbg:rgba(255,138,122,.12);--sc:#B9A8FF;--scbg:rgba(157,133,255,.13);--sec:#B5C46E;--secbg:rgba(181,196,110,.12);--ccst:#F5A524;--ccstbg:rgba(245,165,36,.11);--gold:#B5C46E;--violet:#B9A8FF;--display:"Saira Condensed","Arial Narrow",Arial,sans-serif;--body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--r-lg:6px;--r-md:4px;--r-sm:3px;--glow:0 0 0 1px color-mix(in srgb,#B5C46E 45%,transparent),0 0 16px -6px color-mix(in srgb,#B5C46E 55%,transparent);--navbg:color-mix(in srgb,#12140D 86%,transparent);--scene:none;--veil:none;color-scheme:dark;--lift:0 1px 0 rgba(255,255,255,.03) inset,0 14px 34px -18px rgba(0,0,0,.85);--mark:url("assets/brand/mark-dark-96.png")}}
+:root[data-skin="field"][data-theme="dark"]{--bg:#12140D;--surface:#1B1E14;--sunk:#161910;--ink:#ECE8DA;--ink2:#CFCBB8;--muted:#A7A893;--line:#303422;--line2:#24271A;--accent:#B5C46E;--accent-ink:#CFDB8E;--accent-fill:#A3B45A;--accent-soft:rgba(181,196,110,.12);--on-accent:#171A0E;--xp:#FB8A3C;--on-xp:#1A0F05;--ok:#8FCB72;--okbg:rgba(143,203,114,.12);--bad:#FF8A7A;--badbg:rgba(255,138,122,.12);--sc:#B9A8FF;--scbg:rgba(157,133,255,.13);--sec:#B5C46E;--secbg:rgba(181,196,110,.12);--ccst:#F5A524;--ccstbg:rgba(245,165,36,.11);--gold:#B5C46E;--violet:#B9A8FF;--display:"Saira Condensed","Arial Narrow",Arial,sans-serif;--body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--r-lg:6px;--r-md:4px;--r-sm:3px;--glow:0 0 0 1px color-mix(in srgb,#B5C46E 45%,transparent),0 0 16px -6px color-mix(in srgb,#B5C46E 55%,transparent);--navbg:color-mix(in srgb,#12140D 86%,transparent);--scene:none;--veil:none;color-scheme:dark;--lift:0 1px 0 rgba(255,255,255,.03) inset,0 14px 34px -18px rgba(0,0,0,.85);--mark:url("assets/brand/mark-dark-96.png")}
+:root[data-skin="signal"]{--bg:#F6F5F1;--surface:#FFFFFF;--sunk:#EEECE5;--ink:#17171C;--ink2:#34343C;--muted:#5E5E66;--line:#E0DDD4;--line2:#EAE7DF;--accent:#B4530A;--accent-ink:#8A3F07;--accent-fill:#B4530A;--accent-soft:rgba(180,83,10,.09);--on-accent:#FFFFFF;--xp:#C2610C;--on-xp:#FFFFFF;--ok:#1F7A4D;--okbg:#DDF1E6;--bad:#B3261E;--badbg:#F8E3E1;--sc:#5B3FD9;--scbg:rgba(91,63,217,.09);--sec:#4A5A23;--secbg:rgba(74,90,35,.10);--ccst:#9A4A08;--ccstbg:rgba(180,83,10,.09);--gold:#B4530A;--violet:#5B3FD9;--display:"Space Grotesk","Avenir Next","Segoe UI",system-ui,sans-serif;--body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;--r-lg:14px;--r-md:10px;--r-sm:8px;--glow:0 0 0 1px color-mix(in srgb,#B4530A 45%,transparent),0 0 16px -6px color-mix(in srgb,#B4530A 55%,transparent);--navbg:color-mix(in srgb,#F6F5F1 86%,transparent);--scene:none;--veil:none;color-scheme:light;--lift:0 1px 2px rgba(20,20,30,.05),0 10px 24px -16px rgba(20,20,30,.22);--mark:url("assets/brand/mark-light-96.png")}
+@media (prefers-color-scheme: dark){:root[data-skin="signal"]:not([data-theme="light"]){--bg:#101015;--surface:#1A1A21;--sunk:#15151B;--ink:#F1F0EC;--ink2:#D2D1CB;--muted:#A4A3AD;--line:#2C2C36;--line2:#22222A;--accent:#F5A524;--accent-ink:#FFC766;--accent-fill:#F5A524;--accent-soft:rgba(245,165,36,.11);--on-accent:#1A1205;--xp:#F5A524;--on-xp:#1A1205;--ok:#5DD39E;--okbg:rgba(93,211,158,.12);--bad:#FF7B72;--badbg:rgba(255,123,114,.12);--sc:#B9A8FF;--scbg:rgba(157,133,255,.13);--sec:#B5C46E;--secbg:rgba(181,196,110,.12);--ccst:#F5A524;--ccstbg:rgba(245,165,36,.11);--gold:#F5A524;--violet:#B9A8FF;--display:"Space Grotesk","Avenir Next","Segoe UI",system-ui,sans-serif;--body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;--r-lg:14px;--r-md:10px;--r-sm:8px;--glow:0 0 0 1px color-mix(in srgb,#F5A524 45%,transparent),0 0 16px -6px color-mix(in srgb,#F5A524 55%,transparent);--navbg:color-mix(in srgb,#101015 86%,transparent);--scene:none;--veil:none;color-scheme:dark;--lift:0 1px 0 rgba(255,255,255,.03) inset,0 14px 34px -18px rgba(0,0,0,.85);--mark:url("assets/brand/mark-dark-96.png")}}
+:root[data-skin="signal"][data-theme="dark"]{--bg:#101015;--surface:#1A1A21;--sunk:#15151B;--ink:#F1F0EC;--ink2:#D2D1CB;--muted:#A4A3AD;--line:#2C2C36;--line2:#22222A;--accent:#F5A524;--accent-ink:#FFC766;--accent-fill:#F5A524;--accent-soft:rgba(245,165,36,.11);--on-accent:#1A1205;--xp:#F5A524;--on-xp:#1A1205;--ok:#5DD39E;--okbg:rgba(93,211,158,.12);--bad:#FF7B72;--badbg:rgba(255,123,114,.12);--sc:#B9A8FF;--scbg:rgba(157,133,255,.13);--sec:#B5C46E;--secbg:rgba(181,196,110,.12);--ccst:#F5A524;--ccstbg:rgba(245,165,36,.11);--gold:#F5A524;--violet:#B9A8FF;--display:"Space Grotesk","Avenir Next","Segoe UI",system-ui,sans-serif;--body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;--r-lg:14px;--r-md:10px;--r-sm:8px;--glow:0 0 0 1px color-mix(in srgb,#F5A524 45%,transparent),0 0 16px -6px color-mix(in srgb,#F5A524 55%,transparent);--navbg:color-mix(in srgb,#101015 86%,transparent);--scene:none;--veil:none;color-scheme:dark;--lift:0 1px 0 rgba(255,255,255,.03) inset,0 14px 34px -18px rgba(0,0,0,.85);--mark:url("assets/brand/mark-dark-96.png")}
+:root[data-skin] body{background-color:var(--bg);background-image:none;--navbg:color-mix(in srgb,var(--bg) 88%,transparent)}
+:root[data-skin] body.scene-arena,:root[data-skin] body.campaign-mode{background-image:var(--scene,none)}
+:root[data-skin] h1{letter-spacing:-.015em;text-transform:none;font-weight:700}
+:root[data-skin] h2{letter-spacing:-.01em}
+:root[data-skin] .eyebrow,:root[data-skin] .fm-lbl,:root[data-skin] .pp-kicker{letter-spacing:.06em}
+:root[data-skin] .brand-name{letter-spacing:-.01em}
+:root[data-skin] .brand-sub{font-size:calc(12px*var(--ts,1));text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+:root[data-skin] .panel,:root[data-skin] .pilot-panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--lift);position:relative;backdrop-filter:none;-webkit-backdrop-filter:none}
+:root[data-skin] nav.tabs{border-bottom:1px solid var(--line);background:var(--navbg)}
+:root[data-skin] nav.tabs button{font-family:var(--body);font-weight:600;font-size:calc(14px*var(--ts,1));color:var(--muted)}
+:root[data-skin] nav.tabs button:hover{color:var(--ink)}
+:root[data-skin] nav.tabs button[aria-selected="true"]{color:var(--accent-ink);border-bottom-color:var(--accent)}
+:root[data-skin] .seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent-ink);border-color:color-mix(in srgb,var(--accent) 55%,transparent)}
+:root[data-skin] .subnav button{border-radius:var(--r-sm);background:transparent}
+:root[data-skin] .subnav button[aria-selected="true"]{background:var(--accent-soft);color:var(--accent-ink);border-color:color-mix(in srgb,var(--accent) 50%,transparent)}
+:root[data-skin] .btn{border-radius:var(--r-md);background:var(--surface);border-color:var(--line);color:var(--ink);transition:border-color .15s,box-shadow .15s,background-color .15s}
+:root[data-skin] .btn:hover{border-color:color-mix(in srgb,var(--accent) 60%,transparent);background:var(--accent-soft)}
+:root[data-skin] .btn.primary{background:var(--accent-fill);border-color:var(--accent-fill);color:var(--on-accent)}
+:root[data-skin] .btn.primary:hover{background:var(--accent-ink);border-color:var(--accent-ink)}
+:root[data-skin] .linklike{color:var(--accent-ink)}
+:root[data-skin] :focus-visible{outline-color:var(--accent)}
+:root[data-skin] .pilot-steps button{border-radius:var(--r-md);font-family:var(--body)}
+:root[data-skin] .pilot-steps button[aria-current="step"],:root[data-skin] .pilot-steps button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent-ink);background:var(--accent-soft)}
+:root[data-skin] .pilot-steps .n{border-radius:var(--r-sm);background:var(--sunk);color:var(--ink2)}
+:root[data-skin] .pilot-steps button[aria-current="step"] .n,:root[data-skin] .pilot-steps button[aria-pressed="true"] .n{background:var(--accent-fill);color:var(--on-accent)}
+:root[data-skin] header summary,:root[data-skin] header .btn{white-space:nowrap}
+:root[data-skin] .drill-opt.wrong,:root[data-skin] .drill-opt.wrong:hover{border-color:var(--bad)!important}
+:root[data-skin] .drill-opt.right,:root[data-skin] .drill-opt.right:hover{border-color:var(--ok)!important}
+:root[data-skin] .drill-opt,:root[data-skin] .fm-item{border-radius:var(--r-md);transition:border-color .15s,box-shadow .15s}
+:root[data-skin] .drill-opt:hover:not([disabled]),:root[data-skin] .fm-item:hover{border-color:color-mix(in srgb,var(--accent) 60%,transparent)}
+:root[data-skin] .fm-item.on{border-color:var(--accent);background:var(--accent-soft)}
+:root[data-skin] .drill-bar i{background:var(--xp)}
+:root[data-skin] .fm-zone{border-width:1px;border-radius:var(--r-lg)}
+:root[data-skin] .tagrow li{font-size:calc(12px*var(--ts,1));border-radius:var(--r-sm)}
+:root[data-skin] .tabnum,:root[data-skin] .drill-score b{letter-spacing:-.01em}
+:root[data-skin] ::selection{background:color-mix(in srgb,var(--accent) 30%,transparent)}
+:root[data-skin] .lib-exam,:root[data-skin] .lib-tool,:root[data-skin] .lib-resume{border-radius:var(--r-lg)}
+:root[data-skin] .lib-exam.sc[aria-pressed="true"]{border-color:var(--sc);background:var(--scbg);box-shadow:inset 0 0 0 1px var(--sc)}
+:root[data-skin] .lib-exam.sec[aria-pressed="true"]{border-color:var(--sec);background:var(--secbg);box-shadow:inset 0 0 0 1px var(--sec)}
+:root[data-skin] .lib-exam.ccst[aria-pressed="true"]{border-color:var(--ccst);background:var(--ccstbg);box-shadow:inset 0 0 0 1px var(--ccst)}
+@media (prefers-reduced-motion:reduce){:root[data-skin] *{transition:none!important}}
+/* Field Manual (Security+): stenciled capitals and square corners */
+:root[data-skin="field"] h1,:root[data-skin="field"] h2,:root[data-skin="field"] h3{text-transform:uppercase;letter-spacing:.03em;font-weight:800}
+:root[data-skin="field"] nav.tabs button{font-family:var(--display);font-weight:700;font-size:calc(16px*var(--ts,1));text-transform:uppercase;letter-spacing:.07em}
+:root[data-skin="field"] nav.tabs{border-bottom:2px solid var(--ink)}
+:root[data-skin="field"] .eyebrow{font-family:var(--display);font-weight:700;font-size:calc(14px*var(--ts,1));letter-spacing:.1em}
+:root[data-skin="field"] .btn{text-transform:uppercase;letter-spacing:.05em;font-weight:700;font-size:calc(14px*var(--ts,1))}
+/* Night Arcade (SC-900): rounder, chunkier */
+:root[data-skin="arcade"] .btn{border-radius:999px;font-weight:700}
+:root[data-skin="arcade"] .eyebrow{font-family:var(--body);font-weight:800;letter-spacing:.04em}
+/* Signal (CCST): quiet, sentence case */
+:root[data-skin="signal"] h3{text-transform:none;letter-spacing:-.005em}
+:root[data-skin="signal"] .eyebrow{font-family:var(--body);font-weight:600}
 @media (max-width:720px){
   .lib-exams{grid-template-columns:1fr 1fr}
   .lib-exam.ccst{grid-column:1/-1}
   .lib-tools{grid-template-columns:1fr}
   .lib-head h1{font-size:calc(26px*var(--ts,1))}
   body:not(.campaign-mode):not(.onboarding){padding-bottom:calc(76px + env(safe-area-inset-bottom))}
-  header nav.tabs,nav.tabs,:root[data-skin="ops"] nav.tabs{position:fixed;top:auto;bottom:0;left:0;right:0;z-index:60;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:0;
+  header nav.tabs,nav.tabs,:root[data-skin] nav.tabs{position:fixed;top:auto;bottom:0;left:0;right:0;z-index:60;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:0;
     margin:0;width:auto;padding:4px 4px calc(4px + env(safe-area-inset-bottom));border-bottom:0;border-top:1px solid var(--line);mask-image:none;-webkit-mask-image:none;overflow:visible;
     background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-  nav.tabs button,:root[data-skin="ops"] nav.tabs button,:root[data-skin="ops"] header nav.tabs button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 2px 6px;border:0;border-radius:10px;margin:0;
+  nav.tabs button,:root[data-skin] nav.tabs button,:root[data-skin] header nav.tabs button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 2px 6px;border:0;border-radius:10px;margin:0;
     font:600 10.5px/1.1 var(--body);letter-spacing:0;text-transform:none;box-shadow:none;min-width:0}
   nav.tabs button .tl{max-width:100%;overflow:hidden;text-overflow:ellipsis}
   nav.tabs .tab-ic{display:block;height:22px}
-  nav.tabs button[aria-selected="true"],:root[data-skin="ops"] nav.tabs button[aria-selected="true"]{color:var(--accent-ink);background:var(--accent-soft);box-shadow:none}
+  nav.tabs button[aria-selected="true"],:root[data-skin] nav.tabs button[aria-selected="true"]{color:var(--accent-ink);background:var(--accent-soft);box-shadow:none}
 }
 </style>
 <script>
 // Theme choice (Light / Dark / System). Applied before the page draws to avoid a flash.
-(function(){ try{ var t=localStorage.getItem("sprint.v2.theme"); if(!t||t==="ops"){ document.documentElement.setAttribute("data-theme","dark"); document.documentElement.setAttribute("data-skin","ops"); } else if(t==="light"||t==="dark") document.documentElement.setAttribute("data-theme",t); }catch(e){} })();
+(function(){ try{ var de=document.documentElement, t=localStorage.getItem("sprint.v2.theme"), k=localStorage.getItem("sprint.v2.skin"); de.setAttribute("data-skin",k==="arcade"||k==="signal"?k:"field"); if(t==="light"||t==="dark") de.setAttribute("data-theme",t); else if(t==="ops") de.setAttribute("data-theme","dark"); }catch(e){ document.documentElement.setAttribute("data-skin","field"); } })();
 (function(){ try{ var a=JSON.parse(localStorage.getItem("sprint.v2.a11y")||"null"), r=document.documentElement; if(!a) return;
   if(a.text==="l"||a.text==="xl") r.setAttribute("data-text",a.text); if(a.calm===true) r.classList.add("a11y-calm");
   if(a.roomy===true) r.classList.add("a11y-roomy"); if(a.font==="hyper") r.classList.add("a11y-hyper"); }catch(e){} })();
@@ -1599,58 +1632,58 @@ nav.tabs .tab-ic svg{width:22px;height:22px}
   </footer>
 </div>
 
-<script src="data.js?v=2.6.0"></script>
-<script src="data-extra.js?v=2.6.0"></script>
-<script src="data-pack2.js?v=2.6.0"></script>
-<script src="data-pack3.js?v=2.6.0"></script>
-<script src="data-pack4-sc.js?v=2.6.0"></script>
-<script src="data-pack5-net.js?v=2.6.0"></script>
-<script src="data-acronyms.js?v=2.6.0"></script>
-<script src="data-patchnotes.js?v=2.6.0"></script>
-<script src="data-bosses.js?v=2.6.0"></script>
+<script src="data.js?v=2.7.0"></script>
+<script src="data-extra.js?v=2.7.0"></script>
+<script src="data-pack2.js?v=2.7.0"></script>
+<script src="data-pack3.js?v=2.7.0"></script>
+<script src="data-pack4-sc.js?v=2.7.0"></script>
+<script src="data-pack5-net.js?v=2.7.0"></script>
+<script src="data-acronyms.js?v=2.7.0"></script>
+<script src="data-patchnotes.js?v=2.7.0"></script>
+<script src="data-bosses.js?v=2.7.0"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=2.6.0"></script>
-<script src="data-campaign-flags.js?v=2.6.0"></script>
-<script src="data-campaign-endings.js?v=2.6.0"></script>
-<script src="data-fixes-01.js?v=2.6.0"></script>
-<script src="data-fixes-02.js?v=2.6.0"></script>
-<script src="data-fixes-03.js?v=2.6.0"></script>
-<script src="data-fixes-04.js?v=2.6.0"></script>
-<script src="data-lessons.js?v=2.6.0"></script>
-<script src="data-lessons-2.js?v=2.6.0"></script>
-<script src="data-lessons-3.js?v=2.6.0"></script>
-<script src="data-lessons-beta-7.js?v=2.6.0"></script>
-<script src="data-lessons-sec-1.js?v=2.6.0"></script>
-<script src="data-lessons-sec-2.js?v=2.6.0"></script>
-<script src="data-lessons-sec-3.js?v=2.6.0"></script>
-<script src="data-lessons-sec-4.js?v=2.6.0"></script>
-<script src="data-lessons-beta-sec-net.js?v=2.6.0"></script>
-<script src="data-cn-sc.js?v=2.6.0"></script>
-<script src="data-cn-compare.js?v=2.6.0"></script>
-<script src="data-cn-sc-scenarios.js?v=2.6.0"></script>
-<script src="data-cn-sc-checks.js?v=2.6.0"></script>
-<script src="data-cn-sc-checks-2.js?v=2.6.0"></script>
-<script src="data-cn-sec-1.js?v=2.6.0"></script>
-<script src="data-cn-sec-1-cmp.js?v=2.6.0"></script>
-<script src="data-cn-sec-1-scen.js?v=2.6.0"></script>
-<script src="data-cn-sec-2.js?v=2.6.0"></script>
-<script src="data-cn-sec-2-cmp.js?v=2.6.0"></script>
-<script src="data-cn-sec-2-scen.js?v=2.6.0"></script>
-<script src="data-cn-sec-3.js?v=2.6.0"></script>
-<script src="data-cn-sec-3-cmp.js?v=2.6.0"></script>
-<script src="data-cn-sec-3-scen.js?v=2.6.0"></script>
-<script src="data-cn-sec-4.js?v=2.6.0"></script>
-<script src="data-cn-sec-4-cmp.js?v=2.6.0"></script>
-<script src="data-cn-sec-4-scen.js?v=2.6.0"></script>
-<script src="data-xf-sc.js?v=2.6.0"></script>
-<script src="data-xf-sec-1.js?v=2.6.0"></script>
-<script src="data-xf-sec-2.js?v=2.6.0"></script>
-<script src="data-xf-sec-3.js?v=2.6.0"></script>
-<script src="data-xf-sec-4.js?v=2.6.0"></script>
-<script src="data-links.js?v=2.6.0"></script>
-<script src="data-portlab.js?v=2.6.0"></script>
-<script src="data-sims.js?v=2.6.0"></script>
-<script src="examhelp-effects.js?v=2.6.0"></script>
+<script src="data-daymissions.js?v=2.7.0"></script>
+<script src="data-campaign-flags.js?v=2.7.0"></script>
+<script src="data-campaign-endings.js?v=2.7.0"></script>
+<script src="data-fixes-01.js?v=2.7.0"></script>
+<script src="data-fixes-02.js?v=2.7.0"></script>
+<script src="data-fixes-03.js?v=2.7.0"></script>
+<script src="data-fixes-04.js?v=2.7.0"></script>
+<script src="data-lessons.js?v=2.7.0"></script>
+<script src="data-lessons-2.js?v=2.7.0"></script>
+<script src="data-lessons-3.js?v=2.7.0"></script>
+<script src="data-lessons-beta-7.js?v=2.7.0"></script>
+<script src="data-lessons-sec-1.js?v=2.7.0"></script>
+<script src="data-lessons-sec-2.js?v=2.7.0"></script>
+<script src="data-lessons-sec-3.js?v=2.7.0"></script>
+<script src="data-lessons-sec-4.js?v=2.7.0"></script>
+<script src="data-lessons-beta-sec-net.js?v=2.7.0"></script>
+<script src="data-cn-sc.js?v=2.7.0"></script>
+<script src="data-cn-compare.js?v=2.7.0"></script>
+<script src="data-cn-sc-scenarios.js?v=2.7.0"></script>
+<script src="data-cn-sc-checks.js?v=2.7.0"></script>
+<script src="data-cn-sc-checks-2.js?v=2.7.0"></script>
+<script src="data-cn-sec-1.js?v=2.7.0"></script>
+<script src="data-cn-sec-1-cmp.js?v=2.7.0"></script>
+<script src="data-cn-sec-1-scen.js?v=2.7.0"></script>
+<script src="data-cn-sec-2.js?v=2.7.0"></script>
+<script src="data-cn-sec-2-cmp.js?v=2.7.0"></script>
+<script src="data-cn-sec-2-scen.js?v=2.7.0"></script>
+<script src="data-cn-sec-3.js?v=2.7.0"></script>
+<script src="data-cn-sec-3-cmp.js?v=2.7.0"></script>
+<script src="data-cn-sec-3-scen.js?v=2.7.0"></script>
+<script src="data-cn-sec-4.js?v=2.7.0"></script>
+<script src="data-cn-sec-4-cmp.js?v=2.7.0"></script>
+<script src="data-cn-sec-4-scen.js?v=2.7.0"></script>
+<script src="data-xf-sc.js?v=2.7.0"></script>
+<script src="data-xf-sec-1.js?v=2.7.0"></script>
+<script src="data-xf-sec-2.js?v=2.7.0"></script>
+<script src="data-xf-sec-3.js?v=2.7.0"></script>
+<script src="data-xf-sec-4.js?v=2.7.0"></script>
+<script src="data-links.js?v=2.7.0"></script>
+<script src="data-portlab.js?v=2.7.0"></script>
+<script src="data-sims.js?v=2.7.0"></script>
+<script src="examhelp-effects.js?v=2.7.0"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -1857,7 +1890,10 @@ function interleavedKeys(baseDays){
   if(!prior.length) return own;
   return shuffle(own.concat(shuffle(prior).slice(0,own.length)));
 }
-const RANKS=[["Recruit",0],["Specialist",250],["Sergeant",600],["Lieutenant",1100],["Captain",1800],["Cyber All-Star",2800]];
+// 2.7.0: a longer ladder so a rank comes every few study days, not every few weeks. XP is a reward
+// layer only: it never unlocks a level (only that level's quiz does).
+const RANKS=[["Recruit",0],["Private",100],["Specialist",250],["Corporal",450],["Sergeant",700],["Staff Sergeant",1000],["Sergeant First Class",1400],["Master Sergeant",1900],
+  ["Warrant Officer",2500],["Lieutenant",3200],["Captain",4000],["Major",5000],["Lieutenant Colonel",6200],["Colonel",7600],["General",9200],["Cyber All-Star",11000]];
 const ACHIEVEMENTS={clean:{name:"Clean Sweep",desc:"Score 100% on a 10+ question run"},night:{name:"Night Shift",desc:"Retired in 2.1: the app no longer rewards late-night studying",retired:true},crypto:{name:"Crypto Sniper",desc:"Get five cryptography questions right"}};
 // Prestige tiers: the across-run mastery axis (distinct from the in-run rank/XP ladder above).
 // Names come from the threat-actor sophistication ladder taught on Day 15.
@@ -1971,6 +2007,7 @@ state.studyMode=(state.studyMode==="self"||state.studyMode==="campaign")?state.s
 state.review=(state.review&&typeof state.review==="object")?state.review:{};
 state.guided=(state.guided&&typeof state.guided==="object"&&state.guided.passed)?state.guided:{run:1,started:null,level:null,phase:"warning",passed:{},missions:{},flags:{},ended:null};
 const cnObj=x=>x&&typeof x==="object"&&!Array.isArray(x)?x:{};
+state.xp=Number(state.xp)||0; state.xpLog=cnObj(state.xpLog);
 state.bookmarks=cnObj(state.bookmarks); state.cards=cnObj(state.cards); state.stamps=cnObj(state.stamps); state.titles=cnObj(state.titles);
 state.study=cnObj(state.study); state.milestones=cnObj(state.milestones);
 state.activeTitle=typeof state.activeTitle==="string"?state.activeTitle:null;
@@ -2552,7 +2589,7 @@ function award(name){
 function recordGameProgress(rec){
   const correct=rec.items.reduce((n,[,ok])=>n+(ok===1?1:0),0);
   const bonus=rec.mode==="blitz"?correct*5:rec.mode==="written"?correct*8:0;
-  state.xp+=(correct*10)+bonus;
+  gainXp((correct*10)+bonus,{why:rec.mode==="mock"?"Mock exam":"Quiz"});
   if(!rec.early&&rec.n>=10&&rec.pct===100) award("clean");
   const crypto=rec.items.filter(([k,ok])=>ok===1&&/crypt|public key|private key|hash/i.test(Q[k]&&Q[k].q)).length;
   if(crypto>=5) award("crypto");
@@ -2708,13 +2745,25 @@ function renderExamToggle(){
 let programFormOpen=false;
 const PROGRAM_LABEL={sc:"SC-900 only",sec:"Security+ only",both:"Both (33-level camp)"};
 function setProgram(p){ state.program=p; programFormOpen=false; saveProgress(); render(); }
-function themeChoice(){ try{ const t=localStorage.getItem(LS+".theme"); return t==="light"||t==="dark"||t==="system"?t:"ops"; }catch(e){ return "ops"; } }
+// 2.7.0: the look comes from the exam (applySkin); this only picks light, dark or the device setting.
+// The old "ops" choice was a dark look, so it reads as Dark.
+function themeChoice(){ try{ const t=localStorage.getItem(LS+".theme"); return t==="light"||t==="dark"?t:t==="ops"?"dark":"system"; }catch(e){ return "system"; } }
 function setTheme(t){
-  try{ localStorage.setItem(LS+".theme",t); }catch(e){}  // 2.5.0: no saved choice means Ops, so System is stored explicitly
+  try{ localStorage.setItem(LS+".theme",t); }catch(e){}
   const de=document.documentElement;
-  if(t==="ops"){ de.setAttribute("data-theme","dark"); de.setAttribute("data-skin","ops"); }
-  else { de.removeAttribute("data-skin"); if(t==="system") de.removeAttribute("data-theme"); else de.setAttribute("data-theme",t); }
+  if(t==="system") de.removeAttribute("data-theme"); else de.setAttribute("data-theme",t);
   render();
+}
+const SKIN_OF={sc:"arcade",sec:"field",ccst:"signal"};
+// The exam on screen picks the look: a level shows its own exam's look, everything else follows the Library pick.
+function skinTrack(){
+  if(ui.tab==="plan"&&!ui.lib.on){ const d=BYDAY[ui.sel!=null?ui.sel:unlockedDay()]; if(d&&SKIN_OF[d.track]) return d.track; }
+  return SKIN_OF[ui.lib.exam]?ui.lib.exam:"sec";
+}
+function applySkin(){
+  const k=SKIN_OF[skinTrack()], de=document.documentElement;
+  if(de.getAttribute("data-skin")!==k){ de.setAttribute("data-skin",k); try{ localStorage.setItem(LS+".skin",k); }catch(e){} }
+  const m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute("content",getComputedStyle(de).getPropertyValue("--bg").trim()||"#12140D");
 }
 // 2.4.0: "I passed this exam". Marks a track's levels complete so a learner who already holds the
 // certification isn't held at its levels. Honor system (nothing to verify against without an
@@ -2752,7 +2801,7 @@ function renderProgramToggle(){
   if(!state.program) return; // first-run picker owns the decision until one is made
   if(!programFormOpen){
     mount.append(h("div",{class:"setrow"},h("span",{class:"setlabel"},"Theme"),
-        h("div",{class:"seg seg-sm",role:"group","aria-label":"Theme"},[["ops","Ops"],["light","Light"],["dark","Dark"],["system","System"]].map(([k,l])=>h("button",{"aria-pressed":String(themeChoice()===k),onclick:()=>setTheme(k)},l))),null),
+        h("div",{class:"seg seg-sm",role:"group","aria-label":"Theme"},[["system","System"],["light","Light"],["dark","Dark"]].map(([k,l])=>h("button",{"aria-pressed":String(themeChoice()===k),onclick:()=>setTheme(k)},l))),null),
       h("div",{class:"setrow"},h("span",{class:"setlabel"},"Devices"),h("button",{class:"linklike",onclick:()=>{ const d=document.getElementById("settings"); if(d) d.open=false; openMove("send"); }},"Move to another device")),
       h("div",{class:"setrow"},h("span",{class:"setlabel"},"Program"),h("span",{},PROGRAM_LABEL[state.program]),
         h("button",{class:"linklike",onclick:()=>{programFormOpen=true;render();}},"Change")),
@@ -3292,7 +3341,7 @@ function finish(){
   if(guidedMatch&&guidedComplete&&run.rec.pct>=GUIDED_PASS){
     const gd=Number(guidedMatch[1]), g=G();
     g.passed[gd]=Date.now();
-    if(!state.done[gd]) state.done[gd]=Date.now();   // campaign passes count as a cleared level everywhere
+    if(!state.done[gd]){ state.done[gd]=Date.now(); gainXp(XP_RULES.levelDone,{why:"Level cleared"}); }   // campaign passes count as a cleared level everywhere
     if(g.level===gd&&g.phase==="quiz") g.phase="decisions";
     saveProgress();
   }
@@ -3302,7 +3351,7 @@ function finish(){
     if(!state.done[dNum]){
       const day=BYDAY[dNum];
       const done=modesCompleted(run.rec.scopeId);
-      if(day&&done.has(levelModeFor(day))){ state.done[dNum]=Date.now(); saveProgress(); }
+      if(day&&done.has(levelModeFor(day))){ state.done[dNum]=Date.now(); gainXp(XP_RULES.levelDone,{why:"Level cleared"}); saveProgress(); }
     }
   }
   render(); window.scrollTo(0,0);
@@ -4045,7 +4094,7 @@ function renderGuidedDecisions(d,mission){
       if(rec.answers[rec.i]) return;
       const correct=i===step[2];
       rec.answers[rec.i]={picked:i,correct,ts:Date.now()};
-      if(correct){ state.xp+=8; guidedFlagsAt(mission.id,rec.i).forEach(f=>{ g.flags[f.k]=Date.now(); }); }
+      if(correct){ gainXp(8,{quiet:true}); guidedFlagsAt(mission.id,rec.i).forEach(f=>{ g.flags[f.k]=Date.now(); }); }
       queueFx(correct?"correct":"incorrect",correct?".opts .opt.right":".opts .opt.wrong");
       saveProgress(); render();
     }},h("span",{class:"k"},pos+1),h("span",{},step[1][i])))));
@@ -4170,7 +4219,7 @@ function renderPortLab(){
   const n=R.items.length;
   if(R.i>=n){
     const right=R.items.filter(it=>R.res[it.id]&&R.res[it.id].ok), miss=R.items.filter(it=>!(R.res[it.id]&&R.res[it.id].ok));
-    if(!R.saved){ R.saved=true; plSaveBest(R.mode,right.length,n); }
+    if(!R.saved){ R.saved=true; plSaveBest(R.mode,right.length,n); gainXp(right.length*XP_RULES.portRight,{why:"Port Lab"}); }
     return h("div",{class:"lab"},head,tabs,h("section",{class:"panel drill-done",role:"status",tabindex:"-1"},
       h("p",{class:"drill-score"},h("b",{class:"tabnum"},right.length+" of "+n),miss.length?" right. Go over these:":" right. Clean sweep."),
       miss.length?h("ul",{class:"drill-miss"},miss.map(it=>h("li",{},h("span",{class:"meta"},it.q),h("span",{},h("b",{},(it.a||it.o[0][0])+". "),it.why||it.o[0][2])))):null,
@@ -4273,6 +4322,7 @@ function renderSims(){
 // ui.lib.on marks a tool opened from the Library, so it shows a "Library" back bar instead
 // of the Study sub-tabs and the Library main tab stays lit.
 const LIB_EXAMS=[["sc","SC-900"],["sec","Security+"],["ccst","CCST Networking","Coming in 3.0"]];
+const LIB_PREVIEW={ccst:true};   // selectable for its look; no tools until 3.0
 const libDomOk=(day,dom)=>dom==="all"||(BYDAY[day]&&BYDAY[day].dom===dom);
 function libQ(tr,dom,f){ return Object.values(Q).filter(q=>q&&q.track===tr&&(dom==="all"||q.dom===dom)&&!/^generated-|^acr-/.test(q.k)&&(f?f(q):coreQ(q))); }
 function libConcepts(tr,dom){ return (CN.concepts||[]).filter(c=>c.cert===tr&&libDomOk(c.day,dom)); }
@@ -4344,11 +4394,12 @@ function libResume(){
   return out.length?h("div",{class:"lib-resumes"},out):null;
 }
 function renderLibrary(){
-  const L=ui.lib; if(!LIB_EXAMS.some(([v,,soon])=>v===L.exam&&!soon)) L.exam="sec";
+  const L=ui.lib; if(!LIB_EXAMS.some(([v,,soon])=>v===L.exam&&(!soon||LIB_PREVIEW[v]))) L.exam="sec";
   const tr=L.exam, doms=DOMS[tr]||[]; if(L.topic!=="all"&&!doms.includes(L.topic)) L.topic="all";
   const set=(k,v)=>{ L[k]=v; if(k==="exam") L.topic="all"; saveUI(); render(); };
-  const exams=h("div",{class:"lib-exams",role:"group","aria-label":"Exam"},LIB_EXAMS.map(([v,l,soon])=>h("button",{class:"lib-exam "+v,"aria-pressed":String(v===tr),disabled:soon?true:null,onclick:()=>set("exam",v)},
+  const exams=h("div",{class:"lib-exams",role:"group","aria-label":"Exam"},LIB_EXAMS.map(([v,l,soon])=>h("button",{class:"lib-exam "+v,"aria-pressed":String(v===tr),disabled:soon&&!LIB_PREVIEW[v]?true:null,onclick:()=>set("exam",v)},
     h("b",{},l),h("small",{},soon||libQ(v,"all").length+" questions"))));
+  if(LIB_PREVIEW[tr]) L.topic="all";
   const topics=h("div",{class:"lib-topics",role:"group","aria-label":"Topic"},[["all","All topics"]].concat(doms.map(d=>[d,d.replace(/^\d /,"")])).map(([v,l])=>{
     const n=v==="all"?null:/^\d /.test(v)?v[0]:null;
     return h("button",{class:"lib-topic","aria-pressed":String(v===L.topic),onclick:()=>set("topic",v)},n?h("span",{class:"lib-dn"},n):null,l);
@@ -4359,15 +4410,66 @@ function renderLibrary(){
   return h("div",{class:"lib"},movedNote()||"",
     h("section",{class:"lib-head"},h("p",{class:"eyebrow"},"Library"),h("h1",{},"Study anything"),
       h("p",{class:"muted"},"No levels, no steps. Pick an exam, a topic and a tool. Locked levels' material is open here too, and nothing here changes your levels.")),
+    xpCard(),
     libResume(),
     h("div",{class:"lib-pick"},h("p",{class:"lib-lbl"},"Exam"),exams),
-    h("div",{class:"lib-pick"},h("p",{class:"lib-lbl"},"Topic"),topics),
-    groups);
+    LIB_PREVIEW[tr]?ccstSoon():h("div",{class:"lib-pick"},h("p",{class:"lib-lbl"},"Topic"),topics),
+    LIB_PREVIEW[tr]?null:groups);
 }
 function libBar(){
   const tr=ui.lib.exam, t=ui.lib.topic;
   return h("div",{class:"lib-bar"},h("button",{class:"btn small ghost",onclick:()=>{ ui.lib.on=false; goTab("library"); }},"← Library"),
     h("span",{class:"meta"},TRACK[tr]+" · "+(t==="all"?"All topics":t.replace(/^\d /,""))));
+}
+// ---------- 2.7.0: XP and Ranks ----------
+// XP rewards studying and nothing else: it never unlocks a level (only the level quiz does).
+const XP_RULES={flashCard:5,flashDailyCap:150,portRight:2,mockDone:100,levelDone:50,firstOfDay:10};
+function isoDay(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function xpToday(){ return (state.xpLog&&state.xpLog[todayISO()])||0; }
+function rankIdx(xp){ const v=xp==null?state.xp:xp; let i=0; RANKS.forEach(([,need],j)=>{ if(v>=need) i=j; }); return i; }
+function gainXp(n,opts){
+  n=Math.round(n||0); if(!(n>0)) return 0; opts=opts||{};
+  const before=rankIdx(), t=todayISO();
+  if(!state.xpLog[t]) n+=XP_RULES.firstOfDay;   // first XP of the day: a small show-up bonus
+  state.xp=(state.xp||0)+n; state.xpLog[t]=(state.xpLog[t]||0)+n;
+  const keys=Object.keys(state.xpLog).sort(); while(keys.length>120) delete state.xpLog[keys.shift()];
+  const after=rankIdx();
+  if(after>before) xpToast("rank",after); else if(!opts.quiet) xpToast("xp",n,opts.why);
+  return n;
+}
+function studyStreak(){
+  const days=new Set(attempts.map(a=>isoDay(new Date(a.ts))));
+  Object.keys(state.xpLog||{}).forEach(d=>{ if(state.xpLog[d]>0) days.add(d); });
+  const c=new Date(); if(!days.has(isoDay(c))) c.setDate(c.getDate()-1);
+  let n=0; while(days.has(isoDay(c))){ n++; c.setDate(c.getDate()-1); }
+  return n;
+}
+let xpToastT=null;
+function xpToast(kind,v,why){
+  let el=document.getElementById("xp-toast");
+  if(!el){ el=document.createElement("div"); el.id="xp-toast"; el.setAttribute("role","status"); el.setAttribute("aria-live","polite"); document.body.appendChild(el); }
+  el.className="xp-toast "+kind; el.replaceChildren();
+  if(kind==="rank") el.append(h("span",{class:"xt-badge tabnum","aria-hidden":"true"},String(v+1)),h("span",{},h("b",{},"Rank up: "+RANKS[v][0]),h("small",{},"Rank "+(v+1)+" of "+RANKS.length)));
+  else el.append(h("span",{},h("b",{class:"tabnum"},"+"+v+" XP"),why?h("small",{},why):null));
+  el.classList.remove("show"); void el.offsetWidth; el.classList.add("show");
+  clearTimeout(xpToastT); xpToastT=setTimeout(()=>el.classList.remove("show"),kind==="rank"?4500:2200);
+}
+function xpCard(){
+  const xp=state.xp||0, i=rankIdx(), [name,need]=RANKS[i], nx=RANKS[i+1];
+  const span=nx?nx[1]-need:1, into=nx?xp-need:1, p=Math.max(2,Math.round(100*into/span));
+  const today=xpToday(), streak=studyStreak();
+  return h("section",{class:"xp-card","aria-label":"Rank and XP"},
+    h("div",{class:"xp-badge","aria-hidden":"true"},h("small",{},"RANK"),h("b",{class:"tabnum"},String(i+1))),
+    h("div",{class:"xp-main"},
+      h("div",{class:"xp-top"},h("b",{class:"xp-name"},name),h("span",{class:"xp-num tabnum"},xp.toLocaleString()+(nx?" / "+nx[1].toLocaleString():"")+" XP")),
+      h("div",{class:"xp-bar",role:"progressbar","aria-valuemin":"0","aria-valuemax":String(span),"aria-valuenow":String(into),"aria-label":nx?(nx[1]-xp)+" XP to "+nx[0]:"Top rank"},h("i",{style:"width:"+p+"%;--p:"+p})),
+      h("div",{class:"xp-sub"},h("span",{},nx?(nx[1]-xp).toLocaleString()+" XP to "+nx[0]:"Top rank reached"),
+        h("span",{class:"tabnum"},"Today +"+today+" XP"+(streak>1?" · "+streak+"-day streak":"")))));
+}
+function ccstSoon(){
+  return h("section",{class:"lib-soon"},h("h2",{class:"lib-lbl"},"CCST Networking"),
+    h("p",{},"The CCST track arrives in 3.0: notes, flashcards and quizzes in your class's session order, starting with Sessions 1 to 4."),
+    h("p",{class:"muted"},"This is the look it will have. Pick SC-900 or Security+ to study now."));
 }
 // ---------- 2.2: shared bits for bosses and icons ----------
 function svgIcon(name){
@@ -5536,6 +5638,7 @@ function submitMock(auto){
   if(!strict) recordReview(res);
   saveProgress();
   recordGameProgress(strict?Object.assign({},mockRun.rec,{items:res}):mockRun.rec);
+  gainXp(XP_RULES.mockDone,{why:"Mock exam finished"}); saveProgress();
   if(mockRun.rec&&mockRun.rec.pct>=80) queueFx("victory","#view .panel");
   render(); window.scrollTo(0,0);
 }
@@ -5916,6 +6019,9 @@ function scheduleCard(id,r){
 function rateFlash(r){
   const f=state.study.flash; if(!f||f.done||!f.revealed) return;
   const id=f.ids[f.i]; f.ratings[id]=r;
+  { const t=todayISO(); if(!state.xpFlash||state.xpFlash.d!==t) state.xpFlash={d:t,n:0};
+    const g=Math.min(XP_RULES.flashCard,XP_RULES.flashDailyCap-state.xpFlash.n);
+    if(g>0){ state.xpFlash.n+=g; f.xp=(f.xp||0)+gainXp(g,{quiet:true}); } }
   if(scheduleCard(id,r)) laterRecall();
   f.i++; f.revealed=false;
   if(f.i>=f.ids.length){ f.done=true; flashFinished(f); }
@@ -5928,6 +6034,7 @@ function laterRecall(){
   cnCheckTitles();
 }
 function flashFinished(f){
+  if(f.xp) xpToast("xp",f.xp,"Flashcards");
   const days=new Set(Object.keys(f.ratings).map(id=>CN.C[CN.CARD[id].concept].day));
   days.forEach(checkStamp);
 }
@@ -6244,6 +6351,7 @@ function runFx(){
 }
 function render(){ renderCore(); runFx(); speakAfterRender(); }
 function renderCore(){
+  applySkin();
   document.body.classList.toggle("scene-arena",ui.tab==="game");
   renderHeader();
   const v=document.getElementById("view");
