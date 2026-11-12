@@ -1,6 +1,6 @@
 # Level 7: one request, all the way in
 
-Diagram: [`level7-network.html`](level7-network.html). It started as a student's own hand sketch ([original](img/level7-rj-original-sketch.png)), which was corrected and redrawn.
+Diagram: [`level7-network.html`](level7-network.html). It was originally hand drawn and referenced from self notes.
 
 ## The customer's path (red)
 1. **Internet → DDoS Protection.** It absorbs floods of junk traffic so the site stays up (availability). It doesn't read what's inside the traffic.
@@ -19,9 +19,9 @@ Diagram: [`level7-network.html`](level7-network.html). It started as a student's
 - **Free:** posture management, recommendations and secure score.
 - **Paid Defender plans:** threat alerts on workloads.
 
-## Corrections to the original sketch
+## Corrections made when redrawing
 1. "RDF" should be **RDP**.
-2. **Bastion placement:** the sketch showed RDP/SSH leaving the admin's computer before Bastion. In reality the admin uses HTTPS to the portal and Bastion, and RDP/SSH only happens inside Azure.
+2. **Bastion placement:** the hand-drawn version showed RDP/SSH leaving the admin's computer before Bastion. In reality the admin uses HTTPS to the portal and Bastion, and RDP/SSH only happens inside Azure.
 3. **Added DDoS Protection** at the edge.
 4. **Added peering** between the two VNets, which is required for web → database traffic.
 5. **Added Key Vault** for the database password.

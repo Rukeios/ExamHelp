@@ -1,0 +1,17 @@
+{
+  "name": "Rukeios Study",
+  "short_name": "Rukeios",
+  "description": "Free SC-900 and Security+ study app: flashcards, quizzes, labs and guided levels.",
+  "id": "./",
+  "start_url": "./#library",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#12140D",
+  "theme_color": "#12140D",
+  "categories": ["education"],
+  "icons": [
+    {"src": "assets/brand/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "assets/brand/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}
+  ]
+}
