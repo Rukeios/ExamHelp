@@ -3,6 +3,14 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"3.1.0", date:"2026-11-13", title:"CCST modules 15 to 26", tag:"feature", items:[
+  "12 new CCST Networking levels follow modules 15 to 26 of the Cisco NetAcad course, in Parts 5 to 8: TCP and UDP, application services, testing tools (ping, tracert, nslookup), network design, cloud and virtualization, binary and hex, switching and VLANs, the network layer, IPv4 address structure, ARP and IPv6 Neighbor Discovery, DNS and DHCP services, and the transport layer.",
+  "That brings CCST to 26 levels, 208 level-quiz questions, 52 Pocket Notes and 104 flashcards.",
+  "New Library topic for CCST: 5 Diagnosing problems, starting with the testing tools level.",
+  "Like the first part, it's written in our own words from Cisco's public exam topics and hasn't been checked by a human expert yet.",
+  "Still to come for CCST: modules 27 and up (Cisco IOS, ICMP, IPv6, troubleshooting and security), scenarios, a mock exam and acronyms."
+]},
+
 { v:"3.0.1", date:"2026-11-12", title:"CCST wording", tag:"fix", items:[
   "CCST levels no longer talk about \"your class\". They are grouped as Parts 1 to 4 by course module, and the links point to the Cisco NetAcad course, so they read right whether you are in a class or studying on your own."
 ]},
