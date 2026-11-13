@@ -3,6 +3,10 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"2.7.1", date:"2026-11-12", title:"Header fix", tag:"fix", items:[
+  "On medium-width screens, like a laptop window or a tablet, the level progress bar no longer sits on top of the app name. The top bar now uses two rows until there's room for one."
+]},
+
 { v:"2.7.0", date:"2026-11-12", title:"Three looks and XP ranks", tag:"feature", items:[
   "Each exam has its own look now, and the whole app changes to it when you switch exams. SC-900 is Night Arcade (violet and teal, rounded), Security+ is Field Manual (olive and sand, stenciled capitals) and CCST is Signal (warm paper with an amber accent).",
   "Every look has a light and a dark version. Plan settings → Theme is now System, Light or Dark; System follows your phone or computer. If you used Ops, you're on Dark.",
