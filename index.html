@@ -111,7 +111,7 @@ nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(-
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:22px}
 .lesson{display:flex;flex-direction:column;gap:18px}
 .lesson .tag{display:inline-block;padding:2px 8px;border-radius:3px;font:600 calc(13px*var(--ts,1)) var(--mono);letter-spacing:.04em}
-.tag.sc{background:var(--scbg);color:var(--sc)} .tag.sec{background:var(--secbg);color:var(--sec)}
+.tag.sc{background:var(--scbg);color:var(--sc)} .tag.sec{background:var(--secbg);color:var(--sec)} .tag.ccst{background:var(--ccstbg,var(--scbg));color:var(--ccst,var(--sc))}
 .pts{display:flex;flex-direction:column;gap:12px;max-width:68ch;margin:0;padding:0;list-style:none}
 .pts li{padding-left:14px;border-left:2px solid var(--line)}
 .pts b{display:block;font-weight:600}
@@ -689,6 +689,15 @@ header .statusline{grid-area:status;justify-content:flex-end;flex-wrap:nowrap}
 header .statusline .settings{margin-left:0}
 header nav.tabs{grid-area:nav}
 @media (max-width:1120px){header{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"brand meta" "status status" "nav nav"}header .statusline{justify-content:space-between;flex-wrap:wrap}}
+/* ---------- 3.0: optional extras under a level ---------- */
+.lvl-extras{border:1px solid var(--line);border-radius:var(--r-md,10px);background:var(--surface);padding:0}
+.lvl-extras>summary{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;padding:12px 14px;cursor:pointer;min-height:44px;box-sizing:border-box}
+.lvl-extras>summary span{font-size:calc(13px*var(--ts,1));color:var(--muted)}
+.lvl-extras .lx-row{display:flex;flex-wrap:wrap;gap:8px;padding:0 14px 4px}
+.lvl-extras .lx-row .btn{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;min-height:44px}
+.lvl-extras .lx-row .btn small{font-weight:500;color:var(--muted);text-transform:none;letter-spacing:0}
+.lvl-extras>.meta{margin:8px 14px 12px}
+.lib-foot{margin:4px 0 0}
 /* ---------- study sub-navigation: grouped ---------- */
 .subnav{gap:4px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:0}
 .subnav .sn-group{display:flex;gap:2px;align-items:center;flex:0 0 auto}
@@ -844,7 +853,7 @@ header nav.tabs{grid-area:nav}
 .lvl.current .lvl-s{color:var(--accent-ink);font-weight:600}
 .lvl.sel{background:var(--surface);box-shadow:var(--lift);color:var(--ink);font-weight:600}
 .lvl[disabled]{cursor:not-allowed;opacity:.6}
-.lvl.sc{--c:var(--sc)}.lvl.sec{--c:var(--sec)}
+.lvl.sc{--c:var(--sc)}.lvl.sec{--c:var(--sec)}.lvl.ccst{--c:var(--ccst,var(--sc))}
 .lvl-toggle{display:none}
 @media (max-width:860px){
   .study-lessons{grid-template-columns:minmax(0,1fr);gap:14px}
@@ -1632,64 +1641,68 @@ nav.tabs .tab-ic svg{width:22px;height:22px}
   </footer>
 </div>
 
-<script src="data.js?v=2.7.1"></script>
-<script src="data-extra.js?v=2.7.1"></script>
-<script src="data-pack2.js?v=2.7.1"></script>
-<script src="data-pack3.js?v=2.7.1"></script>
-<script src="data-pack4-sc.js?v=2.7.1"></script>
-<script src="data-pack5-net.js?v=2.7.1"></script>
-<script src="data-acronyms.js?v=2.7.1"></script>
-<script src="data-patchnotes.js?v=2.7.1"></script>
-<script src="data-bosses.js?v=2.7.1"></script>
+<script src="data.js?v=3.0.0"></script>
+<script src="data-extra.js?v=3.0.0"></script>
+<script src="data-pack2.js?v=3.0.0"></script>
+<script src="data-pack3.js?v=3.0.0"></script>
+<script src="data-pack4-sc.js?v=3.0.0"></script>
+<script src="data-pack5-net.js?v=3.0.0"></script>
+<script src="data-acronyms.js?v=3.0.0"></script>
+<script src="data-patchnotes.js?v=3.0.0"></script>
+<script src="data-bosses.js?v=3.0.0"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=2.7.1"></script>
-<script src="data-campaign-flags.js?v=2.7.1"></script>
-<script src="data-campaign-endings.js?v=2.7.1"></script>
-<script src="data-fixes-01.js?v=2.7.1"></script>
-<script src="data-fixes-02.js?v=2.7.1"></script>
-<script src="data-fixes-03.js?v=2.7.1"></script>
-<script src="data-fixes-04.js?v=2.7.1"></script>
-<script src="data-lessons.js?v=2.7.1"></script>
-<script src="data-lessons-2.js?v=2.7.1"></script>
-<script src="data-lessons-3.js?v=2.7.1"></script>
-<script src="data-lessons-beta-7.js?v=2.7.1"></script>
-<script src="data-lessons-sec-1.js?v=2.7.1"></script>
-<script src="data-lessons-sec-2.js?v=2.7.1"></script>
-<script src="data-lessons-sec-3.js?v=2.7.1"></script>
-<script src="data-lessons-sec-4.js?v=2.7.1"></script>
-<script src="data-lessons-beta-sec-net.js?v=2.7.1"></script>
-<script src="data-cn-sc.js?v=2.7.1"></script>
-<script src="data-cn-compare.js?v=2.7.1"></script>
-<script src="data-cn-sc-scenarios.js?v=2.7.1"></script>
-<script src="data-cn-sc-checks.js?v=2.7.1"></script>
-<script src="data-cn-sc-checks-2.js?v=2.7.1"></script>
-<script src="data-cn-sec-1.js?v=2.7.1"></script>
-<script src="data-cn-sec-1-cmp.js?v=2.7.1"></script>
-<script src="data-cn-sec-1-scen.js?v=2.7.1"></script>
-<script src="data-cn-sec-2.js?v=2.7.1"></script>
-<script src="data-cn-sec-2-cmp.js?v=2.7.1"></script>
-<script src="data-cn-sec-2-scen.js?v=2.7.1"></script>
-<script src="data-cn-sec-3.js?v=2.7.1"></script>
-<script src="data-cn-sec-3-cmp.js?v=2.7.1"></script>
-<script src="data-cn-sec-3-scen.js?v=2.7.1"></script>
-<script src="data-cn-sec-4.js?v=2.7.1"></script>
-<script src="data-cn-sec-4-cmp.js?v=2.7.1"></script>
-<script src="data-cn-sec-4-scen.js?v=2.7.1"></script>
-<script src="data-xf-sc.js?v=2.7.1"></script>
-<script src="data-xf-sec-1.js?v=2.7.1"></script>
-<script src="data-xf-sec-2.js?v=2.7.1"></script>
-<script src="data-xf-sec-3.js?v=2.7.1"></script>
-<script src="data-xf-sec-4.js?v=2.7.1"></script>
-<script src="data-links.js?v=2.7.1"></script>
-<script src="data-portlab.js?v=2.7.1"></script>
-<script src="data-sims.js?v=2.7.1"></script>
-<script src="examhelp-effects.js?v=2.7.1"></script>
+<script src="data-daymissions.js?v=3.0.0"></script>
+<script src="data-campaign-flags.js?v=3.0.0"></script>
+<script src="data-campaign-endings.js?v=3.0.0"></script>
+<script src="data-fixes-01.js?v=3.0.0"></script>
+<script src="data-fixes-02.js?v=3.0.0"></script>
+<script src="data-fixes-03.js?v=3.0.0"></script>
+<script src="data-fixes-04.js?v=3.0.0"></script>
+<script src="data-lessons.js?v=3.0.0"></script>
+<script src="data-lessons-2.js?v=3.0.0"></script>
+<script src="data-lessons-3.js?v=3.0.0"></script>
+<script src="data-lessons-beta-7.js?v=3.0.0"></script>
+<script src="data-lessons-sec-1.js?v=3.0.0"></script>
+<script src="data-lessons-sec-2.js?v=3.0.0"></script>
+<script src="data-lessons-sec-3.js?v=3.0.0"></script>
+<script src="data-lessons-sec-4.js?v=3.0.0"></script>
+<script src="data-lessons-beta-sec-net.js?v=3.0.0"></script>
+<script src="data-cn-sc.js?v=3.0.0"></script>
+<script src="data-cn-compare.js?v=3.0.0"></script>
+<script src="data-cn-sc-scenarios.js?v=3.0.0"></script>
+<script src="data-cn-sc-checks.js?v=3.0.0"></script>
+<script src="data-cn-sc-checks-2.js?v=3.0.0"></script>
+<script src="data-cn-sec-1.js?v=3.0.0"></script>
+<script src="data-cn-sec-1-cmp.js?v=3.0.0"></script>
+<script src="data-cn-sec-1-scen.js?v=3.0.0"></script>
+<script src="data-cn-sec-2.js?v=3.0.0"></script>
+<script src="data-cn-sec-2-cmp.js?v=3.0.0"></script>
+<script src="data-cn-sec-2-scen.js?v=3.0.0"></script>
+<script src="data-cn-sec-3.js?v=3.0.0"></script>
+<script src="data-cn-sec-3-cmp.js?v=3.0.0"></script>
+<script src="data-cn-sec-3-scen.js?v=3.0.0"></script>
+<script src="data-cn-sec-4.js?v=3.0.0"></script>
+<script src="data-cn-sec-4-cmp.js?v=3.0.0"></script>
+<script src="data-cn-sec-4-scen.js?v=3.0.0"></script>
+<script src="data-xf-sc.js?v=3.0.0"></script>
+<script src="data-xf-sec-1.js?v=3.0.0"></script>
+<script src="data-xf-sec-2.js?v=3.0.0"></script>
+<script src="data-xf-sec-3.js?v=3.0.0"></script>
+<script src="data-xf-sec-4.js?v=3.0.0"></script>
+<script src="data-ccst-1.js?v=3.0.0"></script>
+<script src="data-links.js?v=3.0.0"></script>
+<script src="data-cn-ccst-1.js?v=3.0.0"></script>
+<script src="data-portlab.js?v=3.0.0"></script>
+<script src="data-sims.js?v=3.0.0"></script>
+<script src="examhelp-effects.js?v=3.0.0"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
 const BYDAY = Object.fromEntries(DAYS.map(d=>[d.d,d]));
-const TRACK = {sc:"SC-900", sec:"Security+"};
-const DOMS = {sc:["Concepts","Entra","Security solutions","Compliance"], sec:["1 General concepts","2 Threats & vulns","3 Architecture","4 Operations","5 Program mgmt"]};
+const TRACK = {sc:"SC-900", sec:"Security+", ccst:"CCST Networking"};
+const TRACKS = ["sc","sec","ccst"];
+const DOMS = {sc:["Concepts","Entra","Security solutions","Compliance"], sec:["1 General concepts","2 Threats & vulns","3 Architecture","4 Operations","5 Program mgmt"],
+  ccst:["1 Standards & concepts","2 Addressing","3 Endpoints & media","4 Infrastructure"]};
 const MODES = {think:{name:"Think",color:"var(--ink)",desc:"Untimed. See why after each answer."},
                blitz:{name:"Blitz",color:"var(--gold)",get desc(){ return blitzLine(); }},
                written:{name:"Written",color:"var(--violet)",desc:"No choices. Answer from memory, then grade."}};
@@ -1885,7 +1898,7 @@ const allTrackDays = t => DAYS.filter(d=>d.track===t && d.q).map(d=>d.d);
 function interleavedKeys(baseDays){
   const own=keysFor(baseDays);
   if(rulesFor(state.prestige).poolStrategy!=="interleave") return own;
-  const priorDays=DAYS.filter(d=>d.q&&!baseDays.includes(d.d)&&state.done[d.d]).map(d=>d.d);
+  const priorDays=DAYS.filter(d=>d.q&&!baseDays.includes(d.d)&&state.done[d.d]&&inProgram(d.track)).map(d=>d.d);
   const prior=keysFor(priorDays);
   if(!prior.length) return own;
   return shuffle(own.concat(shuffle(prior).slice(0,own.length)));
@@ -1930,17 +1943,18 @@ function midnight(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate());}
 function dayDate(n){const s=parseDate(state.start);s.setDate(s.getDate()+n-1);return s;}
 function todayN(){return Math.floor((midnight(new Date())-parseDate(state.start))/864e5)+1;}
 // ---------- program selection ----------
-// state.program is "sc" | "sec" | "both". Undefined means "never chosen yet" (first-run
+// state.program is "sc" | "sec" | "both" | "ccst". "both" is the original 33-level camp (SC-900
+// then Security+); CCST Networking (3.0) is its own path. Undefined means "never chosen yet" (first-run
 // picker owns that case) but reads as "both" everywhere else so nothing breaks.
 function programOf(){ return state.program||"both"; }
-const inProgram = t => programOf()==="both" || t===programOf();
+const inProgram = t => programOf()==="both" ? t!=="ccst" : t===programOf();
 function programDays(){ return DAYS.filter(d=>inProgram(d.track)); }
 // Real day numbers (and every question/campaign key built from them) never change.
 // This map is display-only: real day -> 1-based position within the chosen program.
 function displayDayMap(){ const m={}; programDays().forEach((d,i)=>{ m[d.d]=i+1; }); return m; }
-function displayDay(d){ return displayDayMap()[d]||d; }
+function displayDay(d){ const m=displayDayMap()[d]; if(m) return m; const x=BYDAY[d]; return x?DAYS.filter(y=>y.track===x.track).indexOf(x)+1:d; }   // outside the current path: its place in its own exam
 function unlockedDay(){const pd=programDays();const next=pd.find(d=>!state.done[d.d]);return next?next.d:pd[pd.length-1].d;}
-const allDaysComplete=()=>programDays().every(d=>!!state.done[d.d]);
+const allDaysComplete=()=>programOf()!=="ccst"&&programDays().every(d=>!!state.done[d.d]);   // the CCST path is still growing, so it never offers a prestige reset
 function todayISO(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 
 // ---------- state + storage ----------
@@ -2458,7 +2472,7 @@ function movedNote(){
 // still unlocks the next level. Opening the course link and the notes is remembered per level
 // in ui.steps (saved with the view preferences, so it travels in backups).
 const COURSE_LINKS=window.COURSE_LINKS||{};
-const STEP_CTA={learn:"Open the lesson",link:"Open the course material",notes:"Read the Pocket Notes",cards:"Study the flashcards",check:"Check yourself",xf:"Try the exam-style questions",quiz:"Take the level quiz"};
+const STEP_CTA={learn:"Read the review",link:"Open the course material",notes:"Read the Pocket Notes",cards:"Study the flashcards",check:"Check yourself",xf:"Try the exam-style questions",quiz:"Take the level quiz"};
 function stepMarks(day){ ui.steps=ui.steps&&typeof ui.steps==="object"?ui.steps:{}; return ui.steps[day]||(ui.steps[day]={}); }
 function markStep(day,id){ const m=stepMarks(day); if(!m[id]){ m[id]=Date.now(); saveUI(); } }
 function courseLinks(d){
@@ -2475,16 +2489,17 @@ function levelSteps(d){
   const learnN=L?(checkI<0?L.sections.length:checkI):0;
   const concepts=(CN.byDay[d.d]||[]).filter(cnInProgram), cards=concepts.flatMap(c=>(c.cards||[]).map(k=>k.id));
   const links=courseLinks(d), xk=xfKeysFor(levelXfDays(d));
-  const steps=[{id:"learn",name:d.kind==="review"?"Guided review":d.kind==="exam"?"Exam day plan":"Lesson",
-    sub:L?learnN+(learnN===1?" part":" short sections"):d.kind?"What to do today":"Key points and terms",done:!!(L&&checkI>=0&&(st.sec|0)>=checkI)}];
-  if(links) steps.push({id:"link",name:links[0].kind==="video"?"Videos":"Microsoft Learn",sub:links.length===1?"1 "+(links[0].kind==="video"?"course":"module"):links.length+" links",done:!!m.link});
-  if(concepts.length) steps.push({id:"notes",name:"Pocket Notes",sub:concepts.length+" notes",done:!!m.notes});
-  if(cards.length) steps.push({id:"cards",name:"Flashcards",sub:cards.length+" cards",done:cards.every(id=>state.cards[id]&&state.cards[id].n>0)});
-  if(L&&checkI>=0) steps.push({id:"check",name:"Check yourself",sub:"New scenarios",done:checkDone});
-  if(xk.length) steps.push({id:"xf",name:"Exam-style",sub:xk.length+" questions",done:attempts.some(a=>a.scopeId==="xf-day-"+d.d&&!a.early)});
+  // 3.0: a level is three things: the learning links, the review and one test. Flashcards, Pocket
+  // Notes, scenarios and exam-style questions are optional extras (levelExtras) and live in the Library.
+  const steps=[];
+  const k0=links?links[0].kind:null;
+  if(links) steps.push({id:"link",name:"Learn",sub:k0==="video"?(links.length===1?"1 video course":links.length+" videos"):k0==="class"?"Your class module":"Microsoft Learn"+(links.length>1?" · "+links.length+" links":""),done:!!m.link});
+  steps.push({id:"learn",name:d.kind==="review"?"Guided review":d.kind==="exam"?"Exam day plan":"Review",
+    sub:L?learnN+(learnN===1?" part":" short sections"):d.kind?"What to do today":"Key points and terms",done:!!(L&&checkI>=0&&(st.sec|0)>=checkI)});
   steps.push({id:"quiz",name:"Level quiz",sub:quizDone?"Level complete":"Unlocks the next level",done:quizDone});
+  const li=steps.findIndex(x=>x.id==="learn");
   // A later step being done (or a quiz attempt) means the lesson was read.
-  if(anyQuiz||steps.slice(1).some(s=>s.done)) steps[0].done=true;
+  if(anyQuiz||quizDone) steps[li].done=true;
   const cur=quizDone?null:steps.find(s=>!s.done);
   steps.forEach((s,j)=>{ s.cur=s===cur; s.n=j+1; });
   return {steps,checkI,L,st,links,cur};
@@ -2530,24 +2545,38 @@ function levelPath(d,mode){
   return h("details",{class:"lvl-fold",open:ui.pathOpen?true:null,ontoggle:e=>{ ui.pathOpen=e.target.open; }},
     h("summary",{},
       h("span",{class:"lf-dots","aria-hidden":"true"},steps.map(()=>h("i",{}))),
-      h("span",{class:"lf-now"},h("b",{},N+" steps for this level")),
+      h("span",{class:"lf-now"},h("b",{},"Learn, review, then one quiz")),
       h("span",{class:"lf-more"},"All steps")),
     h("nav",{class:"lvl-path","aria-label":"Steps for this level"},pathList(d,steps)));
+}
+// 3.0: everything beyond links, review and the level quiz. Folded shut, never required.
+function levelExtras(d){
+  const concepts=(CN.byDay[d.d]||[]).filter(cnInProgram), cards=concepts.reduce((n,c)=>n+(c.cards||[]).length,0);
+  const xk=xfKeysFor(levelXfDays(d)), L=LESSON_PILOTS[d.d], sec=L&&L.sections.find(x=>x.type==="check"), items=[];
+  if(cards) items.push(["Flashcards",cards+" cards",()=>goLevelStep(d,"cards")]);
+  if(concepts.length) items.push(["Pocket Notes",concepts.length+" notes",()=>goLevelStep(d,"notes")]);
+  if(sec){ const days=sec.from||[d.d], max=sec.max||4, n=Math.min(max,CN.scenarios.filter(x=>days.includes(x.day)&&Q[x.id]).length);
+    if(n) items.push(["Scenarios",n+" workplace situations",()=>startQuiz({id:"lesson-check-"+d.d,label:(L.title||shortTitle(d.title))+" check",keys:pilotCheckKeys(days,max)},"think",n)]); }
+  if(xk.length) items.push(["Exam-style",xk.length+" questions",()=>goLevelStep(d,"xf")]);
+  if(!items.length) return null;
+  return h("details",{class:"lvl-extras"},h("summary",{},h("b",{},"Optional extra practice"),h("span",{},"Not needed to finish the level")),
+    h("div",{class:"lx-row"},items.map(([n,sub,go])=>h("button",{class:"btn small",onclick:go},h("span",{},n),h("small",{},sub)))),
+    h("p",{class:"meta"},"More tools for every topic are in the Library."));
 }
 // The course material for a level, always in view next to the path.
 function courseLinksRow(d){
   const links=courseLinks(d); if(!links) return null;
-  const sc=links[0].kind!=="video";
+  const k0=links[0].kind, sc=k0!=="video"&&k0!=="class";
   const list=h("ul",{},links.map(l=>h("li",{},
       h("a",{href:l.url,target:"_blank",rel:"noopener",onclick:()=>{ markStep(d.d,"link"); setTimeout(render,0); }},l.title,h("span",{class:"sr-only"}," (opens in a new tab)"),h("span",{"aria-hidden":"true"}," ↗")),
       l.focus?h("small",{},l.focus):null)));
-  const head=sc?"Microsoft Learn for this level":"Course videos for this level";
+  const head=k0==="class"?"Class material for this level":sc?"Microsoft Learn for this level":"Course videos for this level";
   // A long list (Security+ levels have up to 16 videos) folds away so the next step stays in view.
   if(links.length>3) return h("details",{class:"course-links cl-fold",open:ui.linksOpen===d.d?true:null,ontoggle:e=>{ ui.linksOpen=e.target.open?d.d:null; }},
     h("summary",{},h("span",{class:"cl-h"},head),h("span",{class:"cl-n"},links.length+" links")),list);
   return h("div",{class:"course-links"},
     h("p",{class:"cl-h"},head),list,
-    sc?h("p",{class:"meta"},"Free on Microsoft Learn. Opens in a new tab, and your place here is kept."):null);
+    k0==="class"?h("p",{class:"meta"},"Opens in a new tab. Sign in to NetAcad and pick this module in your class course."):sc?h("p",{class:"meta"},"Free on Microsoft Learn. Opens in a new tab, and your place here is kept."):null);
 }
 // Sections left in an interactive lesson you've started. Null when not started or finished.
 function sectionsLeft(d){
@@ -2743,8 +2772,8 @@ function renderExamToggle(){
 }
 // ---------- program picker ----------
 let programFormOpen=false;
-const PROGRAM_LABEL={sc:"SC-900 only",sec:"Security+ only",both:"Both (33-level camp)"};
-function setProgram(p){ state.program=p; programFormOpen=false; saveProgress(); render(); }
+const PROGRAM_LABEL={sc:"SC-900 only",sec:"Security+ only",both:"SC-900 + Security+ (33-level camp)",ccst:"CCST Networking"};
+function setProgram(p){ if(p==="ccst"&&state.program&&state.program!=="ccst") state.programBack=state.program; state.program=p; ui.sel=null; programFormOpen=false; saveProgress(); render(); }
 // 2.7.0: the look comes from the exam (applySkin); this only picks light, dark or the device setting.
 // The old "ops" choice was a dark look, so it reads as Dark.
 function themeChoice(){ try{ const t=localStorage.getItem(LS+".theme"); return t==="light"||t==="dark"?t:t==="ops"?"dark":"system"; }catch(e){ return "system"; } }
@@ -2822,7 +2851,8 @@ function renderProgramToggle(){
     h("div",{class:"actions",style:"flex-wrap:wrap"},
       h("button",{class:"btn "+(state.program==="sc"?"primary":""),onclick:()=>setProgram("sc")},"SC-900"),
       h("button",{class:"btn "+(state.program==="sec"?"primary":""),onclick:()=>setProgram("sec")},"Security+"),
-      h("button",{class:"btn "+(state.program==="both"?"primary":""),onclick:()=>setProgram("both")},"Both")),
+      h("button",{class:"btn "+(state.program==="both"?"primary":""),onclick:()=>setProgram("both")},"SC-900 + Security+"),
+      h("button",{class:"btn "+(state.program==="ccst"?"primary":""),onclick:()=>setProgram("ccst")},"CCST Networking")),
     h("div",{class:"actions"},h("button",{class:"btn",onclick:()=>{programFormOpen=false;render();}},"Cancel"))));
 }
 function programCounts(track){
@@ -2835,7 +2865,7 @@ function programCounts(track){
   };
 }
 function renderProgramPicker(){
-  const sc=programCounts("sc"), sec=programCounts("sec");
+  const sc=programCounts("sc"), sec=programCounts("sec"), cc=programCounts("ccst");
   const bothQ=Object.values(Q).filter(coreQ).length, bothDom=(DOMS.sc||[]).length+(DOMS.sec||[]).length, bothBoss=BOSSES.filter(b=>!b.final).length;
   const card=(title,subtitle,lines,onPick)=>h("div",{class:"program-card"},
     h("b",{},title), h("p",{class:"muted",style:"margin:0;font-size:calc(13px*var(--ts,1))"},subtitle),
@@ -2858,7 +2888,11 @@ function renderProgramPicker(){
       card("Both","The full 33-level camp",
         [bothQ+" questions · "+bothDom+" domains · "+bothBoss+" bosses + the final boss",
          "SC-900 first, then Security+."],
-        ()=>setProgram("both"))));
+        ()=>setProgram("both")),
+      card("CCST Networking","Cisco Certified Support Technician Networking (100-150)",
+        [cc.days+" lessons · "+cc.q+" questions · "+cc.dom+" domains so far",
+         "Follows a class's session order. Sessions 1 to 4 are here; more are on the way."],
+        ()=>setProgram("ccst"))));
 }
 function renderHeader(){
   const t=todayN(), ex=document.getElementById("exams"); ex.replaceChildren();
@@ -3038,6 +3072,7 @@ function scopes(){
     {id:"sofar",label:"Everything so far",keys:keysFor(upTo)}];
   if(inProgram("sc")) list.push({id:"sc",label:"SC-900 unlocked",keys:Object.values(Q).filter(q=>coreQ(q)&&q.track==="sc"&&q.d<=t).map(q=>q.k)});
   if(inProgram("sec")) list.push({id:"sec",label:"Security+ unlocked",keys:Object.values(Q).filter(q=>coreQ(q)&&q.track==="sec"&&q.d<=t).map(q=>q.k)});
+  if(inProgram("ccst")) list.push({id:"ccst",label:"CCST unlocked",keys:Object.values(Q).filter(q=>coreQ(q)&&q.track==="ccst"&&q.d<=t).map(q=>q.k)});
   const dueN=dueKeys().length;
   list.unshift({id:"review",label:dueN?"Review ("+dueN+" due)":"Review",keys:buildReviewSession(9999).keys});
   const xk=Object.values(Q).filter(q=>q.xf&&inProgram(q.track)).map(q=>q.k);
@@ -3058,7 +3093,7 @@ function scopes(){
   list.splice(1,0,{id:"rw",label:"Real-World ("+rwAll.length+")",keys:rwAll.filter(q=>rt==="all"||q.rw.type===rt).map(q=>q.k)});
   return list;
 }
-function programDomains(){ return ["sc","sec"].filter(inProgram).flatMap(t=>(DOMS[t]||[]).map(d=>d)); }
+function programDomains(){ return TRACKS.filter(inProgram).flatMap(t=>(DOMS[t]||[]).map(d=>d)); }
 function renderQuizTab(){
   if(run){ resumeRun(); return renderRun(); }
   const sc=scopes(); const cur=sc.find(s=>s.id===ui.quiz.scope)||sc[0];
@@ -3647,7 +3682,7 @@ function renderLab(){
 }
 async function generateQuestions(){
   if(ui.genBusy) return;
-  const hist=qHistory(), scores=["sc","sec"].filter(inProgram).flatMap(track=>DOMS[track].map(dom=>{const qs=Object.values(Q).filter(q=>q.track===track&&q.dom===dom);const seen=qs.map(q=>hist[q.k]).filter(Boolean);const accuracy=seen.length?seen.reduce((n,r)=>n+r.ok/r.seen,0)/seen.length:0;return {track,dom,accuracy};})).sort((a,b)=>a.accuracy-b.accuracy);
+  const hist=qHistory(), scores=TRACKS.filter(inProgram).flatMap(track=>DOMS[track].map(dom=>{const qs=Object.values(Q).filter(q=>q.track===track&&q.dom===dom);const seen=qs.map(q=>hist[q.k]).filter(Boolean);const accuracy=seen.length?seen.reduce((n,r)=>n+r.ok/r.seen,0)/seen.length:0;return {track,dom,accuracy};})).sort((a,b)=>a.accuracy-b.accuracy);
   const target=scores[0];
   const dayCandidates=Object.values(Q).filter(q=>q.track===target.track&&q.dom===target.dom&&q.d<=accessDay()).map(q=>q.d);
   const day=dayCandidates.length?Math.min(...dayCandidates):(target.track==="sc"?1:13);
@@ -4163,6 +4198,9 @@ function goTab(t){
 }
 function resumeRun(){ if(run&&run.pauseAt){ run.qt+=Date.now()-run.pauseAt; run.pauseAt=null; } }
 const STUDY_GROUPS=[["Learn",["plan","cards"]],["Practice",["quiz","acr","pbq","ports","sims","mock"]],["Build",["lab"]]];
+// 3.0: the Study tab is the level path and nothing else. Every tool lives in the Library; a tool
+// opened from a lesson gets this one-line way back.
+function studyBack(){ return h("div",{class:"lib-bar"},h("button",{class:"btn small ghost",onclick:()=>goTab("plan")},"← Back to the lesson")); }
 function renderStudyNav(){
   const cur=ui.tab==="quiz"&&ui.quiz.mode==="acronym"?"acr":ui.tab, label=Object.fromEntries(STUDY_VIEWS);
   const kids=[];
@@ -4321,12 +4359,12 @@ function renderSims(){
 // including locked levels' material. Nothing here unlocks levels; only the level quiz does.
 // ui.lib.on marks a tool opened from the Library, so it shows a "Library" back bar instead
 // of the Study sub-tabs and the Library main tab stays lit.
-const LIB_EXAMS=[["sc","SC-900"],["sec","Security+"],["ccst","CCST Networking","Coming in 3.0"]];
-const LIB_PREVIEW={ccst:true};   // selectable for its look; no tools until 3.0
+const LIB_EXAMS=[["sc","SC-900"],["sec","Security+"],["ccst","CCST Networking"]];
+const LIB_PREVIEW={};
 const libDomOk=(day,dom)=>dom==="all"||(BYDAY[day]&&BYDAY[day].dom===dom);
 function libQ(tr,dom,f){ return Object.values(Q).filter(q=>q&&q.track===tr&&(dom==="all"||q.dom===dom)&&!/^generated-|^acr-/.test(q.k)&&(f?f(q):coreQ(q))); }
 function libConcepts(tr,dom){ return (CN.concepts||[]).filter(c=>c.cert===tr&&libDomOk(c.day,dom)); }
-function libAcr(tr){ return ACRONYMS.filter(e=>e.t===tr||e.t==="both"); }
+function libAcr(tr){ return ACRONYMS.filter(e=>e.t===tr||(e.t==="both"&&tr!=="ccst")); }
 function libIcon(name){
   const NS="http://www.w3.org/2000/svg", s=document.createElementNS(NS,"svg");
   s.setAttribute("viewBox","0 0 24 24"); s.setAttribute("aria-hidden","true"); s.setAttribute("fill","none"); s.setAttribute("stroke","currentColor"); s.setAttribute("stroke-width","1.7"); s.setAttribute("stroke-linecap","round"); s.setAttribute("stroke-linejoin","round");
@@ -4349,7 +4387,7 @@ function libTools(tr,dom){
   const hist=qHistory(), qs=libQ(tr,dom), rw=libQ(tr,dom,q=>!!q.rw), xf=libQ(tr,dom,q=>!!q.xf);
   const missed=libQ(tr,dom,q=>!q.rw&&(hist[q.k]&&hist[q.k].miss>0)).concat(rw.filter(q=>hist[q.k]&&hist[q.k].miss>0));
   const cs=libConcepts(tr,dom), cards=cs.reduce((n,c)=>n+(c.cards||[]).length,0), days=[...new Set(cs.map(c=>c.day))].sort((a,b)=>a-b);
-  const acr=libAcr(tr).length, mock=typeof mockUnlockStatus==="function"?mockUnlockStatus(tr):{unlocked:false,need:0,have:0};
+  const acr=libAcr(tr).length, mock=MOCK_SPEC[tr]?mockUnlockStatus(tr):{unlocked:false,need:0,have:0};
   const nq=n=>n+" question"+(n===1?"":"s");
   const G=[
     ["Recall",[
@@ -4357,20 +4395,20 @@ function libTools(tr,dom){
         go:()=>libGo(()=>{ ui.cn.flashSetup=false; startFlash("lib:"+tr+":"+dom,20); })},
       {id:"notes",icon:"book",name:"Notes",sub:"Read the short notes for a topic",count:days.length+" deck"+(days.length===1?"":"s"),ok:days.length>0,
         go:()=>libGo(()=>{ ui.cn.view="notes"; ui.cn.deck=days[0]; goTab("cards"); })},
-      dom==="all"?{id:"acr",icon:"abc",name:"Acronyms",sub:"Fast acronym recall, both directions",count:acr+" acronyms",ok:acr>0,
+      dom==="all"&&acr?{id:"acr",icon:"abc",name:"Acronyms",sub:"Fast acronym recall, both directions",count:acr+" acronyms",ok:acr>0,
         go:()=>libGo(()=>{ ui.acr.track=tr; ui.acr.dom="All"; goTab("acr"); })}:null]],
     ["Questions",[
       {id:"quiz",icon:"quiz",name:"Quick quiz",sub:"10 questions with the why after each",count:nq(qs.length),ok:qs.length>0,go:()=>libQuiz(qs,"think",10,"Quick quiz")},
       {id:"blitz",icon:"bolt",name:"Speed round",sub:"Timed, one question at a time",count:nq(qs.length),ok:qs.length>0,go:()=>libQuiz(qs,"blitz",20,"Speed round")},
       {id:"written",icon:"pen",name:"Written recall",sub:"No choices. Answer from memory, then grade it",count:nq(qs.length),ok:qs.length>0,go:()=>libQuiz(qs,"written",10,"Written recall")},
-      {id:"rw",icon:"brief",name:"Scenarios",sub:"Workplace situations: spot it, pick the next step",count:nq(rw.length),ok:rw.length>0,go:()=>libQuiz(rw,"think",10,"Scenarios")},
+      !rw.length?null:{id:"rw",icon:"brief",name:"Scenarios",sub:"Workplace situations: spot it, pick the next step",count:nq(rw.length),ok:rw.length>0,go:()=>libQuiz(rw,"think",10,"Scenarios")},
       xf.length?{id:"xf",icon:"stack",name:"Exam-style",sub:"Yes/No sets, drop-downs, choose two, matching",count:nq(xf.length),ok:true,go:()=>libQuiz(xf,"think",10,"Exam-style")}:null,
       {id:"missed",icon:"redo",name:"My misses",sub:"Only questions you've gotten wrong before",count:missed.length?nq(missed.length):"None yet",ok:missed.length>0,go:()=>libQuiz(missed,"think",20,"My misses")}]],
     tr==="sec"&&dom==="all"||tr==="sec"&&/Architecture|Threats|Operations/.test(dom)?["Hands-on",[
       {id:"ports",icon:"plug",name:"Port Lab",sub:"Type the port for a real task, or pick the secure swap",count:(window.PORTLAB?PORTLAB.ports.length:0)+" ports",ok:true,go:()=>libGo(()=>goTab("ports"))},
       {id:"sims",icon:"shield",name:"Attack & Defense",sub:"Watch an attack play out, then stop it",count:(window.SIMS?SIMS.length:0)+" sims",ok:true,go:()=>libGo(()=>goTab("sims"))},
       {id:"pbq",icon:"grid",name:"PBQs",sub:"Firewall rules, ports, logs and packets",count:"4 labs",ok:true,go:()=>libGo(()=>goTab("pbq"))}]]:null,
-    dom==="all"?["Test day",[
+    dom==="all"&&MOCK_SPEC[tr]?["Test day",[
       {id:"mock",icon:"clock",name:"Mock exam",sub:mock.unlocked?"Full length and timed, scored at the end":"Opens after "+mock.need+" levels ("+mock.have+" done so far)",count:mock.unlocked?"Ready":"Locked",ok:!!mock.unlocked,
         go:()=>libGo(()=>{ if(typeof startMock==="function") startMock(tr); else goTab("mock"); })}]]:null
   ];
@@ -4378,8 +4416,11 @@ function libTools(tr,dom){
 }
 function libResume(){
   const out=[], f=state.study.flash, row=(ic,title,sub,go)=>h("button",{class:"lib-resume",onclick:go},libIcon(ic),h("span",{},h("b",{},title),h("small",{},sub)),h("span",{class:"lib-go","aria-hidden":"true"},"→"));
-  const t=unlockedDay(), day=BYDAY[t];
-  if(day&&!programDays().every(d=>state.done[d.d])) out.push(row("study","Continue Level "+displayDay(t)+": "+shortTitle(day.title),"Your guided path in Study. Only the level quiz unlocks the next one.",()=>{ ui.lib.on=false; ui.sel=t; goTab("plan"); }));
+  const t=unlockedDay(), day=BYDAY[t], ex=ui.lib.exam;
+  // The Study tab follows one level path at a time. Picking an exam outside it offers the switch.
+  if(!inProgram(ex)&&DAYS.some(d=>d.track===ex)) out.push(row("study",ex==="ccst"?"Open the CCST level path":"Go back to your "+TRACK[ex]+" levels",
+    "Changes which levels the Study tab shows. Your progress on every path is kept.",()=>{ ui.lib.on=false; setProgram(ex==="ccst"?"ccst":(state.programBack&&state.programBack!=="ccst"&&(state.programBack==="both"||state.programBack===ex)?state.programBack:ex)); goTab("plan"); }));
+  else if(day&&!programDays().every(d=>state.done[d.d])) out.push(row("study","Continue Level "+displayDay(t)+": "+shortTitle(day.title),"Your guided path in Study. Only the level quiz unlocks the next one.",()=>{ ui.lib.on=false; ui.sel=t; goTab("plan"); }));
   const dueQ=dueKeys().length;
   if(dueQ) out.push(row("redo","Review "+Math.min(dueQ,20)+" due question"+(Math.min(dueQ,20)===1?"":"s"),"Questions come back on a schedule. Due today.",()=>libGo(()=>startQuiz({id:"review",label:"Review",keys:[]},"think",Math.min(dueQ,20)))));
   const sp=state.study.sprint&&!state.study.sprint.finished?state.study.sprint:null;
@@ -4409,12 +4450,13 @@ function renderLibrary(){
       h("span",{class:"lib-ic"},libIcon(t.icon)),h("span",{class:"lib-tx"},h("b",{},t.name),h("small",{},t.sub)),h("span",{class:"lib-count"},t.count))))));
   return h("div",{class:"lib"},movedNote()||"",
     h("section",{class:"lib-head"},h("p",{class:"eyebrow"},"Library"),h("h1",{},"Study anything"),
-      h("p",{class:"muted"},"No levels, no steps. Pick an exam, a topic and a tool. Locked levels' material is open here too, and nothing here changes your levels.")),
+      h("p",{class:"muted"},"Optional practice, any time. Pick an exam, a topic and a tool. Locked levels' material is open here too, and nothing here changes your levels.")),
     xpCard(),
     libResume(),
     h("div",{class:"lib-pick"},h("p",{class:"lib-lbl"},"Exam"),exams),
     LIB_PREVIEW[tr]?ccstSoon():h("div",{class:"lib-pick"},h("p",{class:"lib-lbl"},"Topic"),topics),
-    LIB_PREVIEW[tr]?null:groups);
+    LIB_PREVIEW[tr]?null:groups,
+    h("p",{class:"meta lib-foot"},"Want to write your own questions? ",h("button",{class:"linklike",onclick:()=>libGo(()=>goTab("lab"))},"Open the Question Lab")));
 }
 function libBar(){
   const tr=ui.lib.exam, t=ui.lib.topic;
@@ -4560,7 +4602,7 @@ function renderHome(){
       A.length?h("ul",{class:"recent"},A.slice(0,3).map(a=>h("li",{},h("span",{},a.scope||a.scopeId),h("span",{},a.pct+"% · "+fmtD(new Date(a.ts)))))):h("span",{class:"meta"},"Your quiz scores will show up here.")));
   const aside=h("div",{class:"aside"},nb?bossPreview(nb.b):null,quick);
 
-  const overview=["sc","sec"].filter(inProgram).map(tr=>h("div",{class:"dgroup "+tr},h("h3",{},TRACK[tr]),
+  const overview=TRACKS.filter(inProgram).map(tr=>h("div",{class:"dgroup "+tr},h("h3",{},TRACK[tr]),
     h("ol",{class:"drows"},(DOMS[tr]||[]).map(dm=>{
       const e=evidenceFor(q=>q.track===tr&&q.dom===dm), b=bossFor(tr,dm), won=b&&state.bosses[bossKeyOf(b)];
       return h("li",{class:"drow"},
@@ -4665,7 +4707,7 @@ function renderPlan(){
   const groups=[], seen=new Set();
   pd.forEach(d=>{
     const last=groups[groups.length-1];
-    const key=d.dom||(last&&last.track===d.track?last.key:(d.kind==="exam"?"Exam day":"Review"));
+    const key=d.grp||d.dom||(last&&last.track===d.track?last.key:(d.kind==="exam"?"Exam day":"Review"));
     if(last&&last.key===key&&last.track===d.track) last.days.push(d);
     else { groups.push({key,track:d.track,label:seen.has(d.track+key)?"Final stretch":key.replace(/^(\d) /,"Domain $1 · "),days:[d]}); seen.add(d.track+key); }
   });
@@ -4817,7 +4859,7 @@ function renderLessonPilot(d,L){
     levelPath(d,"fold"),
     courseLinksRow(d),
     h("nav",{class:"pilot-steps","aria-label":"Lesson sections"},h("ol",{},secs.map((s,j)=>h("li",{},
-      h("button",{class:(j===i?"on":"")+(j<i?" past":""),"aria-current":j===i?"step":null,onclick:()=>pilotGo(d.d,j)},h("span",{class:"n"},j+1),h("span",{class:"t"},s.title)))))));
+      h("button",{class:(j===i?"on":"")+(j<i?" past":""),"aria-current":j===i?"step":null,onclick:()=>pilotGo(d.d,j)},h("span",{class:"n"},j+1),h("span",{class:"t"},s.type==="check"?"Level quiz":s.title)))))));
   let body;
   if(sec.type==="check") body=pilotCheck(d,L,sec);
   else body=h("div",{class:"pilot-grid"+(sec.practice?"":" no-practice")},
@@ -4826,7 +4868,7 @@ function renderLessonPilot(d,L){
     pilotNote(sec),
     h("div",{class:"pilot-nav"},
       prev?h("button",{class:"btn ghost",onclick:()=>pilotGo(d.d,i-1)},lessonIcon("back"),"Back"):h("span"),
-      next?h("button",{class:"btn primary lg",onclick:()=>pilotGo(d.d,i+1)},"Next: "+next.title,lessonIcon("arrow")):null));
+      next?h("button",{class:"btn primary lg",onclick:()=>pilotGo(d.d,i+1)},"Next: "+(next.type==="check"?"Level quiz":next.title),lessonIcon("arrow")):null));
   return h("article",{class:"pilot","aria-label":(L.title||shortTitle(d.title))+" lesson"},head,body,
     h("p",{class:"meta pilot-foot"},lessonSourceLine(L),
       h("button",{class:"linklike",onclick:()=>{ui.classicLesson=true;render();}},"Switch to the classic lesson view")));
@@ -5049,19 +5091,14 @@ function pilotCheckKeys(days,max){
   return shuffle(picked);
 }
 function pilotCheck(d,L,sec){
-  const scope="lesson-check-"+d.d, prior=attempts.filter(a=>a.scopeId===scope&&!a.early).sort((a,b)=>b.ts-a.ts)[0];
-  const days=sec.from||[d.d], max=sec.max||4, n=Math.min(max,CN.scenarios.filter(x=>days.includes(x.day)&&Q[x.id]).length);
+  // 3.0: one test per level. The scenario check moved to the optional extras.
   return h("div",{class:"pilot-check"},
-    h("section",{class:"pilot-card"},
-      h("h2",{},sec.title),h("p",{class:"pilot-lead"},sec.lead),
-      h("p",{},"The lesson text and Pocket Notes stay hidden while you answer. You'll get the explanations afterward."),
-      prior?h("p",{class:"meta"},"Last check: "+prior.score+" of "+prior.n+" on "+fmtD(new Date(prior.ts))+"."):null,
-      h("div",{class:"actions"},n?h("button",{class:"btn primary lg",onclick:()=>startQuiz({id:scope,label:(L.title||shortTitle(d.title))+" check",keys:pilotCheckKeys(days,max)},"think",n)},"Start the check ("+n+" scenarios)"):null,
-        h("button",{class:"btn ghost",onclick:()=>pilotGo(d.d,0)},"Review the lesson first"))),
-    levelQuizSection(d,"Level quizzes"),
+    levelQuizSection(d,"Level quiz"),
+    h("div",{class:"actions"},h("button",{class:"btn ghost",onclick:()=>pilotGo(d.d,0)},"Review the lesson first")),
     (d.terms||d.trap)?h("details",{class:"pilot-summary"},h("summary",{},"Lesson summary: terms and exam trap"),
       d.terms?h("dl",{class:"terms"},d.terms.map(([a,b])=>h("div",{},h("dt",{},a),h("dd",{},b)))):null,
-      d.trap?h("aside",{class:"trap"},h("p",{class:"trap-label"},"Exam trap"),h("p",{},d.trap)):null):null);
+      d.trap?h("aside",{class:"trap"},h("p",{class:"trap-label"},"Exam trap"),h("p",{},d.trap)):null):null,
+    levelExtras(d));
 }
 // Arrow keys move between options in a tablist (facets, models, layers).
 document.addEventListener("keydown",e=>{
@@ -5101,19 +5138,19 @@ function levelQuizSection(d,heading){
   const done=!!state.done[d.d], finished=modesCompleted(scope.id).has(mode);
   const why=d.kind==="review"&&mode==="written"&&rulesFor(state.prestige).levelMode!=="written"?"From the Shadow IT tier, review levels use Written.":
     state.prestige>=4?"Prestige 4 and up: level quizzes are Written.":state.prestige>=1?"From Prestige 1, level quizzes run in Blitz.":"Your first run uses Think mode. From Prestige 1 it's Blitz, and from Prestige 4 it's Written.";
-  return h("section",{class:"check"},h("h2",{},heading||"Check yourself"),
+  return h("section",{class:"check"},h("h2",{},heading||"Level quiz"),
     h("p",{class:"meta"},n+" questions, shuffled"+(xn&&!d.n?", including "+xn+" exam-style (Yes/No, drop-down, choose two, matching)":"")+". "+(capped?"Drawn from this level's "+pool.length+", favouring ones you've missed or haven't seen. ":"")+(done?"Level complete.":"Finish the level quiz to unlock the next level.")),
     h("div",{class:"actions"},h("button",{class:"btn modebtn"+(done?"":" primary"),onclick:()=>startQuiz(capped?{...scope,keys:levelQuizDraw(pool,mode)}:scope,mode,n)},
       h("span",{class:"row",style:"gap:6px;width:100%;justify-content:space-between"},"Level quiz · "+info.name,finished?h("span",{class:"chip good"},"✓"):null),
       h("small",{},info.desc))),
-    h("p",{class:"muted",style:"margin:6px 0 0;font-size:calc(13px*var(--ts,1))"},why+" Other modes stay available in Practice."),
+    state.prestige>=1?h("p",{class:"muted",style:"margin:6px 0 0;font-size:calc(13px*var(--ts,1))"},why):null,
     (done||instructorOn())&&d.d<accessDay()?h("div",{class:"actions",style:"margin-top:12px"},h("button",{class:"btn",onclick:()=>{ui.sel=d.d+1;render();window.scrollTo(0,0);}},"Next level")):null);
 }
 function lessonPanel(d){
   const pilot=pilotFor(d.d); if(pilot) return renderLessonPilot(d,pilot);
   const date=fmtD(dayDate(d.d)), dd=displayDay(d.d);
   const kids=[h("div",{class:"lesson-head"},
-    h("div",{class:"row",style:"gap:8px"},h("span",{class:"tag "+d.track},TRACK[d.track]),h("span",{class:"meta"},"Level "+dd+" · "+date+(d.dom?" · "+d.dom.replace(/^\d /,""):"")+(d.min?" · about "+d.min+" min":""))),
+    h("div",{class:"row",style:"gap:8px"},h("span",{class:"tag "+d.track},TRACK[d.track]),h("span",{class:"meta"},"Level "+dd+(d.track==="ccst"?(d.grp?" · "+d.grp:""):" · "+date)+(d.dom?" · "+d.dom.replace(/^\d /,""):"")+(d.min?" · about "+d.min+" min":""))),
     h("h1",{tabindex:"-1"},d.kind?d.title:shortTitle(d.title)),
     !d.kind&&topicsOf(d.title)?h("p",{class:"hero-sub"},topicsOf(d.title)):null,
     speakBtn("lesson|"+d.d,".lesson .lesson-head h1,.lesson .kp,.lesson .terms,.lesson .trap","lesson")),
@@ -5123,12 +5160,8 @@ function lessonPanel(d){
   kids.push(h("div",{class:"kp"},d.pts.map(p=>{const [a,b]=p.split("|"), vis=LESSON_VISUALS[d.d]&&LESSON_VISUALS[d.d][a];return h("section",{class:"kp-item"},h("h3",{},a),h("p",{},b),vis?lessonVisual(vis):null);})));
   if(d.terms) kids.push(h("section",{},h("h2",{},d.d===31?"Ports to lock in":"Terms to lock in"),h("dl",{class:"terms"},d.terms.map(([a,b])=>h("div",{},h("dt",{},a),h("dd",{},b))))));
   if(d.trap) kids.push(h("aside",{class:"trap"},h("p",{class:"trap-label"},"Exam trap"),h("p",{},d.trap)));
-  const cs=(CN.byDay[d.d]||[]).filter(cnInProgram);
-  if(cs.length) kids.push(h("section",{class:"quickrev"},
-    h("p",{},h("b",{},"Quick review: "),cs.length+" Pocket Notes and "+cs.reduce((n,c)=>n+c.cards.length,0)+" flashcards for this level."),
-    h("div",{class:"actions"},h("button",{class:"btn small",onclick:()=>{ui.cn.view="notes";ui.cn.deck=d.d;goTab("cards");}},"Pocket Notes"),h("button",{class:"btn small",onclick:()=>{ui.cn.flashSetup=false;startFlash("d"+d.d,999);}},"Flashcards"))));
   kids.push(levelQuizSection(d));
-  if(d.track==="sec"&&!d.kind) kids.push(h("p",{class:"meta"},"The matching Professor Messer videos take about 30–45 minutes at 1.25×."));
+  const ex=levelExtras(d); if(ex) kids.push(ex);
   return h("article",{class:"panel lesson"},kids);
 }
 
@@ -5221,7 +5254,7 @@ function validateBackup(p){
   if(st.bosses!=null&&!isObj(st.bosses)) errs.push("boss wins are malformed");
   if(st.xp!=null&&!isNum(st.xp)) errs.push("XP is not a number");
   if(st.prestige!=null&&!isNum(st.prestige)) errs.push("prestige is not a number");
-  if(st.program!=null&&!["sc","sec","both"].includes(st.program)) errs.push("unknown program");
+  if(st.program!=null&&!["sc","sec","both","ccst"].includes(st.program)) errs.push("unknown program");
   if(st.studyMode!=null&&!["self","campaign"].includes(st.studyMode)) errs.push("unknown study mode");
   if(st.customQuestions!=null&&!Array.isArray(st.customQuestions)) errs.push("custom questions are malformed");
   if(st.start!=null&&!/^\d{4}-\d{2}-\d{2}$/.test(st.start)) errs.push("plan start date is malformed");
@@ -5473,7 +5506,7 @@ function renderStats(){
   const chartLegend=h("div",{class:"legend"},Object.keys(ALL_MODES).map(m=>h("span",{},h("i",{class:"mode-dot",style:"background:"+modeInfo(m).color}),modeInfo(m).name)));
 
   // domains
-  const domBars=["sc","sec"].filter(inProgram).map(t=>h("div",{class:"bars"},h("h3",{},TRACK[t]),DOMS[t].map(dm=>{
+  const domBars=TRACKS.filter(inProgram).map(t=>h("div",{class:"bars"},h("h3",{},TRACK[t]),DOMS[t].map(dm=>{
     const xs=items.filter(x=>x.q.track===t&&x.q.dom===dm); const p=xs.length?pct(xs.reduce((s,x)=>s+x.ok,0),xs.length):null;
     return h("div",{class:"bar"},h("span",{},dm),h("span",{class:"track"},p!=null?h("i",{style:`width:${p}%;background:var(--${t})`}):null),h("span",{class:"tabnum",style:"text-align:right"},p!=null?h("span",{class:"chip "+(p>=80?"good":"weak")},p+"%"):h("span",{class:"muted"},"–")));
   })));
@@ -5859,9 +5892,11 @@ const CN_TITLES={
   sprinter:{name:"Sprinter",desc:"Finish 3 five-minute sprints"},
   fieldwork:{name:"Field Worker",desc:"Answer 10 Real-World scenarios correctly"}
 };
-const cnInProgram=c=>inProgram(c.cert);
+// Opened from the Library, the picked exam counts as in view even when the level path is on another one.
+const libExamOn=t=>!!(ui.lib&&ui.lib.on&&ui.lib.exam===t);
+const cnInProgram=c=>inProgram(c.cert)||libExamOn(c.cert);
 const cmpInProgram=k=>(k.certs||[]).some(inProgram);
-function cnDecks(){ return programDays().filter(d=>CN.byDay[d.d]&&CN.byDay[d.d].some(cnInProgram)).map(d=>d.d); }
+function cnDecks(){ return DAYS.filter(d=>inProgram(d.track)||libExamOn(d.track)).filter(d=>CN.byDay[d.d]&&CN.byDay[d.d].some(cnInProgram)).map(d=>d.d); }
 function cnDeckDay(){
   const decks=cnDecks(); if(!decks.length) return null;
   if(decks.includes(ui.cn.deck)) return ui.cn.deck;
@@ -6383,7 +6418,7 @@ function renderCore(){
   if(STUDY_TABS.includes(ui.tab)&&!ui.lib.on) ui.studyTab=ui.tab==="quiz"&&ui.quiz.mode==="acronym"?"acr":ui.tab;
   if(ui.tab==="acr"){ ui.tab="quiz"; if(ui.quiz.mode!=="acronym"){ ui.lastMode=ui.quiz.mode; ui.quiz.mode="acronym"; } }
   const main=ui.tab==="library"?renderLibrary():ui.tab==="home"?renderHome():ui.tab==="plan"?renderPlan():ui.tab==="cards"?renderCN():ui.tab==="quiz"?renderQuizTab():ui.tab==="stats"?renderStats():ui.tab==="game"?renderGame():ui.tab==="pbq"?renderPBQ():ui.tab==="ports"?renderPortLab():ui.tab==="sims"?renderSims():ui.tab==="lab"?renderLab():ui.tab==="mock"?renderMock():renderCampaign();
-  v.replaceChildren(instructorBanner()||"",ui.tab==="library"&&renameNotice()||"",STUDY_TABS.includes(ui.tab)?h("div",{style:"display:flex;flex-direction:column;gap:16px"},ui.lib.on?libBar():renderStudyNav(),main):main);
+  v.replaceChildren(instructorBanner()||"",ui.tab==="library"&&renameNotice()||"",STUDY_TABS.includes(ui.tab)?h("div",{style:"display:flex;flex-direction:column;gap:16px"},ui.lib.on?libBar():ui.tab==="plan"?null:studyBack(),main):main);
   document.body.classList.toggle("wide-lesson",!!v.querySelector(".pilot"));
   if(run&&!run.finished&&run.timedMs&&!run.answered&&!tick&&ui.tab==="quiz") startTimer();
 }
