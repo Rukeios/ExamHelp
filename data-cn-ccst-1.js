@@ -271,7 +271,7 @@ const M=window.CCST_MODULES||[];
 const links={};
 (window.DAYS||[]).filter(d=>d.track==="ccst"&&d.mod).forEach(d=>{
   links[d.d]=[
-    {title:"Cisco NetAcad: Module "+d.mod+", "+M[d.mod],url:"https://www.netacad.com/",focus:"Read the module and do its labs in your class course",kind:"class"},
+    {title:"Cisco NetAcad: Module "+d.mod+", "+M[d.mod],url:"https://www.netacad.com/",focus:"Read the module and do its labs in the Cisco NetAcad course",kind:"class"},
     {title:"Cisco: CCST Networking exam topics",url:TOPICS,focus:"The official list of what the exam covers",kind:"guide"}];
 });
 window.COURSE_LINKS=Object.assign(window.COURSE_LINKS||{},links);
