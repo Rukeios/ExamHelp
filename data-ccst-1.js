@@ -1,9 +1,9 @@
-// CCST Networking (Cisco 100-150), part 1: class Sessions 1 to 4 (course modules 1 to 14).
+// CCST Networking (Cisco 100-150), part 1: Cisco NetAcad course modules 1 to 14.
 // Written in our own words from Cisco's public CCST Networking exam topics. Nothing here is copied
 // from course text. Levels 34-47; one level per module, in the order a class covers them.
 // q: [question, [options...], correctIndex, why]  (answer at index 0, shuffled when shown)
 (function(){
-const S1="Session 1", S2="Session 2", S3="Session 3", S4="Session 4";
+const S1="Part 1 · Modules 1–4", S2="Part 2 · Modules 5–7", S3="Part 3 · Modules 8–11", S4="Part 4 · Modules 12–14";
 const D1="1 Standards & concepts", D2="2 Addressing", D3="3 Endpoints & media", D4="4 Infrastructure";
 const L=[
 /* ================= Session 1 ================= */

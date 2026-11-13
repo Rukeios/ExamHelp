@@ -3,15 +3,19 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"3.0.1", date:"2026-11-12", title:"CCST wording", tag:"fix", items:[
+  "CCST levels no longer talk about \"your class\". They are grouped as Parts 1 to 4 by course module, and the links point to the Cisco NetAcad course, so they read right whether you are in a class or studying on your own."
+]},
+
 { v:"3.0.0", date:"2026-11-12", title:"CCST Networking and leaner lessons", tag:"feature", items:[
-  "CCST Networking is here. The first 14 levels cover class Sessions 1 to 4 (course modules 1 to 14), one level per module, grouped by session. Each has a short review, terms, an exam trap and an 8-question level quiz: 112 questions, 28 Pocket Notes and 56 flashcards so far.",
+  "CCST Networking is here. The first 14 levels follow modules 1 to 14 of the Cisco NetAcad CCST Networking course, one level per module, in four parts. Each has a short review, terms, an exam trap and an 8-question level quiz: 112 questions, 28 Pocket Notes and 56 flashcards so far.",
   "To study it, open the Library, pick CCST Networking and choose Open the CCST level path. Your SC-900 and Security+ progress is kept, and picking Security+ in the Library gives you a one-tap way back.",
   "CCST content is written in our own words from Cisco's public exam topics. It is a first draft and has not been checked by a human expert yet.",
   "Every level is now three steps: Learn (the course links), Review (the lesson) and one Level quiz. Only the level quiz unlocks the next level, as before.",
   "Flashcards, Pocket Notes, scenarios and exam-style questions are no longer steps. They sit in a closed Optional extra practice fold under the quiz, and in the Library.",
   "The Study tab now shows your levels and nothing else. The row of nine tool tabs is gone; every tool is in the Library, and the Question Lab has a link at the bottom of it.",
   "Interactive lessons end on the Level quiz. The separate scenario check that came before it is now optional.",
-  "Still to come for CCST: Sessions 5 and up, scenarios, a mock exam and acronyms."
+  "Still to come for CCST: modules 15 and up, scenarios, a mock exam and acronyms."
 ]},
 
 { v:"2.7.1", date:"2026-11-12", title:"Header fix", tag:"fix", items:[
