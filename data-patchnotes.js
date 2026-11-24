@@ -3,6 +3,13 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"3.3.0", date:"2026-11-24", title:"Mocks open, fresh questions", tag:"feature", items:[
+  "Mock exams are open from day one. You no longer have to finish every level first. Mocks still never unlock levels; only the level quiz does.",
+  "If you haven't finished the levels yet, the mock screen tells you how many you've done, so you know to expect some unstudied topics.",
+  "Every mock now uses the questions you've seen least in earlier mocks, so back-to-back mocks get different questions. The mock screen shows how many you haven't had yet.",
+  "Mocks taken in Instructor view don't count toward that, so your real mock history stays clean.",
+  "The levels now lead up to the mock. Once every level for an exam is done, the Study tab shows a Finish line card, and your first mock after that earns 250 bonus XP on top of the usual 100."
+]},
 { v:"3.2.0", date:"2026-11-24", title:"Subnet Lab", tag:"feature", items:[
   "New page: the Subnet Lab. Type any IP address and slash (or a mask) and it shows the bits, the block the address falls in, and every step to the network, broadcast, usable range and host count.",
   "It teaches the magic-number method: find the octet, take the block size, count up by it. One small table covers /25 to /30.",
