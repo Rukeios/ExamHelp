@@ -3,6 +3,14 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"3.2.0", date:"2026-11-24", title:"Subnet Lab", tag:"feature", items:[
+  "New page: the Subnet Lab. Type any IP address and slash (or a mask) and it shows the bits, the block the address falls in, and every step to the network, broadcast, usable range and host count.",
+  "It teaches the magic-number method: find the octet, take the block size, count up by it. One small table covers /25 to /30.",
+  "An endless subnet drill keeps your streak on this device. Show working sends any question to the calculator.",
+  "It also has two 15-question scenario quizzes, one for Security+ and one for CCST Networking, with the why after every answer and a retry for the ones you missed.",
+  "Open it from the Library (CCST Networking, Hands-on), from Optional extra practice on the CCST addressing levels, or from the footer.",
+  "The Subnet Lab doesn't change your levels or XP."
+]},
 { v:"3.1.0", date:"2026-11-13", title:"CCST modules 15 to 26", tag:"feature", items:[
   "12 new CCST Networking levels follow modules 15 to 26 of the Cisco NetAcad course, in Parts 5 to 8: TCP and UDP, application services, testing tools (ping, tracert, nslookup), network design, cloud and virtualization, binary and hex, switching and VLANs, the network layer, IPv4 address structure, ARP and IPv6 Neighbor Discovery, DNS and DHCP services, and the transport layer.",
   "That brings CCST to 26 levels, 208 level-quiz questions, 52 Pocket Notes and 104 flashcards.",
