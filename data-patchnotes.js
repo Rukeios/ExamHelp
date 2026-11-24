@@ -3,11 +3,14 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
-{ v:"3.3.0", date:"2026-11-24", title:"Mocks open, fresh questions", tag:"feature", items:[
+{ v:"3.3.0", date:"2026-11-24", title:"Mock exam mega update", tag:"feature", items:[
   "Mock exams are open from day one. You no longer have to finish every level first. Mocks still never unlock levels; only the level quiz does.",
   "If you haven't finished the levels yet, the mock screen tells you how many you've done, so you know to expect some unstudied topics.",
   "Every mock now uses the questions you've seen least in earlier mocks, so back-to-back mocks get different questions. The mock screen shows how many you haven't had yet.",
   "Mocks taken in Instructor view don't count toward that, so your real mock history stays clean.",
+  "The Security+ mock now opens with 3 performance-based questions, like the real exam. They're drawn from a new set of 12: firewall rule tables, placing systems in network zones, matching attacks to fixes, reading logs, ordering incident response and evidence collection, control types, Wi-Fi settings, PKI terms, ports, risk responses and data roles.",
+  "Each PBQ scores a point per correct cell, and takes the place of a multiple-choice question from its own domain, so the mock is still 90 questions with the same domain weights. Your results review shows each missed PBQ with the right answers and why.",
+  "Practice them on their own any time: Library, Security+, Hands-on, Exam PBQs. Check your answers cell by cell.",
   "The levels now lead up to the mock. Once every level for an exam is done, the Study tab shows a Finish line card, and your first mock after that earns 250 bonus XP on top of the usual 100."
 ]},
 { v:"3.2.0", date:"2026-11-24", title:"Subnet Lab", tag:"feature", items:[

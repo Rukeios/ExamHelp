@@ -699,6 +699,17 @@ header nav.tabs{grid-area:nav}
 .lvl-extras>.meta{margin:8px 14px 12px}
 .lib-foot{margin:4px 0 0}
 .finish-line{border:2px solid var(--accent,var(--sec))}
+.pbq-x .pbq-scroll{overflow-x:auto}
+.pbq-table{width:100%;border-collapse:collapse}
+.pbq-table th,.pbq-table td{padding:8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.pbq-table th{font-size:calc(13px*var(--ts,1));color:var(--muted)}
+.pbq-table td.pbq-label{min-width:12em}
+.pbq-table select{min-height:40px;max-width:100%;font-size:16px}
+.pbq-table select.ok{border-color:var(--ok)}.pbq-table select.no{border-color:var(--bad)}
+.pbq-log{font:calc(13px*var(--ts,1))/1.5 var(--mono);background:var(--sunk,var(--surface));border:1px solid var(--line);border-radius:8px;padding:10px;overflow-x:auto;white-space:pre;margin:0 0 10px}
+.pbq-zones{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 10px}
+.pbq-zone{border:2px dashed var(--line);border-radius:10px;padding:14px 8px;text-align:center;font-size:calc(13px*var(--ts,1))}
+@media(max-width:600px){.pbq-table thead{display:none}.pbq-table tr{display:grid;padding:8px 0;border-bottom:1px solid var(--line)}.pbq-table td{border:0;padding:3px 0}}
 /* ---------- study sub-navigation: grouped ---------- */
 .subnav{gap:4px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:0}
 .subnav .sn-group{display:flex;gap:2px;align-items:center;flex:0 0 auto}
@@ -1696,6 +1707,7 @@ nav.tabs .tab-ic svg{width:22px;height:22px}
 <script src="data-cn-ccst-1.js?v=3.3.0"></script>
 <script src="data-cn-ccst-2.js?v=3.3.0"></script>
 <script src="data-portlab.js?v=3.3.0"></script>
+<script src="data-pbq-sec.js?v=3.3.0"></script>
 <script src="data-sims.js?v=3.3.0"></script>
 <script src="examhelp-effects.js?v=3.3.0"></script>
 <script>
@@ -3716,13 +3728,57 @@ function approveGenerated(index){
   state.customQuestions.push(q); addCustomQuestion(q); ui.generated.splice(index,1); saveProgress(); render();
 }
 
+
+// ---------- 3.3: exam-style PBQs (data-pbq-sec.js) ----------
+// A PBQ is a table: each row has one drop-down per column, and every cell is one point.
+const PBQX=()=>window.PBQ_SEC||[];
+const pbqOpts=(p,r,c)=>(r.opts&&r.opts[c])||p.cols[c].options;
+const pbqParts=p=>p.rows.reduce((n,r)=>n+r.ans.length,0);
+const pbqEmpty=p=>p.rows.map(r=>r.ans.map(()=>null));
+const pbqTouched=sel=>!!sel&&sel.some(r=>r.some(v=>v!==null&&v!==undefined));
+function pbqScore(p,sel){ sel=sel||pbqEmpty(p); let right=0,tot=0;
+  const cells=p.rows.map((r,i)=>r.ans.map((a,c)=>{ tot++; const ok=!!sel[i]&&sel[i][c]===a; if(ok) right++; return ok; }));
+  return {ok:tot?right/tot:0,right,tot,cells}; }
+function pbqWidget(p,sel,o){
+  o=o||{}; const sc=o.reveal?pbqScore(p,sel):null;
+  const ctx=[];
+  if(p.log) ctx.push(h("pre",{class:"pbq-log","aria-label":"Log entries"},p.log.join("\n")));
+  if(p.zones) ctx.push(h("div",{class:"pbq-zones","aria-hidden":"true"},p.zones.map((z,i)=>h("div",{class:"pbq-zone z"+i},h("b",{},z)))));
+  const head=h("tr",{},h("th",{},"Item"),p.cols.map(c=>h("th",{},c.name)));
+  const body=p.rows.map((r,i)=>h("tr",{},h("td",{class:"pbq-label"},r.label),r.ans.map((a,c)=>{
+    const opts=pbqOpts(p,r,c), ok=sc&&sc.cells[i][c];
+    const s=h("select",{"aria-label":r.label+": "+p.cols[c].name,disabled:o.locked?true:null,class:sc?(ok?"ok":"no"):null,
+      onchange:e=>{ sel[i][c]=e.target.value===""?null:+e.target.value; if(o.onChange) o.onChange(); }},
+      h("option",{value:""},"Select…"),opts.map((t,j)=>h("option",{value:String(j)},t)));
+    s.value=sel[i][c]===null||sel[i][c]===undefined?"":String(sel[i][c]);
+    return h("td",{},s,sc&&!ok?h("span",{class:"xf-fix"},"Answer: "+opts[a]):null); })));
+  return h("div",{class:"pbq-x"},
+    h("p",{class:"eyebrow",style:"margin:0"},"Performance-based question · "+pbqParts(p)+" points"),
+    h("h3",{class:"qtext",style:"margin:4px 0 6px"},p.title),
+    h("p",{style:"margin:0 0 10px"},p.brief),ctx,
+    h("div",{class:"pbq-scroll"},h("table",{class:"pbq-table"},h("thead",{},head),h("tbody",{},body))),
+    sc?h("p",{class:"muted",style:"margin:10px 0 0"},h("b",{},sc.right+" of "+sc.tot+" correct. "),p.why):null);
+}
+function pickPbqs(n){ return PBQX().slice().sort(()=>Math.random()-.5).sort((a,b)=>mockSeenN("pbq:"+a.id)-mockSeenN("pbq:"+b.id)).slice(0,n); }
+function examPBQ(){
+  const L=PBQX(); if(!L.length) return h("section",{class:"panel"},h("p",{},"No PBQs loaded."));
+  const st=pbq.exam||(pbq.exam={i:0,sel:null,checked:false}); const p=L[st.i]; if(!st.sel) st.sel=pbqEmpty(p);
+  const go=i=>{ pbq.exam={i:(i+L.length)%L.length,sel:null,checked:false}; render(); };
+  return h("section",{class:"panel"},
+    h("p",{class:"muted",style:"margin:0 0 10px"},"Practice the formats the real exam opens with: rule tables, placement, matching, log reading and ordering. "+(st.i+1)+" of "+L.length+"."),
+    h("div",{class:"seg",style:"flex-wrap:wrap;margin-bottom:12px"},L.map((x,i)=>h("button",{"aria-pressed":String(i===st.i),onclick:()=>go(i)},String(i+1)))),
+    pbqWidget(p,st.sel,{reveal:st.checked,locked:st.checked,onChange:()=>{}}),
+    h("div",{class:"actions"},
+      st.checked?h("button",{class:"btn",onclick:()=>{ st.sel=pbqEmpty(p); st.checked=false; render(); }},"Try again"):h("button",{class:"btn primary",onclick:()=>{ st.checked=true; render(); }},"Check"),
+      h("button",{class:"btn",onclick:()=>go(st.i+1)},"Next PBQ →")));
+}
 // ---------- PBQ simulators ----------
 let pbq={firewall:["Allow HTTPS from any","Deny 203.0.113.77","Allow admin SSH from 10.10.0.0/16"],port:{},portPick:null,logs:[],attack:"",
   packet:{topo:{},ipA:"",ipS:"",acl:{https:"",telnet:"",mgmt:""},checked:false,pick:null}};
 function renderPBQ(){
-  const modes=[["firewall","Firewall builder"],["port","Port match"],["logs","Log hunt"],["packet","Packet tracer"]];
+  const modes=[["exam","Exam PBQs"],["firewall","Firewall builder"],["port","Port match"],["logs","Log hunt"],["packet","Packet tracer"]];
   const selector=h("div",{class:"seg"},modes.map(([id,label])=>h("button",{"aria-pressed":String(ui.pbq===id),onclick:()=>{ui.pbq=id;render();}},label)));
-  return h("div",{style:"display:flex;flex-direction:column;gap:16px"},selector,ui.pbq==="firewall"?firewallPBQ():ui.pbq==="port"?portPBQ():ui.pbq==="packet"?packetPBQ():logsPBQ());
+  return h("div",{style:"display:flex;flex-direction:column;gap:16px"},selector,ui.pbq==="exam"?examPBQ():ui.pbq==="firewall"?firewallPBQ():ui.pbq==="port"?portPBQ():ui.pbq==="packet"?packetPBQ():logsPBQ());
 }
 // Firewall builder: graded by SIMULATION, never by comparing rule order.
 // Every test packet is walked through the learner's ruleset top-down, first match wins,
@@ -4422,7 +4478,8 @@ function libTools(tr,dom){
     tr==="sec"&&dom==="all"||tr==="sec"&&/Architecture|Threats|Operations/.test(dom)?["Hands-on",[
       {id:"ports",icon:"plug",name:"Port Lab",sub:"Type the port for a real task, or pick the secure swap",count:(window.PORTLAB?PORTLAB.ports.length:0)+" ports",ok:true,go:()=>libGo(()=>goTab("ports"))},
       {id:"sims",icon:"shield",name:"Attack & Defense",sub:"Watch an attack play out, then stop it",count:(window.SIMS?SIMS.length:0)+" sims",ok:true,go:()=>libGo(()=>goTab("sims"))},
-      {id:"pbq",icon:"grid",name:"PBQs",sub:"Firewall rules, ports, logs and packets",count:"4 labs",ok:true,go:()=>libGo(()=>goTab("pbq"))}]]:null,
+      {id:"pbqx",icon:"grid",name:"Exam PBQs",sub:"Rule tables, placement, matching, logs and ordering, graded cell by cell",count:PBQX().length+" PBQs",ok:PBQX().length>0,go:()=>libGo(()=>{ ui.pbq="exam"; goTab("pbq"); })},
+      {id:"pbq",icon:"grid",name:"PBQ labs",sub:"Firewall builder, port match, log hunt, packet tracer",count:"4 labs",ok:true,go:()=>libGo(()=>{ if(ui.pbq==="exam") ui.pbq="firewall"; goTab("pbq"); })}]]:null,
     tr==="ccst"&&(dom==="all"||/Addressing/.test(dom))?["Hands-on",[
       {id:"subnet",icon:"grid",name:"Subnet Lab",sub:"Calculator that shows every step, an endless drill and two quizzes",count:"Opens a page",ok:true,go:()=>{ location.href="subnet-lab/"; }}]]:null,
     dom==="all"&&MOCK_SPEC[tr]?["Test day",[
@@ -5593,7 +5650,7 @@ const MOCK_SPEC = {
   // 45 minutes is Microsoft's exam time for fundamentals exams. The mix follows the skills-measured
   // weights (10-15 / 25-30 / 35-40 / 20-25%). xf = how many of each domain are exam-style.
   sc:{n:50,minutes:45,mix:{"Concepts":6,"Entra":14,"Security solutions":19,"Compliance":11},xf:{"Concepts":2,"Entra":6,"Security solutions":8,"Compliance":4}},
-  sec:{n:90,minutes:90,mix:{"1 General concepts":11,"2 Threats & vulns":20,"3 Architecture":16,"4 Operations":25,"5 Program mgmt":18}}
+  sec:{n:90,minutes:90,pbq:3,mix:{"1 General concepts":11,"2 Threats & vulns":20,"3 Architecture":16,"4 Operations":25,"5 Program mgmt":18}}
 };
 let mockRun=null, mockTick=null;
 function mockUnlockDays(track){ return track==="sc"?SC_UNLOCK_DAYS:SEC_UNLOCK_DAYS; }
@@ -5622,7 +5679,12 @@ function buildMockList(track){
     keys=keys.concat(xs,pool.slice(0,n-xs.length));
   });
   keys=shuffle(keys);
-  return {list:keys.map(k=>{const q=Q[k];const order=shuffle([0,1,2,3].slice(0,q.o.length));return {k,q,order,xo:q.xf?xfOrder(q.xf):null};}),shortfalls};
+  // 3.3: like the real exam, PBQs come first. Each one takes the place of a multiple-choice question
+  // from its own domain, so the total and the domain weights stay the same.
+  const pb=spec.pbq?pickPbqs(spec.pbq):[];
+  pb.forEach(p=>{ const i=keys.findIndex(k=>Q[k].dom===p.dom&&!Q[k].xf); if(i>=0) keys.splice(i,1); });
+  const pbItems=pb.map(p=>({k:"pbq:"+p.id,q:{pbq:p,dom:p.dom,d:null,q:p.title},order:null,xo:null}));
+  return {list:pbItems.concat(keys.map(k=>{const q=Q[k];const order=shuffle([0,1,2,3].slice(0,q.o.length));return {k,q,order,xo:q.xf?xfOrder(q.xf):null};})),shortfalls};
 }
 function startMock(track){
   const st=mockUnlockStatus(track); if(!st.unlocked) return;
@@ -5670,10 +5732,10 @@ function submitMock(auto){
   stopMockTimer();
   mockRun.submitted=true; mockRun.confirmOpen=false;
   // Points: one per multiple-choice question, one per correct selection in a multi-part question.
-  const okOf=it=>it.q.xf?xfScore(it.q.xf,mockRun.answers[it.k]).ok:(mockRun.answers[it.k]===it.q.a?1:0);
-  const ptsOf=it=>it.q.xf?xfParts(it.q.xf):1;
-  const res=mockRun.list.map(it=>[it.k,okOf(it),0]);
-  const score=res.reduce((s,r)=>s+r[1],0), n=res.length;
+  const okOf=mockItemOk, ptsOf=mockItemPts;
+  // PBQs count toward the score but aren't bank questions, so they stay out of Review and history.
+  const res=mockRun.list.filter(it=>!it.q.pbq).map(it=>[it.k,okOf(it),0]);
+  const score=mockRun.list.reduce((s,it)=>s+okOf(it),0), n=mockRun.list.length;
   const spec=MOCK_SPEC[mockRun.track];
   const earned=xs=>Math.round(xs.reduce((s,it)=>s+okOf(it)*ptsOf(it),0)), maxOf=xs=>xs.reduce((s,it)=>s+ptsOf(it),0);
   const points=earned(mockRun.list), pointsMax=maxOf(mockRun.list);
@@ -5710,8 +5772,8 @@ function submitMock(auto){
 // appear anywhere in the app. Every question, the answer given and the correct answer are written
 // to a results file instead, in an encoded section, so the detail has to be parsed to be read.
 const MOCKFILE_KEY=LS+".mockfile";
-const mockItemOk=it=>it.q.xf?xfScore(it.q.xf,mockRun.answers[it.k]).ok:(mockRun.answers[it.k]===it.q.a?1:0);
-const mockItemPts=it=>it.q.xf?xfParts(it.q.xf):1;
+const mockItemOk=it=>it.q.pbq?pbqScore(it.q.pbq,mockRun.answers[it.k]).ok:it.q.xf?xfScore(it.q.xf,mockRun.answers[it.k]).ok:(mockRun.answers[it.k]===it.q.a?1:0);
+const mockItemPts=it=>it.q.pbq?pbqParts(it.q.pbq):it.q.xf?xfParts(it.q.xf):1;
 function mockWeakLevels(){
   const m={};
   mockRun.list.forEach(it=>{ const d=it.q.d; if(!DAYS.some(x=>x.d===d)) return;
@@ -5723,6 +5785,10 @@ function b64utf8(s){ const u=new TextEncoder().encode(s); let bin=""; for(let i=
 function mockItemDetail(it,i){
   const q=it.q, a=mockRun.answers[it.k], day=DAYS.find(d=>d.d===q.d), pts=mockItemPts(it), ok=mockItemOk(it);
   const base={n:i+1,key:it.k,level:q.d,levelTitle:day?day.title:null,domain:q.dom,flagged:!!mockRun.flags[it.k],answered:it.k in mockRun.answers,pointsEarned:Math.round(ok*pts*100)/100,pointsMax:pts};
+  if(q.pbq){ const p=q.pbq, sel=a||pbqEmpty(p), sc=pbqScore(p,sel);
+    return Object.assign(base,{type:"performance-based",question:p.title+". "+p.brief,
+      parts:p.rows.flatMap((r,i)=>r.ans.map((x,c)=>{ const o=pbqOpts(p,r,c); return {prompt:r.label+" · "+p.cols[c].name,yourAnswer:sel[i][c]==null?null:o[sel[i][c]],correctAnswer:o[x],correct:sc.cells[i][c]}; })),
+      correct:sc.ok===1,why:p.why}); }
   if(!q.xf) return Object.assign(base,{type:"multiple-choice",question:q.q,options:q.o.slice(),yourAnswer:a===undefined?null:q.o[a],correctAnswer:q.o[q.a],correct:ok===1,why:q.why||null});
   const x=q.xf, sel=a||xfEmpty(x), sc=xfScore(x,sel), none=v=>v===null||v===undefined;
   let parts;
@@ -5781,6 +5847,10 @@ function renderMockLaunch(){
       inProgram("sc")?h("ul",{class:"mock-facts","aria-label":"How the SC-900 mock matches the exam"},
         h("li",{},"45 minutes, Microsoft's exam time"),h("li",{},"Domain mix follows the skills-measured weights"),
         h("li",{},"Yes/No sets, drop-downs, choose two and matching, plus multiple choice"),h("li",{},"One point per correct selection"),h("li",{},"Flag questions and review before you submit")):null,
+      inProgram("sec")?h("ul",{class:"mock-facts","aria-label":"How the Security+ mock matches the exam"},
+        h("li",{},"90 questions in 90 minutes"),h("li",{},"3 performance-based questions first, like the real exam"),h("li",{},"PBQs score a point per correct cell"),
+        h("li",{},"Domain mix follows the SY0-701 weights"),h("li",{},"Flag and skip, then come back")):null,
+      inProgram("sec")?h("p",{class:"muted",style:"margin:8px 0 0;font-size:calc(13px*var(--ts,1));max-width:70ch"},"Tip: most people flag the PBQs, answer the multiple choice first, then come back with the time that's left."):null,
       inProgram("sc")?h("p",{class:"muted",style:"margin:8px 0 0;font-size:calc(13px*var(--ts,1));max-width:70ch"},"These are original questions, not Microsoft's. For questions written by the exam team, use Microsoft's free practice assessment on the SC-900 exam page."):null,
       h("div",{class:"mock-strict"},
         h("label",{class:"mock-strict-row"},
@@ -5813,7 +5883,10 @@ function renderMockExam(){
   const kids=[head];
   if(mockRun.navOpen) kids.push(renderMockNavigator());
   kids.push(speakBtn("mock|"+mockRun.i,"#view .qtext,#view .xf,#view .opts","question"));
-  if(q.xf){
+  if(q.pbq){
+    const sel=mockRun.answers[it.k]||(mockRun.xdraft&&mockRun.xdraft.k===it.k?mockRun.xdraft.sel:(mockRun.xdraft={k:it.k,sel:pbqEmpty(q.pbq)}).sel);
+    kids.push(pbqWidget(q.pbq,sel,{onChange:()=>{ if(pbqTouched(sel)) mockRun.answers[it.k]=sel; else delete mockRun.answers[it.k]; }}));
+  } else if(q.xf){
     const sel=mockRun.answers[it.k]||(mockRun.xdraft&&mockRun.xdraft.k===it.k?mockRun.xdraft.sel:(mockRun.xdraft={k:it.k,sel:xfEmpty(q.xf)}).sel);
     kids.push(xfWidget(q,it.xo,sel,{onChange:()=>{ if(xfTouched(q.xf,sel)) mockRun.answers[it.k]=sel; else delete mockRun.answers[it.k]; }}));
   } else {
@@ -5839,9 +5912,10 @@ function renderMockResult(){
   const domRows=Object.entries(r.perDomain).map(([dom,d])=>h("div",{class:"bar"},h("span",{},dom+(d.pct<80?" ⚠":"")),
     h("span",{class:"track"},h("i",{style:`width:${d.pct}%;background:var(--${mockRun.track})`})),
     h("span",{class:"tabnum",style:"text-align:right"},h("span",{class:"chip "+(d.pct>=80?"good":"weak")},d.correct+"/"+d.total+" · "+d.pct+"%"))));
-  const missed=mockRun.list.filter(it=>it.q.xf?xfScore(it.q.xf,mockRun.answers[it.k]).ok<1:mockRun.answers[it.k]!==it.q.a);
+  const missed=mockRun.list.filter(it=>mockItemOk(it)<1);
   const byDom={}; missed.forEach(it=>{ (byDom[it.q.dom]=byDom[it.q.dom]||[]).push(it); });
-  const missBox=Object.entries(byDom).map(([dom,items])=>h("div",{},h("h3",{style:"margin:14px 0 8px"},dom),items.map(it=>
+  const missBox=Object.entries(byDom).map(([dom,items])=>h("div",{},h("h3",{style:"margin:14px 0 8px"},dom),items.map(it=>it.q.pbq?
+    h("div",{class:"miss"},pbqWidget(it.q.pbq,mockRun.answers[it.k]||pbqEmpty(it.q.pbq),{reveal:true,locked:true})):
     h("div",{class:"miss"},h("div",{},it.q.q),h("div",{class:"ans"},h("b",{style:"color:var(--ok)"},"Answer: "),it.q.o[it.q.a]),h("div",{class:"muted",style:"font-size:calc(14px*var(--ts,1))"},it.q.why)))));
   return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
     h("section",{class:"panel"},
@@ -5854,7 +5928,7 @@ function renderMockResult(){
       mockRun.shortfalls.length?h("p",{class:"muted",style:"font-size:calc(13px*var(--ts,1))"},"Note: your question bank came up short in "+mockRun.shortfalls.map(s=>s.dom+" ("+s.have+"/"+s.need+")").join(", ")+"."):null,
       h("div",{class:"actions"},
         h("button",{class:"btn primary",onclick:()=>startMock(mockRun.track)},"Retake this mock"),
-        missed.length?h("button",{class:"btn",onclick:()=>{const keys=missed.map(it=>it.k);mockRun=null;startQuiz({id:"mock-miss",label:"Mock misses",keys},"think",keys.length);}},"Drill my missed questions"):null,
+        missed.some(it=>Q[it.k])?h("button",{class:"btn",onclick:()=>{const keys=missed.filter(it=>Q[it.k]).map(it=>it.k);mockRun=null;startQuiz({id:"mock-miss",label:"Mock misses",keys},"think",keys.length);}},"Drill my missed questions"):null,
         h("button",{class:"btn",onclick:()=>{mockRun=null;render();}},"Back to mock exams"))),
     h("section",{class:"panel"},h("h3",{style:"margin-bottom:10px"},"Per-domain breakdown"),domRows,h("p",{class:"muted",style:"font-size:calc(13px*var(--ts,1));margin:10px 0 0"},"⚠ = under the 80% target.")),
     missed.length?h("section",{class:"panel"},h("h3",{},"Review what you missed"),missBox):null);
