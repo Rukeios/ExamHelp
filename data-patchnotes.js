@@ -11,6 +11,7 @@ window.PATCHNOTES = [
   "The Security+ mock now opens with 3 performance-based questions, like the real exam. They're drawn from a new set of 12: firewall rule tables, placing systems in network zones, matching attacks to fixes, reading logs, ordering incident response and evidence collection, control types, Wi-Fi settings, PKI terms, ports, risk responses and data roles.",
   "Each PBQ scores a point per correct cell, and takes the place of a multiple-choice question from its own domain, so the mock is still 90 questions with the same domain weights. Your results review shows each missed PBQ with the right answers and why.",
   "Practice them on their own any time: Library, Security+, Hands-on, Exam PBQs. Check your answers cell by cell.",
+  "New: a CCST Networking mock exam. 50 questions in 50 minutes (Cisco's exam time), mixed across the five CCST topics in roughly Cisco's weights, from modules 1 to 26. Open it from the Library under CCST Networking, Test day.",
   "The levels now lead up to the mock. Once every level for an exam is done, the Study tab shows a Finish line card, and your first mock after that earns 250 bonus XP on top of the usual 100."
 ]},
 { v:"3.2.0", date:"2026-11-24", title:"Subnet Lab", tag:"feature", items:[

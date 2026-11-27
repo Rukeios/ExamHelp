@@ -3051,7 +3051,7 @@ function doPrestige(){
 // 3.3: levels lead up to the mock. Once an exam's levels are all done, the plan points at its mock.
 function finishLineDue(track){ if(!MOCK_SPEC[track]) return false; const st=mockUnlockStatus(track); return st.have===st.need&&!(state.mockFinal&&state.mockFinal[track]); }
 function finishLine(){
-  const tr=["sc","sec"].filter(inProgram).find(finishLineDue);
+  const tr=TRACKS.filter(inProgram).find(finishLineDue);
   if(!tr||instructorOn()) return null;
   return h("section",{class:"panel finish-line"},
     h("h2",{style:"margin:0 0 4px"},"Finish line: the "+TRACK[tr]+" mock exam"),
@@ -5650,10 +5650,13 @@ const MOCK_SPEC = {
   // 45 minutes is Microsoft's exam time for fundamentals exams. The mix follows the skills-measured
   // weights (10-15 / 25-30 / 35-40 / 20-25%). xf = how many of each domain are exam-style.
   sc:{n:50,minutes:45,mix:{"Concepts":6,"Entra":14,"Security solutions":19,"Compliance":11},xf:{"Concepts":2,"Entra":6,"Security solutions":8,"Compliance":4}},
+  // CCST: Cisco gives 50 minutes and doesn't publish a question count, so 50 in 50. The mix follows the
+  // exam-topic weights for the domains we have content for, capped by the pool (Diagnosing has one level so far).
+  ccst:{n:50,minutes:50,mix:{"1 Standards & concepts":12,"2 Addressing":10,"3 Endpoints & media":9,"4 Infrastructure":13,"5 Diagnosing problems":6}},
   sec:{n:90,minutes:90,pbq:3,mix:{"1 General concepts":11,"2 Threats & vulns":20,"3 Architecture":16,"4 Operations":25,"5 Program mgmt":18}}
 };
 let mockRun=null, mockTick=null;
-function mockUnlockDays(track){ return track==="sc"?SC_UNLOCK_DAYS:SEC_UNLOCK_DAYS; }
+function mockUnlockDays(track){ return track==="sc"?SC_UNLOCK_DAYS:track==="sec"?SEC_UNLOCK_DAYS:DAYS.filter(d=>d.track===track).map(d=>d.d); }
 function mockUnlockStatus(track){
   const need=STRICT_UNLOCK?DAYS.map(d=>d.d):mockUnlockDays(track);
   // 3.3: mocks are always open (RJ, 24 Nov). They aren't levels, so this never touches unlocking.
@@ -5832,7 +5835,7 @@ function mockVerdict(p){
   return "Not ready yet. Focus on the domains below.";
 }
 function renderMockLaunch(){
-  const cards=["sc","sec"].filter(inProgram).map(track=>{
+  const cards=TRACKS.filter(t=>MOCK_SPEC[t]&&(inProgram(t)||libExamOn(t))).map(track=>{
     const spec=MOCK_SPEC[track], st=mockUnlockStatus(track);
     return h("div",{class:"panel",style:"opacity:"+(st.unlocked?"1":".6")},
       h("div",{class:"row",style:"justify-content:space-between"},h("h3",{},TRACK[track]+" mock exam"),h("span",{class:"tag "+track},TRACK[track])),
@@ -5850,6 +5853,8 @@ function renderMockLaunch(){
       inProgram("sec")?h("ul",{class:"mock-facts","aria-label":"How the Security+ mock matches the exam"},
         h("li",{},"90 questions in 90 minutes"),h("li",{},"3 performance-based questions first, like the real exam"),h("li",{},"PBQs score a point per correct cell"),
         h("li",{},"Domain mix follows the SY0-701 weights"),h("li",{},"Flag and skip, then come back")):null,
+      inProgram("ccst")||libExamOn("ccst")?h("ul",{class:"mock-facts","aria-label":"How the CCST mock matches the exam"},
+        h("li",{},"50 minutes, Cisco's exam time"),h("li",{},"Domain mix follows Cisco's exam-topic weights"),h("li",{},"Covers modules 1 to 26 so far"),h("li",{},"Flag and review before you submit")):null,
       inProgram("sec")?h("p",{class:"muted",style:"margin:8px 0 0;font-size:calc(13px*var(--ts,1));max-width:70ch"},"Tip: most people flag the PBQs, answer the multiple choice first, then come back with the time that's left."):null,
       inProgram("sc")?h("p",{class:"muted",style:"margin:8px 0 0;font-size:calc(13px*var(--ts,1));max-width:70ch"},"These are original questions, not Microsoft's. For questions written by the exam team, use Microsoft's free practice assessment on the SC-900 exam page."):null,
       h("div",{class:"mock-strict"},
