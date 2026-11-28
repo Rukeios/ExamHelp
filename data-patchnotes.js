@@ -12,6 +12,7 @@ window.PATCHNOTES = [
   "Each PBQ scores a point per correct cell, and takes the place of a multiple-choice question from its own domain, so the mock is still 90 questions with the same domain weights. Your results review shows each missed PBQ with the right answers and why.",
   "Practice them on their own any time: Library, Security+, Hands-on, Exam PBQs. Check your answers cell by cell.",
   "New: a CCST Networking mock exam. 50 questions in 50 minutes (Cisco's exam time), mixed across the five CCST topics in roughly Cisco's weights, from modules 1 to 26. Open it from the Library under CCST Networking, Test day.",
+  "New: Get the app. Steps for adding Rukeios Study to your iPhone, Android phone or computer, with your device's steps first. Chrome and Edge get a one-tap Install button. Find it on the Library card or the Get the app link in the footer. The card hides once you install or tap Not now.",
   "The levels now lead up to the mock. Once every level for an exam is done, the Study tab shows a Finish line card, and your first mock after that earns 250 bonus XP on top of the usual 100."
 ]},
 { v:"3.2.0", date:"2026-11-24", title:"Subnet Lab", tag:"feature", items:[

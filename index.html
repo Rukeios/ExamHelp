@@ -698,6 +698,11 @@ header nav.tabs{grid-area:nav}
 .lvl-extras .lx-row .btn small{font-weight:500;color:var(--muted);text-transform:none;letter-spacing:0}
 .lvl-extras>.meta{margin:8px 14px 12px}
 .lib-foot{margin:4px 0 0}
+.install-card{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;border:1px solid var(--line);border-radius:var(--r-md,10px);background:var(--surface);padding:12px 14px}
+.install-card p{font-size:calc(14px*var(--ts,1))}
+.install-steps{border:1px solid var(--line);border-radius:10px;padding:0 12px}
+.install-steps>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:6px}
+.install-steps ol{margin:0 0 12px;padding-left:20px}.install-steps li{margin:4px 0}
 .finish-line{border:2px solid var(--accent,var(--sec))}
 .pbq-x .pbq-scroll{overflow-x:auto}
 .pbq-table{width:100%;border-collapse:collapse}
@@ -1649,7 +1654,7 @@ nav.tabs .tab-ic svg{width:22px;height:22px}
   <footer>
     <div>Study pairing: <a href="study-diagrams/">Study diagrams</a> · <a href="subnet-lab/">Subnet Lab</a> · <a href="https://learn.microsoft.com/en-us/training/courses/sc-900t00" target="_blank" rel="noopener">Microsoft Learn SC-900 course</a> · <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900" target="_blank" rel="noopener">SC-900 skills measured</a> · <a href="https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/" target="_blank" rel="noopener">Professor Messer SY0-701 (free videos)</a> · <a href="https://www.comptia.org/certifications/security" target="_blank" rel="noopener">CompTIA Security+</a></div>
     <div>Keyboard in quizzes: 1–4 pick an answer, Enter goes to the next question.</div>
-    <div>Free to use. <button class="linklike" id="footerSupport" style="font-size:inherit">Support</button> · <a href="https://github.com/Rukeios/ExamHelp" target="_blank" rel="noopener">GitHub</a> · <button class="linklike" id="footerPatch" style="font-size:inherit">Patch notes</button></div>
+    <div>Free to use. <button class="linklike" id="footerInstall" style="font-size:inherit">Get the app</button> · <button class="linklike" id="footerSupport" style="font-size:inherit">Support</button> · <a href="https://github.com/Rukeios/ExamHelp" target="_blank" rel="noopener">GitHub</a> · <button class="linklike" id="footerPatch" style="font-size:inherit">Patch notes</button></div>
   </footer>
 </div>
 
@@ -3001,12 +3006,53 @@ function renderPatchModal(){
 }
 
 // ---------- support ----------
+
+// ---------- 4.0: install as an app (PWA) ----------
+// Chrome and Edge on Android and computers fire beforeinstallprompt: keep it for a one-tap Install button.
+// iPhone and iPad have no prompt, so the steps are always shown.
+let installOpen=false, installEvt=null;
+window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); installEvt=e; });
+window.addEventListener("appinstalled",()=>{ installEvt=null; try{ localStorage.setItem(LS+".installHide","1"); }catch(e){} render(); });
+const isStandalone=()=>{ try{ return matchMedia("(display-mode: standalone)").matches||navigator.standalone===true; }catch(e){ return false; } };
+const installHidden=()=>{ try{ return localStorage.getItem(LS+".installHide")==="1"; }catch(e){ return false; } };
+function deviceKind(){ const u=navigator.userAgent||""; if(/iPhone|iPad|iPod/.test(u)||(/Macintosh/.test(u)&&navigator.maxTouchPoints>1)) return "ios"; if(/Android/.test(u)) return "android"; return "desktop"; }
+function openInstall(){ installOpen=true; render(); const d=document.querySelector("#supportModal .modal"); if(d) d.focus(); }
+function closeInstall(){ installOpen=false; render(); }
+async function installNow(){ if(!installEvt) return; installEvt.prompt(); try{ await installEvt.userChoice; }catch(e){} installEvt=null; render(); }
+const INSTALL_STEPS={
+  ios:["iPhone or iPad",["Open this site in Safari. (Chrome and Edge work too on iOS 16.4 or later.)","Tap the Share button: the square with an arrow pointing up.","Scroll down and tap Add to Home Screen.","Tap Add. The Rukeios Study icon appears on your home screen."]],
+  android:["Android",["Open this site in Chrome.","Tap the three-dot menu at the top right.","Tap Install app (on some phones it says Add to Home screen).","Tap Install. The icon appears on your home screen and in your app list."]],
+  desktop:["Computer",["Open this site in Chrome or Edge.","Click the install icon at the right end of the address bar (a monitor with a down arrow).","No icon? Open the browser menu: Chrome: Cast, save and share, then Install page as app. Edge: Apps, then Install this site as an app.","Click Install. It opens in its own window and gets a desktop or Start menu shortcut."]]
+};
+function installDialog(){
+  const mine=deviceKind(), order=[mine].concat(["ios","android","desktop"].filter(k=>k!==mine));
+  return h("div",{class:"modal",role:"dialog","aria-modal":"true","aria-label":"Get the app",tabindex:"-1"},
+    h("button",{class:"modal-x","aria-label":"Close",onclick:closeInstall},"×"),
+    h("h2",{style:"margin:0"},"Get "+BRAND.name+" as an app"),
+    h("p",{style:"margin:0"},"No app store needed. Add it to your home screen and it opens full screen like any app, works offline once loaded, and updates itself."),
+    isStandalone()?h("p",{style:"margin:0;font-weight:600"},"You're already using the app version."):null,
+    installEvt?h("div",{class:"actions"},h("button",{class:"btn primary",onclick:installNow},"Install now")):null,
+    order.map((k,i)=>{ const [name,steps]=INSTALL_STEPS[k];
+      return h("details",{class:"install-steps",open:i===0?true:null},h("summary",{},h("b",{},name),i===0?h("span",{class:"muted"}," · this device"):null),
+        h("ol",{},steps.map(s=>h("li",{},s)))); }),
+    h("p",{class:"muted",style:"margin:0;font-size:calc(13px*var(--ts,1))"},"Your progress is saved in the browser you study in. On iPhone, the home screen app keeps its own separate copy from Safari, so move your progress over first: Progress, then Back up or share your progress."),
+    h("p",{class:"muted",style:"margin:0;font-size:calc(13px*var(--ts,1))"},"Not seeing an update? Close the app fully and open it again."));
+}
+function installCard(){
+  if(isStandalone()||installHidden()) return null;
+  const hide=()=>{ try{ localStorage.setItem(LS+".installHide","1"); }catch(e){} render(); };
+  return h("section",{class:"install-card"},
+    h("div",{},h("b",{},"Study from your home screen"),h("p",{class:"muted",style:"margin:2px 0 0"},"Add "+BRAND.name+" to your phone or computer like an app. No app store, no account.")),
+    h("div",{class:"row"},installEvt?h("button",{class:"btn primary small",onclick:installNow},"Install"):h("button",{class:"btn primary small",onclick:openInstall},"Show me how"),
+      h("button",{class:"btn ghost small","aria-label":"Hide this tip",onclick:hide},"Not now")));
+}
 let supportOpen=false;
 function openSupport(){ supportOpen=true; render(); const dialog=document.querySelector("#supportModal .modal"); if(dialog) dialog.focus(); }
 function closeSupport(){ supportOpen=false; render(); const btn=document.getElementById("supportbtn"); if(btn) btn.focus(); }
 function renderSupportModal(){
   const mount=document.getElementById("supportModal"); if(!mount) return;
-  if(supportOpen||patchOpen) document.body.style.overflow="hidden"; else document.body.style.overflow="";
+  if(supportOpen||patchOpen||installOpen) document.body.style.overflow="hidden"; else document.body.style.overflow="";
+  if(installOpen&&!supportOpen){ const d=installDialog(), bd=h("div",{class:"modal-backdrop",onclick:e=>{ if(e.target===bd) closeInstall(); }},d); mount.replaceChildren(bd); d.focus(); return; }
   if(!supportOpen){ mount.replaceChildren(); return; }
   const dialog=h("div",{class:"modal",role:"dialog","aria-modal":"true","aria-label":"Support "+BRAND.name,tabindex:"-1"},
     h("button",{class:"modal-x","aria-label":"Close",onclick:closeSupport},"×"),
@@ -3022,6 +3068,7 @@ function renderSupportModal(){
 }
 document.getElementById("supportbtn").addEventListener("click",openSupport);
 document.getElementById("footerSupport").addEventListener("click",openSupport);
+document.getElementById("footerInstall").addEventListener("click",openInstall);
 document.getElementById("footerPatch").addEventListener("click",openPatchNotes);
 
 { const TI={library:"lib",home:"home",study:"study",campaign:"flag",game:"sword",stats:"chart"}; document.querySelectorAll("nav.tabs button").forEach(b=>{ const t=b.textContent; b.replaceChildren(h("span",{class:"tab-ic"},libIcon(TI[b.dataset.tab]||"lib")),h("span",{class:"tl"},t)); }); }
@@ -4526,6 +4573,7 @@ function renderLibrary(){
     h("section",{class:"lib-head"},h("p",{class:"eyebrow"},"Library"),h("h1",{},"Study anything"),
       h("p",{class:"muted"},"Optional practice, any time. Pick an exam, a topic and a tool. Locked levels' material is open here too, and nothing here changes your levels.")),
     xpCard(),
+    installCard(),
     libResume(),
     h("div",{class:"lib-pick"},h("p",{class:"lib-lbl"},"Exam"),exams),
     LIB_PREVIEW[tr]?ccstSoon():h("div",{class:"lib-pick"},h("p",{class:"lib-lbl"},"Topic"),topics),
