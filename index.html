@@ -698,6 +698,23 @@ header nav.tabs{grid-area:nav}
 .lvl-extras .lx-row .btn small{font-weight:500;color:var(--muted);text-transform:none;letter-spacing:0}
 .lvl-extras>.meta{margin:8px 14px 12px}
 .lib-foot{margin:4px 0 0}
+.install-card{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;border:1px solid var(--line);border-radius:var(--r-md,10px);background:var(--surface);padding:12px 14px}
+.install-card p{font-size:calc(14px*var(--ts,1))}
+.install-steps{border:1px solid var(--line);border-radius:10px;padding:0 12px}
+.install-steps>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:6px}
+.install-steps ol{margin:0 0 12px;padding-left:20px}.install-steps li{margin:4px 0}
+.finish-line{border:2px solid var(--accent,var(--sec))}
+.pbq-x .pbq-scroll{overflow-x:auto}
+.pbq-table{width:100%;border-collapse:collapse}
+.pbq-table th,.pbq-table td{padding:8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.pbq-table th{font-size:calc(13px*var(--ts,1));color:var(--muted)}
+.pbq-table td.pbq-label{min-width:12em}
+.pbq-table select{min-height:40px;max-width:100%;font-size:16px}
+.pbq-table select.ok{border-color:var(--ok)}.pbq-table select.no{border-color:var(--bad)}
+.pbq-log{font:calc(13px*var(--ts,1))/1.5 var(--mono);background:var(--sunk,var(--surface));border:1px solid var(--line);border-radius:8px;padding:10px;overflow-x:auto;white-space:pre;margin:0 0 10px}
+.pbq-zones{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 10px}
+.pbq-zone{border:2px dashed var(--line);border-radius:10px;padding:14px 8px;text-align:center;font-size:calc(13px*var(--ts,1))}
+@media(max-width:600px){.pbq-table thead{display:none}.pbq-table tr{display:grid;padding:8px 0;border-bottom:1px solid var(--line)}.pbq-table td{border:0;padding:3px 0}}
 /* ---------- study sub-navigation: grouped ---------- */
 .subnav{gap:4px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:0}
 .subnav .sn-group{display:flex;gap:2px;align-items:center;flex:0 0 auto}
@@ -1635,68 +1652,70 @@ nav.tabs .tab-ic svg{width:22px;height:22px}
   <div id="a11yModal"></div>
   <div id="moveModal"></div>
   <footer>
-    <div>Study pairing: <a href="study-diagrams/">Study diagrams</a> · <a href="https://learn.microsoft.com/en-us/training/courses/sc-900t00" target="_blank" rel="noopener">Microsoft Learn SC-900 course</a> · <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900" target="_blank" rel="noopener">SC-900 skills measured</a> · <a href="https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/" target="_blank" rel="noopener">Professor Messer SY0-701 (free videos)</a> · <a href="https://www.comptia.org/certifications/security" target="_blank" rel="noopener">CompTIA Security+</a></div>
+    <div>Study pairing: <a href="study-diagrams/">Study diagrams</a> · <a href="subnet-lab/">Subnet Lab</a> · <a href="https://learn.microsoft.com/en-us/training/courses/sc-900t00" target="_blank" rel="noopener">Microsoft Learn SC-900 course</a> · <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900" target="_blank" rel="noopener">SC-900 skills measured</a> · <a href="https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/" target="_blank" rel="noopener">Professor Messer SY0-701 (free videos)</a> · <a href="https://www.comptia.org/certifications/security" target="_blank" rel="noopener">CompTIA Security+</a></div>
     <div>Keyboard in quizzes: 1–4 pick an answer, Enter goes to the next question.</div>
-    <div>Free to use. <button class="linklike" id="footerSupport" style="font-size:inherit">Support</button> · <a href="https://github.com/Rukeios/ExamHelp" target="_blank" rel="noopener">GitHub</a> · <button class="linklike" id="footerPatch" style="font-size:inherit">Patch notes</button></div>
+    <div>Questions and notes: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>, free to reuse with credit (<a href="https://github.com/Rukeios/ExamHelp/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">details</a>). Found a mistake? <a href="mailto:lucianoreyes198@gmail.com?subject=Rukeios%20Study%20feedback">lucianoreyes198@gmail.com</a></div>
+    <div>Free to use. <button class="linklike" id="footerInstall" style="font-size:inherit">Get the app</button> · <button class="linklike" id="footerSupport" style="font-size:inherit">Support</button> · <a href="https://github.com/Rukeios/ExamHelp" target="_blank" rel="noopener">GitHub</a> · <button class="linklike" id="footerPatch" style="font-size:inherit">Patch notes</button></div>
   </footer>
 </div>
 
-<script src="data.js?v=3.1.0"></script>
-<script src="data-extra.js?v=3.1.0"></script>
-<script src="data-pack2.js?v=3.1.0"></script>
-<script src="data-pack3.js?v=3.1.0"></script>
-<script src="data-pack4-sc.js?v=3.1.0"></script>
-<script src="data-pack5-net.js?v=3.1.0"></script>
-<script src="data-acronyms.js?v=3.1.0"></script>
-<script src="data-patchnotes.js?v=3.1.0"></script>
-<script src="data-bosses.js?v=3.1.0"></script>
+<script src="data.js?v=4.0.0"></script>
+<script src="data-extra.js?v=4.0.0"></script>
+<script src="data-pack2.js?v=4.0.0"></script>
+<script src="data-pack3.js?v=4.0.0"></script>
+<script src="data-pack4-sc.js?v=4.0.0"></script>
+<script src="data-pack5-net.js?v=4.0.0"></script>
+<script src="data-acronyms.js?v=4.0.0"></script>
+<script src="data-patchnotes.js?v=4.0.0"></script>
+<script src="data-bosses.js?v=4.0.0"></script>
 <!-- corrections overlays: load after every bank -->
-<script src="data-daymissions.js?v=3.1.0"></script>
-<script src="data-campaign-flags.js?v=3.1.0"></script>
-<script src="data-campaign-endings.js?v=3.1.0"></script>
-<script src="data-fixes-01.js?v=3.1.0"></script>
-<script src="data-fixes-02.js?v=3.1.0"></script>
-<script src="data-fixes-03.js?v=3.1.0"></script>
-<script src="data-fixes-04.js?v=3.1.0"></script>
-<script src="data-lessons.js?v=3.1.0"></script>
-<script src="data-lessons-2.js?v=3.1.0"></script>
-<script src="data-lessons-3.js?v=3.1.0"></script>
-<script src="data-lessons-beta-7.js?v=3.1.0"></script>
-<script src="data-lessons-sec-1.js?v=3.1.0"></script>
-<script src="data-lessons-sec-2.js?v=3.1.0"></script>
-<script src="data-lessons-sec-3.js?v=3.1.0"></script>
-<script src="data-lessons-sec-4.js?v=3.1.0"></script>
-<script src="data-lessons-beta-sec-net.js?v=3.1.0"></script>
-<script src="data-cn-sc.js?v=3.1.0"></script>
-<script src="data-cn-compare.js?v=3.1.0"></script>
-<script src="data-cn-sc-scenarios.js?v=3.1.0"></script>
-<script src="data-cn-sc-checks.js?v=3.1.0"></script>
-<script src="data-cn-sc-checks-2.js?v=3.1.0"></script>
-<script src="data-cn-sec-1.js?v=3.1.0"></script>
-<script src="data-cn-sec-1-cmp.js?v=3.1.0"></script>
-<script src="data-cn-sec-1-scen.js?v=3.1.0"></script>
-<script src="data-cn-sec-2.js?v=3.1.0"></script>
-<script src="data-cn-sec-2-cmp.js?v=3.1.0"></script>
-<script src="data-cn-sec-2-scen.js?v=3.1.0"></script>
-<script src="data-cn-sec-3.js?v=3.1.0"></script>
-<script src="data-cn-sec-3-cmp.js?v=3.1.0"></script>
-<script src="data-cn-sec-3-scen.js?v=3.1.0"></script>
-<script src="data-cn-sec-4.js?v=3.1.0"></script>
-<script src="data-cn-sec-4-cmp.js?v=3.1.0"></script>
-<script src="data-cn-sec-4-scen.js?v=3.1.0"></script>
-<script src="data-xf-sc.js?v=3.1.0"></script>
-<script src="data-xf-sec-1.js?v=3.1.0"></script>
-<script src="data-xf-sec-2.js?v=3.1.0"></script>
-<script src="data-xf-sec-3.js?v=3.1.0"></script>
-<script src="data-xf-sec-4.js?v=3.1.0"></script>
-<script src="data-ccst-1.js?v=3.1.0"></script>
-<script src="data-ccst-2.js?v=3.1.0"></script>
-<script src="data-links.js?v=3.1.0"></script>
-<script src="data-cn-ccst-1.js?v=3.1.0"></script>
-<script src="data-cn-ccst-2.js?v=3.1.0"></script>
-<script src="data-portlab.js?v=3.1.0"></script>
-<script src="data-sims.js?v=3.1.0"></script>
-<script src="examhelp-effects.js?v=3.1.0"></script>
+<script src="data-daymissions.js?v=4.0.0"></script>
+<script src="data-campaign-flags.js?v=4.0.0"></script>
+<script src="data-campaign-endings.js?v=4.0.0"></script>
+<script src="data-fixes-01.js?v=4.0.0"></script>
+<script src="data-fixes-02.js?v=4.0.0"></script>
+<script src="data-fixes-03.js?v=4.0.0"></script>
+<script src="data-fixes-04.js?v=4.0.0"></script>
+<script src="data-lessons.js?v=4.0.0"></script>
+<script src="data-lessons-2.js?v=4.0.0"></script>
+<script src="data-lessons-3.js?v=4.0.0"></script>
+<script src="data-lessons-beta-7.js?v=4.0.0"></script>
+<script src="data-lessons-sec-1.js?v=4.0.0"></script>
+<script src="data-lessons-sec-2.js?v=4.0.0"></script>
+<script src="data-lessons-sec-3.js?v=4.0.0"></script>
+<script src="data-lessons-sec-4.js?v=4.0.0"></script>
+<script src="data-lessons-beta-sec-net.js?v=4.0.0"></script>
+<script src="data-cn-sc.js?v=4.0.0"></script>
+<script src="data-cn-compare.js?v=4.0.0"></script>
+<script src="data-cn-sc-scenarios.js?v=4.0.0"></script>
+<script src="data-cn-sc-checks.js?v=4.0.0"></script>
+<script src="data-cn-sc-checks-2.js?v=4.0.0"></script>
+<script src="data-cn-sec-1.js?v=4.0.0"></script>
+<script src="data-cn-sec-1-cmp.js?v=4.0.0"></script>
+<script src="data-cn-sec-1-scen.js?v=4.0.0"></script>
+<script src="data-cn-sec-2.js?v=4.0.0"></script>
+<script src="data-cn-sec-2-cmp.js?v=4.0.0"></script>
+<script src="data-cn-sec-2-scen.js?v=4.0.0"></script>
+<script src="data-cn-sec-3.js?v=4.0.0"></script>
+<script src="data-cn-sec-3-cmp.js?v=4.0.0"></script>
+<script src="data-cn-sec-3-scen.js?v=4.0.0"></script>
+<script src="data-cn-sec-4.js?v=4.0.0"></script>
+<script src="data-cn-sec-4-cmp.js?v=4.0.0"></script>
+<script src="data-cn-sec-4-scen.js?v=4.0.0"></script>
+<script src="data-xf-sc.js?v=4.0.0"></script>
+<script src="data-xf-sec-1.js?v=4.0.0"></script>
+<script src="data-xf-sec-2.js?v=4.0.0"></script>
+<script src="data-xf-sec-3.js?v=4.0.0"></script>
+<script src="data-xf-sec-4.js?v=4.0.0"></script>
+<script src="data-ccst-1.js?v=4.0.0"></script>
+<script src="data-ccst-2.js?v=4.0.0"></script>
+<script src="data-links.js?v=4.0.0"></script>
+<script src="data-cn-ccst-1.js?v=4.0.0"></script>
+<script src="data-cn-ccst-2.js?v=4.0.0"></script>
+<script src="data-portlab.js?v=4.0.0"></script>
+<script src="data-pbq-sec.js?v=4.0.0"></script>
+<script src="data-sims.js?v=4.0.0"></script>
+<script src="examhelp-effects.js?v=4.0.0"></script>
 <script>
 (function(){
 const DAYS = window.DAYS;
@@ -2023,7 +2042,7 @@ state.studyMode=(state.studyMode==="self"||state.studyMode==="campaign")?state.s
 state.review=(state.review&&typeof state.review==="object")?state.review:{};
 state.guided=(state.guided&&typeof state.guided==="object"&&state.guided.passed)?state.guided:{run:1,started:null,level:null,phase:"warning",passed:{},missions:{},flags:{},ended:null};
 const cnObj=x=>x&&typeof x==="object"&&!Array.isArray(x)?x:{};
-state.xp=Number(state.xp)||0; state.xpLog=cnObj(state.xpLog);
+state.xp=Number(state.xp)||0; if(!state.mockSeen||typeof state.mockSeen!=="object"||Array.isArray(state.mockSeen)) state.mockSeen={}; if(!state.mockFinal||typeof state.mockFinal!=="object"||Array.isArray(state.mockFinal)) state.mockFinal={}; state.xpLog=cnObj(state.xpLog);
 state.bookmarks=cnObj(state.bookmarks); state.cards=cnObj(state.cards); state.stamps=cnObj(state.stamps); state.titles=cnObj(state.titles);
 state.study=cnObj(state.study); state.milestones=cnObj(state.milestones);
 state.activeTitle=typeof state.activeTitle==="string"?state.activeTitle:null;
@@ -2551,6 +2570,7 @@ function levelPath(d,mode){
       h("span",{class:"lf-more"},"All steps")),
     h("nav",{class:"lvl-path","aria-label":"Steps for this level"},pathList(d,steps)));
 }
+const SUBNET_LEVELS=[41,42,53,56];   // CCST IPv4, segmentation, number systems, address structure
 // 3.0: everything beyond links, review and the level quiz. Folded shut, never required.
 function levelExtras(d){
   const concepts=(CN.byDay[d.d]||[]).filter(cnInProgram), cards=concepts.reduce((n,c)=>n+(c.cards||[]).length,0);
@@ -2560,6 +2580,7 @@ function levelExtras(d){
   if(sec){ const days=sec.from||[d.d], max=sec.max||4, n=Math.min(max,CN.scenarios.filter(x=>days.includes(x.day)&&Q[x.id]).length);
     if(n) items.push(["Scenarios",n+" workplace situations",()=>startQuiz({id:"lesson-check-"+d.d,label:(L.title||shortTitle(d.title))+" check",keys:pilotCheckKeys(days,max)},"think",n)]); }
   if(xk.length) items.push(["Exam-style",xk.length+" questions",()=>goLevelStep(d,"xf")]);
+  if(SUBNET_LEVELS.includes(d.d)) items.push(["Subnet Lab","Calculator and drill",()=>{ location.href="subnet-lab/"; }]);
   if(!items.length) return null;
   return h("details",{class:"lvl-extras"},h("summary",{},h("b",{},"Optional extra practice"),h("span",{},"Not needed to finish the level")),
     h("div",{class:"lx-row"},items.map(([n,sub,go])=>h("button",{class:"btn small",onclick:go},h("span",{},n),h("small",{},sub)))),
@@ -2986,12 +3007,53 @@ function renderPatchModal(){
 }
 
 // ---------- support ----------
+
+// ---------- 4.0: install as an app (PWA) ----------
+// Chrome and Edge on Android and computers fire beforeinstallprompt: keep it for a one-tap Install button.
+// iPhone and iPad have no prompt, so the steps are always shown.
+let installOpen=false, installEvt=null;
+window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); installEvt=e; });
+window.addEventListener("appinstalled",()=>{ installEvt=null; try{ localStorage.setItem(LS+".installHide","1"); }catch(e){} render(); });
+const isStandalone=()=>{ try{ return matchMedia("(display-mode: standalone)").matches||navigator.standalone===true; }catch(e){ return false; } };
+const installHidden=()=>{ try{ return localStorage.getItem(LS+".installHide")==="1"; }catch(e){ return false; } };
+function deviceKind(){ const u=navigator.userAgent||""; if(/iPhone|iPad|iPod/.test(u)||(/Macintosh/.test(u)&&navigator.maxTouchPoints>1)) return "ios"; if(/Android/.test(u)) return "android"; return "desktop"; }
+function openInstall(){ installOpen=true; render(); const d=document.querySelector("#supportModal .modal"); if(d) d.focus(); }
+function closeInstall(){ installOpen=false; render(); }
+async function installNow(){ if(!installEvt) return; installEvt.prompt(); try{ await installEvt.userChoice; }catch(e){} installEvt=null; render(); }
+const INSTALL_STEPS={
+  ios:["iPhone or iPad",["Open this site in Safari. (Chrome and Edge work too on iOS 16.4 or later.)","Tap the Share button: the square with an arrow pointing up.","Scroll down and tap Add to Home Screen.","Tap Add. The Rukeios Study icon appears on your home screen."]],
+  android:["Android",["Open this site in Chrome.","Tap the three-dot menu at the top right.","Tap Install app (on some phones it says Add to Home screen).","Tap Install. The icon appears on your home screen and in your app list."]],
+  desktop:["Computer",["Open this site in Chrome or Edge.","Click the install icon at the right end of the address bar (a monitor with a down arrow).","No icon? Open the browser menu: Chrome: Cast, save and share, then Install page as app. Edge: Apps, then Install this site as an app.","Click Install. It opens in its own window and gets a desktop or Start menu shortcut."]]
+};
+function installDialog(){
+  const mine=deviceKind(), order=[mine].concat(["ios","android","desktop"].filter(k=>k!==mine));
+  return h("div",{class:"modal",role:"dialog","aria-modal":"true","aria-label":"Get the app",tabindex:"-1"},
+    h("button",{class:"modal-x","aria-label":"Close",onclick:closeInstall},"×"),
+    h("h2",{style:"margin:0"},"Get "+BRAND.name+" as an app"),
+    h("p",{style:"margin:0"},"No app store needed. Add it to your home screen and it opens full screen like any app, works offline once loaded, and updates itself."),
+    isStandalone()?h("p",{style:"margin:0;font-weight:600"},"You're already using the app version."):null,
+    installEvt?h("div",{class:"actions"},h("button",{class:"btn primary",onclick:installNow},"Install now")):null,
+    order.map((k,i)=>{ const [name,steps]=INSTALL_STEPS[k];
+      return h("details",{class:"install-steps",open:i===0?true:null},h("summary",{},h("b",{},name),i===0?h("span",{class:"muted"}," · this device"):null),
+        h("ol",{},steps.map(s=>h("li",{},s)))); }),
+    h("p",{class:"muted",style:"margin:0;font-size:calc(13px*var(--ts,1))"},"Your progress is saved in the browser you study in. On iPhone, the home screen app keeps its own separate copy from Safari, so move your progress over first: Progress, then Back up or share your progress."),
+    h("p",{class:"muted",style:"margin:0;font-size:calc(13px*var(--ts,1))"},"Not seeing an update? Close the app fully and open it again."));
+}
+function installCard(){
+  if(isStandalone()||installHidden()) return null;
+  const hide=()=>{ try{ localStorage.setItem(LS+".installHide","1"); }catch(e){} render(); };
+  return h("section",{class:"install-card"},
+    h("div",{},h("b",{},"Study from your home screen"),h("p",{class:"muted",style:"margin:2px 0 0"},"Add "+BRAND.name+" to your phone or computer like an app. No app store, no account.")),
+    h("div",{class:"row"},installEvt?h("button",{class:"btn primary small",onclick:installNow},"Install"):h("button",{class:"btn primary small",onclick:openInstall},"Show me how"),
+      h("button",{class:"btn ghost small","aria-label":"Hide this tip",onclick:hide},"Not now")));
+}
 let supportOpen=false;
 function openSupport(){ supportOpen=true; render(); const dialog=document.querySelector("#supportModal .modal"); if(dialog) dialog.focus(); }
 function closeSupport(){ supportOpen=false; render(); const btn=document.getElementById("supportbtn"); if(btn) btn.focus(); }
 function renderSupportModal(){
   const mount=document.getElementById("supportModal"); if(!mount) return;
-  if(supportOpen||patchOpen) document.body.style.overflow="hidden"; else document.body.style.overflow="";
+  if(supportOpen||patchOpen||installOpen) document.body.style.overflow="hidden"; else document.body.style.overflow="";
+  if(installOpen&&!supportOpen){ const d=installDialog(), bd=h("div",{class:"modal-backdrop",onclick:e=>{ if(e.target===bd) closeInstall(); }},d); mount.replaceChildren(bd); d.focus(); return; }
   if(!supportOpen){ mount.replaceChildren(); return; }
   const dialog=h("div",{class:"modal",role:"dialog","aria-modal":"true","aria-label":"Support "+BRAND.name,tabindex:"-1"},
     h("button",{class:"modal-x","aria-label":"Close",onclick:closeSupport},"×"),
@@ -2999,6 +3061,11 @@ function renderSupportModal(){
     h("p",{style:"margin:0"},BRAND.name+" is free and always will be. No account, no paywall, no ads, and none of your data leaves your browser."),
     h("p",{style:"margin:0"},"If it helped you pass, and you're in a position to, you can chip in toward the time it takes to keep the question bank current with the exam objectives. If you're a student, please don't — pass your exam and tell someone else about it instead. That helps more."),
     h("p",{style:"margin:0"},h("a",{href:DONATION_URL,target:"_blank",rel:"noopener"},"Support "+BRAND.name+" on Ko-fi")),
+    h("h3",{style:"margin:6px 0 0"},"Reviewing the content?"),
+    h("p",{style:"margin:0"},"If you work in IT or security, or teach these exams, criticism is welcome. Tell us what's wrong, outdated or misleading. Include the question ID (shown in every question's report), what should change and your source."),
+    h("p",{style:"margin:0"},h("a",{href:mailtoReport(BRAND.name+" content review","Content version: "+((PATCHNOTES[0]&&PATCHNOTES[0].v)||"?")+"\n\nQuestion IDs or topic:\n\nWhat's wrong:\n\nWhat it should say:\n\nSource:\n")},FEEDBACK_EMAIL),
+      " · ",h("a",{href:"https://github.com/Rukeios/ExamHelp/issues",target:"_blank",rel:"noopener"},"GitHub issues")),
+    h("p",{class:"muted",style:"margin:0;font-size:calc(13px*var(--ts,1))"},"The questions and notes are CC BY 4.0: free to reuse in your own tools with credit. ",h("a",{href:"https://github.com/Rukeios/ExamHelp/blob/main/LICENSE-CONTENT.md",target:"_blank",rel:"noopener"},"Details")),
     h("p",{class:"muted",style:"margin:0;font-size:calc(13px*var(--ts,1))"},"Teaching a class? ",h("a",{href:"https://github.com/Rukeios/ExamHelp",target:"_blank",rel:"noopener"},"roster.html"),
       " in the repo turns your students' exported stats into a class view."));
   const backdrop=h("div",{class:"modal-backdrop",onclick:e=>{ if(e.target===backdrop) closeSupport(); }},dialog);
@@ -3007,6 +3074,7 @@ function renderSupportModal(){
 }
 document.getElementById("supportbtn").addEventListener("click",openSupport);
 document.getElementById("footerSupport").addEventListener("click",openSupport);
+document.getElementById("footerInstall").addEventListener("click",openInstall);
 document.getElementById("footerPatch").addEventListener("click",openPatchNotes);
 
 { const TI={library:"lib",home:"home",study:"study",campaign:"flag",game:"sword",stats:"chart"}; document.querySelectorAll("nav.tabs button").forEach(b=>{ const t=b.textContent; b.replaceChildren(h("span",{class:"tab-ic"},libIcon(TI[b.dataset.tab]||"lib")),h("span",{class:"tl"},t)); }); }
@@ -3032,6 +3100,16 @@ function doPrestige(){
   ui.quiz.mode=rulesFor(state.prestige).defaultMode;
   prestigeConfirmOpen=false;
   saveProgress(); ui.sel=null; render(); window.scrollTo(0,0);
+}
+// 3.3: levels lead up to the mock. Once an exam's levels are all done, the plan points at its mock.
+function finishLineDue(track){ if(!MOCK_SPEC[track]) return false; const st=mockUnlockStatus(track); return st.have===st.need&&!(state.mockFinal&&state.mockFinal[track]); }
+function finishLine(){
+  const tr=TRACKS.filter(inProgram).find(finishLineDue);
+  if(!tr||instructorOn()) return null;
+  return h("section",{class:"panel finish-line"},
+    h("h2",{style:"margin:0 0 4px"},"Finish line: the "+TRACK[tr]+" mock exam"),
+    h("p",{class:"muted",style:"margin:0 0 10px"},"Every "+TRACK[tr]+" level is done. Take a full mock to see where you stand. Your first one after the levels earns "+XP_RULES.mockFinal+" bonus XP on top of the usual "+XP_RULES.mockDone+"."),
+    h("button",{class:"btn primary",onclick:()=>startMock(tr)},"Start the "+TRACK[tr]+" mock"));
 }
 function prestigeBanner(){
   if(!allDaysComplete()) return null;
@@ -3482,19 +3560,23 @@ function reportText(q,pick){
   lines.push("","What's wrong or unclear:","");
   return lines.join("\n");
 }
+const FEEDBACK_EMAIL="lucianoreyes198@gmail.com";
+const mailtoReport=(subject,body)=>"mailto:"+FEEDBACK_EMAIL+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(String(body).slice(0,1800));
 function reportBlock(q,pick){
   if(reportOpen!==q.k) return h("p",{style:"margin:0;font-size:calc(13px*var(--ts,1))"},h("button",{class:"linklike",style:"font-size:inherit",onclick:()=>{reportOpen=q.k;reportCopied=false;render();}},"Report a problem with this question"));
   const text=reportText(q,pick);
   const issue="https://github.com/Rukeios/ExamHelp/issues/new?title="+encodeURIComponent("Question "+q.k+": ")+"&body="+encodeURIComponent(text);
   return h("div",{class:"panel report"},
     h("h3",{style:"margin:0"},"Report this question"),
-    h("p",{class:"muted",style:"margin:0;font-size:calc(13px*var(--ts,1))"},"Copy this and add what's wrong, or open it as a GitHub issue. Nothing is sent until you do."),
+    h("p",{class:"muted",style:"margin:0;font-size:calc(13px*var(--ts,1))"},"Email it, copy it, or open it as a GitHub issue. Add what's wrong and, if you can, your source. Nothing is sent until you do."),
     h("textarea",{readonly:true,rows:"7",style:"width:100%;font:calc(13px*var(--ts,1)) var(--mono)"},text),
     h("label",{style:"display:flex;gap:8px;align-items:center;font-size:calc(13px*var(--ts,1))"},h("input",{type:"checkbox",checked:reportIncludeAnswer?true:null,onchange:e=>{reportIncludeAnswer=e.target.checked;render();}}),"Include the answer I picked"),
     h("div",{class:"actions",style:"flex-wrap:wrap"},
       h("button",{class:"btn primary",onclick:async()=>{ try{ await navigator.clipboard.writeText(text); }catch(e){} reportCopied=true; render(); }},reportCopied?"Copied":"Copy report"),
+      h("a",{class:"btn",href:mailtoReport(BRAND.name+" question report: "+q.k,text)},"Email it"),
       h("a",{class:"btn",href:issue,target:"_blank",rel:"noopener"},"Open a GitHub issue"),
-      h("button",{class:"btn",onclick:()=>{reportOpen=null;render();}},"Close")));
+      h("button",{class:"btn",onclick:()=>{reportOpen=null;render();}},"Close")),
+    h("p",{class:"muted",style:"margin:0;font-size:calc(13px*var(--ts,1))"},"Email doesn't open? Send it to "+FEEDBACK_EMAIL+"."));
 }
 function renderBossStage(){
   const b=run.boss, bm=b.meta;
@@ -3703,13 +3785,58 @@ function approveGenerated(index){
   state.customQuestions.push(q); addCustomQuestion(q); ui.generated.splice(index,1); saveProgress(); render();
 }
 
+
+// ---------- 3.3: exam-style PBQs (data-pbq-sec.js) ----------
+// A PBQ is a table: each row has one drop-down per column, and every cell is one point.
+const PBQX=()=>window.PBQ_SEC||[];
+const pbqOpts=(p,r,c)=>(r.opts&&r.opts[c])||p.cols[c].options;
+const pbqParts=p=>p.rows.reduce((n,r)=>n+r.ans.length,0);
+const pbqEmpty=p=>p.rows.map(r=>r.ans.map(()=>null));
+const pbqTouched=sel=>!!sel&&sel.some(r=>r.some(v=>v!==null&&v!==undefined));
+function pbqScore(p,sel){ sel=sel||pbqEmpty(p); let right=0,tot=0;
+  const cells=p.rows.map((r,i)=>r.ans.map((a,c)=>{ tot++; const ok=!!sel[i]&&sel[i][c]===a; if(ok) right++; return ok; }));
+  return {ok:tot?right/tot:0,right,tot,cells}; }
+function pbqWidget(p,sel,o){
+  o=o||{}; const sc=o.reveal?pbqScore(p,sel):null;
+  const ctx=[];
+  if(p.log) ctx.push(h("pre",{class:"pbq-log","aria-label":"Log entries"},p.log.join("\n")));
+  if(p.zones) ctx.push(h("div",{class:"pbq-zones","aria-hidden":"true"},p.zones.map((z,i)=>h("div",{class:"pbq-zone z"+i},h("b",{},z)))));
+  const head=h("tr",{},h("th",{},"Item"),p.cols.map(c=>h("th",{},c.name)));
+  const body=p.rows.map((r,i)=>h("tr",{},h("td",{class:"pbq-label"},r.label),r.ans.map((a,c)=>{
+    const opts=pbqOpts(p,r,c), ok=sc&&sc.cells[i][c];
+    const s=h("select",{"aria-label":r.label+": "+p.cols[c].name,disabled:o.locked?true:null,class:sc?(ok?"ok":"no"):null,
+      onchange:e=>{ sel[i][c]=e.target.value===""?null:+e.target.value; if(o.onChange) o.onChange(); }},
+      h("option",{value:""},"Select…"),opts.map((t,j)=>h("option",{value:String(j)},t)));
+    s.value=sel[i][c]===null||sel[i][c]===undefined?"":String(sel[i][c]);
+    return h("td",{},s,sc&&!ok?h("span",{class:"xf-fix"},"Answer: "+opts[a]):null); })));
+  return h("div",{class:"pbq-x"},
+    h("p",{class:"eyebrow",style:"margin:0"},"Performance-based question · "+pbqParts(p)+" points"),
+    h("h3",{class:"qtext",style:"margin:4px 0 6px"},p.title),
+    h("p",{style:"margin:0 0 10px"},p.brief),ctx,
+    h("div",{class:"pbq-scroll"},h("table",{class:"pbq-table"},h("thead",{},head),h("tbody",{},body))),
+    sc?h("p",{class:"muted",style:"margin:10px 0 0"},h("b",{},sc.right+" of "+sc.tot+" correct. "),p.why):null,
+    sc?h("p",{style:"margin:6px 0 0;font-size:calc(13px*var(--ts,1))"},h("a",{href:mailtoReport(BRAND.name+" PBQ report: "+p.id,BRAND.name+" PBQ report\nPBQ: "+p.id+" ("+p.title+")\nContent version: "+((PATCHNOTES[0]&&PATCHNOTES[0].v)||"?")+"\n\nWhat's wrong or unclear:\n\nSource (objective, RFC, vendor doc):\n")},"Report a problem with this PBQ")):null);
+}
+function pickPbqs(n){ return PBQX().slice().sort(()=>Math.random()-.5).sort((a,b)=>mockSeenN("pbq:"+a.id)-mockSeenN("pbq:"+b.id)).slice(0,n); }
+function examPBQ(){
+  const L=PBQX(); if(!L.length) return h("section",{class:"panel"},h("p",{},"No PBQs loaded."));
+  const st=pbq.exam||(pbq.exam={i:0,sel:null,checked:false}); const p=L[st.i]; if(!st.sel) st.sel=pbqEmpty(p);
+  const go=i=>{ pbq.exam={i:(i+L.length)%L.length,sel:null,checked:false}; render(); };
+  return h("section",{class:"panel"},
+    h("p",{class:"muted",style:"margin:0 0 10px"},"Practice the formats the real exam opens with: rule tables, placement, matching, log reading and ordering. "+(st.i+1)+" of "+L.length+"."),
+    h("div",{class:"seg",style:"flex-wrap:wrap;margin-bottom:12px"},L.map((x,i)=>h("button",{"aria-pressed":String(i===st.i),onclick:()=>go(i)},String(i+1)))),
+    pbqWidget(p,st.sel,{reveal:st.checked,locked:st.checked,onChange:()=>{}}),
+    h("div",{class:"actions"},
+      st.checked?h("button",{class:"btn",onclick:()=>{ st.sel=pbqEmpty(p); st.checked=false; render(); }},"Try again"):h("button",{class:"btn primary",onclick:()=>{ st.checked=true; render(); }},"Check"),
+      h("button",{class:"btn",onclick:()=>go(st.i+1)},"Next PBQ →")));
+}
 // ---------- PBQ simulators ----------
 let pbq={firewall:["Allow HTTPS from any","Deny 203.0.113.77","Allow admin SSH from 10.10.0.0/16"],port:{},portPick:null,logs:[],attack:"",
   packet:{topo:{},ipA:"",ipS:"",acl:{https:"",telnet:"",mgmt:""},checked:false,pick:null}};
 function renderPBQ(){
-  const modes=[["firewall","Firewall builder"],["port","Port match"],["logs","Log hunt"],["packet","Packet tracer"]];
+  const modes=[["exam","Exam PBQs"],["firewall","Firewall builder"],["port","Port match"],["logs","Log hunt"],["packet","Packet tracer"]];
   const selector=h("div",{class:"seg"},modes.map(([id,label])=>h("button",{"aria-pressed":String(ui.pbq===id),onclick:()=>{ui.pbq=id;render();}},label)));
-  return h("div",{style:"display:flex;flex-direction:column;gap:16px"},selector,ui.pbq==="firewall"?firewallPBQ():ui.pbq==="port"?portPBQ():ui.pbq==="packet"?packetPBQ():logsPBQ());
+  return h("div",{style:"display:flex;flex-direction:column;gap:16px"},selector,ui.pbq==="exam"?examPBQ():ui.pbq==="firewall"?firewallPBQ():ui.pbq==="port"?portPBQ():ui.pbq==="packet"?packetPBQ():logsPBQ());
 }
 // Firewall builder: graded by SIMULATION, never by comparing rule order.
 // Every test packet is walked through the learner's ruleset top-down, first match wins,
@@ -4409,9 +4536,12 @@ function libTools(tr,dom){
     tr==="sec"&&dom==="all"||tr==="sec"&&/Architecture|Threats|Operations/.test(dom)?["Hands-on",[
       {id:"ports",icon:"plug",name:"Port Lab",sub:"Type the port for a real task, or pick the secure swap",count:(window.PORTLAB?PORTLAB.ports.length:0)+" ports",ok:true,go:()=>libGo(()=>goTab("ports"))},
       {id:"sims",icon:"shield",name:"Attack & Defense",sub:"Watch an attack play out, then stop it",count:(window.SIMS?SIMS.length:0)+" sims",ok:true,go:()=>libGo(()=>goTab("sims"))},
-      {id:"pbq",icon:"grid",name:"PBQs",sub:"Firewall rules, ports, logs and packets",count:"4 labs",ok:true,go:()=>libGo(()=>goTab("pbq"))}]]:null,
+      {id:"pbqx",icon:"grid",name:"Exam PBQs",sub:"Rule tables, placement, matching, logs and ordering, graded cell by cell",count:PBQX().length+" PBQs",ok:PBQX().length>0,go:()=>libGo(()=>{ ui.pbq="exam"; goTab("pbq"); })},
+      {id:"pbq",icon:"grid",name:"PBQ labs",sub:"Firewall builder, port match, log hunt, packet tracer",count:"4 labs",ok:true,go:()=>libGo(()=>{ if(ui.pbq==="exam") ui.pbq="firewall"; goTab("pbq"); })}]]:null,
+    tr==="ccst"&&(dom==="all"||/Addressing/.test(dom))?["Hands-on",[
+      {id:"subnet",icon:"grid",name:"Subnet Lab",sub:"Calculator that shows every step, an endless drill and two quizzes",count:"Opens a page",ok:true,go:()=>{ location.href="subnet-lab/"; }}]]:null,
     dom==="all"&&MOCK_SPEC[tr]?["Test day",[
-      {id:"mock",icon:"clock",name:"Mock exam",sub:mock.unlocked?"Full length and timed, scored at the end":"Opens after "+mock.need+" levels ("+mock.have+" done so far)",count:mock.unlocked?"Ready":"Locked",ok:!!mock.unlocked,
+      {id:"mock",icon:"clock",name:"Mock exam",sub:"Full length and timed, scored at the end. New questions first each time",count:mock.have<mock.need?mock.have+" of "+mock.need+" levels studied":"Ready",ok:true,
         go:()=>libGo(()=>{ if(typeof startMock==="function") startMock(tr); else goTab("mock"); })}]]:null
   ];
   return G.filter(Boolean).map(([g,t])=>[g,t.filter(Boolean)]);
@@ -4454,6 +4584,7 @@ function renderLibrary(){
     h("section",{class:"lib-head"},h("p",{class:"eyebrow"},"Library"),h("h1",{},"Study anything"),
       h("p",{class:"muted"},"Optional practice, any time. Pick an exam, a topic and a tool. Locked levels' material is open here too, and nothing here changes your levels.")),
     xpCard(),
+    installCard(),
     libResume(),
     h("div",{class:"lib-pick"},h("p",{class:"lib-lbl"},"Exam"),exams),
     LIB_PREVIEW[tr]?ccstSoon():h("div",{class:"lib-pick"},h("p",{class:"lib-lbl"},"Topic"),topics),
@@ -4467,7 +4598,7 @@ function libBar(){
 }
 // ---------- 2.7.0: XP and Ranks ----------
 // XP rewards studying and nothing else: it never unlocks a level (only the level quiz does).
-const XP_RULES={flashCard:5,flashDailyCap:150,portRight:2,mockDone:100,levelDone:50,firstOfDay:10};
+const XP_RULES={flashCard:5,flashDailyCap:150,portRight:2,mockDone:100,mockFinal:250,levelDone:50,firstOfDay:10};
 function isoDay(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
 function xpToday(){ return (state.xpLog&&state.xpLog[todayISO()])||0; }
 function rankIdx(xp){ const v=xp==null?state.xp:xp; let i=0; RANKS.forEach(([,need],j)=>{ if(v>=need) i=j; }); return i; }
@@ -4732,7 +4863,7 @@ function renderPlan(){
   });
   const toggle=h("button",{class:"lvl-toggle","aria-expanded":String(!!ui.lvlOpen),onclick:()=>{ui.lvlOpen=!ui.lvlOpen;render();}},
     h("span",{},"Level "+disp[sel.d]+" · "+(sel.kind?sel.title:shortTitle(sel.title))),h("span",{},ui.lvlOpen?"Close":"Change level"));
-  return h("div",{style:"display:flex;flex-direction:column;gap:14px"},prestigeBanner(),
+  return h("div",{style:"display:flex;flex-direction:column;gap:14px"},finishLine(),prestigeBanner(),
     h("div",{class:"study-lessons"},
       h("div",{},toggle,h("nav",{class:"lvl-nav"+(ui.lvlOpen?" open":""),"aria-label":"Levels"},navKids)),
       lessonPanel(sel)));
@@ -5578,17 +5709,26 @@ const MOCK_SPEC = {
   // 45 minutes is Microsoft's exam time for fundamentals exams. The mix follows the skills-measured
   // weights (10-15 / 25-30 / 35-40 / 20-25%). xf = how many of each domain are exam-style.
   sc:{n:50,minutes:45,mix:{"Concepts":6,"Entra":14,"Security solutions":19,"Compliance":11},xf:{"Concepts":2,"Entra":6,"Security solutions":8,"Compliance":4}},
-  sec:{n:90,minutes:90,mix:{"1 General concepts":11,"2 Threats & vulns":20,"3 Architecture":16,"4 Operations":25,"5 Program mgmt":18}}
+  // CCST: Cisco gives 50 minutes and doesn't publish a question count, so 50 in 50. The mix follows the
+  // exam-topic weights for the domains we have content for, capped by the pool (Diagnosing has one level so far).
+  ccst:{n:50,minutes:50,mix:{"1 Standards & concepts":12,"2 Addressing":10,"3 Endpoints & media":9,"4 Infrastructure":13,"5 Diagnosing problems":6}},
+  sec:{n:90,minutes:90,pbq:3,mix:{"1 General concepts":11,"2 Threats & vulns":20,"3 Architecture":16,"4 Operations":25,"5 Program mgmt":18}}
 };
 let mockRun=null, mockTick=null;
-function mockUnlockDays(track){ return track==="sc"?SC_UNLOCK_DAYS:SEC_UNLOCK_DAYS; }
+function mockUnlockDays(track){ return track==="sc"?SC_UNLOCK_DAYS:track==="sec"?SEC_UNLOCK_DAYS:DAYS.filter(d=>d.track===track).map(d=>d.d); }
 function mockUnlockStatus(track){
   const need=STRICT_UNLOCK?DAYS.map(d=>d.d):mockUnlockDays(track);
+  // 3.3: mocks are always open (RJ, 24 Nov). They aren't levels, so this never touches unlocking.
+  // have/need is kept only to tell people how much of the exam they've studied so far.
   if(instructorOn()) return {unlocked:true,have:need.length,need:need.length};
   const have=need.filter(d=>state.done[d]).length;
-  return {unlocked:have===need.length,have,need:need.length};
+  return {unlocked:true,have,need:need.length};
 }
 function mockPoolFor(track,dom){ return Object.values(Q).filter(q=>coreQ(q)&&q.track===track&&q.dom===dom).map(q=>q.k); }
+// 3.3: every mock prefers the questions you've seen least in earlier mocks, so each run is different.
+const mockSeenN=k=>(state.mockSeen&&state.mockSeen[k])|0;
+const freshFirst=keys=>shuffle(keys).sort((a,b)=>mockSeenN(a)-mockSeenN(b));
+function mockFreshCount(track){ return Object.values(Q).filter(q=>coreQ(q)&&q.track===track&&!mockSeenN(q.k)).length; }
 function buildMockList(track){
   const spec=MOCK_SPEC[track]; const shortfalls=[]; let keys=[];
   const hist=qHistory();
@@ -5596,18 +5736,26 @@ function buildMockList(track){
     // exam-style first (unseen ones preferred), the rest multiple choice
     const xfPool=shuffle(Object.values(Q).filter(q=>q.xf&&q.track===track&&q.dom===dom).map(q=>q.k)).sort((a,b)=>(hist[a]?1:0)-(hist[b]?1:0));
     const xs=xfPool.slice(0,Math.min((spec.xf&&spec.xf[dom])||0,n));
-    const pool=shuffle(mockPoolFor(track,dom));
+    const pool=freshFirst(mockPoolFor(track,dom));
     if(pool.length+xs.length<n) shortfalls.push({dom,have:pool.length+xs.length,need:n});
     keys=keys.concat(xs,pool.slice(0,n-xs.length));
   });
   keys=shuffle(keys);
-  return {list:keys.map(k=>{const q=Q[k];const order=shuffle([0,1,2,3].slice(0,q.o.length));return {k,q,order,xo:q.xf?xfOrder(q.xf):null};}),shortfalls};
+  // 3.3: like the real exam, PBQs come first. Each one takes the place of a multiple-choice question
+  // from its own domain, so the total and the domain weights stay the same.
+  const pb=spec.pbq?pickPbqs(spec.pbq):[];
+  pb.forEach(p=>{ const i=keys.findIndex(k=>Q[k].dom===p.dom&&!Q[k].xf); if(i>=0) keys.splice(i,1); });
+  const pbItems=pb.map(p=>({k:"pbq:"+p.id,q:{pbq:p,dom:p.dom,d:null,q:p.title},order:null,xo:null}));
+  return {list:pbItems.concat(keys.map(k=>{const q=Q[k];const order=shuffle([0,1,2,3].slice(0,q.o.length));return {k,q,order,xo:q.xf?xfOrder(q.xf):null};})),shortfalls};
 }
 function startMock(track){
   const st=mockUnlockStatus(track); if(!st.unlocked) return;
   const {list,shortfalls}=buildMockList(track);
   const spec=MOCK_SPEC[track];
-  mockRun={track,list,strict:!!state.mockStrict,i:0,flags:{},answers:{},t0:Date.now(),timeLimitMs:timeScaled(spec.minutes*60000),shortfalls,navOpen:false,confirmOpen:false,submitted:false,rec:null};
+  const fresh=list.filter(it=>!mockSeenN(it.k)).length;
+  if(!instructorOn()){ if(!state.mockSeen||typeof state.mockSeen!=="object") state.mockSeen={}; list.forEach(it=>{ state.mockSeen[it.k]=mockSeenN(it.k)+1; }); saveProgress(); }
+  mockRun={track,list,strict:!!state.mockStrict,i:0,flags:{},answers:{},t0:Date.now(),timeLimitMs:timeScaled(spec.minutes*60000),shortfalls,fresh,navOpen:false,confirmOpen:false,submitted:false,rec:null};
+  ui.tab="mock";   // started from the Library or the finish line: show the exam itself
   queueFx("challenge","#view .panel");
   render(); window.scrollTo(0,0); startMockTimer();
 }
@@ -5646,10 +5794,10 @@ function submitMock(auto){
   stopMockTimer();
   mockRun.submitted=true; mockRun.confirmOpen=false;
   // Points: one per multiple-choice question, one per correct selection in a multi-part question.
-  const okOf=it=>it.q.xf?xfScore(it.q.xf,mockRun.answers[it.k]).ok:(mockRun.answers[it.k]===it.q.a?1:0);
-  const ptsOf=it=>it.q.xf?xfParts(it.q.xf):1;
-  const res=mockRun.list.map(it=>[it.k,okOf(it),0]);
-  const score=res.reduce((s,r)=>s+r[1],0), n=res.length;
+  const okOf=mockItemOk, ptsOf=mockItemPts;
+  // PBQs count toward the score but aren't bank questions, so they stay out of Review and history.
+  const res=mockRun.list.filter(it=>!it.q.pbq).map(it=>[it.k,okOf(it),0]);
+  const score=mockRun.list.reduce((s,it)=>s+okOf(it),0), n=mockRun.list.length;
   const spec=MOCK_SPEC[mockRun.track];
   const earned=xs=>Math.round(xs.reduce((s,it)=>s+okOf(it)*ptsOf(it),0)), maxOf=xs=>xs.reduce((s,it)=>s+ptsOf(it),0);
   const points=earned(mockRun.list), pointsMax=maxOf(mockRun.list);
@@ -5673,7 +5821,10 @@ function submitMock(auto){
   if(!strict) recordReview(res);
   saveProgress();
   recordGameProgress(strict?Object.assign({},mockRun.rec,{items:res}):mockRun.rec);
-  gainXp(XP_RULES.mockDone,{why:"Mock exam finished"}); saveProgress();
+  gainXp(XP_RULES.mockDone,{why:"Mock exam finished"});
+  // 3.3: the mock is the finish line of the level path. The first one after every level is done pays a bonus.
+  if(!instructorOn()&&finishLineDue(mockRun.track)){ state.mockFinal=Object.assign({},state.mockFinal,{[mockRun.track]:Date.now()}); gainXp(XP_RULES.mockFinal,{why:"Finish line: "+TRACK[mockRun.track]+" mock after every level"}); }
+  saveProgress();
   if(mockRun.rec&&mockRun.rec.pct>=80) queueFx("victory","#view .panel");
   render(); window.scrollTo(0,0);
 }
@@ -5683,8 +5834,8 @@ function submitMock(auto){
 // appear anywhere in the app. Every question, the answer given and the correct answer are written
 // to a results file instead, in an encoded section, so the detail has to be parsed to be read.
 const MOCKFILE_KEY=LS+".mockfile";
-const mockItemOk=it=>it.q.xf?xfScore(it.q.xf,mockRun.answers[it.k]).ok:(mockRun.answers[it.k]===it.q.a?1:0);
-const mockItemPts=it=>it.q.xf?xfParts(it.q.xf):1;
+const mockItemOk=it=>it.q.pbq?pbqScore(it.q.pbq,mockRun.answers[it.k]).ok:it.q.xf?xfScore(it.q.xf,mockRun.answers[it.k]).ok:(mockRun.answers[it.k]===it.q.a?1:0);
+const mockItemPts=it=>it.q.pbq?pbqParts(it.q.pbq):it.q.xf?xfParts(it.q.xf):1;
 function mockWeakLevels(){
   const m={};
   mockRun.list.forEach(it=>{ const d=it.q.d; if(!DAYS.some(x=>x.d===d)) return;
@@ -5696,6 +5847,10 @@ function b64utf8(s){ const u=new TextEncoder().encode(s); let bin=""; for(let i=
 function mockItemDetail(it,i){
   const q=it.q, a=mockRun.answers[it.k], day=DAYS.find(d=>d.d===q.d), pts=mockItemPts(it), ok=mockItemOk(it);
   const base={n:i+1,key:it.k,level:q.d,levelTitle:day?day.title:null,domain:q.dom,flagged:!!mockRun.flags[it.k],answered:it.k in mockRun.answers,pointsEarned:Math.round(ok*pts*100)/100,pointsMax:pts};
+  if(q.pbq){ const p=q.pbq, sel=a||pbqEmpty(p), sc=pbqScore(p,sel);
+    return Object.assign(base,{type:"performance-based",question:p.title+". "+p.brief,
+      parts:p.rows.flatMap((r,i)=>r.ans.map((x,c)=>{ const o=pbqOpts(p,r,c); return {prompt:r.label+" · "+p.cols[c].name,yourAnswer:sel[i][c]==null?null:o[sel[i][c]],correctAnswer:o[x],correct:sc.cells[i][c]}; })),
+      correct:sc.ok===1,why:p.why}); }
   if(!q.xf) return Object.assign(base,{type:"multiple-choice",question:q.q,options:q.o.slice(),yourAnswer:a===undefined?null:q.o[a],correctAnswer:q.o[q.a],correct:ok===1,why:q.why||null});
   const x=q.xf, sel=a||xfEmpty(x), sc=xfScore(x,sel), none=v=>v===null||v===undefined;
   let parts;
@@ -5739,19 +5894,27 @@ function mockVerdict(p){
   return "Not ready yet. Focus on the domains below.";
 }
 function renderMockLaunch(){
-  const cards=["sc","sec"].filter(inProgram).map(track=>{
+  const cards=TRACKS.filter(t=>MOCK_SPEC[t]&&(inProgram(t)||libExamOn(t))).map(track=>{
     const spec=MOCK_SPEC[track], st=mockUnlockStatus(track);
     return h("div",{class:"panel",style:"opacity:"+(st.unlocked?"1":".6")},
       h("div",{class:"row",style:"justify-content:space-between"},h("h3",{},TRACK[track]+" mock exam"),h("span",{class:"tag "+track},TRACK[track])),
       h("p",{class:"muted",style:"margin:4px 0 10px"},spec.n+" questions · "+(a11y.time===0?"no time limit":Math.round(spec.minutes*a11y.time)+" minute limit"+(a11y.time!==1?" ("+a11y.time+"× time)":""))+" · domain-weighted mix"),
-      st.unlocked?h("button",{class:"btn primary",onclick:()=>startMock(track)},"Start "+TRACK[track]+" mock"):
-        h("p",{class:"muted",style:"font-size:calc(13px*var(--ts,1))"},"Locked — finish "+(st.need-st.have)+" more level"+(st.need-st.have===1?"":"s")+" ("+st.have+" of "+st.need+" complete)"));
+      h("button",{class:"btn primary",onclick:()=>startMock(track)},"Start "+TRACK[track]+" mock"),
+      h("p",{class:"muted",style:"margin:8px 0 0;font-size:calc(13px*var(--ts,1))"},
+        (st.have<st.need?"You've finished "+st.have+" of "+st.need+" levels, so expect some topics you haven't studied yet. ":"")+
+        mockFreshCount(track)+" questions you haven't had in a mock yet. Each mock uses those first."));
   });
   return h("div",{style:"display:flex;flex-direction:column;gap:14px"},
     h("section",{class:"panel"},h("h2",{},"Mock exam"),h("p",{class:"muted",style:"margin:0 0 8px"},"Full-length, timed, no feedback until you submit. Built to feel like the real thing."),
       inProgram("sc")?h("ul",{class:"mock-facts","aria-label":"How the SC-900 mock matches the exam"},
         h("li",{},"45 minutes, Microsoft's exam time"),h("li",{},"Domain mix follows the skills-measured weights"),
         h("li",{},"Yes/No sets, drop-downs, choose two and matching, plus multiple choice"),h("li",{},"One point per correct selection"),h("li",{},"Flag questions and review before you submit")):null,
+      inProgram("sec")?h("ul",{class:"mock-facts","aria-label":"How the Security+ mock matches the exam"},
+        h("li",{},"90 questions in 90 minutes"),h("li",{},"3 performance-based questions first, like the real exam"),h("li",{},"PBQs score a point per correct cell"),
+        h("li",{},"Domain mix follows the SY0-701 weights"),h("li",{},"Flag and skip, then come back")):null,
+      inProgram("ccst")||libExamOn("ccst")?h("ul",{class:"mock-facts","aria-label":"How the CCST mock matches the exam"},
+        h("li",{},"50 minutes, Cisco's exam time"),h("li",{},"Domain mix follows Cisco's exam-topic weights"),h("li",{},"Covers modules 1 to 26 so far"),h("li",{},"Flag and review before you submit")):null,
+      inProgram("sec")?h("p",{class:"muted",style:"margin:8px 0 0;font-size:calc(13px*var(--ts,1));max-width:70ch"},"Tip: most people flag the PBQs, answer the multiple choice first, then come back with the time that's left."):null,
       inProgram("sc")?h("p",{class:"muted",style:"margin:8px 0 0;font-size:calc(13px*var(--ts,1));max-width:70ch"},"These are original questions, not Microsoft's. For questions written by the exam team, use Microsoft's free practice assessment on the SC-900 exam page."):null,
       h("div",{class:"mock-strict"},
         h("label",{class:"mock-strict-row"},
@@ -5784,7 +5947,10 @@ function renderMockExam(){
   const kids=[head];
   if(mockRun.navOpen) kids.push(renderMockNavigator());
   kids.push(speakBtn("mock|"+mockRun.i,"#view .qtext,#view .xf,#view .opts","question"));
-  if(q.xf){
+  if(q.pbq){
+    const sel=mockRun.answers[it.k]||(mockRun.xdraft&&mockRun.xdraft.k===it.k?mockRun.xdraft.sel:(mockRun.xdraft={k:it.k,sel:pbqEmpty(q.pbq)}).sel);
+    kids.push(pbqWidget(q.pbq,sel,{onChange:()=>{ if(pbqTouched(sel)) mockRun.answers[it.k]=sel; else delete mockRun.answers[it.k]; }}));
+  } else if(q.xf){
     const sel=mockRun.answers[it.k]||(mockRun.xdraft&&mockRun.xdraft.k===it.k?mockRun.xdraft.sel:(mockRun.xdraft={k:it.k,sel:xfEmpty(q.xf)}).sel);
     kids.push(xfWidget(q,it.xo,sel,{onChange:()=>{ if(xfTouched(q.xf,sel)) mockRun.answers[it.k]=sel; else delete mockRun.answers[it.k]; }}));
   } else {
@@ -5810,9 +5976,10 @@ function renderMockResult(){
   const domRows=Object.entries(r.perDomain).map(([dom,d])=>h("div",{class:"bar"},h("span",{},dom+(d.pct<80?" ⚠":"")),
     h("span",{class:"track"},h("i",{style:`width:${d.pct}%;background:var(--${mockRun.track})`})),
     h("span",{class:"tabnum",style:"text-align:right"},h("span",{class:"chip "+(d.pct>=80?"good":"weak")},d.correct+"/"+d.total+" · "+d.pct+"%"))));
-  const missed=mockRun.list.filter(it=>it.q.xf?xfScore(it.q.xf,mockRun.answers[it.k]).ok<1:mockRun.answers[it.k]!==it.q.a);
+  const missed=mockRun.list.filter(it=>mockItemOk(it)<1);
   const byDom={}; missed.forEach(it=>{ (byDom[it.q.dom]=byDom[it.q.dom]||[]).push(it); });
-  const missBox=Object.entries(byDom).map(([dom,items])=>h("div",{},h("h3",{style:"margin:14px 0 8px"},dom),items.map(it=>
+  const missBox=Object.entries(byDom).map(([dom,items])=>h("div",{},h("h3",{style:"margin:14px 0 8px"},dom),items.map(it=>it.q.pbq?
+    h("div",{class:"miss"},pbqWidget(it.q.pbq,mockRun.answers[it.k]||pbqEmpty(it.q.pbq),{reveal:true,locked:true})):
     h("div",{class:"miss"},h("div",{},it.q.q),h("div",{class:"ans"},h("b",{style:"color:var(--ok)"},"Answer: "),it.q.o[it.q.a]),h("div",{class:"muted",style:"font-size:calc(14px*var(--ts,1))"},it.q.why)))));
   return h("div",{style:"display:flex;flex-direction:column;gap:16px"},
     h("section",{class:"panel"},
@@ -5825,7 +5992,7 @@ function renderMockResult(){
       mockRun.shortfalls.length?h("p",{class:"muted",style:"font-size:calc(13px*var(--ts,1))"},"Note: your question bank came up short in "+mockRun.shortfalls.map(s=>s.dom+" ("+s.have+"/"+s.need+")").join(", ")+"."):null,
       h("div",{class:"actions"},
         h("button",{class:"btn primary",onclick:()=>startMock(mockRun.track)},"Retake this mock"),
-        missed.length?h("button",{class:"btn",onclick:()=>{const keys=missed.map(it=>it.k);mockRun=null;startQuiz({id:"mock-miss",label:"Mock misses",keys},"think",keys.length);}},"Drill my missed questions"):null,
+        missed.some(it=>Q[it.k])?h("button",{class:"btn",onclick:()=>{const keys=missed.filter(it=>Q[it.k]).map(it=>it.k);mockRun=null;startQuiz({id:"mock-miss",label:"Mock misses",keys},"think",keys.length);}},"Drill my missed questions"):null,
         h("button",{class:"btn",onclick:()=>{mockRun=null;render();}},"Back to mock exams"))),
     h("section",{class:"panel"},h("h3",{style:"margin-bottom:10px"},"Per-domain breakdown"),domRows,h("p",{class:"muted",style:"font-size:calc(13px*var(--ts,1));margin:10px 0 0"},"⚠ = under the 80% target.")),
     missed.length?h("section",{class:"panel"},h("h3",{},"Review what you missed"),missBox):null);

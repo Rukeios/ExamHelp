@@ -20,8 +20,12 @@ If you're teaching a class through this, or study-group leading one:
 - Nothing uploads anywhere. `roster.html` runs entirely in your browser, off your own
   desktop. No server sees a single student's file.
 - It's free to use, in your own studying or in a class you teach, no permission needed.
-  The code and content are not open source: please don't copy, republish or fork it
-  without asking. See [LICENSE](LICENSE).
+- **The questions and study content are CC BY 4.0:** use them in your own tools, even
+  paid ones, as long as you credit Rukeios Study. See [LICENSE-CONTENT.md](LICENSE-CONTENT.md).
+  The app's code, the campaign and the artwork are not open: see [LICENSE](LICENSE).
+- **Found a mistake, or reviewing the content as a professional?** Email
+  lucianoreyes198@gmail.com or open a GitHub issue. Include the question ID, what's
+  wrong and your source.
 
 ## What's in it
 

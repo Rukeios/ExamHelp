@@ -3,6 +3,28 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
+{ v:"4.0.0", date:"2026-11-28", title:"Mock exam mega update", tag:"feature", items:[
+  "Mock exams are open from day one. You no longer have to finish every level first. Mocks still never unlock levels; only the level quiz does.",
+  "If you haven't finished the levels yet, the mock screen tells you how many you've done, so you know to expect some unstudied topics.",
+  "Every mock now uses the questions you've seen least in earlier mocks, so back-to-back mocks get different questions. The mock screen shows how many you haven't had yet.",
+  "Mocks taken in Instructor view don't count toward that, so your real mock history stays clean.",
+  "The Security+ mock now opens with 3 performance-based questions, like the real exam. They're drawn from a new set of 12: firewall rule tables, placing systems in network zones, matching attacks to fixes, reading logs, ordering incident response and evidence collection, control types, Wi-Fi settings, PKI terms, ports, risk responses and data roles.",
+  "Each PBQ scores a point per correct cell, and takes the place of a multiple-choice question from its own domain, so the mock is still 90 questions with the same domain weights. Your results review shows each missed PBQ with the right answers and why.",
+  "Practice them on their own any time: Library, Security+, Hands-on, Exam PBQs. Check your answers cell by cell.",
+  "New: a CCST Networking mock exam. 50 questions in 50 minutes (Cisco's exam time), mixed across the five CCST topics in roughly Cisco's weights, from modules 1 to 26. Open it from the Library under CCST Networking, Test day.",
+  "New: Get the app. Steps for adding Rukeios Study to your iPhone, Android phone or computer, with your device's steps first. Chrome and Edge get a one-tap Install button. Find it on the Library card or the Get the app link in the footer. The card hides once you install or tap Not now.",
+  "The questions, notes, flashcards and PBQs are now licensed CC BY 4.0. Anyone can reuse them in their own study tools, even paid ones, as long as they credit Rukeios Study. The app's code, the campaign and the artwork stay reserved. Details in LICENSE-CONTENT.md.",
+  "Spot a mistake? Every question's Report a problem panel now has an Email it button that fills in the question ID and text for you. PBQs get a report link after you check them, and the Support window has a section for professionals reviewing the content.",
+  "The levels now lead up to the mock. Once every level for an exam is done, the Study tab shows a Finish line card, and your first mock after that earns 250 bonus XP on top of the usual 100."
+]},
+{ v:"3.2.0", date:"2026-11-24", title:"Subnet Lab", tag:"feature", items:[
+  "New page: the Subnet Lab. Type any IP address and slash (or a mask) and it shows the bits, the block the address falls in, and every step to the network, broadcast, usable range and host count.",
+  "It teaches the magic-number method: find the octet, take the block size, count up by it. One small table covers /25 to /30.",
+  "An endless subnet drill keeps your streak on this device. Show working sends any question to the calculator.",
+  "It also has two 15-question scenario quizzes, one for Security+ and one for CCST Networking, with the why after every answer and a retry for the ones you missed.",
+  "Open it from the Library (CCST Networking, Hands-on), from Optional extra practice on the CCST addressing levels, or from the footer.",
+  "The Subnet Lab doesn't change your levels or XP."
+]},
 { v:"3.1.0", date:"2026-11-13", title:"CCST modules 15 to 26", tag:"feature", items:[
   "12 new CCST Networking levels follow modules 15 to 26 of the Cisco NetAcad course, in Parts 5 to 8: TCP and UDP, application services, testing tools (ping, tracert, nslookup), network design, cloud and virtualization, binary and hex, switching and VLANs, the network layer, IPv4 address structure, ARP and IPv6 Neighbor Discovery, DNS and DHCP services, and the transport layer.",
   "That brings CCST to 26 levels, 208 level-quiz questions, 52 Pocket Notes and 104 flashcards.",

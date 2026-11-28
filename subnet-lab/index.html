@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Subnet Lab · Rukeios Study</title>
+<meta name="theme-color" content="#0a2540">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a coach at a whiteboard: short sentences, one step at a time, no fluff.
+   IDEA: an address worksheet: the IP laid out as 32 bits, then the blocks it falls into.
+   PICTURE: the live calculator: bit strip (network sky, host pink) over a strip of address blocks.
+   COLOUR and TYPE: deep sea ground, sky for network, signal pink for host; Hanken Grotesk 300 large + Hanken Grotesk.
+   LAYOUT: three strips on one axis: calculator (tallest), the method and drill, then the quizzes. */
+:root{color-scheme:dark;--bg:#0a2540;--panel:#0f3157;--panel2:#13396a;--line:rgba(143,211,255,.22);--ink:#fff;--mute:#b4cbe0;--sky:#8fd3ff;--pink:#ff5c8a;--ok:#7be0b0}
+:root[data-theme=light],:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Hanken Grotesk",system-ui,sans-serif;overflow-x:clip}
+html{scroll-padding-top:72px;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding:clamp(28px,4vw,64px) max(5vw,16px)}
+.band+.band{border-top:1px solid var(--line)}
+nav.scroll{display:flex;gap:6px;overflow-x:auto;padding:10px max(5vw,16px);border-bottom:1px solid var(--line);background:var(--bg)}
+@media(min-width:900px){nav.scroll{position:sticky;top:0;z-index:5}}
+nav.scroll a{flex:none;color:var(--mute);text-decoration:none;padding:10px 14px;border-radius:999px;font-weight:600;font-size:15px}
+nav.scroll a:hover,nav.scroll a:focus-visible{color:var(--ink);background:var(--panel)}
+h1{font-weight:300;font-size:clamp(34px,5vw,52px);line-height:1.05;margin:0 0 10px;text-wrap:balance}
+h2{font-weight:300;font-size:clamp(28px,3.6vw,40px);line-height:1.08;margin:0 0 8px;text-wrap:balance}
+h3{font-size:19px;margin:0 0 8px;font-weight:700}
+p{margin:0 0 12px;max-width:68ch}
+.lede{color:var(--mute);font-size:17px}
+.sky{color:var(--sky)}.pink{color:var(--pink)}
+.calc{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:24px;margin-top:22px}
+@media(max-width:760px){.calc{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+label{display:block;font-weight:600;font-size:14px;margin:0 0 6px;color:var(--mute)}
+input{width:100%;font:inherit;font-size:16px;padding:11px 12px;min-height:44px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.row2{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:10px}
+button{font:inherit;font-weight:700;min-height:44px;padding:10px 16px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);cursor:pointer}
+button.go{background:var(--sky);color:#0a2540;border-color:var(--sky)}
+button:hover{filter:brightness(1.1)}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.presets button{min-height:36px;padding:6px 10px;font-size:13px;font-weight:600}
+.err{color:var(--pink);font-weight:600;min-height:1.5em;margin:8px 0 0;font-size:14px}
+.bits{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:6px}
+.oct{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:2px;border-radius:8px;padding:6px;background:var(--bg)}
+.oct.hot{box-shadow:0 0 0 2px #fff}
+.b{text-align:center;font-weight:700;font-size:clamp(11px,1.6vw,15px);padding:5px 0;border-radius:4px;font-variant-numeric:tabular-nums}
+.b.n{background:rgba(143,211,255,.22);color:var(--sky)}.b.h{background:rgba(255,92,138,.2);color:var(--pink)}
+.octv{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;text-align:center;font-weight:700;font-size:18px;margin-bottom:14px}
+.octv small{display:block;font-weight:400;font-size:13px;color:var(--mute)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--mute);margin-bottom:14px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.blocks{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0 14px}
+.blk{flex:1 0 54px;max-width:120px;text-align:center;font-size:13px;font-weight:600;padding:8px 2px;border-radius:6px;background:var(--bg);border:1px solid var(--line);color:var(--mute);font-variant-numeric:tabular-nums}
+.blk.on{background:var(--pink);color:#fff;border-color:var(--pink)}
+.steps{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.steps li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start}
+.steps .k{width:28px;height:28px;border-radius:50%;background:var(--sky);color:#0a2540;font-weight:700;display:grid;place-items:center;font-size:14px}
+.result{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:16px}
+.result div{background:var(--bg);border-radius:10px;padding:10px 12px}
+.result small{display:block;color:var(--mute);font-size:13px}
+.result b{font-size:clamp(17px,2.2vw,22px);white-space:nowrap;font-variant-numeric:tabular-nums}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;margin-top:20px}
+@media(max-width:860px){.two{grid-template-columns:minmax(0,1fr)}}
+ol.method{padding-left:22px;margin:0 0 14px}ol.method li{margin-bottom:10px}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--mute);font-weight:600;font-size:14px}
+td.big{color:var(--pink);font-weight:700}
+.ex{background:var(--bg);border-left:3px solid var(--sky);padding:12px 14px;border-radius:0 10px 10px 0;margin:12px 0}
+.q{font-size:clamp(20px,2.6vw,26px);font-weight:600;margin:6px 0 14px;font-variant-numeric:tabular-nums}
+.dgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media(max-width:520px){.dgrid{grid-template-columns:minmax(0,1fr)}}
+.fb{margin-top:12px;font-weight:600}
+.good{color:var(--ok)}.bad{color:var(--pink)}
+input.good{border-color:var(--ok)}input.bad{border-color:var(--pink)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.meta{color:var(--mute);font-size:14px}
+.switch{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 18px}
+.switch button[aria-pressed=true]{background:var(--sky);color:#0a2540;border-color:var(--sky)}
+.qcard{max-width:760px}
+.bar{height:8px;border-radius:99px;background:var(--bg);overflow:hidden;margin:8px 0 16px}
+.bar i{display:block;height:100%;background:var(--sky);transition:width .3s}
+.opts{display:grid;gap:8px}
+.opts button{text-align:left;font-weight:500;background:var(--bg);display:grid;grid-template-columns:26px minmax(0,1fr);gap:10px;align-items:start}
+.opts button span{color:var(--mute);font-weight:700}
+.opts button.right{border-color:var(--ok);background:rgba(123,224,176,.14)}
+.opts button.wrong{border-color:var(--pink);background:rgba(255,92,138,.14)}
+.opts button:disabled{cursor:default;filter:none}
+.why{margin-top:14px;padding:12px 14px;border-radius:10px;background:var(--bg)}
+.score{font-size:clamp(40px,7vw,64px);font-weight:300;line-height:1}
+footer{color:var(--mute);font-size:14px}
+</style>
+</head>
+<body>
+<nav class="scroll" aria-label="Sections"><a href="../">← Rukeios Study</a><a href="#subnet">Subnet calculator</a><a href="#method">The easy method</a><a href="#drill">Subnet drill</a><a href="#quiz">Quizzes</a></nav>
+
+<section class="band" id="subnet"><div class="wrap">
+  <h1>Subnetting, one block at a time</h1>
+  <p class="lede">Type any address and slash. The page shows the bits, the block it lands in and every step of the working.</p>
+  <div class="calc">
+    <div class="card">
+      <form id="cf">
+        <div class="row2">
+          <div><label for="cip">IP address</label><input id="cip" value="192.168.10.77" inputmode="decimal" autocomplete="off"></div>
+          <div><label for="cpre">Slash or mask</label><input id="cpre" value="/27" autocomplete="off"></div>
+        </div>
+        <div class="btns"><button class="go" type="submit">Work it out</button></div>
+      </form>
+      <p class="err" id="cerr" role="alert"></p>
+      <p class="meta" style="margin:4px 0 0">Try one of these:</p>
+      <div class="presets" id="presets"></div>
+    </div>
+    <div class="card" id="cout" aria-live="polite"></div>
+  </div>
+</div></section>
+
+<section class="band" id="method"><div class="wrap">
+  <h2>The easy method: the magic number</h2>
+  <p class="lede">No binary needed for most exam questions. Learn one row of numbers and count.</p>
+  <div class="two">
+    <div>
+      <ol class="method">
+        <li><b>Find the octet the slash lands in.</b> /25 to /30 lands in the 4th octet. /17 to /24 in the 3rd. /9 to /16 in the 2nd.</li>
+        <li><b>Get the magic number (block size).</b> It's 256 minus the mask number in that octet, or just read it off the table. Every time the slash goes up by one, the block halves.</li>
+        <li><b>Count up by the block size</b> from 0: 0, 32, 64, 96… Stop at the last number that isn't bigger than your IP's number in that octet. That's the <span class="sky">network address</span>.</li>
+        <li><b>Next block minus 1 is the <span class="pink">broadcast</span>.</b> Everything between them is usable. Hosts = 2 to the power of host bits, minus 2. In the 4th octet that's simply block size minus 2.</li>
+      </ol>
+      <div class="ex"><b>Worked example: 192.168.10.77/27</b><br>
+      /27 lands in the 4th octet. Block size 32.<br>
+      Count: 0, 32, <b>64</b>, 96. 77 sits in the 64 block.<br>
+      Network 192.168.10.64 · Broadcast 192.168.10.95<br>
+      Usable .65 to .94 · 30 hosts</div>
+      <p class="meta">Exam shortcut: if a question gives a mask like 255.255.255.224, the magic number is 256 − 224 = 32. Same answer, no table.</p>
+    </div>
+    <div class="card">
+      <h3>The only table you need</h3>
+      <table>
+        <thead><tr><th>4th octet</th><th>Mask</th><th>Block</th><th>Hosts</th></tr></thead>
+        <tbody id="cheat"></tbody>
+      </table>
+      <p class="meta" style="margin-top:12px">Same block sizes one octet over: /17 = 128, /18 = 64, /19 = 32, /20 = 16, /21 = 8, /22 = 4, /23 = 2, /24 = 1. Mask numbers to know cold: 128, 192, 224, 240, 248, 252, 254, 255.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="band" id="drill"><div class="wrap">
+  <h2>Subnet drill</h2>
+  <p class="lede">Endless random questions. Fill in all three, then check. Your streak is kept on this device.</p>
+  <div class="card qcard" style="margin-top:18px">
+    <p class="meta" id="dstreak"></p>
+    <div class="q" id="dq"></div>
+    <form id="df">
+      <div class="dgrid">
+        <div><label for="dnet">Network address</label><input id="dnet" autocomplete="off" inputmode="decimal"></div>
+        <div><label for="dbc">Broadcast address</label><input id="dbc" autocomplete="off" inputmode="decimal"></div>
+        <div><label for="dh">Usable hosts</label><input id="dh" autocomplete="off" inputmode="numeric"></div>
+      </div>
+      <div class="btns"><button class="go" type="submit" id="dcheck">Check</button><button type="button" id="dnext">New question</button><button type="button" id="dshow">Show working</button></div>
+    </form>
+    <div class="fb" id="dfb" aria-live="polite"></div>
+  </div>
+</div></section>
+
+<section class="band" id="quiz"><div class="wrap">
+  <h2>Quizzes</h2>
+  <p class="lede">Scenario questions, shuffled every run. Pick an answer to see why. Number keys 1 to 4 work too.</p>
+  <div class="switch" role="group" aria-label="Pick a quiz">
+    <button type="button" data-bank="sec" aria-pressed="true">Security+ (15)</button>
+    <button type="button" data-bank="ccst" aria-pressed="false">CCST Networking (15)</button>
+  </div>
+  <div class="card qcard" id="qbox" aria-live="polite"></div>
+</div></section>
+
+<footer class="band"><div class="wrap"><a href="../" style="color:var(--sky)">Back to Rukeios Study</a> · Written from the CompTIA SY0-701 objectives and Cisco's CCST Networking exam topics. Practice material, not official exam questions.</div></footer>
+
+<script>
+{
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---------- address math ---------- */
+const toDot=n=>[n>>>24,(n>>>16)&255,(n>>>8)&255,n&255].join(".");
+function parseIp(s){const p=s.trim().split(".");if(p.length!==4)return null;const a=p.map(x=>/^\d{1,3}$/.test(x)?+x:NaN);if(a.some(x=>isNaN(x)||x>255))return null;return a;}
+const ipInt=a=>((a[0]*16777216)+(a[1]<<16)+(a[2]<<8)+a[3])>>>0;
+const maskOf=p=>p===0?0:(0xFFFFFFFF<<(32-p))>>>0;
+function parsePre(s){s=s.trim().replace(/^\//,"");if(/^\d{1,2}$/.test(s))return +s;const a=parseIp(s);if(!a)return null;const m=ipInt(a);for(let p=0;p<=32;p++)if(maskOf(p)===m)return p;return null;}
+function solve(a,p){const ip=ipInt(a),m=maskOf(p),net=(ip&m)>>>0,bc=(net|(~m>>>0))>>>0;
+  const oi=Math.ceil(p/8)-1,mv=(m>>>(24-8*oi))&255,blk=256-mv,v=a[oi];
+  return{ip,m,net,bc,oi,mv,blk,v,start:Math.floor(v/blk)*blk,hosts:Math.max(0,2**(32-p)-2),first:net+1,last:bc-1};}
+const ORD=["1st","2nd","3rd","4th"];
+
+/* ---------- calculator ---------- */
+const PRE=[["192.168.10.77","/27"],["10.4.200.9","/30"],["172.16.45.130","/26"],["192.168.1.200","/28"],["10.20.37.5","/21"],["172.30.99.14","255.255.255.240"]];
+$("presets").innerHTML=PRE.map(([i,p],k)=>`<button type="button" data-k="${k}">${esc(i)} ${esc(p.startsWith("/")?p:"mask "+p)}</button>`).join("");
+$("presets").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const [i,p]=PRE[b.dataset.k];$("cip").value=i;$("cpre").value=p;calc();});
+function calc(){
+  const a=parseIp($("cip").value),p=parsePre($("cpre").value);
+  if(!a){$("cerr").textContent="That IP doesn't look right. Use four numbers from 0 to 255, like 192.168.1.10.";return false;}
+  if(p===null||p<8||p>30){$("cerr").textContent="Use a slash from /8 to /30, or a mask like 255.255.255.224.";return false;}
+  $("cerr").textContent="";
+  const r=solve(a,p);
+  const bits=a.map((o,i)=>`<div class="oct${i===r.oi?" hot":""}">`+o.toString(2).padStart(8,"0").split("").map((b,j)=>`<span class="b ${i*8+j<p?"n":"h"}">${b}</span>`).join("")+`</div>`).join("");
+  const oct=a.map((o,i)=>`<div>${o}<small>${ORD[i]} octet${i===r.oi?" ← here":""}</small></div>`).join("");
+  const count=256/r.blk;
+  let blocks="";
+  if(count<=64){for(let s=0;s<256;s+=r.blk)blocks+=`<span class="blk${s===r.start?" on":""}">${s}${r.blk>1?"–"+(s+r.blk-1):""}</span>`;}
+  else{const s0=Math.max(0,r.start-2*r.blk);for(let s=s0;s<Math.min(256,s0+5*r.blk);s+=r.blk)blocks+=`<span class="blk${s===r.start?" on":""}">${s}${r.blk>1?"–"+(s+r.blk-1):""}</span>`;}
+  const tail=3-r.oi;
+  const netOct=a.slice(0,r.oi).concat([r.start]).concat(Array(tail).fill(0)).join(".");
+  const bcOct=a.slice(0,r.oi).concat([r.start+r.blk-1]).concat(Array(tail).fill(255)).join(".");
+  $("cout").innerHTML=`
+    <div class="legend"><span><i style="background:var(--sky)"></i>Network bits (${p})</span><span><i style="background:var(--pink)"></i>Host bits (${32-p})</span></div>
+    <div class="bits">${bits}</div><div class="octv">${oct}</div>
+    <ol class="steps">
+      <li><span class="k">1</span><span>/${p} lands in the <b>${ORD[r.oi]} octet</b>. The mask there is ${r.mv} (full mask ${toDot(r.m)}).</span></li>
+      <li><span class="k">2</span><span>Magic number: 256 − ${r.mv} = <b>${r.blk}</b>.</span></li>
+      <li><span class="k">3</span><span>Count by ${r.blk}. ${r.v} falls in the <b>${r.start}${r.blk>1?" to "+(r.start+r.blk-1):""}</b> block${count>64?" (nearby blocks shown)":""}:</span></li>
+    </ol>
+    <div class="blocks">${blocks}</div>
+    <ol class="steps" start="4">
+      <li><span class="k">4</span><span>Network: ${r.start} in that octet, ${tail?"0 after it":"nothing after it"} = <b>${esc(netOct)}</b>. Broadcast: next block minus 1${tail?", 255 after it":""} =<b>${esc(bcOct)}</b>.</span></li>
+    </ol>
+    <div class="result">
+      <div><small>Network</small><b class="sky">${toDot(r.net)}</b></div>
+      <div><small>Broadcast</small><b class="pink">${toDot(r.bc)}</b></div>
+      <div><small>First usable</small><b>${toDot(r.first)}</b></div>
+      <div><small>Last usable</small><b>${toDot(r.last)}</b></div>
+      <div><small>Usable hosts</small><b>${r.hosts.toLocaleString()}</b></div>
+      <div><small>Mask</small><b>${toDot(r.m)}</b></div>
+    </div>`;
+  return true;
+}
+$("cf").addEventListener("submit",e=>{e.preventDefault();calc();});
+calc();
+$("cheat").innerHTML=[25,26,27,28,29,30].map(p=>{const b=2**(32-p);return `<tr><td>/${p}</td><td>.${256-b}</td><td class="big">${b}</td><td>${b-2}</td></tr>`}).join("");
+
+/* ---------- drill ---------- */
+let cur=null,streak=0,best=+(store.get("sublab.best")||0),answered=false;
+const rnd=n=>Math.floor(Math.random()*n);
+function newQ(){
+  const p=Math.random()<.72?25+rnd(6):17+rnd(7);
+  const first=[[192,168],[10,rnd(256)],[172,16+rnd(16)]][rnd(3)];
+  const a=[first[0],first[1],rnd(256),1+rnd(254)];
+  cur={a,p,r:solve(a,p)};answered=false;
+  $("dq").textContent=a.join(".")+" /"+p;
+  ["dnet","dbc","dh"].forEach(id=>{$(id).value="";$(id).className="";});
+  $("dfb").innerHTML="";showStreak();
+}
+function showStreak(){$("dstreak").textContent=`Streak ${streak} · Best ${best}`;}
+$("df").addEventListener("submit",e=>{
+  e.preventDefault();if(!cur)return;
+  const want={dnet:toDot(cur.r.net),dbc:toDot(cur.r.bc),dh:String(cur.r.hosts)};
+  let all=true;
+  for(const id in want){const ok=$(id).value.trim().replace(/,/g,"")===want[id];$(id).className=ok?"good":"bad";if(!ok)all=false;}
+  if(!answered){answered=true;if(all){streak++;if(streak>best){best=streak;store.set("sublab.best",best);}}else streak=0;}
+  showStreak();
+  $("dfb").innerHTML=all?`<span class="good">All three right.</span> Block size ${cur.r.blk}. Hit New question.`:
+    `<span class="bad">Not quite.</span> Answers: network <b>${want.dnet}</b>, broadcast <b>${want.dbc}</b>, <b>${Number(want.dh).toLocaleString()}</b> hosts. Block size ${cur.r.blk} in the ${ORD[cur.r.oi]} octet.`;
+});
+$("dnext").addEventListener("click",newQ);
+$("dshow").addEventListener("click",()=>{if(!cur)return;$("cip").value=cur.a.join(".");$("cpre").value="/"+cur.p;calc();if(!answered){answered=true;streak=0;showStreak();}document.getElementById("subnet").scrollIntoView();});
+newQ();
+
+/* ---------- quizzes: answer is option 0, shuffled when shown ---------- */
+const BANK={
+sec:[
+["A company's password database stores each password with a unique random value added before hashing. What attack does this mainly defend against?",["Rainbow table attacks","Phishing","Shoulder surfing","Session hijacking"],"That random value is a salt. Identical passwords get different hashes, so precomputed rainbow tables are useless."],
+["A store replaces card numbers in its database with random values, and the real numbers are kept in a separate secure vault. What is this?",["Tokenization","Masking","Hashing","Steganography"],"Tokenization swaps sensitive data for a token that maps back to the real value in a vault. Masking only hides part of it, like showing the last four digits."],
+["Employees get a text message saying their package is held and asking them to tap a link and pay a fee. What is this?",["Smishing","Vishing","Whaling","Pharming"],"Phishing by SMS text is smishing. Vishing is by voice call; whaling targets executives."],
+["A company needs a backup site that can take over almost immediately, with equipment and current data already in place. Which does it need?",["Hot site","Warm site","Cold site","Mobile site"],"A hot site is fully equipped and up to date. A warm site has equipment but needs data restored; a cold site is just space and power."],
+["A vendor contract states the service will be available 99.9% of the time, with penalties if it isn't. What kind of agreement is this?",["SLA","MOU","NDA","BPA"],"A service-level agreement sets measurable service targets. An MOU is a looser statement of intent."],
+["A manager digitally signs an approval email so she can't later claim she never sent it. What does the signature provide?",["Non-repudiation","Availability","Obfuscation","Tokenization"],"A digital signature ties the message to the signer's private key, so they can't deny sending it."],
+["A web form's login field receives the input ' OR 1=1 -- and the attacker gets in. What attack is this?",["SQL injection","Cross-site scripting","Buffer overflow","Directory traversal"],"The input changes the database query so the condition is always true. That's SQL injection."],
+["A responder is collecting evidence from a running server. Which should be collected first?",["The contents of RAM","Files on the hard drive","Backup tapes","Printed logs"],"Order of volatility: collect what disappears soonest first. RAM is lost at power-off; disks and backups last."],
+["Employees sign in once at work and can open a partner company's web app without signing in again, using XML-based assertions. What is in use?",["SAML","LDAP","RADIUS","Kerberos"],"SAML passes XML assertions between an identity provider and a service provider for single sign-on across organizations."],
+["A company buys cybersecurity insurance to cover the cost of a breach. Which risk response is this?",["Transfer","Avoid","Accept","Mitigate"],"Insurance moves the financial impact to another party: risk transference."],
+["A security team sets up a fake server full of tempting but worthless data to watch how attackers behave. What is it?",["Honeypot","Jump server","Proxy server","Sandbox"],"A honeypot is a decoy built to attract and study attackers."],
+["A team has isolated an infected laptop from the network. In the incident response process, what comes next?",["Eradication","Lessons learned","Preparation","Detection"],"Containment, then eradication (remove the malware), then recovery, then lessons learned."],
+["A web server's logs show requests like /download?file=../../../../etc/passwd. What is the attacker trying?",["Directory traversal","SQL injection","Replay attack","Privilege escalation through a kernel bug"],"The ../ sequences try to climb out of the web folder to read other files: directory traversal."],
+["A new help desk hire gets only the access needed for help desk tickets and nothing else. Which principle is this?",["Least privilege","Separation of duties","Job rotation","Implicit trust"],"Least privilege means the minimum access needed to do the job."],
+["Customer data stored in a cloud region in Germany must follow German law. What is this concept called?",["Data sovereignty","Data masking","Data classification","Data retention"],"Data sovereignty: data is subject to the laws of the country where it's stored."]
+],
+ccst:[
+["How many usable host addresses are in a /27 network?",["30","32","62","14"],"/27 has 5 host bits: 2⁵ = 32 addresses, minus network and broadcast = 30."],
+["A DHCP client has just received an Offer. What does it send next?",["DHCP Request","DHCP Acknowledge","DHCP Discover","DHCP Release"],"DORA: Discover, Offer, Request, Acknowledge. The client answers the Offer with a Request."],
+["Pinging 8.8.8.8 works, but pinging a website by name fails. What's the likeliest problem?",["DNS","The default gateway","The cable","The switch"],"Traffic reaches the internet by address, so only name resolution is broken."],
+["A PC shows the address 169.254.33.7. What does that tell you?",["It couldn't reach a DHCP server","It has a static public address","It's using loopback","It's on a VLAN trunk"],"169.254.x.x is self-assigned when no DHCP server answers."],
+["How does a switch build its MAC address table?",["From the source MAC address of frames that arrive","From the destination IP address of packets","From the router's ARP cache","From DHCP leases"],"Switches learn from the source address and forward by the destination address."],
+["A cable must run 350 meters between buildings past heavy machinery. Which medium fits?",["Fiber-optic","Unshielded twisted pair","Coaxial","Shielded twisted pair"],"Fiber covers long runs and ignores electrical interference. Twisted pair stops at 100 meters."],
+["You check mail on a phone, a laptop and webmail, and it stays in sync everywhere. Which protocol is that?",["IMAP","POP3","SMTP","SNMP"],"IMAP keeps mail on the server and syncs every device. SMTP only sends."],
+["Devices in VLAN 10 and VLAN 20 on the same switch need to talk. What's required?",["A router or Layer 3 switch","A hub","Auto-MDIX","A crossover cable"],"Traffic between VLANs has to be routed."],
+["Which of these is a private IPv4 address?",["172.31.200.4","172.32.0.4","192.169.1.1","11.0.0.1"],"The private range is 172.16.0.0 to 172.31.255.255. 172.32 is public."],
+["What is the shortest correct form of 2001:0db8:0000:0000:0000:0000:0000:0001?",["2001:db8::1","2001:db8:0:1","2001:db8::0::1","2001:0db8::0001"],"Drop leading zeros, then replace one run of all-zero groups with a single ::."],
+["What is the order of the TCP three-way handshake?",["SYN, SYN-ACK, ACK","SYN, ACK, SYN-ACK","ACK, SYN, FIN","SYN, SYN, ACK"],"Client SYN, server SYN-ACK, client ACK."],
+["A PC sends to a server on another network. Whose MAC address goes in the frame as the destination?",["The default gateway's","The server's","The switch's","The broadcast address"],"Traffic for another network goes to the router first. ARP never crosses a router."],
+["A PC is 192.168.1.50/24 with its default gateway set to 192.168.2.1. What happens?",["It reaches local devices but nothing beyond","It reaches nothing at all","It works normally","It gets a new address automatically"],"The gateway has to be on the PC's own network. Local traffic still works."],
+["Which Cisco IOS command gives a quick list of a router's interfaces with their IP addresses and up/down status?",["show ip interface brief","show running-config","show mac address-table","show version"],"show ip interface brief is the one-screen interface summary."],
+["What is the network address of 10.1.1.100/26?",["10.1.1.64","10.1.1.0","10.1.1.96","10.1.1.127"],"Block size 64: 0, 64, 128. 100 falls in the 64 block, so the network is 10.1.1.64."]
+]};
+let bank="sec",order=[],qi=0,score=0,missed=[],picked=false,optMap=[];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;};
+function startQuiz(list){order=shuffle(list||BANK[bank].map((_,i)=>i));qi=0;score=0;missed=[];showQ();}
+function showQ(){
+  if(qi>=order.length)return showEnd();
+  picked=false;const q=BANK[bank][order[qi]];optMap=shuffle([0,1,2,3]);
+  $("qbox").innerHTML=`<p class="meta">Question ${qi+1} of ${order.length} · Score ${score}</p>
+    <div class="bar"><i style="width:${qi/order.length*100}%"></i></div>
+    <h3 style="font-size:19px;font-weight:600">${esc(q[0])}</h3>
+    <div class="opts">${optMap.map((o,i)=>`<button type="button" data-o="${o}"><span>${i+1}</span>${esc(q[1][o])}</button>`).join("")}</div>
+    <div id="qwhy"></div>`;
+}
+function pick(o){
+  if(picked)return;picked=true;const q=BANK[bank][order[qi]],right=o===0;
+  if(right)score++;else missed.push(order[qi]);
+  $("qbox").querySelectorAll(".opts button").forEach(b=>{b.disabled=true;const v=+b.dataset.o;if(v===0)b.classList.add("right");else if(v===o)b.classList.add("wrong");});
+  $("qwhy").innerHTML=`<div class="why"><b class="${right?"good":"bad"}">${right?"Correct.":"Not quite."}</b> ${esc(q[2])}</div><div class="btns"><button class="go" type="button" id="qnext">${qi+1<order.length?"Next question":"See results"}</button></div>`;
+  $("qnext").focus();
+}
+function showEnd(){
+  const n=order.length,pct=Math.round(score/n*100);
+  $("qbox").innerHTML=`<p class="meta">Finished</p><div class="score">${score} / ${n}</div>
+    <p style="margin-top:10px">${pct>=85?"Exam-ready on these. Try the other quiz.":pct>=70?"Close to passing level. Retry the misses while they're fresh.":"Go over the explanations, then retry the misses."}</p>
+    <div class="btns">${missed.length?`<button class="go" type="button" id="qmiss">Retry the ${missed.length} I missed</button>`:""}<button type="button" id="qagain">Start over</button></div>`;
+}
+$("qbox").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.o!==undefined)pick(+b.dataset.o);
+  else if(b.id==="qnext"){qi++;showQ();}
+  else if(b.id==="qmiss")startQuiz(missed.slice());
+  else if(b.id==="qagain")startQuiz();});
+document.addEventListener("keydown",e=>{
+  const t=e.target.tagName;if(t==="INPUT"||t==="TEXTAREA")return;
+  const box=$("qbox").getBoundingClientRect();if(box.bottom<0||box.top>innerHeight)return;
+  if(!picked&&/^[1-4]$/.test(e.key)&&qi<order.length)pick(optMap[+e.key-1]);
+  else if(picked&&e.key==="Enter"&&$("qnext")){e.preventDefault();qi++;showQ();}});
+document.querySelectorAll(".switch button").forEach(b=>b.addEventListener("click",()=>{
+  bank=b.dataset.bank;document.querySelectorAll(".switch button").forEach(x=>x.setAttribute("aria-pressed",x===b));store.set("sublab.bank",bank);startQuiz();}));
+const sb=store.get("sublab.bank");if(sb&&BANK[sb]){bank=sb;document.querySelectorAll(".switch button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.bank===sb));}
+startQuiz();
+}
+</script>
+</body>
+</html>
