@@ -1,4 +1,4 @@
-// Security+ (SY0-701) performance-based questions for the mock exam and Library practice (3.3.0).
+// Security+ (SY0-701) performance-based questions for the mock exam and Library practice (4.0.0).
 // Original scenarios in the formats CompTIA describes publicly: rule tables, placement, matching,
 // log analysis and ordering. Not CompTIA's questions.
 // Shape: {id, dom, title, brief, log?:[lines], zones?:[names], cols:[{name, options:[...]}],

@@ -3,7 +3,7 @@
 // tag: "feature" | "content" | "fix" | "balance"
 window.PATCHNOTES = [
 
-{ v:"3.3.0", date:"2026-11-24", title:"Mock exam mega update", tag:"feature", items:[
+{ v:"4.0.0", date:"2026-11-28", title:"Mock exam mega update", tag:"feature", items:[
   "Mock exams are open from day one. You no longer have to finish every level first. Mocks still never unlock levels; only the level quiz does.",
   "If you haven't finished the levels yet, the mock screen tells you how many you've done, so you know to expect some unstudied topics.",
   "Every mock now uses the questions you've seen least in earlier mocks, so back-to-back mocks get different questions. The mock screen shows how many you haven't had yet.",
