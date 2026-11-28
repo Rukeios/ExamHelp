@@ -1654,6 +1654,7 @@ nav.tabs .tab-ic svg{width:22px;height:22px}
   <footer>
     <div>Study pairing: <a href="study-diagrams/">Study diagrams</a> · <a href="subnet-lab/">Subnet Lab</a> · <a href="https://learn.microsoft.com/en-us/training/courses/sc-900t00" target="_blank" rel="noopener">Microsoft Learn SC-900 course</a> · <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-900" target="_blank" rel="noopener">SC-900 skills measured</a> · <a href="https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/" target="_blank" rel="noopener">Professor Messer SY0-701 (free videos)</a> · <a href="https://www.comptia.org/certifications/security" target="_blank" rel="noopener">CompTIA Security+</a></div>
     <div>Keyboard in quizzes: 1–4 pick an answer, Enter goes to the next question.</div>
+    <div>Questions and notes: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>, free to reuse with credit (<a href="https://github.com/Rukeios/ExamHelp/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">details</a>). Found a mistake? <a href="mailto:lucianoreyes198@gmail.com?subject=Rukeios%20Study%20feedback">lucianoreyes198@gmail.com</a></div>
     <div>Free to use. <button class="linklike" id="footerInstall" style="font-size:inherit">Get the app</button> · <button class="linklike" id="footerSupport" style="font-size:inherit">Support</button> · <a href="https://github.com/Rukeios/ExamHelp" target="_blank" rel="noopener">GitHub</a> · <button class="linklike" id="footerPatch" style="font-size:inherit">Patch notes</button></div>
   </footer>
 </div>
@@ -3060,6 +3061,11 @@ function renderSupportModal(){
     h("p",{style:"margin:0"},BRAND.name+" is free and always will be. No account, no paywall, no ads, and none of your data leaves your browser."),
     h("p",{style:"margin:0"},"If it helped you pass, and you're in a position to, you can chip in toward the time it takes to keep the question bank current with the exam objectives. If you're a student, please don't — pass your exam and tell someone else about it instead. That helps more."),
     h("p",{style:"margin:0"},h("a",{href:DONATION_URL,target:"_blank",rel:"noopener"},"Support "+BRAND.name+" on Ko-fi")),
+    h("h3",{style:"margin:6px 0 0"},"Reviewing the content?"),
+    h("p",{style:"margin:0"},"If you work in IT or security, or teach these exams, criticism is welcome. Tell us what's wrong, outdated or misleading. Include the question ID (shown in every question's report), what should change and your source."),
+    h("p",{style:"margin:0"},h("a",{href:mailtoReport(BRAND.name+" content review","Content version: "+((PATCHNOTES[0]&&PATCHNOTES[0].v)||"?")+"\n\nQuestion IDs or topic:\n\nWhat's wrong:\n\nWhat it should say:\n\nSource:\n")},FEEDBACK_EMAIL),
+      " · ",h("a",{href:"https://github.com/Rukeios/ExamHelp/issues",target:"_blank",rel:"noopener"},"GitHub issues")),
+    h("p",{class:"muted",style:"margin:0;font-size:calc(13px*var(--ts,1))"},"The questions and notes are CC BY 4.0: free to reuse in your own tools with credit. ",h("a",{href:"https://github.com/Rukeios/ExamHelp/blob/main/LICENSE-CONTENT.md",target:"_blank",rel:"noopener"},"Details")),
     h("p",{class:"muted",style:"margin:0;font-size:calc(13px*var(--ts,1))"},"Teaching a class? ",h("a",{href:"https://github.com/Rukeios/ExamHelp",target:"_blank",rel:"noopener"},"roster.html"),
       " in the repo turns your students' exported stats into a class view."));
   const backdrop=h("div",{class:"modal-backdrop",onclick:e=>{ if(e.target===backdrop) closeSupport(); }},dialog);
@@ -3554,19 +3560,23 @@ function reportText(q,pick){
   lines.push("","What's wrong or unclear:","");
   return lines.join("\n");
 }
+const FEEDBACK_EMAIL="lucianoreyes198@gmail.com";
+const mailtoReport=(subject,body)=>"mailto:"+FEEDBACK_EMAIL+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(String(body).slice(0,1800));
 function reportBlock(q,pick){
   if(reportOpen!==q.k) return h("p",{style:"margin:0;font-size:calc(13px*var(--ts,1))"},h("button",{class:"linklike",style:"font-size:inherit",onclick:()=>{reportOpen=q.k;reportCopied=false;render();}},"Report a problem with this question"));
   const text=reportText(q,pick);
   const issue="https://github.com/Rukeios/ExamHelp/issues/new?title="+encodeURIComponent("Question "+q.k+": ")+"&body="+encodeURIComponent(text);
   return h("div",{class:"panel report"},
     h("h3",{style:"margin:0"},"Report this question"),
-    h("p",{class:"muted",style:"margin:0;font-size:calc(13px*var(--ts,1))"},"Copy this and add what's wrong, or open it as a GitHub issue. Nothing is sent until you do."),
+    h("p",{class:"muted",style:"margin:0;font-size:calc(13px*var(--ts,1))"},"Email it, copy it, or open it as a GitHub issue. Add what's wrong and, if you can, your source. Nothing is sent until you do."),
     h("textarea",{readonly:true,rows:"7",style:"width:100%;font:calc(13px*var(--ts,1)) var(--mono)"},text),
     h("label",{style:"display:flex;gap:8px;align-items:center;font-size:calc(13px*var(--ts,1))"},h("input",{type:"checkbox",checked:reportIncludeAnswer?true:null,onchange:e=>{reportIncludeAnswer=e.target.checked;render();}}),"Include the answer I picked"),
     h("div",{class:"actions",style:"flex-wrap:wrap"},
       h("button",{class:"btn primary",onclick:async()=>{ try{ await navigator.clipboard.writeText(text); }catch(e){} reportCopied=true; render(); }},reportCopied?"Copied":"Copy report"),
+      h("a",{class:"btn",href:mailtoReport(BRAND.name+" question report: "+q.k,text)},"Email it"),
       h("a",{class:"btn",href:issue,target:"_blank",rel:"noopener"},"Open a GitHub issue"),
-      h("button",{class:"btn",onclick:()=>{reportOpen=null;render();}},"Close")));
+      h("button",{class:"btn",onclick:()=>{reportOpen=null;render();}},"Close")),
+    h("p",{class:"muted",style:"margin:0;font-size:calc(13px*var(--ts,1))"},"Email doesn't open? Send it to "+FEEDBACK_EMAIL+"."));
 }
 function renderBossStage(){
   const b=run.boss, bm=b.meta;
@@ -3804,7 +3814,8 @@ function pbqWidget(p,sel,o){
     h("h3",{class:"qtext",style:"margin:4px 0 6px"},p.title),
     h("p",{style:"margin:0 0 10px"},p.brief),ctx,
     h("div",{class:"pbq-scroll"},h("table",{class:"pbq-table"},h("thead",{},head),h("tbody",{},body))),
-    sc?h("p",{class:"muted",style:"margin:10px 0 0"},h("b",{},sc.right+" of "+sc.tot+" correct. "),p.why):null);
+    sc?h("p",{class:"muted",style:"margin:10px 0 0"},h("b",{},sc.right+" of "+sc.tot+" correct. "),p.why):null,
+    sc?h("p",{style:"margin:6px 0 0;font-size:calc(13px*var(--ts,1))"},h("a",{href:mailtoReport(BRAND.name+" PBQ report: "+p.id,BRAND.name+" PBQ report\nPBQ: "+p.id+" ("+p.title+")\nContent version: "+((PATCHNOTES[0]&&PATCHNOTES[0].v)||"?")+"\n\nWhat's wrong or unclear:\n\nSource (objective, RFC, vendor doc):\n")},"Report a problem with this PBQ")):null);
 }
 function pickPbqs(n){ return PBQX().slice().sort(()=>Math.random()-.5).sort((a,b)=>mockSeenN("pbq:"+a.id)-mockSeenN("pbq:"+b.id)).slice(0,n); }
 function examPBQ(){
